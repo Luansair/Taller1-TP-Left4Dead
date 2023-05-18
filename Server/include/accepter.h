@@ -1,0 +1,8 @@
+//
+// Created by luan on 18/05/23.
+//
+
+#ifndef TALLER1_TP_LEFT4DEAD_ACCEPTER_H
+#define TALLER1_TP_LEFT4DEAD_ACCEPTER_H
+
+#endif //TALLER1_TP_LEFT4DEAD_ACCEPTER_H

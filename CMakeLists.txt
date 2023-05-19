@@ -14,6 +14,6 @@ include_directories(${SDL2PP_INCLUDE_DIRS})
 
 add_executable(Client ${PROJECT_SOURCE_DIR}/Client/src/main.cpp Client/src/client.cpp)
 
-target_link_libraries(Client PUBLIC SDL2pp)
+target_link_libraries(Client PUBLIC SDL2pp yaml-cpp)
 
 file(COPY Resources DESTINATION ${CMAKE_BINARY_DIR})

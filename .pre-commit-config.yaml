@@ -20,3 +20,5 @@ line,+whitespace/parens,+whitespace/semicolon]
     hooks:
       - id: cppcheck
         args: ["--enable=all", "--language=c++", "--std=c++17", "--error-exitcode=1"]
+
+exclude: '^libs/'

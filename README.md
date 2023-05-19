@@ -17,11 +17,13 @@ Se crea la carpeta build para no tener los archivos creados por cmake dispersos
 en el proyecto. En la carpeta build se construye el ejecutable.
 ## Pre-commits
 
+Para habilitar los pre-commits
+
 ```shell
 pre-commit install
 pre-commit install --hook-type commit-msg
 ```
-Primero se debe installar pre-commit y los hooks
+Luego
 
 ```
 git add <algo>
@@ -30,3 +32,11 @@ git commit
 Se hace `git commit` sin `-m` para abrir el editor de texto y escribir un
 commit que respete la convención establecida (commitizen). Se puede
 deshabilitar borrando el hook.
+
+Convencion: https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines
+
+## Librerias utilizadas:
+
+- SDL2pp: https://github.com/libSDL2pp/libSDL2pp
+- yaml-cpp: https://github.com/jbeder/yaml-cpp
+- thread.h, queue.h: https://github.com/eldipa/hands-on-threads/tree/master/libs

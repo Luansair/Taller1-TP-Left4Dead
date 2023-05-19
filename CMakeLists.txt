@@ -8,7 +8,8 @@ add_subdirectory(libs/libSDL2pp-0.18.1)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-
+add_definitions(-DRESOURCES_PATH="${PROJECT_SOURCE_DIR}/Resources")
+add_definitions(-DCLIENT_CONFIG_PATH="${PROJECT_SOURCE_DIR}/Client/config")
 #include_directories(${PROJECT_SOURCE_DIR}/libs)
 include_directories(${SDL2PP_INCLUDE_DIRS})
 

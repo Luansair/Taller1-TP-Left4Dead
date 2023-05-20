@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-
+# TODO: setear flags de compilacion
 project(tp)
 
 set(SDL2PP_WITH_IMAGE YES)
@@ -13,7 +13,10 @@ add_definitions(-DCLIENT_CONFIG_PATH="${PROJECT_SOURCE_DIR}/Client/config")
 #include_directories(${PROJECT_SOURCE_DIR}/libs)
 include_directories(${SDL2PP_INCLUDE_DIRS})
 
-add_executable(Client ${PROJECT_SOURCE_DIR}/Client/src/main.cpp Client/src/client.cpp)
+file(GLOB CLIENT_SOURCES "${PROJECT_SOURCE_DIR}/Client/src/*.cpp")
+file(GLOB COMMON_SOURCES "${PROJECT_SOURCE_DIR}/Common/src/*.cpp")
+
+add_executable(Client ${CLIENT_SOURCES} ${COMMON_SOURCES})
 
 target_link_libraries(Client PUBLIC SDL2pp yaml-cpp)
 

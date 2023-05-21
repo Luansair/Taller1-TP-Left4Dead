@@ -14,3 +14,9 @@ void Protocol::sendKeyPress(int event_type, int key_press) {
     uint32_t input[2] = {event_type_big_end, key_press_big_end};
     socket.send(&input, sizeof(input));
 }
+
+void Protocol::sendEvent(int event_type) {
+    uint32_t event_type_big_end =
+            htonl(static_cast<uint32_t>(event_type));
+    socket.send(&event_type_big_end, sizeof(event_type_big_end));
+}

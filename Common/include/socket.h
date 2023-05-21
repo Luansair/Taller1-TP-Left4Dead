@@ -2,9 +2,14 @@
 #define SOCKET_H_
 
 #include <cstdint>
+#include <stdexcept>
 
 struct ClosedSocket : public std::exception {
-
+    explicit ClosedSocket() = default;
+    [[nodiscard]] virtual const char* what() const noexcept override {
+        return "The socket is closed.\n";
+    }
+    virtual ~ClosedSocket() noexcept override = default;
 };
 
 class Socket {

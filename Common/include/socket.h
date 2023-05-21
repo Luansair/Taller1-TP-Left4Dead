@@ -32,7 +32,7 @@ public:
 
     Socket accept() const;
 
-    void shutdown(int how) const;
+    int shutdown(int how) const;
 
     int close();
 

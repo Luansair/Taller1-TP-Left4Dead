@@ -116,6 +116,11 @@ const {
                       strerror(errno) << std::endl;
             throw std::runtime_error(error_msg.str());
         }
+    } else if (bytesSent == 0 && amount > 0) {
+        std::stringstream error_msg;
+        error_msg << "Socket send failed for fd: " << fd << ".\nReason: "<<
+                  "send 0 bytes." << std::endl;
+        throw std::runtime_error(error_msg.str());
     }
     return bytesSent;
 }
@@ -132,4 +137,53 @@ const {
         throw std::runtime_error(error_msg.str());
     }
     return bytesRecv;
+}
+
+void Socket::send(const std::int8_t* data, std::size_t amount) {
+    size_t totalBytesSent = 0;
+    while (totalBytesSent < amount) {
+        size_t bytesSent = sendSome(data, amount);
+        totalBytesSent += bytesSent;
+        data = data + bytesSent;
+    }
+}
+
+void Socket::recv(std::int8_t* data, std::size_t amount) {
+    size_t totalBytesRecv = 0;
+    while (totalBytesRecv < amount) {
+        size_t bytesRecv = recvSome(data, amount);
+        totalBytesRecv += bytesRecv;
+        data = data + bytesRecv;
+    }
+}
+
+Socket Socket::accept() const {
+    int peerfd = ::accept(fd, nullptr, nullptr);
+    if (peerfd == -1) {
+        if (errno == EBADF) {
+            throw ClosedSocket();
+        } else {
+            std::stringstream error_msg;
+            error_msg << "Socket accept failed for fd: " << fd << ".\nReason: "<<
+                      strerror(errno) << std::endl;
+            throw std::runtime_error(error_msg.str());
+        }
+    }
+    return Socket(peerfd);
+}
+
+int Socket::shutdown(int how) const {
+    return ::shutdown(fd, how);
+}
+
+int Socket::close() {
+    closed = true;
+    return ::close(fd);
+}
+
+Socket::~Socket() {
+    if (!closed) {
+        ::shutdown(fd, SHUT_RDWR);
+        ::close(fd);
+    }
 }

@@ -7,14 +7,43 @@ Franco Daniel Capra - 99642 - fcapra@fi.uba.ar
 Luan Shair Corrionero - 102439 - lcorrionero@fi.uba.ar
 
 ## Build
+
+Este paso es indispensable para crear los ejecutables, las pruebas, 
+instaladores, entre otros.
+
+El primer paso es crear la carpeta build para no tener los archivos creados por 
+cmake dispersos en el proyecto. 
+En la carpeta build se construye el ejecutable.
+
 ```shell
 mkdir build
 cd build
+```
+
+Luego, para generar todos los archivos se ejecutan los comandos:
+
+```shell
 cmake ..
 cmake --build .
 ```
-Se crea la carpeta build para no tener los archivos creados por cmake dispersos
-en el proyecto. En la carpeta build se construye el ejecutable.
+
+Este último paso debe repetirse si se desea que los cambios realizados en el 
+proyecto tengan efecto. Esto volverá a generar la build a partir de los 
+cambios.
+
+**Chequear** que se está siempre dentro de la carpeta build antes de hacer 
+cmake.
+
+## Pruebas
+
+Todavía no está bien armado y es medio complicado. Las pruebas están en el 
+directorio *build/tests*. Actualmente se llaman 'resolver_test' y para 
+ejecutarlas hay que hacer `./resolver_test`
+
+La complicación es que para añadir mas pruebas hay que agregar al ejecutable 
+los .cpp de los tests y los .cpp de todos los archivos que necesiten para 
+ejecutarse.
+
 ## Pre-commits
 
 Para habilitar los pre-commits
@@ -40,7 +69,8 @@ Convencion: https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-com
 - SDL2pp: https://github.com/libSDL2pp/libSDL2pp
 - yaml-cpp: https://github.com/jbeder/yaml-cpp
 - thread.h, queue.h: https://github.com/eldipa/hands-on-threads/tree/master/libs
-
+- GTest: https://github.com/google/googletest.git
+- 
 ## Protocolo
 
 ### Propuesta 1: inputs directos
@@ -73,3 +103,23 @@ acciones y hace algo.
 - mayor lógica en el cliente.
 - implementar mas objetos en el cliente.
 - el server debe parsear la acción de todas formas.
+
+## Estructura del proyecto (reveer)
+
+Es posible que haga falta una reestructuración.
+
+En Common están los archivos utilizados para compilar tanto Server como Client.
+Se dividen en src/ (donde están los .cpp) e include/ (donde están los .h).
+
+En Server están los archivos para compilar Server y en Client lo mismo.
+Internamente tienen la misma división que Common. Se pueden agregar carpetas
+con información específica que requiere cada uno.
+
+Las pruebas están en una carpeta a parte y su estructura está por verse.
+
+Las librerías tambien tienen su propio directorio.
+
+Los recursos (por ahora) tienen su propio directorio.
+
+Hay archivos con el mismo nombre para Server y Client (pero el código es
+distinto) por lo que las pruebas podría tener conflictos.

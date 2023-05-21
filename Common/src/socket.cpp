@@ -120,7 +120,7 @@ const {
     return bytesSent;
 }
 
-std::size_t Socket::recvSome(const std::int8_t *data, std::size_t amount)
+std::size_t Socket::recvSome(std::int8_t *data, std::size_t amount)
 const {
     ssize_t bytesRecv = ::recv(fd, &data, amount, 0);
     if (bytesRecv == 0 && amount > 0) {

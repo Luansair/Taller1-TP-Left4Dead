@@ -30,7 +30,7 @@ public:
     void send(const std::int8_t* data, std::size_t amount);
     void recv(std::int8_t* data, std::size_t amount);
 
-    Socket accept() const;
+    [[nodiscard]] Socket accept() const;
 
     int shutdown(int how) const;
 

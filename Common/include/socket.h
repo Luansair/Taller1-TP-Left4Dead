@@ -13,8 +13,8 @@ class Socket {
 
     explicit Socket(int sktfd);
 
-    std::size_t sendSome(const std::int8_t* data, std::size_t amount) const;
-    std::size_t recvSome(std::int8_t* data, std::size_t amount) const;
+    std::size_t sendSome(const void *data, std::size_t amount) const;
+    std::size_t recvSome(void *data, std::size_t amount) const;
 
 public:
     Socket(const char *hostname, const char *servname);
@@ -27,8 +27,8 @@ public:
     Socket(Socket&&) noexcept;
     Socket& operator=(Socket&&) noexcept;
 
-    void send(const std::int8_t* data, std::size_t amount);
-    void recv(std::int8_t* data, std::size_t amount);
+    void send(const void *data, std::size_t amount);
+    void recv(void *data, std::size_t amount);
 
     [[nodiscard]] Socket accept() const;
 

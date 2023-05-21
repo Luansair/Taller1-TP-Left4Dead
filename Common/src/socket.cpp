@@ -104,7 +104,7 @@ Socket::Socket(int sktfd) {
     closed = false;
 }
 
-std::size_t Socket::sendSome(const std::int8_t *data, std::size_t amount)
+std::size_t Socket::sendSome(const void *data, std::size_t amount)
 const {
     ssize_t bytesSent = ::send(fd, data, amount, MSG_NOSIGNAL);
     if (bytesSent == -1) {
@@ -125,7 +125,7 @@ const {
     return bytesSent;
 }
 
-std::size_t Socket::recvSome(std::int8_t *data, std::size_t amount)
+std::size_t Socket::recvSome(void *data, std::size_t amount)
 const {
     ssize_t bytesRecv = ::recv(fd, &data, amount, 0);
     if (bytesRecv == 0 && amount > 0) {
@@ -139,21 +139,19 @@ const {
     return bytesRecv;
 }
 
-void Socket::send(const std::int8_t* data, std::size_t amount) {
-    size_t totalBytesSent = 0;
-    while (totalBytesSent < amount) {
-        size_t bytesSent = sendSome(data, amount);
-        totalBytesSent += bytesSent;
-        data = data + bytesSent;
+void Socket::send(const void *data, std::size_t amount) {
+    size_t bytesSent = 0;
+    while (bytesSent < amount) {
+        bytesSent += sendSome((std::int8_t*)data + bytesSent,
+                              amount - bytesSent);
     }
 }
 
-void Socket::recv(std::int8_t* data, std::size_t amount) {
-    size_t totalBytesRecv = 0;
-    while (totalBytesRecv < amount) {
-        size_t bytesRecv = recvSome(data, amount);
-        totalBytesRecv += bytesRecv;
-        data = data + bytesRecv;
+void Socket::recv(void *data, std::size_t amount) {
+    size_t bytesRecv = 0;
+    while (bytesRecv < amount) {
+        bytesRecv += recvSome((std::int8_t*)data + bytesRecv,
+                              amount - bytesRecv);
     }
 }
 
@@ -164,8 +162,8 @@ Socket Socket::accept() const {
             throw ClosedSocket();
         } else {
             std::stringstream error_msg;
-            error_msg << "Socket accept failed for fd: " << fd << ".\nReason: "<<
-                      strerror(errno) << std::endl;
+            error_msg << "Socket accept failed for fd: " << fd <<
+            ".\nReason: "<< strerror(errno) << std::endl;
             throw std::runtime_error(error_msg.str());
         }
     }

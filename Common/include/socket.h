@@ -3,14 +3,18 @@
 
 #include <cstdint>
 
+struct ClosedSocket : public std::exception {
+
+};
+
 class Socket {
     int fd;
     bool closed;
 
     explicit Socket(int sktfd);
 
-    std::size_t sendSome(std::int8_t* data, std::size_t amount);
-    std::size_t recvSome(std::int8_t* data, std::size_t amount);
+    std::size_t sendSome(const std::int8_t* data, std::size_t amount) const;
+    std::size_t recvSome(const std::int8_t* data, std::size_t amount) const;
 
 public:
     Socket(const char *hostname, const char *servname);
@@ -21,7 +25,7 @@ public:
     Socket& operator=(const Socket&) = delete;
 
     Socket(Socket&&) noexcept;
-    Socket& operator=(Socket&&);
+    Socket& operator=(Socket&&) noexcept;
 
     void send(std::int8_t* data, std::size_t amount);
     void recv(std::int8_t* data, std::size_t amount);

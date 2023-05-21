@@ -2,9 +2,8 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <stdexcept>
-#include <cerrno>
-#include <cstring>
 #include <sstream>
+#include <cstring>
 
 #include "../include/socket.h"
 #include "../include/resolver.h"
@@ -73,4 +72,64 @@ Socket::Socket(const char* servname) {
         << (servname ? servname : "null") << std::endl;
         throw std::runtime_error(error_msg.str());
     }
+}
+
+Socket::Socket(Socket && other) noexcept {
+    fd = other.fd;
+    closed = other.closed;
+
+    other.fd = -1;
+    other.closed = true;
+}
+
+Socket& Socket::operator=(Socket&& other) noexcept {
+    if (this == &other)
+        return *this;
+
+    if (!closed) {
+        ::shutdown(fd, SHUT_RDWR);
+        ::close(fd);
+    }
+    fd = other.fd;
+    closed = other.closed;
+
+    other.fd = -1;
+    other.closed = true;
+
+    return *this;
+}
+
+Socket::Socket(int sktfd) {
+    fd = sktfd;
+    closed = false;
+}
+
+std::size_t Socket::sendSome(const std::int8_t *data, std::size_t amount)
+const {
+    ssize_t bytesSent = ::send(fd, data, amount, MSG_NOSIGNAL);
+    if (bytesSent == -1) {
+        if (errno == EPIPE || fd == -1) {
+            throw ClosedSocket();
+        } else {
+            std::stringstream error_msg;
+            error_msg << "Socket send failed for fd: " << fd << ".\nReason: "<<
+                      strerror(errno) << std::endl;
+            throw std::runtime_error(error_msg.str());
+        }
+    }
+    return bytesSent;
+}
+
+std::size_t Socket::recvSome(const std::int8_t *data, std::size_t amount)
+const {
+    ssize_t bytesRecv = ::recv(fd, &data, amount, 0);
+    if (bytesRecv == 0 && amount > 0) {
+        throw ClosedSocket();
+    } else if (bytesRecv == -1) {
+        std::stringstream error_msg;
+        error_msg << "Socket recv failed for fd: " << fd << ".\nReason: "<<
+                  strerror(errno) << std::endl;
+        throw std::runtime_error(error_msg.str());
+    }
+    return bytesRecv;
 }

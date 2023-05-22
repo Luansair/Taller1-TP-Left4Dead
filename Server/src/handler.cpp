@@ -28,5 +28,4 @@ void Handler::join(void) {
 void Handler::kill(void) {
     keep_talking = false;
     server_protocol.close_socket();
-    queue.close();
 }

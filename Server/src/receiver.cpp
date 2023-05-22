@@ -15,7 +15,10 @@ void Receiver::run() { try {
     while (keep_talking) {
         bool was_closed = false;
         std::vector<char> message = protocol.receive_message(&was_closed);
-        if (was_closed) break;
+        if (was_closed) {
+            queue.close();
+            break;
+        }
         queue.push(message);
     }
     is_running = false;

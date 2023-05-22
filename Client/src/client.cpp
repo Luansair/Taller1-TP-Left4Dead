@@ -107,6 +107,9 @@ void Client::init() {
         if (position > renderer.GetOutputWidth())
             position = -src_width;
 
+        if (position < -src_width)
+            position = renderer.GetOutputWidth();
+
         int vcenter = renderer.GetOutputHeight() / 2;
 
         renderer.Clear();

@@ -7,7 +7,7 @@ class Server {
     Accepter accepter;
 
 public:
-    explicit Server(const char* servname);
+    explicit Server(const std::string& servname);
 
     void init();
 

@@ -1,36 +1,46 @@
 // Copyright [2023] pgallino
 
-#ifndef TALLER1_TP_LEFT4DEAD_RECEIVER_H
-#define TALLER1_TP_LEFT4DEAD_RECEIVER_H
+#ifndef RECEIVER_H_
+#define RECEIVER_H_
 
 #include <atomic>
 #include <vector>
 #include "../../libs/thread.h"
 #include "../../libs/queue.h"
 #include "protocol.h"
+#include "../../Common/include/socket.h"
+#include "sender.h"
+#include "game_manager.h"
 
 class Receiver: public Thread {
 private:
-    Server_protocol& protocol;
-    Queue<std::vector<char>>& queue;
+    Socket peer;
+    Protocol protocol;
+    // Queue<int>& commands_queue;
+    Queue<int> game_state_queue;
+    Sender sender;
+    GameManager& game_manager;
     std::atomic<bool> is_running;
-    const std::atomic<bool>& keep_talking;
+    std::atomic<bool> keep_talking;
+    std::atomic<bool> joined;
 
 protected:
-    void run() override;
+    virtual void run() override;
 
 public:
-    Receiver(Server_protocol& protocol,
-    Queue<std::vector<char>>& queue,
-    const std::atomic<bool>& keep_talking);
+    explicit Receiver(Socket&& peer, GameManager& game_manager);
 
-    bool is_dead(void) const;
+    bool isDead() const;
+
+    void stop();
 
     Receiver(const Receiver&) = delete;
     Receiver& operator=(const Receiver&) = delete;
 
     Receiver(Receiver&&) = delete;
     Receiver& operator=(Receiver&&) = delete;
+
+    virtual ~Receiver() override;
 };
 
-#endif //TALLER1_TP_LEFT4DEAD_RECEIVER_H
+#endif  // RECEIVER_H_

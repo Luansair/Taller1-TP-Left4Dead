@@ -319,7 +319,7 @@ Comparing floating-point numbers is tricky. Due to round-off errors, it is very
 unlikely that two floating-points will match exactly. Therefore, `ASSERT_EQ` 's
 naive comparison usually doesn't work. And since floating-points can have a wide
 value range, no single fixed error bound works. It's better to compare by a
-fixed relative error bound, except for values close to 0 due to the loss of
+fixed relative error bound, except for values stop to 0 due to the loss of
 precision there.
 
 In general, for floating-point comparison to make sense, the user needs to

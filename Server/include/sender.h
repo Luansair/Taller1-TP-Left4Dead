@@ -1,7 +1,7 @@
 // Copyright [2023] pgallino
 
-#ifndef TALLER1_TP_LEFT4DEAD_SENDER_H
-#define TALLER1_TP_LEFT4DEAD_SENDER_H
+#ifndef SENDER_H_
+#define SENDER_H_
 
 #include <atomic>
 #include <vector>
@@ -11,20 +11,21 @@
 
 class Sender: public Thread {
 private:
-    Server_protocol& protocol;
-    Queue<std::vector<char>>& queue;
+    Protocol protocol;
+    Queue<int>& game_state_queue;
+
     std::atomic<bool> is_running;
-    const std::atomic<bool>& keep_talking;
+    std::atomic<bool> keep_talking;
 
 protected:
     void run() override;
 
 public:
-    Sender(Server_protocol& protocol,
-    Queue<std::vector<char>>& queue,
-    const std::atomic<bool>& keep_talking);
+    Sender(Socket& peer, Queue<int>& game_state_queue);
 
-    bool is_dead(void) const;
+    bool isDead() const;
+
+    void stop();
 
     Sender(const Sender&) = delete;
     Sender& operator=(const Sender&) = delete;
@@ -33,4 +34,4 @@ public:
     Sender& operator=(Sender&&) = delete;
 };
 
-#endif //TALLER1_TP_LEFT4DEAD_SENDER_H
+#endif // SENDER_H_

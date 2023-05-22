@@ -1,8 +1,8 @@
-//
-// Created by luan on 18/05/23.
-//
+#ifndef GAME_H_
+#define GAME_H_
 
-#ifndef TALLER1_TP_LEFT4DEAD_GAME_H
-#define TALLER1_TP_LEFT4DEAD_GAME_H
+class Game {
 
-#endif //TALLER1_TP_LEFT4DEAD_GAME_H
+};
+
+#endif  // GAME_H_

@@ -2,29 +2,31 @@
 
 #include "../include/sender.h"
 
-Sender::Sender(Server_protocol& protocol,
-    Queue<std::vector<char>>& queue,
-    const std::atomic<bool>& keep_talking) :
-    protocol(std::ref(protocol)),
-    queue(std::ref(queue)),
-    is_running(true),
-    keep_talking(keep_talking) {
+Sender::Sender(Socket& socket, Queue<int>& game_state_queue) :
+    protocol(socket),
+    game_state_queue(game_state_queue) ,
+    is_running(true) ,
+    keep_talking(true) {
 }
 
 void Sender::run() { try {
     while (keep_talking) {
-        bool was_closed = false;
-        std::vector<char> message = queue.pop();
-        protocol.send_message(message, &was_closed);
-        if (was_closed) break;
+        int dummy = game_state_queue.pop();
+        if (dummy < 0)
+            keep_talking = false;
     }
     is_running = false;
     } catch (ClosedQueue& err) {
         // chequear catcheos
         is_running = false;
+        keep_talking = false;
     }
 }
 
-bool Sender::is_dead(void) const {
+void Sender::stop() {
+    keep_talking = false;
+}
+
+bool Sender::isDead() const {
     return !is_running;
 }

@@ -1,47 +1,53 @@
 #include "../include/accepter.h"
-#define SHUTDOWN_MODE 2
+#define SHUT_RDWR 2
 
 Accepter::Accepter(const std::string& servname) :
     skt(servname.c_str()),
-    game() {
+    game_manager(),
+    clients() {
 }
 
-void Accepter::run(void) { try {
+void Accepter::run() { try {
     while (true) {
         Socket peer = skt.accept();
-        Handler* handler = new Handler(std::move(peer), std::ref(game));
-        handlers.push_back(handler);
-        handler->run();
-        reap_dead();
+        auto* receiver = new Receiver(std::move(peer), game_manager);
+        clients.push_back(receiver);
+        // receiver->start()
+        reapDead();
     }
     } catch (const ClosedSocket& err) {
-        kill_all();
-    } catch (...) {
-        std::cerr << "Something went wrong\n";
+
+    } catch (const std::exception& e) {
+        std::cerr << "Something went wrong and an exception was caught: "
+                  << e.what() << std::endl;
     }
 }
 
-void Accepter::close(void) {
-    skt.shutdown(SHUTDOWN_MODE);
+void Accepter::stop() {
+    skt.shutdown(SHUT_RDWR);
     skt.close();
 }
 
-void Accepter::kill_all(void) {
-    for (auto & handler : handlers) {
-        if (!handler->are_dead()) (handler)->kill();
-        (handler)->join();
-        delete handler;
+void Accepter::killAll() {
+    for (auto & client : clients) {
+        if (!client->isDead()) (client)->stop();
+        (client)->join();
+        delete client;
     }
-    handlers.clear();
+    clients.clear();
 }
 
-void Accepter::reap_dead(void) {
-    handlers.remove_if([](Handler* handler) { 
-        if (handler->are_dead()) {
-            handler->join();
-            delete handler;
+void Accepter::reapDead() {
+    clients.remove_if([](Receiver* client) {
+        if (client->isDead()) {
+            client->join();
+            delete client;
             return true;
         }
         return false;
     });
+}
+
+Accepter::~Accepter() {
+    killAll();
 }

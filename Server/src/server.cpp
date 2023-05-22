@@ -1,6 +1,6 @@
 #include "../include/server.h"
 
-Server::Server(const char *servname) : accepter(servname) {}
+Server::Server(const std::string& servname) : accepter(servname) {}
 
 void Server::init() {
     using std::string;
@@ -14,6 +14,6 @@ void Server::init() {
 }
 
 Server::~Server() {
-    accepter.close();
+    accepter.stop();
     accepter.join();
 }

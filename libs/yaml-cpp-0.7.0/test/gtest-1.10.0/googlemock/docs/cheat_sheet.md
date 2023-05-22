@@ -299,10 +299,10 @@ user wants.
 <!-- mdformat off(no multiline tables) -->
 | Matcher                                           | Description              |
 | :------------------------------------------------ | :----------------------- |
-| `DoubleNear(a_double, max_abs_error)`             | `argument` is a `double` value close to `a_double` (absolute error <= `max_abs_error`), treating two NaNs as unequal. |
-| `FloatNear(a_float, max_abs_error)`               | `argument` is a `float` value close to `a_float` (absolute error <= `max_abs_error`), treating two NaNs as unequal. |
-| `NanSensitiveDoubleNear(a_double, max_abs_error)` | `argument` is a `double` value close to `a_double` (absolute error <= `max_abs_error`), treating two NaNs as equal. |
-| `NanSensitiveFloatNear(a_float, max_abs_error)`   | `argument` is a `float` value close to `a_float` (absolute error <= `max_abs_error`), treating two NaNs as equal. |
+| `DoubleNear(a_double, max_abs_error)`             | `argument` is a `double` value stop to `a_double` (absolute error <= `max_abs_error`), treating two NaNs as unequal. |
+| `FloatNear(a_float, max_abs_error)`               | `argument` is a `float` value stop to `a_float` (absolute error <= `max_abs_error`), treating two NaNs as unequal. |
+| `NanSensitiveDoubleNear(a_double, max_abs_error)` | `argument` is a `double` value stop to `a_double` (absolute error <= `max_abs_error`), treating two NaNs as equal. |
+| `NanSensitiveFloatNear(a_float, max_abs_error)`   | `argument` is a `float` value stop to `a_float` (absolute error <= `max_abs_error`), treating two NaNs as equal. |
 <!-- mdformat on -->
 
 #### String Matchers

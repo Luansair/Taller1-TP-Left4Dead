@@ -1,8 +1,13 @@
-//
-// Created by luan on 18/05/23.
-//
+#ifndef PROTOCOL_H
+#define PROTOCOL_H
 
-#ifndef TALLER1_TP_LEFT4DEAD_PROTOCOL_H
-#define TALLER1_TP_LEFT4DEAD_PROTOCOL_H
+#include "../../Common/include/socket.h"
 
-#endif //TALLER1_TP_LEFT4DEAD_PROTOCOL_H
+class Protocol {
+    Socket& socket;
+
+public:
+    explicit Protocol(Socket& socket);
+};
+
+#endif  // PROTOCOL_H

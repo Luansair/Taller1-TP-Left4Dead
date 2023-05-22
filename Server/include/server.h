@@ -1,8 +1,17 @@
-//
-// Created by luan on 18/05/23.
-//
+#ifndef SERVER_H_
+#define SERVER_H_
 
-#ifndef TALLER1_TP_LEFT4DEAD_SERVER_H
-#define TALLER1_TP_LEFT4DEAD_SERVER_H
+#include "accepter.h"
 
-#endif //TALLER1_TP_LEFT4DEAD_SERVER_H
+class Server {
+    Accepter accepter;
+
+public:
+    explicit Server(const char* servname);
+
+    void init();
+
+    ~Server();
+};
+
+#endif  // SERVER_H_

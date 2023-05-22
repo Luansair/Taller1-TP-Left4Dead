@@ -1,39 +1,34 @@
 // Copyright [2023] pgallino
 
-#include "../include/accepter.h"
+#include "../include/server.h"
 
 #define VALID_ARGC 2
-#define EXIT_FAILURE 1
-#define EXIT_SUCCESS 0
 
-int main(int argc, char *argv[]) { try {
+int main(int argc, char *argv[]) {
+    using std::cerr;
+    using std::endl;
+
     const char *servname = NULL;
-
-    if (argc == VALID_ARGC) {
-        servname = argv[1];
-    } else {
-        std::cerr << "Bad program call. Expected "
-                << argv[0]
-                << " <servname>\n";
+    if (argc != VALID_ARGC) {
+        cerr << "Bad program call. Expected "
+             << argv[0]
+             << " <servname>" << endl;
         return EXIT_FAILURE;
     }
-    Accepter accepter(servname);
-    accepter.start();
-    std::string entrada;
-    do {
-        getline(std::cin, entrada);
-    } while (entrada != "q");
-    accepter.close();
-    accepter.join();
 
-    return EXIT_SUCCESS;
-} catch (const std::exception& err) {
-    std::cerr
-        << "Something went wrong and an exception was caught: "
-        << err.what()
-        << "\n";
-    return EXIT_FAILURE;
-} catch (...) {
-    std::cerr << "Something went wrong and an unknown exception was caught.\n";
-    return EXIT_FAILURE;
-} }
+    try {
+    Server server(servname);
+    server.init();
+    } catch (const std::exception& err) {
+        cerr << "Something went wrong and an exception was caught: "
+             << err.what()
+             << endl;
+        return EXIT_FAILURE;
+    } catch (...) {
+        cerr << "Something went wrong and an unknown exception was caught."
+             << endl;
+        return EXIT_FAILURE;
+    }
+}
+
+

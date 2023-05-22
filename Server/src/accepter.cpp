@@ -12,7 +12,7 @@ void Accepter::run() { try {
         Socket peer = skt.accept();
         auto* receiver = new Receiver(std::move(peer), game_manager);
         clients.push_back(receiver);
-        // receiver->start()
+        receiver->start();
         reapDead();
     }
     } catch (const ClosedSocket& err) {

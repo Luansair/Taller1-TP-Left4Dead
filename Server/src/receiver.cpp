@@ -17,10 +17,19 @@ Receiver::Receiver(Socket &&peer, GameManager& game_manager) :
 void Receiver::run() { try {
     while (keep_talking && !joined) {
         int8_t dummy;
-        peer.recv(&dummy, 1);
-
+        peer.recv(&dummy, 1); // protocol.recv
+        // Excepcion si join falla (o nullptr). Excepcion: JoinFailed
+        // Crear los comandos en una clase fuera del protocolo
+        // Protocolo crea DTOs para evitar includes de todo el juego
+        // Execute recibe siempre el Juego
         joined = true;
+
+    }
+    if (joined) {
         sender.start();
+    }
+    while (keep_talking) {
+
     }
     is_running = false;
     } catch (ClosedSocket& err) {

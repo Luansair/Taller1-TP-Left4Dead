@@ -68,6 +68,7 @@ void Client::init() {
                         last_input_left = true;
                         break;
                 }
+                // Parseamos y definimos valores
             } else if (event.type == SDL_KEYUP) {
                 switch (event.key.keysym.sym) {
                     case SDLK_RIGHT:

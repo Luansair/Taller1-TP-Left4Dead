@@ -13,11 +13,16 @@ include_directories(${PROJECT_SOURCE_DIR}/Common/include)
 
 add_executable(resolver_test resolver_test.cpp
         ${PROJECT_SOURCE_DIR}/Common/src/resolver.cpp)
+add_executable(actiondto_test actiondto_test.cpp
+        ${PROJECT_SOURCE_DIR}/Common/src/action_dto.cpp)
 
 find_package(GTest REQUIRED)
 
 target_link_libraries(resolver_test
         PRIVATE
         GTest::GTest)
+target_link_libraries(actiondto_test PRIVATE GTest::GTest)
 
-add_test(resolver_gtests resolver_test)
+add_test(resolver_gtests resolver_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+add_test(actiondto_gtests actiondto_test WORKING_DIRECTORY
+        ${PROJECT_SOURCE_DIR})

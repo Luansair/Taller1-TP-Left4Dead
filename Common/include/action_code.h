@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-enum class Action : std::uint8_t {
+enum ActionID : std::uint8_t {
     IDLE,
     SHOOT,
     MOVE,
@@ -12,17 +12,17 @@ enum class Action : std::uint8_t {
     THROW,
 };
 
-enum class ActionState : std::uint8_t {
+enum ActionState : std::uint8_t {
     OFF,
     ON
 };
 
-enum class MoveAxis : std::uint8_t {
+enum MoveAxis : std::uint8_t {
     X,
     Y
 };
 
-enum class MoveDirection : std::int8_t {
+enum MoveDirection : std::int8_t {
     NONE = 0,
     UP = 1,
     DOWN = -1,
@@ -35,7 +35,7 @@ enum class MoveDirection : std::int8_t {
  * Light press send Walk and Normal press send Run.
  * It is not that important though.
  */
-enum class MoveForce : std::uint8_t {
+enum MoveForce : std::uint8_t {
     NORMAL = 1,
     STRONG = 2
 };

@@ -2,8 +2,25 @@
 #include <SDL2pp/SDL2pp.hh>
 #include "yaml-cpp/yaml.h"
 #include "../include/client.h"
+#include "../../Common/include/action_code.h"
 
-Client::Client(const char *hostname, const char *servname) {
+Client::Client(const char *hostname, const char *servname) :
+    socket(hostname, servname) ,
+    protocol(socket) {
+}
+
+void Client::processEvent(const SDL_Event& event, bool *quit) {
+    if (event.type == SDL_KEYDOWN) {
+        switch (event.key.keysym.sym) {
+            case SDLK_ESCAPE:
+                *quit = true;
+                break;
+
+            case SDLK_z:
+                protocol.sendAction(ShootAction(ActionState::ON));
+                break;
+        }
+    }
 }
 
 void Client::init() {
@@ -47,6 +64,7 @@ void Client::init() {
 
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
+            processEvent(event, &quit);
             if (event.type == SDL_QUIT) {
                 quit = true;
 

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-# TODO: setear flags de compilacion
+
 project(tp)
 
 set(CMAKE_CXX_STANDARD 17)

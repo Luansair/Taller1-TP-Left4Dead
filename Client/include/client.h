@@ -8,7 +8,7 @@ class Client {
     Socket socket;
     Protocol protocol;
 
-    void processEvent(const SDL_Event& event, bool* quit);
+    void processEvent(std::uint32_t event_type, int key_code, bool* quit);
 public:
     Client(const char* hostname, const char* servname);
 

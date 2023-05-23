@@ -2,6 +2,7 @@
 #define PROTOCOL_H_
 
 #include "../../Common/include/socket.h"
+#include "../../Common/include/action_dto.h"
 
 class Protocol {
     Socket& socket;
@@ -9,8 +10,7 @@ class Protocol {
 public:
     explicit Protocol(Socket& socket);
 
-    void sendKeyPress(int event_type, int key_press);
-    void sendEvent(int event_type);
+    void sendAction(const Action& action);
 
     Protocol(const Protocol&) = delete;
     Protocol& operator=(const Protocol&) = delete;

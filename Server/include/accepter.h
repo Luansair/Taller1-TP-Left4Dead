@@ -37,4 +37,4 @@ public:
     virtual ~Accepter() override;
 };
 
-#endif  //T ACCEPTER_H_
+#endif  // ACCEPTER_H_

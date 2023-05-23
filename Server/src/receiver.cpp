@@ -7,7 +7,7 @@
 Receiver::Receiver(Socket &&peer, GameManager& game_manager) :
     peer(std::move(peer)),
     protocol(peer),
-    game_state_queue(5000) ,
+    game_state_queue(5000),
     sender(peer, game_state_queue),
     game_manager(game_manager),
     is_running(true),
@@ -21,7 +21,9 @@ void Receiver::run() { try {
         // Excepcion si join falla (o nullptr). Excepcion: JoinFailed
         // Crear los comandos en una clase fuera del protocolo
         // Protocolo crea DTOs para evitar includes de todo el juego
+        // Receiver puede pushear el command
         // Execute recibe siempre el Juego
+        // Skippear lobby
         joined = true;
 
     }

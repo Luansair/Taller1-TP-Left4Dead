@@ -7,7 +7,12 @@ Accepter::Accepter(const std::string& servname) :
     clients() {
 }
 
-void Accepter::run() { try {
+void Accepter::run() {
+    using std::exception;
+    using std::cerr;
+    using std::endl;
+
+    try {
     while (true) {
         Socket peer = skt.acceptClient();
         auto* receiver = new Receiver(std::move(peer), game_manager);
@@ -16,10 +21,13 @@ void Accepter::run() { try {
         reapDead();
     }
     } catch (const ClosedSocket& err) {
-
-    } catch (const std::exception& e) {
-        std::cerr << "An exception was caught in the Accepter thread: "
-                  << e.what() << std::endl;
+        cerr << "In Accepter Thread: " << err.what() << endl;
+    } catch (const exception& e) {
+        cerr << "An exception was caught in the Accepter thread: "
+                  << e.what() << endl;
+    } catch (...) {
+        cerr << "An unknown exception was caught in the Accepter thread." <<
+        endl;
     }
 }
 

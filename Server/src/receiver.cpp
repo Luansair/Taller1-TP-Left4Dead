@@ -16,7 +16,11 @@ Receiver::Receiver(Socket &&peer, GameManager& game_manager) :
     joined(false),
     recv_action(nullptr) { }
 
-void Receiver::run() { try {
+void Receiver::run() {
+    using std::cerr;
+    using std::endl;
+    try {
+
     while (keep_talking && !joined) {
         // Excepcion si join falla (o nullptr). Excepcion: JoinFailed
         // Crear los comandos en una clase fuera del protocolo
@@ -40,13 +44,15 @@ void Receiver::run() { try {
     }
 
     } catch (const ClosedSocket& err) {
-        std::cerr << err.what() << std::endl;
+        cerr << "In Receiver thread: " << err.what() << endl;
         // revisar catcheos
         is_running = false;
         keep_talking = false;
-    } catch (const std::runtime_error& e) {
-        std::cerr << "An exception was caught in Receiver thread: "
-        << e.what() << std::endl;
+    } catch (const std::exception& e) {
+        cerr << "An exception was caught in Receiver thread: "
+        << e.what() << endl;
+    } catch (...) {
+        cerr << "An unknown exception was caught in Receiver thread." << endl;
     }
     is_running = false;
 }

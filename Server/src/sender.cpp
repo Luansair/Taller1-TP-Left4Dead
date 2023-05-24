@@ -9,7 +9,10 @@ Sender::Sender(Socket& socket, Queue<int>& game_state_queue) :
     keep_talking(true) {
 }
 
-void Sender::run() { try {
+void Sender::run() {
+    using std::cerr;
+    using std::endl;
+    try {
     while (keep_talking) {
         int dummy = game_state_queue.pop();
         if (dummy < 0)
@@ -17,13 +20,16 @@ void Sender::run() { try {
     }
     is_running = false;
     } catch (const ClosedQueue& err) {
-        // chequear catcheos
+        cerr << "In Sender thread: " << err.what() << endl;
         is_running = false;
         keep_talking = false;
-    } catch (const std::runtime_error& e) {
-        std::cerr << "An exception was caught in the Sender thread: "
-        << e.what() << std::endl;
+    } catch (const std::exception& e) {
+        cerr << "An exception was caught in the Sender thread: "
+        << e.what() << endl;
+    } catch (...) {
+        cerr << "An unknown exception was caught in the Sender thread." << endl;
     }
+
 }
 
 void Sender::stop() {

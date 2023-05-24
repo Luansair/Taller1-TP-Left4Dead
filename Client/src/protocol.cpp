@@ -6,5 +6,5 @@ Protocol::Protocol(Socket& socket) : socket(socket) {
 
 void Protocol::sendAction(const Action &action) {
     std::vector<int8_t> action_vec = action.serialize();
-    socket.send(action_vec.data(), action_vec.size());
+    socket.sendData(action_vec.data(), action_vec.size());
 }

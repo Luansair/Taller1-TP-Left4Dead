@@ -9,7 +9,7 @@ Accepter::Accepter(const std::string& servname) :
 
 void Accepter::run() { try {
     while (true) {
-        Socket peer = skt.accept();
+        Socket peer = skt.acceptClient();
         auto* receiver = new Receiver(std::move(peer), game_manager);
         clients.push_back(receiver);
         receiver->start();
@@ -18,14 +18,14 @@ void Accepter::run() { try {
     } catch (const ClosedSocket& err) {
 
     } catch (const std::exception& e) {
-        std::cerr << "Something went wrong and an exception was caught: "
+        std::cerr << "An exception was caught in the Accepter thread: "
                   << e.what() << std::endl;
     }
 }
 
 void Accepter::stop() {
-    skt.shutdown(SHUT_RDWR);
-    skt.close();
+    skt._shutdown(SHUT_RDWR);
+    skt._close();
 }
 
 void Accepter::killAll() {

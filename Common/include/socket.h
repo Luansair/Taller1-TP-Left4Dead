@@ -32,14 +32,14 @@ public:
     Socket(Socket&&) noexcept;
     Socket& operator=(Socket&&) noexcept;
 
-    void send(const void *data, std::size_t amount);
-    void recv(void *data, std::size_t amount);
+    void sendData(const void *data, std::size_t amount);
+    void recvData(void *data, std::size_t amount);
 
-    [[nodiscard]] Socket accept() const;
+    [[nodiscard]] Socket acceptClient() const;
 
-    int shutdown(int how) const;
+    int _shutdown(int how) const;
 
-    int close();
+    int _close();
 
     ~Socket();
 };

@@ -7,9 +7,9 @@
 
 Receiver::Receiver(Socket &&peer, GameManager& game_manager) :
     peer(std::move(peer)),
-    protocol(peer),
+    protocol(this->peer),
     game_state_queue(5000),
-    sender(peer, game_state_queue),
+    sender(this->peer, game_state_queue),
     game_manager(game_manager),
     is_running(true),
     keep_talking(true),
@@ -38,18 +38,23 @@ void Receiver::run() { try {
         delete recv_action;
         recv_action = nullptr;
     }
-    is_running = false;
-    } catch (ClosedSocket& err) {
+
+    } catch (const ClosedSocket& err) {
+        std::cerr << err.what() << std::endl;
         // revisar catcheos
         is_running = false;
         keep_talking = false;
+    } catch (const std::runtime_error& e) {
+        std::cerr << "An exception was caught in Receiver thread: "
+        << e.what() << std::endl;
     }
+    is_running = false;
 }
 
 void Receiver::stop() {
     keep_talking = false;
-    peer.shutdown(SHUT_RDWR);
-    peer.close();
+    peer._shutdown(SHUT_RDWR);
+    peer._close();
     game_state_queue.close();
 }
 
@@ -66,5 +71,4 @@ Receiver::~Receiver() {
     }
     // Just in case. Deleting nullptr has no effect.
     delete recv_action;
-
 }

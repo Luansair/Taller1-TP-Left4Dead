@@ -16,10 +16,13 @@ void Sender::run() { try {
             keep_talking = false;
     }
     is_running = false;
-    } catch (ClosedQueue& err) {
+    } catch (const ClosedQueue& err) {
         // chequear catcheos
         is_running = false;
         keep_talking = false;
+    } catch (const std::runtime_error& e) {
+        std::cerr << "An exception was caught in the Sender thread: "
+        << e.what() << std::endl;
     }
 }
 

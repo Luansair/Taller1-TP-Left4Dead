@@ -24,6 +24,8 @@ private:
     std::atomic<bool> keep_talking;
     std::atomic<bool> joined;
 
+    Action* recv_action;
+
 protected:
     virtual void run() override;
 

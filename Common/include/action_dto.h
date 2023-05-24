@@ -14,7 +14,7 @@ public:
     Action(Action&&) = default;
     Action& operator=(Action&&) = default;
 
-    virtual ~Action() = 0;
+    virtual ~Action() = default;
 };
 
 class StartShootAction : public Action {
@@ -23,7 +23,7 @@ public:
     explicit StartShootAction();
     [[nodiscard]] virtual std::vector<int8_t> serialize() const override;
 
-    virtual ~StartShootAction() override = default;
+    ~StartShootAction() = default;
 };
 
 #endif  // ACTIONDTO_H_

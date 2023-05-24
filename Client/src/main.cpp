@@ -2,6 +2,9 @@
 
 #include "../include/client.h"
 
+constexpr char red_color[6] = "\033[31m";
+constexpr char reset_color[5] = "\033[0m";
+
 int main(int argc, char* argv[]) {
     using std::cerr;
     using std::endl;
@@ -17,7 +20,8 @@ int main(int argc, char* argv[]) {
         Client client(argv[1], argv[2]);
         client.init();
     } catch (const exception& e) {
-        cerr << e.what() << endl;
+        cerr << red_color << "An Exception was caught: " << reset_color <<
+        e.what() << endl;
     } catch (...) {
         cerr << "Unknown exception." << endl;
     }

@@ -13,7 +13,8 @@ Receiver::Receiver(Socket &&peer, GameManager& game_manager) :
     game_manager(game_manager),
     is_running(true),
     keep_talking(true),
-    joined(false) { }
+    joined(false),
+    recv_action(nullptr) { }
 
 void Receiver::run() { try {
     while (keep_talking && !joined) {
@@ -29,12 +30,13 @@ void Receiver::run() { try {
         sender.start();
     }
     while (keep_talking) {
-        Action* action = protocol.recvAction();
-        if (action == nullptr) {
+        recv_action = protocol.recvAction();
+        if (recv_action == nullptr) {
             continue;
         }
         // Hacer el comando y pushearlo
-        delete action;
+        delete recv_action;
+        recv_action = nullptr;
     }
     is_running = false;
     } catch (ClosedSocket& err) {
@@ -62,4 +64,7 @@ Receiver::~Receiver() {
         }
         sender.join();
     }
+    // Just in case. Deleting nullptr has no effect.
+    delete recv_action;
+
 }

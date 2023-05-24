@@ -1,6 +1,7 @@
 #include <netdb.h>
 #include <cstring>
 #include <stdexcept>
+#include <sstream>
 #include "../include/resolver.h"
 
 Resolver::Resolver(const char *hostname,
@@ -18,9 +19,12 @@ Resolver::Resolver(const char *hostname,
 
     if (ret != 0) {
         if (ret == EAI_SYSTEM) {
-            throw std::runtime_error("Name resolution failed.\n");
+            throw std::runtime_error("Resolver Error: Name resolution failed"
+                                     ".\n");
         } else {
-            throw std::runtime_error(gai_strerror(ret));
+            std::stringstream error_msg;
+            error_msg << "Resolver Error: " << gai_strerror(ret) << std::endl;
+            throw std::runtime_error(error_msg.str());
         }
     }
     next = first;

@@ -1,5 +1,6 @@
 // Copyright [2023] pgallino
 
+#include <memory>
 #include "../include/receiver.h"
 
 #define SHUT_RDWR 2
@@ -16,8 +17,6 @@ Receiver::Receiver(Socket &&peer, GameManager& game_manager) :
 
 void Receiver::run() { try {
     while (keep_talking && !joined) {
-        int8_t dummy;
-        peer.recv(&dummy, 1); // protocol.recv
         // Excepcion si join falla (o nullptr). Excepcion: JoinFailed
         // Crear los comandos en una clase fuera del protocolo
         // Protocolo crea DTOs para evitar includes de todo el juego
@@ -25,13 +24,17 @@ void Receiver::run() { try {
         // Execute recibe siempre el Juego
         // Skippear lobby
         joined = true;
-
     }
     if (joined) {
         sender.start();
     }
     while (keep_talking) {
-
+        Action* action = protocol.recvAction();
+        if (action == nullptr) {
+            continue;
+        }
+        // Hacer el comando y pushearlo
+        delete action;
     }
     is_running = false;
     } catch (ClosedSocket& err) {

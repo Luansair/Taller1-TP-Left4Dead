@@ -1,3 +1,17 @@
 #include "../include/protocol.h"
+#include "../../Common/include/action_code.h"
 
 Protocol::Protocol(Socket &socket) : socket(socket) {}
+
+Action* Protocol::recvAction() {
+    uint8_t action_id;
+    socket.recv(&action_id, 1);
+    if (action_id == SHOOT) {
+        uint8_t action_state;
+        socket.recv(&action_state, 1);
+        if (action_state == ON) {
+            return new StartShootAction();
+        }
+    }
+    return nullptr;
+}

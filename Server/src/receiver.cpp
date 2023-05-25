@@ -2,14 +2,16 @@
 
 #include <memory>
 #include "../include/receiver.h"
+#include "../../Common/include/action_code.h"
 
 #define SHUT_RDWR 2
 
 Receiver::Receiver(Socket &&peer, GameManager& game_manager) :
     peer(std::move(peer)),
     protocol(this->peer),
-    game_state_queue(5000),
-    sender(this->peer, game_state_queue),
+    send_state_queue(5000),
+    game_queue(nullptr),
+    sender(this->peer, send_state_queue),
     game_manager(game_manager),
     is_running(true),
     keep_talking(true),
@@ -28,7 +30,21 @@ void Receiver::run() {
         // Receiver puede pushear el command
         // Execute recibe siempre el Juego
         // Skippear lobby
+        recv_action = protocol.recvAction();
+        if(recv_action == nullptr)
+            continue;
+
+        std::vector<int8_t> data = recv_action->serialize();
+        if (data[0] == ActionID::JOIN) {
+            std::uint32_t game_code = 0;
+
+            for (int i = 1; i < 5; i++) {
+                game_code |= static_cast<uint32_t>(data[i]) << (8 * i);
+            }
+            // Join game code
+        }
         joined = true;
+        delete recv_action;
     }
     if (joined) {
         sender.start();
@@ -61,7 +77,7 @@ void Receiver::stop() {
     keep_talking = false;
     peer._shutdown(SHUT_RDWR);
     peer._close();
-    game_state_queue.close();
+    send_state_queue.close();
 }
 
 bool Receiver::isDead() const {

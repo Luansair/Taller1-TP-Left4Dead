@@ -1,8 +1,8 @@
-//
-// Created by luan on 18/05/23.
-//
+#ifndef COMMAND_H_
+#define COMMAND_H_
 
-#ifndef TALLER1_TP_LEFT4DEAD_COMMAND_H
-#define TALLER1_TP_LEFT4DEAD_COMMAND_H
+class Command {
 
-#endif //TALLER1_TP_LEFT4DEAD_COMMAND_H
+};
+
+#endif  // COMMAND_H_

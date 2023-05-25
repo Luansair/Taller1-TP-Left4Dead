@@ -10,6 +10,8 @@ enum ActionID : std::uint8_t {
     RELOAD,
     CHANGE_GRENADE,
     THROW,
+    CREATE,
+    JOIN,
 };
 
 enum ActionState : std::uint8_t {

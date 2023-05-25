@@ -3,6 +3,8 @@
 
 #include <vector>
 #include "game.h"
+#include "command.h"
+#include "game_state.h"
 
 class GameManager {
     std::vector<Game> games;
@@ -22,6 +24,9 @@ public:
      * It could receive a 'seed' parameter to generate the random numbers.
      */
     GameManager() = default;
+
+    int createGame(Queue<Command>* game_queue, Queue<GameState>* player_queue);
+
 };
 
 #endif  // GAME_MANAGER_H_

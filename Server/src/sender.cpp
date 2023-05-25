@@ -2,9 +2,9 @@
 
 #include "../include/sender.h"
 
-Sender::Sender(Socket& socket, Queue<int>& game_state_queue) :
+Sender::Sender(Socket& socket, Queue<GameState>& game_state_queue) :
     protocol(socket),
-    game_state_queue(game_state_queue) ,
+    game_state_queue(game_state_queue),
     is_running(true) ,
     keep_talking(true) {
 }
@@ -14,9 +14,8 @@ void Sender::run() {
     using std::endl;
     try {
     while (keep_talking) {
-        int dummy = game_state_queue.pop();
-        if (dummy < 0)
-            keep_talking = false;
+        // GameState dummy = game_state_queue.pop();
+        keep_talking = false;
     }
     is_running = false;
     } catch (const ClosedQueue& err) {

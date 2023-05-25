@@ -36,6 +36,23 @@ void Client::init() {
     using YAML::Node;
     using YAML::LoadFile;
 
+    bool joined = false;
+    std::cout << "Waiting input. Use 'create' or 'join <code>' to join a "
+                 "game." << std::endl;
+    while (!joined) {
+        std::string action;
+        std::cin >> action;
+        if (action == "join") {
+            std::uint32_t game_code;
+            std::cin >> game_code;
+            protocol.sendAction(JoinGameAction(game_code));
+            joined = true;
+        } else if (action == "create") {
+            protocol.sendAction(CreateGameAction());
+            joined = true;
+        }
+    }
+
     SDL sdl(SDL_INIT_VIDEO);
 
     Node window_config = LoadFile(CLIENT_CONFIG_PATH "/config.yaml")["window"];

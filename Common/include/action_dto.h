@@ -7,7 +7,7 @@
 class Action {
 
 public:
-    explicit Action();
+    Action() = default;
     [[nodiscard]] virtual std::vector<int8_t> serialize() const
     = 0;
 
@@ -20,10 +20,28 @@ public:
 class StartShootAction : public Action {
 
 public:
-    explicit StartShootAction();
+    StartShootAction() = default;
     [[nodiscard]] virtual std::vector<int8_t> serialize() const override;
 
-    ~StartShootAction() = default;
+    ~StartShootAction() override = default;
+};
+
+class CreateGameAction : public Action {
+
+public:
+    CreateGameAction() = default;
+    [[nodiscard]] virtual std::vector<int8_t> serialize() const override;
+
+    ~CreateGameAction() override = default;
+};
+
+class JoinGameAction : public Action {
+    uint32_t game_code;
+public:
+    explicit JoinGameAction(uint32_t game_code);
+    [[nodiscard]] virtual std::vector<int8_t> serialize() const override;
+
+    ~JoinGameAction() override = default;
 };
 
 #endif  // ACTIONDTO_H_

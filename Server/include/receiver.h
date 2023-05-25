@@ -17,7 +17,8 @@ private:
     Socket peer;
     Protocol protocol;
     // Queue<int>& commands_queue;
-    Queue<int> game_state_queue;
+    Queue<GameState> send_state_queue;
+    Queue<Command>* game_queue;
     Sender sender;
     GameManager& game_manager;
     std::atomic<bool> is_running;

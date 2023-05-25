@@ -25,6 +25,8 @@ private:
     std::atomic<bool> keep_talking;
     std::atomic<bool> joined;
 
+    std::uint8_t player_id;  // id that changes when joining a game.
+
     Action* recv_action;
 
 protected:
@@ -33,7 +35,7 @@ protected:
 public:
     explicit Receiver(Socket&& peer, GameManager& game_manager);
 
-    bool isDead() const;
+    [[nodiscard]] bool isDead() const;
 
     void stop();
 

@@ -28,12 +28,6 @@ public:
 
     void stop();
 
-    Accepter(const Accepter&) = delete;
-    Accepter& operator=(const Accepter&) = delete;
-
-    Accepter(Accepter&&) = delete;
-    Accepter& operator=(Accepter&&) = delete;
-
     virtual ~Accepter() override;
 };
 

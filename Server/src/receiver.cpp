@@ -16,6 +16,7 @@ Receiver::Receiver(Socket &&peer, GameManager& game_manager) :
     is_running(true),
     keep_talking(true),
     joined(false),
+    player_id(0),
     recv_action(nullptr) { }
 
 void Receiver::run() {

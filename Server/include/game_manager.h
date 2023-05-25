@@ -2,31 +2,26 @@
 #define GAME_MANAGER_H_
 
 #include <vector>
+#include <map>
 #include "game.h"
 #include "command.h"
 #include "game_state.h"
 
 class GameManager {
-    std::vector<Game> games;
-    std::hash<int> game_codes;
+    std::map<std::uint32_t,Game*> games;
 
-    /*
-     * Uses a hash to retreive an index to find a 'game' from 'games' vector.
-     * The parameter 'game_code' is the key to the index.
-     * Since 'game_code' is randomly generated a hash is needed for
-     * performance.
-     * Example: game_code 1203194 -> 0 (it is the id of the first game created)
-     */
-    int getGameIndex(int game_code);
-
+    [[nodiscard]] std::uint32_t generateGameCode();
 public:
-    /*
-     * It could receive a 'seed' parameter to generate the random numbers.
-     */
-    GameManager() = default;
+    explicit GameManager();
 
-    int createGame(Queue<Command>* game_queue, Queue<GameState>* player_queue);
+    [[nodiscard]] std::uint32_t createGame(Queue<Command>*& game_queue,
+                                           Queue<GameState>*& player_queue,
+                                           std::uint8_t* player_id);
 
+    [[nodiscard]] bool joinGame(Queue<Command>*& game_queue,
+                                Queue<GameState>*& player_queue,
+                                std::uint8_t* player_id,
+                                std::uint32_t game_code);
 };
 
 #endif  // GAME_MANAGER_H_

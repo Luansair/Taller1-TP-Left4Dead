@@ -1,9 +1,10 @@
 #include "../include/accepter.h"
 #define SHUT_RDWR 2
+constexpr std::uint32_t MAX_GAMES = 10;
 
 Accepter::Accepter(const std::string& servname) :
     skt(servname.c_str()),
-    game_manager(),
+    game_manager(MAX_GAMES),
     clients() {
 }
 

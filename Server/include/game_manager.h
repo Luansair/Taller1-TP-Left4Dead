@@ -22,6 +22,8 @@ public:
                                 Queue<GameState>*& player_queue,
                                 std::uint8_t* player_id,
                                 std::uint32_t game_code);
+
+    ~GameManager() = default;
 };
 
 #endif  // GAME_MANAGER_H_

@@ -28,7 +28,7 @@ public:
 
     bool isEmpty() const;
 
-    virtual ~Game() override;
+    virtual ~Game() override = default;
 };
 
 #endif  // GAME_H_

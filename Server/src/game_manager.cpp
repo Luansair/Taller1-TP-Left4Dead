@@ -61,7 +61,7 @@ std::uint32_t GameManager::createGame(Queue<Command> *&game_queue,
 
     pair<uint32_t, Game*> hash(game_code, game);
     games.insert(hash);
-
+    game->start();
     // Delete empty games to save resources.
 
     return game_code;

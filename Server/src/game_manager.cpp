@@ -98,8 +98,7 @@ bool GameManager::joinGame(Queue<Command> *&game_queue,
     if (game == games.end())
         return false;
 
-    game->second->join(game_queue, player_queue, player_id);
-    return true;
+    return game->second->join(game_queue, player_queue, player_id);
 }
 
 

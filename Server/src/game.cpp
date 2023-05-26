@@ -31,6 +31,10 @@ bool Game::isEmpty() const {
     return players_amount == 0;
 }
 
+void Game::stop() {
+    this->queue.close();
+}
+
 void Game::run() {
 
 }

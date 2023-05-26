@@ -11,6 +11,9 @@ class GameManager {
     std::map<std::uint32_t,Game*> games;
 
     [[nodiscard]] std::uint32_t generateGameCode();
+
+    void cleanEmptyGames();
+    void cleanAllGames();
 public:
     explicit GameManager();
 
@@ -23,7 +26,7 @@ public:
                                 std::uint8_t* player_id,
                                 std::uint32_t game_code);
 
-    ~GameManager() = default;
+    ~GameManager();
 };
 
 #endif  // GAME_MANAGER_H_

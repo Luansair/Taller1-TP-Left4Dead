@@ -10,10 +10,8 @@
 constexpr unsigned int MAX_SIZE = 10000;
 constexpr std::uint8_t MAX_PLAYERS = 10;
 
-GameManager::GameManager() :
-    games() {
-}
 
+//-----------------------PRIVATE----------------------------//
 std::uint32_t GameManager::generateGameCode() {
     using std::random_device;
     using std::mt19937;
@@ -29,6 +27,32 @@ std::uint32_t GameManager::generateGameCode() {
         game_code = dist(mt);
     } while (games.find(game_code) != games.end());
     return game_code;
+}
+
+void GameManager::cleanEmptyGames() {
+    for (auto game = games.begin(); game != games.end(); ) {
+        if (game->second->isEmpty()) {
+            game->second->stop();
+            game->second->Thread::join();
+            delete game->second;
+            game = games.erase(game);
+        } else {
+            ++game;
+        }
+    }
+}
+
+void GameManager::cleanAllGames() {
+    for (auto & game : games) {
+        game.second->stop();
+        game.second->Thread::join();
+        delete game.second;
+    }
+}
+
+//-----------------------PUBLIC----------------------------//
+GameManager::GameManager() :
+        games() {
 }
 
 std::uint32_t GameManager::createGame(Queue<Command> *&game_queue,
@@ -62,7 +86,7 @@ std::uint32_t GameManager::createGame(Queue<Command> *&game_queue,
     pair<uint32_t, Game*> hash(game_code, game);
     games.insert(hash);
     game->start();
-    // Delete empty games to save resources.
+    cleanEmptyGames();
 
     return game_code;
 }
@@ -70,11 +94,15 @@ std::uint32_t GameManager::createGame(Queue<Command> *&game_queue,
 bool GameManager::joinGame(Queue<Command> *&game_queue,
                            Queue<GameState> *&player_queue,
                            std::uint8_t *player_id, std::uint32_t game_code) {
-    return false;
+    auto game = games.find(game_code);
+    if (game == games.end())
+        return false;
+
+    game->second->join(game_queue, player_queue, player_id);
+    return true;
 }
 
-/*
+
 GameManager::~GameManager() {
-    // Stop and Delete all Games.
+    cleanAllGames();
 }
-*/

@@ -1,69 +1,70 @@
 #include "../include/command.h"
 
-ShootCommand::ShootCommand(uint_8 player_id, vector<int8_t> data) : 
+ShootCommand::ShootCommand(uint8_t player_id, const vector<int8_t> &data) : 
     player_id_(player_id),
-    data_(data) {
+    data(data) {
     }
 
-void ShootCommand::Execute(Game &game) const {
+void ShootCommand::Execute(void) const {
     // int8_t state = data[1];
     // game.shoot(player_id_, state);
 }
 
-MoveCommand::MoveCommand(uint_8 player_id, vector<int8_t> data) : 
+MoveCommand::MoveCommand(uint8_t player_id, const vector<int8_t> &data) : 
     player_id_(player_id),
-    data_(data) {
+    data(data) {
     }
 
-void MoveCommand::Execute(Game &game) const {
+void MoveCommand::Execute(void) const {
 }
 
-IdleCommand::IdleCommand(uint_8 player_id, vector<int8_t> data) : 
+IdleCommand::IdleCommand(uint8_t player_id, const vector<int8_t> &data) : 
     player_id_(player_id),
-    data_(data) {
+    data(data) {
     }
 
-void IdleCommand::Execute(Game &game) const {
+void IdleCommand::Execute(void) const {
 }
 
-ReloadCommand::ReloadCommand(uint_8 player_id, vector<int8_t> data) : 
+ReloadCommand::ReloadCommand(uint8_t player_id, const vector<int8_t> &data) : 
     player_id_(player_id),
-    data_(data) {
+    data(data) {
     }
 
-void ReloadCommand::Execute(Game &game) const {
+void ReloadCommand::Execute(void) const {
 }
 
-CgrenadeCommand::CgrenadeCommand(uint_8 player_id, vector<int8_t> data) : 
+CgrenadeCommand::CgrenadeCommand(uint8_t player_id, const vector<int8_t> &data) : 
     player_id_(player_id),
-    data_(data) {
+    data(data) {
     }
 
-void CgrenadeCommand::Execute(Game &game) const {
+void CgrenadeCommand::Execute(void) const {
 }
 
-ThrowCommand::ThrowCommand(uint_8 player_id, vector<int8_t> data) : 
+ThrowCommand::ThrowCommand(uint8_t player_id, const vector<int8_t> &data) : 
     player_id_(player_id),
-    data_(data) {
+    data(data) {
     }
 
-void ThrowCommand::Execute(Game &game) const {
+void ThrowCommand::Execute(void) const {
 }
 
-Command* Factory::create(Game &game, uint_8 player_id, vector<int8_t> data) {
+Command* Factory::create(uint8_t player_id, const vector<int8_t> &data) {
     switch(data[0])
     {
         case IDLE:
-            return new IdleCommand(game, player_id, data);
+            return new IdleCommand(player_id, data);
         case SHOOT:
-            return new ShootCommand(game, player_id, data);
+            return new ShootCommand(player_id, data);
         case MOVE:
-            return new MoveCommand(game, player_id, data);
+            return new MoveCommand(player_id, data);
         case RELOAD:
-            return new ReloadCommand(game, player_id, data);
+            return new ReloadCommand(player_id, data);
         case CHANGE_GRENADE:
-            return new CgrenadeCommand(game, player_id, data);
+            return new CgrenadeCommand(player_id, data);
         case THROW:
-            return new ThrowCommand(game, player_id, data);
+            return new ThrowCommand(player_id, data);
     }
+    return new IdleCommand(player_id, data); // no se que devolver en caso de error
 }

@@ -38,3 +38,38 @@ void Game::stop() {
 void Game::run() {
 
 }
+
+/*
+LOGICA DE JUEGO; PODRIA MODULARIZARSE EN OTRA CLASE
+*/
+
+void Game::shoot(uint8_t player_id, uint8_t state) {
+    // encuentro jugador en un map de clase jugador
+    // disparo o dejo de disparar con state
+    // ejecuto colisiones
+}
+
+void Game::move(uint8_t player_id,
+        uint8_t state,
+        uint8_t moveAxis,
+        int8_t MoveDirection,
+        uint8_t moveForce) {
+            // encuentro jugador en un map de clase jugador
+            // le cambio la posicion
+        }
+
+void Game::reload(uint8_t player_id, uint8_t state) {
+    // encuentro jugador en un map de clase jugador
+    // recargo o dejo de recargar con state
+}
+
+void Game::cgrenade(uint8_t player_id) {
+    // encuentro jugador en un map de clase jugador
+    // cambio granada
+}
+
+void Game::throwgrenade(uint8_t player_id) {
+    // encuentro jugador en un map de clase jugador
+    // tiro granada
+    // ejecuto colisiones
+}

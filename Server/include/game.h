@@ -22,7 +22,21 @@ public:
     // bool addAdmin(std::uint8_t player_id);
 
     bool join(Queue<Command>*& game_queue, Queue<GameState>*& player_queue,
-              std::uint8_t* player_id);
+            std::uint8_t* player_id);
+
+    void shoot(uint8_t player_id, uint8_t state);
+
+    void move(uint8_t player_id,
+            uint8_t state,
+            uint8_t moveAxis,
+            int8_t MoveDirection,
+            uint8_t moveForce);
+
+    void reload(uint8_t player_id, uint8_t state);
+
+    void cgrenade(uint8_t player_id);
+
+    void throwgrenade(uint8_t player_id);
 
     void stop();
 

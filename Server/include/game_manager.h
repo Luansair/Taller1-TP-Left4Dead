@@ -4,7 +4,7 @@
 #include <vector>
 #include <map>
 #include "game.h"
-#include "command.h"
+#include "Command/command.h"
 #include "game_state.h"
 
 class GameManager {
@@ -17,12 +17,12 @@ class GameManager {
 public:
     explicit GameManager();
 
-    [[nodiscard]] std::uint32_t createGame(Queue<Command>*& game_queue,
-                                           Queue<GameState>*& player_queue,
-                                           std::uint8_t* player_id);
+    std::uint32_t createGame(Queue<Command *> *&game_queue,
+                             Queue<GameState *> &player_queue,
+                             std::uint8_t* player_id);
 
-    [[nodiscard]] bool joinGame(Queue<Command>*& game_queue,
-                                Queue<GameState>*& player_queue,
+    [[nodiscard]] bool joinGame(Queue<Command *> *&game_queue,
+                                Queue<GameState *> &player_queue,
                                 std::uint8_t* player_id,
                                 std::uint32_t game_code);
 

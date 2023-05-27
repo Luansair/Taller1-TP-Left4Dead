@@ -14,7 +14,7 @@ include_directories(${PROJECT_SOURCE_DIR}/Common/include)
 add_executable(resolver_test resolver_test.cpp
         ${PROJECT_SOURCE_DIR}/Common/src/resolver.cpp)
 add_executable(actiondto_test actiondto_test.cpp
-        ${PROJECT_SOURCE_DIR}/Common/src/action_dto.cpp)
+        ../Common/src/Action/action_dto.cpp)
 
 find_package(GTest REQUIRED)
 

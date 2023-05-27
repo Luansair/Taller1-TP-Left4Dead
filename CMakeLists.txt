@@ -20,9 +20,9 @@ add_definitions(-DCLIENT_CONFIG_PATH="${PROJECT_SOURCE_DIR}/Client/config")
 
 include_directories(${SDL2PP_INCLUDE_DIRS})
 
-file(GLOB CLIENT_SOURCES "${PROJECT_SOURCE_DIR}/Client/src/*.cpp")
-file(GLOB COMMON_SOURCES "${PROJECT_SOURCE_DIR}/Common/src/*.cpp")
-file(GLOB SERVER_SOURCES "${PROJECT_SOURCE_DIR}/Server/src/*.cpp")
+file(GLOB_RECURSE CLIENT_SOURCES "${PROJECT_SOURCE_DIR}/Client/src/*.cpp")
+file(GLOB_RECURSE COMMON_SOURCES "${PROJECT_SOURCE_DIR}/Common/src/*.cpp")
+file(GLOB_RECURSE SERVER_SOURCES "${PROJECT_SOURCE_DIR}/Server/src/*.cpp")
 
 add_executable(Client ${CLIENT_SOURCES} ${COMMON_SOURCES})
 add_executable(Server ${SERVER_SOURCES} ${COMMON_SOURCES})

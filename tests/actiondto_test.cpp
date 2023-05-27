@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "../Common/include/action_dto.h"
-#include "../Common/include/action_code.h"
+#include "Action/action_dto.h"
+#include "Action/action_code.h"
 
 TEST(actiondto_test, test00ConstructStartShootActionWithCorrectID) {
     auto shoot = StartShootAction();

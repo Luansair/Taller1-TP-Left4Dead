@@ -13,7 +13,7 @@
 class Sender: public Thread {
 private:
     Protocol protocol;
-    Queue<GameState>& game_state_queue;
+    Queue<GameState*>& game_state_queue;
 
     std::atomic<bool> is_running;
     std::atomic<bool> keep_talking;
@@ -22,7 +22,7 @@ protected:
     void run() override;
 
 public:
-    Sender(Socket& peer, Queue<GameState>& game_state_queue);
+    Sender(Socket& peer, Queue<GameState*>& game_state_queue);
 
     bool isDead() const;
 

@@ -14,13 +14,13 @@ Game::addAdmin(std::uint8_t player_id) {
 }
 */
 
-bool Game::join(Queue<Command>*& game_queue, Queue<GameState>*& player_queue,
-          std::uint8_t* player_id) {
+bool Game::join(Queue<Command *> *&game_queue, Queue<GameState *> &player_queue,
+                std::uint8_t* player_id) {
     if (players_amount >= max_players) {
         return false;
     }
     game_queue = &this->queue;
-    player_queues.push_back(player_queue);
+    player_queues.push_back(&player_queue);
 
     // Also a random function could be used for the ids.
     *player_id = players_amount++;

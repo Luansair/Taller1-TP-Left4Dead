@@ -1,4 +1,4 @@
-#include "../include/command.h"
+#include "../../include/Command/command.h"
 
 ShootCommand::ShootCommand(uint8_t player_id, const vector<int8_t> &data) : 
     player_id_(player_id),

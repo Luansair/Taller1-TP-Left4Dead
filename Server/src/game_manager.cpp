@@ -55,8 +55,8 @@ GameManager::GameManager() :
         games() {
 }
 
-std::uint32_t GameManager::createGame(Queue<Command> *&game_queue,
-                                      Queue<GameState> *&player_queue,
+std::uint32_t GameManager::createGame(Queue<Command *> *&game_queue,
+                                      Queue<GameState *> &player_queue,
                                       std::uint8_t *player_id) {
     using std::uint32_t;
     using std::runtime_error;
@@ -79,7 +79,7 @@ std::uint32_t GameManager::createGame(Queue<Command> *&game_queue,
     }
 
     std::uint32_t game_code = generateGameCode();
-
+    // Game could receive game_code to inform the player when it asks for it.
     Game* game = new Game(MAX_PLAYERS);
     game->join(game_queue, player_queue, player_id);
 
@@ -91,8 +91,8 @@ std::uint32_t GameManager::createGame(Queue<Command> *&game_queue,
     return game_code;
 }
 
-bool GameManager::joinGame(Queue<Command> *&game_queue,
-                           Queue<GameState> *&player_queue,
+bool GameManager::joinGame(Queue<Command *> *&game_queue,
+                           Queue<GameState *> &player_queue,
                            std::uint8_t *player_id, std::uint32_t game_code) {
     auto game = games.find(game_code);
     if (game == games.end())

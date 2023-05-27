@@ -2,7 +2,7 @@
 
 #include <memory>
 #include "../include/receiver.h"
-#include "../../Common/include/action_code.h"
+#include "../../Common/include/Action/action_code.h"
 
 #define SHUT_RDWR 2
 
@@ -22,6 +22,7 @@ Receiver::Receiver(Socket &&peer, GameManager& game_manager) :
 void Receiver::run() {
     using std::cerr;
     using std::endl;
+    using std::uint32_t;
     try {
 
     while (keep_talking && !joined) {
@@ -37,14 +38,20 @@ void Receiver::run() {
 
         std::vector<int8_t> data = recv_action->serialize();
         if (data[0] == ActionID::JOIN) {
-            std::uint32_t game_code = 0;
+            uint32_t game_code = 0;
 
             for (int i = 1; i < 5; i++) {
                 game_code |= static_cast<uint32_t>(data[i]) << (8 * i);
             }
-            // Join game code
+            joined = game_manager.joinGame(game_queue, send_state_queue,
+                                           &player_id, game_code);
+
+        } else if (data[0] == ActionID::CREATE) {
+            game_manager.createGame(game_queue,
+                                    send_state_queue,
+                                    &player_id);
+            joined = true;
         }
-        joined = true;
         delete recv_action;
     }
     if (joined) {

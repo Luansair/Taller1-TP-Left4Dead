@@ -1,6 +1,6 @@
 #include <sstream>
-#include "../include/action_dto.h"
-#include "../include/action_code.h"
+#include "../../include/Action/action_dto.h"
+#include "../../include/Action/action_code.h"
 
 std::vector<std::int8_t> StartShootAction::serialize() const {
     using std::int8_t;
@@ -31,6 +31,5 @@ std::vector<std::int8_t> JoinGameAction::serialize() const {
         result.push_back(byte);
     }
     return result;
-    // 40 e2 01 00
 }
 

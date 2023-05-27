@@ -1,7 +1,7 @@
 #ifndef COMMAND_H_
 #define COMMAND_H_
 
-#include "../../Common/include/action_code.h"
+#include "../../../Common/include/Action/action_code.h"
 
 #include <iostream>
 #include <string>

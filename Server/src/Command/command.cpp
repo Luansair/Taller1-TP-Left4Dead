@@ -7,7 +7,7 @@ ShootCommand::ShootCommand(uint8_t player_id, const vector<int8_t> &data) :
 
 void ShootCommand::Execute(void) const {
     // int8_t state = data[1];
-    // game.shoot(player_id_, state);
+    // match.shoot(player_id_, state);
 }
 
 MoveCommand::MoveCommand(uint8_t player_id, const vector<int8_t> &data) : 

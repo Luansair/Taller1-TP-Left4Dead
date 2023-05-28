@@ -52,7 +52,7 @@ void Game::shoot(uint8_t player_id, uint8_t state) {
 void Game::move(uint8_t player_id,
         uint8_t state,
         uint8_t moveAxis,
-        int8_t MoveDirection,
+        int8_t moveDirection,
         uint8_t moveForce) {
             // encuentro jugador en un map de clase jugador
             // le cambio la posicion

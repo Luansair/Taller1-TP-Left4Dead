@@ -29,7 +29,7 @@ public:
     void move(uint8_t player_id,
             uint8_t state,
             uint8_t moveAxis,
-            int8_t MoveDirection,
+            int8_t moveDirection,
             uint8_t moveForce);
 
     void reload(uint8_t player_id, uint8_t state);

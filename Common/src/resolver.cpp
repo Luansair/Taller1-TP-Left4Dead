@@ -66,3 +66,9 @@ struct addrinfo* Resolver::nextAddr() {
     next = actual->ai_next;
     return actual;
 }
+
+Resolver::~Resolver() {
+    if (first) {
+        freeaddrinfo(first);
+    }
+}

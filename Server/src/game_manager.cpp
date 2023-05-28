@@ -68,6 +68,7 @@ std::uint32_t GameManager::createGame(Queue<Command *> *&game_queue,
      * could re-enter).
      *
      */
+    // Race Cond if someone is modifying the size at the same time. Use locks
     if (games.size() >= MAX_SIZE) {
         /*
          * Could use a specific type of Exception to avoid stopping the User for
@@ -84,6 +85,8 @@ std::uint32_t GameManager::createGame(Queue<Command *> *&game_queue,
     game->join(game_queue, player_queue, player_id);
 
     pair<uint32_t, Game*> hash(game_code, game);
+
+    // Race Cond related to before...
     games.insert(hash);
     game->start();
     cleanEmptyGames();
@@ -94,6 +97,7 @@ std::uint32_t GameManager::createGame(Queue<Command *> *&game_queue,
 bool GameManager::joinGame(Queue<Command *> *&game_queue,
                            Queue<GameState *> &player_queue,
                            std::uint8_t *player_id, std::uint32_t game_code) {
+    // Race cond if someone is creating a game at the same time. Use locks
     auto game = games.find(game_code);
     if (game == games.end())
         return false;
@@ -103,5 +107,6 @@ bool GameManager::joinGame(Queue<Command *> *&game_queue,
 
 
 GameManager::~GameManager() {
+    // Use locks just in case... maybe?
     cleanAllGames();
 }

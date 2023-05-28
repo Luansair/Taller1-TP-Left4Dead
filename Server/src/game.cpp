@@ -1,10 +1,10 @@
 #include "../include/game.h"
 
 Game::Game(std::uint8_t max_players) :
-    max_players(max_players),
-    players_amount(0),
-    queue(10000),
-    player_queues() {
+        max_players(max_players),
+        players_amount(0),
+        commands_recv(10000),
+        player_queues() {
     player_queues.reserve(max_players);
 }
 
@@ -19,11 +19,11 @@ bool Game::join(Queue<Command *> *&game_queue, Queue<GameState *> &player_queue,
     if (players_amount >= max_players) {
         return false;
     }
-    game_queue = &this->queue;
+    game_queue = &this->commands_recv;
     player_queues.push_back(&player_queue);
 
     // Also a random function could be used for the ids.
-    *player_id = players_amount++;
+    *player_id = ++players_amount;
     return true;
 }
 
@@ -32,7 +32,7 @@ bool Game::isEmpty() const {
 }
 
 void Game::stop() {
-    this->queue.close();
+    this->commands_recv.close();
 }
 
 void Game::run() {

@@ -39,7 +39,9 @@ void Receiver::run() {
         std::vector<int8_t> data = recv_action->serialize();
         if (data[0] == ActionID::JOIN) {
             uint32_t game_code = 0;
-
+            // Capaz sería buena idea que recv_action tenga como parámetro
+            // algunas cosas segun la acción así no hay que serializar y
+            // rearmar a cada rato.
             for (int i = 1; i < 5; i++) {
                 game_code |= static_cast<uint32_t>(data[i]) << (8 * i);
             }

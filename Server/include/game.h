@@ -11,7 +11,7 @@ class Game : public Thread {
     std::uint8_t max_players;
     std::uint8_t players_amount;
 
-    Queue<Command*> queue;
+    Queue<Command*> commands_recv;
     std::vector<Queue<GameState*>*> player_queues;
 protected:
     virtual void run() override;
@@ -42,7 +42,7 @@ public:
 
     bool isEmpty() const;
 
-    virtual ~Game() override = default;
+    virtual ~Game() override;
 };
 
 #endif  // GAME_H_

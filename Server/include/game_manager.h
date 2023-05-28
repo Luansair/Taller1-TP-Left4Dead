@@ -21,10 +21,10 @@ public:
                              Queue<GameState *> &player_queue,
                              std::uint8_t* player_id);
 
-    [[nodiscard]] bool joinGame(Queue<Command *> *&game_queue,
-                                Queue<GameState *> &player_queue,
-                                std::uint8_t* player_id,
-                                std::uint32_t game_code);
+    bool joinGame(Queue<Command *> *&game_queue,
+                  Queue<GameState *> &player_queue,
+                  std::uint8_t* player_id,
+                  std::uint32_t game_code);
 
     ~GameManager();
 };

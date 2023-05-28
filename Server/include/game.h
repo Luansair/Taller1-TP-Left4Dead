@@ -1,6 +1,7 @@
 #ifndef GAME_H_
 #define GAME_H_
 
+#include <atomic>
 #include "Command/command.h"
 #include "game_state.h"
 #include "../../libs/queue.h"
@@ -10,6 +11,7 @@ class Game : public Thread {
     // std::vector<std::uint8_t> admins;
     std::uint8_t max_players;
     std::uint8_t players_amount;
+    std::atomic<bool> is_running;
 
     Queue<Command*> commands_recv;
     std::vector<Queue<GameState*>*> player_queues;

@@ -3,6 +3,7 @@
 Game::Game(std::uint8_t max_players) :
         max_players(max_players),
         players_amount(0),
+        is_running(true),
         commands_recv(10000),
         player_queues() {
     player_queues.reserve(max_players);
@@ -32,11 +33,11 @@ bool Game::isEmpty() const {
 }
 
 void Game::stop() {
-    this->commands_recv.close();
+    is_running = false;
 }
 
 void Game::run() {
-
+    // Se hara trypop a la queue asi se evita otro thread mas...
 }
 
 /*
@@ -72,4 +73,12 @@ void Game::throwgrenade(uint8_t player_id) {
     // encuentro jugador en un map de clase jugador
     // tiro granada
     // ejecuto colisiones
+}
+
+Game::~Game() {
+    Command* cmd = nullptr;
+    while (commands_recv.try_pop(cmd)) {
+        delete cmd;
+        cmd = nullptr;
+    }
 }

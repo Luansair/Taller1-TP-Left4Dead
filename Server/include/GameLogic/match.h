@@ -1,6 +1,10 @@
 #ifndef MATCH_H_
 #define MATCH_H_
 
+#include "gamemap.h"
+#include "Soldiers/soldier.h"
+#include "Zombies/zombie.h"
+
 #include <string>
 #include <cstdint>
 #include <iostream>
@@ -9,18 +13,17 @@
 #include <algorithm>
 #include <map>
 #include <vector>
-#include "Soldiers/soldier.h"
-#include "Zombies/zombie.h"
+#include <memory>
 using namespace std;
 
 class Match {
 private:
-    map<uint32_t, Soldier> soldiers;
+    map<uint32_t, unique_ptr<Soldier>> soldiers;
     vector<Zombie> zombies;
-    mutex mutex;
+    GameMap gamemap;
 
 public:
-    Match();
+    explicit Match(uint32_t x_dimension, uint32_t y_dimension);
 
     void shoot(uint32_t soldier_id, uint8_t state);
 

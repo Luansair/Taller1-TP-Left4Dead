@@ -7,10 +7,10 @@ P90Weapon::P90Weapon(uint8_t ammo, uint8_t damage, uint8_t scope, uint8_t recoil
     recoil(recoil) {
 }
 
-void P90Weapon::shoot(void) {
+void P90Weapon::shoot(uint32_t x, uint32_t y, uint8_t dir, GameMap &map) {
     // logica de disparo
 }
 
-void P90Weapon::reload(void) {
+void P90Weapon::reload(uint8_t state) {
     // logica de recarga
 }

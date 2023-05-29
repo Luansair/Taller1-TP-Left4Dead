@@ -6,6 +6,6 @@ ExplosiveGrenade::ExplosiveGrenade(uint8_t damage, uint8_t cooldown, uint8_t sco
     scope(scope) {
 }
 
-void ExplosiveGrenade::throwg(void) {
+void ExplosiveGrenade::throwg(GameMap &map) {
     // logica de explosion
 }

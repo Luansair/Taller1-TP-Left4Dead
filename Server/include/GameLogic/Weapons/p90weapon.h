@@ -13,9 +13,9 @@ private:
 public:
     explicit P90Weapon(uint8_t ammo, uint8_t damage, uint8_t scope, uint8_t recoil);
 
-    void shoot(void) override;
+    void shoot(uint32_t x, uint32_t y, uint8_t dir, GameMap &map) override;
 
-    void reload(void) override;
+    void reload(uint8_t state) override;
 
 };
 

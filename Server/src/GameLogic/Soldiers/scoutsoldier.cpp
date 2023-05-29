@@ -1,42 +1,56 @@
 #include "../../../include/GameLogic/Soldiers/scoutsoldier.h"
 
-ScoutSoldier::ScoutSoldier(int32_t x, int32_t y, uint8_t health, unique_ptr<Weapon> &&weapon, unique_ptr<Grenade> &&grenade) :
+ScoutSoldier::ScoutSoldier(int32_t x, int32_t y, int8_t dir, uint8_t health, unique_ptr<Weapon> &&weapon, unique_ptr<Grenade> &&grenade) :
     x(x),
     y(y),
+    dir(dir),
     health(health),
     weapon(std::move(weapon)),
     grenade(std::move(grenade)) {
 }
 
 void ScoutSoldier::move(
+    GameMap &map,
     uint8_t state,
     uint8_t moveAxis,
     int8_t moveDirection,
     uint8_t moveForce) {
     
-    // ver que hacer con state
-    // habria que verificar que no se vaya de los limites
-    // y que se superpongan posiciones
-    switch(moveAxis)
-    {
+    uint32_t next_x;
+    uint32_t next_y;
+
+    switch(moveAxis) {
         case X:
-            x += moveDirection * moveForce;
+            next_x = x + (moveDirection * moveForce);
+            next_y = y;
+            break;
         case Y:
-            y += moveDirection * moveForce;
-    
+            next_y = y + (moveDirection * moveForce);
+            next_x = x;
+            break;
     }
+
+    if ((next_x > map.get_x_limit()) || (next_y > map.get_y_limit())) return;
+
+    std::unique_ptr<CollisionZone> &next_cz = map.getCollisionZone(next_x, next_y);
+    if (next_cz->is_occupied()) return;
+    std::unique_ptr<CollisionZone> &actual_cz = map.getCollisionZone(x, y);
+    actual_cz->vacate();
+    next_cz->occupy(this); // mandar puntero para ocuparla
+    x = next_x;
+    y = next_y;
 }
 
-void ScoutSoldier::shoot(void) {
-    weapon->shoot();
+void ScoutSoldier::shoot(GameMap &map, uint8_t state) {
+    weapon->shoot(x, y, dir, std::ref(map));
 }
 
-void ScoutSoldier::reload(void) {
-    weapon->reload();
+void ScoutSoldier::reload(uint8_t state) {
+    weapon->reload(state);
 }
 
-void ScoutSoldier::throwGrenade(void) {
-    grenade->throwg();
+void ScoutSoldier::throwGrenade(GameMap &map) {
+    grenade->throwg(std::ref(map));
 }
 
 void ScoutSoldier::cGrenade(void) {

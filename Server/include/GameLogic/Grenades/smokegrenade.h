@@ -15,7 +15,7 @@ private:
 public:
     explicit SmokeGrenade(uint8_t damage, uint8_t cooldown, uint8_t scope);
 
-    void throwg(void) override;
+    void throwg(GameMap &map) override;
 
 };
 

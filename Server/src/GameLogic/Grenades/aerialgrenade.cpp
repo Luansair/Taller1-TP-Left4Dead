@@ -6,6 +6,6 @@ AerialGrenade::AerialGrenade(uint8_t damage, uint8_t cooldown, uint8_t scope) :
     scope(scope) {
 }
 
-void AerialGrenade::throwg(void) {
+void AerialGrenade::throwg(GameMap &map) {
     // logica de explosion
 }

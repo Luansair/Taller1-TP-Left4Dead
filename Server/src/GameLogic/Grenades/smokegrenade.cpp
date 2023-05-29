@@ -6,6 +6,6 @@ SmokeGrenade::SmokeGrenade(uint8_t damage, uint8_t cooldown, uint8_t scope) :
     scope(scope) {
 }
 
-void SmokeGrenade::throwg(void) {
+void SmokeGrenade::throwg(GameMap &map) {
     // logica de explosion
 }

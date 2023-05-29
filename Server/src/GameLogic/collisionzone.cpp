@@ -12,11 +12,17 @@ bool CollisionZone::is_occupied(void) {
     return occupied;
 }
 
-void CollisionZone::occupy(Soldier* new_soldier) {
-    soldier = new_soldier;
+void CollisionZone::occupy(Soldier* new_soldier, Zombie* new_zombie) {
+    if (new_soldier) {
+        soldier = new_soldier;
+    } else {
+        zombie = new_zombie;
+    }
+    occupied = true;
 }
 
 void CollisionZone::vacate(void) {
     soldier = nullptr;
+    zombie = nullptr;
     occupied = false;
 }

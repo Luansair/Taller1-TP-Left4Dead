@@ -3,8 +3,14 @@
 
 #define DAMAGE_REDUCTION_COEF 0.8
 #define SCOUT_DAMAGE 60
+#define SCOUT_AMMO 20
 
 #include "weapon.h"
+
+/* A diferencia del IDF y P90, el Scout es un rifle que dispara de a 1 bala. No obstante cada bala daña a todo
+infectado que se encuentre en su trayectoria (aunque el daño de cada impacto se verá reducido conforme la
+bala pasa por más infectados).
+Se recarga cada 20 balas. */
 
 class ScoutWeapon : public Weapon {
 private:

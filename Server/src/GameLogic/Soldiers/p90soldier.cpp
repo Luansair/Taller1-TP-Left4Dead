@@ -36,7 +36,7 @@ void P90Soldier::move(
     if (next_cz->is_occupied()) return;
     std::unique_ptr<CollisionZone> &actual_cz = map.getCollisionZone(x, y);
     actual_cz->vacate();
-    next_cz->occupy(this); // mandar puntero para ocuparla
+    next_cz->occupy(this, nullptr);
     x = next_x;
     y = next_y;
 }

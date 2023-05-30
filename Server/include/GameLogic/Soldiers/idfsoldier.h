@@ -28,6 +28,8 @@ public:
     void throwGrenade(GameMap &map) override;
 
     void cGrenade(void) override;
+
+    void recvDamage(uint8_t damage) override;
 };
 
 #endif  // IDFSOLDIER_H_

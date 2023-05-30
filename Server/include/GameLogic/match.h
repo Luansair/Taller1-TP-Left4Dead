@@ -23,7 +23,7 @@ class Match {
 private:
     // Como no se puede tener un map con una clase abstracta, le pongo punteros.
     std::map<uint32_t, std::unique_ptr<Soldier>> soldiers;
-    std::vector<Zombie> zombies;
+    std::map<uint32_t, std::unique_ptr<Zombie>> zombies;
     GameMap gamemap;
 
 public:
@@ -59,11 +59,11 @@ public:
     /* Ejecuta idle, parámetros: id del soldado idle */
     void idle(uint32_t soldier_id);
 
+    //simular step
+    //dar gamestate
+
     Match(const Match&) = delete;
     Match& operator=(const Match&) = delete;
-
-    Match(Match&&) = delete;
-    Match& operator=(Match&&) = delete;
 };
 
 #endif  // MATCH_H_

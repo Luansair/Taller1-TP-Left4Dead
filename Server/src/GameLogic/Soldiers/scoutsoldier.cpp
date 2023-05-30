@@ -50,9 +50,13 @@ void ScoutSoldier::reload(uint8_t state) {
 }
 
 void ScoutSoldier::throwGrenade(GameMap &map) {
-    grenade->throwg(std::ref(map));
+    grenade->throwg(x, y, dir, std::ref(map));
 }
 
 void ScoutSoldier::cGrenade(void) {
     // grenade_type = otra
+}
+
+void ScoutSoldier::recvDamage(uint8_t damage) {
+    health -= damage; // chequeo de muerte hacer
 }

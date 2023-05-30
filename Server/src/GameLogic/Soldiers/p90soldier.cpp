@@ -50,9 +50,13 @@ void P90Soldier::reload(uint8_t state) {
 }
 
 void P90Soldier::throwGrenade(GameMap &map) {
-    grenade->throwg(std::ref(map));
+    grenade->throwg(x, y, dir, std::ref(map));
 }
 
 void P90Soldier::cGrenade(void) {
     // grenade_type = otra
+}
+
+void P90Soldier::recvDamage(uint8_t damage) {
+    health -= damage;
 }

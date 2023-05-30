@@ -5,14 +5,14 @@ GameMap::GameMap(uint32_t x_dimension, uint32_t y_dimension) :
     x_dimension(x_dimension),
     y_dimension(y_dimension) {
         // itero las filas
-        for (uint32_t y = 0; y < y_dimension; y++) {
-            // les agrego las CollisionZone
-            for (uint32_t x = 0; x < x_dimension; x++) {
-                CollisionZone* cz = new CollisionZone();
-                std::unique_ptr<CollisionZone> czptr(cz);
-                (collision_zones[y]).emplace_back(std::move(cz));
-            }
-       } 
+    //     for (uint32_t y = 0; y < y_dimension; y++) {
+    //         // les agrego las CollisionZone
+    //         for (uint32_t x = 0; x < x_dimension; x++) {
+    //             CollisionZone* cz = new CollisionZone();
+    //             std::unique_ptr<CollisionZone> czptr(cz);
+    //             (collision_zones[y]).emplace_back(std::move(cz));
+    //         }
+    //    } 
 }
 
 uint32_t GameMap::get_x_limit(void) {

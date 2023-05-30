@@ -5,7 +5,8 @@ Game::Game(std::uint8_t max_players) :
         players_amount(0),
         is_running(true),
         commands_recv(10000),
-        player_queues() {
+        player_queues(),
+        match(100, 100) { // por ahora se crea un match de 100x100
     player_queues.reserve(max_players);
 }
 
@@ -46,42 +47,10 @@ void Game::stop() {
 void Game::run() {
     while (is_running && players_amount > 0) {
         // Use trypop, do not block the Game thread ever...
+        // Command *command = nullptr;
+        // if (commands_recv.try_pop(command)) command->Execute(std::ref(match));
+        // delete command;
     }
-}
-
-/*
-LOGICA DE JUEGO; PODRIA MODULARIZARSE EN OTRA CLASE
-*/
-
-void Game::shoot(uint8_t player_id, uint8_t state) {
-    // encuentro jugador en un map de clase jugador
-    // disparo o dejo de disparar con state
-    // ejecuto colisiones
-}
-
-void Game::move(uint8_t player_id,
-        uint8_t state,
-        uint8_t moveAxis,
-        int8_t moveDirection,
-        uint8_t moveForce) {
-            // encuentro jugador en un map de clase jugador
-            // le cambio la posicion
-        }
-
-void Game::reload(uint8_t player_id, uint8_t state) {
-    // encuentro jugador en un map de clase jugador
-    // recargo o dejo de recargar con state
-}
-
-void Game::cgrenade(uint8_t player_id) {
-    // encuentro jugador en un map de clase jugador
-    // cambio granada
-}
-
-void Game::throwgrenade(uint8_t player_id) {
-    // encuentro jugador en un map de clase jugador
-    // tiro granada
-    // ejecuto colisiones
 }
 
 Game::~Game() {

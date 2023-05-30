@@ -21,6 +21,7 @@ class Zombie;
 class CollisionZone {
 private:
     bool occupied;
+    // bool smoked;
     Soldier* soldier = nullptr;
     Zombie* zombie = nullptr;
     // Crater crater;

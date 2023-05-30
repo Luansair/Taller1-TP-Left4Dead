@@ -24,7 +24,10 @@ add_executable(actiondto_test actiondto_test.cpp
 add_executable(gamemanager_test gamemanager_test.cpp
         ../Server/src/game_manager.cpp
         ../Server/src/game.cpp
-        ../Server/src/Command/command.cpp)
+        ../Server/src/Command/command.cpp
+        ../Server/src/GameLogic/match.cpp
+        ../Server/src/GameLogic/gamemap.cpp
+        ../Server/src/GameLogic/collisionzone.cpp)
 
 find_package(GTest REQUIRED)
 

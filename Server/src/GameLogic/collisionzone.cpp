@@ -1,11 +1,13 @@
 #include "../../include/GameLogic/collisionzone.h"
+#include "../../include/GameLogic/Soldiers/soldier.h"
+#include "../../include/GameLogic/Zombies/zombie.h"
 
 CollisionZone::CollisionZone(void) : 
     occupied(false) {
 }
 
 void CollisionZone::executeCollision(uint8_t damage) {
-    // occupant->receive_damage(damage);
+    soldier->recvDamage(damage);
 }
 
 bool CollisionZone::is_occupied(void) {

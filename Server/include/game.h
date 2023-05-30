@@ -2,10 +2,11 @@
 #define GAME_H_
 
 #include <atomic>
-#include "Command/command.h"
 #include "game_state.h"
 #include "../../libs/queue.h"
 #include "../../libs/thread.h"
+#include "GameLogic/match.h"
+#include "Command/command.h"
 
 class Game : public Thread {
     // std::vector<std::uint8_t> admins;
@@ -15,6 +16,8 @@ class Game : public Thread {
 
     Queue<Command*> commands_recv;
     std::vector<Queue<GameState*>*> player_queues;
+
+    Match match;
 protected:
     virtual void run() override;
 
@@ -25,20 +28,6 @@ public:
 
     bool join(Queue<Command *> *&game_queue, Queue<GameState *> &player_queue,
               std::uint8_t* player_id);
-
-    void shoot(uint8_t player_id, uint8_t state);
-
-    void move(uint8_t player_id,
-            uint8_t state,
-            uint8_t moveAxis,
-            int8_t moveDirection,
-            uint8_t moveForce);
-
-    void reload(uint8_t player_id, uint8_t state);
-
-    void cgrenade(uint8_t player_id);
-
-    void throwgrenade(uint8_t player_id);
 
     void stop();
 

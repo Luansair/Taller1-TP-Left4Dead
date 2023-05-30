@@ -1,9 +1,10 @@
 #include "../../include/GameLogic/match.h"
 
 Match::Match(uint32_t x_dimension, uint32_t y_dimension) :
-    soldiers{},
+    soldiers(),
     zombies(),
-    gamemap(x_dimension, y_dimension) {}
+    gamemap(x_dimension, y_dimension) {
+}
 
 void Match::add_soldier(uint32_t soldier_id, std::unique_ptr<Soldier> &&soldier) {
     soldiers.emplace(soldier_id, std::move(soldier));

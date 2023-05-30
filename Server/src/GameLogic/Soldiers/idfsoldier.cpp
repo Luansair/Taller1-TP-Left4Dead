@@ -50,9 +50,13 @@ void IdfSoldier::reload(uint8_t state) {
 }
 
 void IdfSoldier::throwGrenade(GameMap &map) {
-    grenade->throwg(std::ref(map));
+    grenade->throwg(x, y, dir, std::ref(map));
 }
 
 void IdfSoldier::cGrenade(void) {
     // grenade_type = otra
+}
+
+void IdfSoldier::recvDamage(uint8_t damage) {
+    health -= damage;
 }

@@ -1,56 +1,66 @@
 #include "../../include/Command/command.h"
 
-ShootCommand::ShootCommand(uint8_t player_id, const vector<int8_t> &data) : 
+ShootCommand::ShootCommand(uint8_t player_id, const std::vector<int8_t> &data) : 
     player_id_(player_id),
     data(data) {
     }
 
-void ShootCommand::Execute(void) const {
-    // int8_t state = data[1];
-    // match.shoot(player_id_, state);
+void ShootCommand::Execute(Match &match) const {
+    int8_t state = data[1];
+    match.shoot(player_id_, state);
 }
 
-MoveCommand::MoveCommand(uint8_t player_id, const vector<int8_t> &data) : 
+MoveCommand::MoveCommand(uint8_t player_id, const std::vector<int8_t> &data) : 
     player_id_(player_id),
     data(data) {
     }
 
-void MoveCommand::Execute(void) const {
+void MoveCommand::Execute(Match &match) const {
+    uint8_t state = data[1];
+    uint8_t moveAxis = data[2];
+    int8_t moveDirection = data[3];
+    uint8_t moveForce = data[4];
+    match.move(player_id_, state, moveAxis, moveDirection, moveForce);
 }
 
-IdleCommand::IdleCommand(uint8_t player_id, const vector<int8_t> &data) : 
+IdleCommand::IdleCommand(uint8_t player_id, const std::vector<int8_t> &data) : 
     player_id_(player_id),
     data(data) {
     }
 
-void IdleCommand::Execute(void) const {
+void IdleCommand::Execute(Match &match) const {
+    match.idle(player_id_);
 }
 
-ReloadCommand::ReloadCommand(uint8_t player_id, const vector<int8_t> &data) : 
+ReloadCommand::ReloadCommand(uint8_t player_id, const std::vector<int8_t> &data) : 
     player_id_(player_id),
     data(data) {
     }
 
-void ReloadCommand::Execute(void) const {
+void ReloadCommand::Execute(Match &match) const {
+    int8_t state = data[1];
+    match.reload(player_id_, state);
 }
 
-CgrenadeCommand::CgrenadeCommand(uint8_t player_id, const vector<int8_t> &data) : 
+CgrenadeCommand::CgrenadeCommand(uint8_t player_id, const std::vector<int8_t> &data) : 
     player_id_(player_id),
     data(data) {
     }
 
-void CgrenadeCommand::Execute(void) const {
+void CgrenadeCommand::Execute(Match &match) const {
+    match.cGrenade(player_id_);
 }
 
-ThrowCommand::ThrowCommand(uint8_t player_id, const vector<int8_t> &data) : 
+ThrowCommand::ThrowCommand(uint8_t player_id, const std::vector<int8_t> &data) : 
     player_id_(player_id),
     data(data) {
     }
 
-void ThrowCommand::Execute(void) const {
+void ThrowCommand::Execute(Match &match) const {
+    match.throwGrenade(player_id_);
 }
 
-Command* Factory::create(uint8_t player_id, const vector<int8_t> &data) {
+Command* Factory::create(uint8_t player_id, const std::vector<int8_t> &data) {
     switch(data[0])
     {
         case IDLE:

@@ -30,7 +30,6 @@ private:
     uint32_t y_dimension;
 
 public:
-
     /* Constructor de GameMap párametros: dimensiones del mapa 2d */
     explicit GameMap(uint32_t x_dimension, uint32_t y_dimension);
 
@@ -48,9 +47,6 @@ public:
 
     GameMap(const GameMap&) = delete;
     GameMap& operator=(const GameMap&) = delete;
-
-    GameMap(GameMap&&) = delete;
-    GameMap& operator=(GameMap&&) = delete;
 };
 
 #endif  // GAMEMAP_H_

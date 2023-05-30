@@ -35,6 +35,8 @@ public:
     virtual void throwGrenade(GameMap &map) = 0;
 
     virtual void cGrenade(void) = 0;
+
+    virtual void recvDamage(uint8_t damage) = 0;
 };
 
 #endif  // SOLDIER_H_

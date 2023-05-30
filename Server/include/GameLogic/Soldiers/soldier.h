@@ -3,9 +3,6 @@
 
 #include "../collisionzone.h"
 #include "../Weapons/weapon.h"
-#include "../Weapons/scoutweapon.h"
-#include "../Weapons/p90weapon.h"
-#include "../Weapons/idfweapon.h"
 #include "../Grenades/grenade.h"
 #include "../Grenades/explosivegrenade.h"
 #include "../Grenades/smokegrenade.h"
@@ -14,9 +11,6 @@
 #include "../gamemap.h"
 
 #include <memory>
-using namespace std;
-
-class GameMap;
 
 class Soldier {
 public:

@@ -15,6 +15,17 @@ class Command {
         virtual void Execute(Match &match) const = 0;
 };
 
+class JoinCommand : public Command {
+private:
+    uint8_t player_id_;
+    const std::vector<int8_t> &data;
+
+public:
+    explicit JoinCommand(uint8_t player_id, const std::vector<int8_t> &data);
+
+    void Execute(Match &match) const override;
+};
+
 class ShootCommand : public Command {
 private:
     uint8_t player_id_;
@@ -81,7 +92,7 @@ public:
     void Execute(Match &match) const override;
 };
 
-class Factory {
+class CommandFactory {
 public:
     Command* create(uint8_t player_id, const std::vector<int8_t> &data);
 };

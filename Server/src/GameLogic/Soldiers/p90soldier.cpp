@@ -1,9 +1,9 @@
 #include "../../../include/GameLogic/Soldiers/p90soldier.h"
 
-P90Soldier::P90Soldier(int32_t x, int32_t y, int8_t dir, uint8_t health, unique_ptr<Weapon> &&weapon, unique_ptr<Grenade> &&grenade) :
-    x(x),
-    y(y),
-    dir(dir),
+P90Soldier::P90Soldier(uint8_t health, std::unique_ptr<Weapon> &&weapon, std::unique_ptr<Grenade> &&grenade) :
+    x(0),
+    y(0),
+    dir(0),
     health(health),
     weapon(std::move(weapon)),
     grenade(std::move(grenade)) {

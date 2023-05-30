@@ -10,7 +10,6 @@
 #include <map>
 #include <vector>
 #include <memory>
-using namespace std;
 
 // forward declarations
 class Soldier;

@@ -15,11 +15,9 @@ class IdfWeapon : public Weapon {
 private:
     uint8_t ammo;
     uint8_t damage;
-    uint8_t scope;
-    uint8_t recoil;
 
 public:
-    explicit IdfWeapon(uint8_t ammo, uint8_t damage, uint8_t scope, uint8_t recoil);
+    explicit IdfWeapon(uint8_t ammo, uint8_t damage);
 
     void shoot(uint32_t x, uint32_t y, uint8_t dir, GameMap &map) override;
 

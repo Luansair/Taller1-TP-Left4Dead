@@ -21,12 +21,12 @@ uint32_t GameMap::get_y_limit(void) {
     return y_dimension;
 }
 
-unique_ptr<CollisionZone>& GameMap::getCollisionZone(uint32_t x, uint32_t y) {
+std::unique_ptr<CollisionZone>& GameMap::getCollisionZone(uint32_t x, uint32_t y) {
     // unique_ptr<CollisionZone> cznullptr(nullptr);
     // if ((x >= x_dimension) || (y >= y_dimension)) return (std::ref(cznullptr));
-    unique_ptr<CollisionZone> &cz = collision_zones.at(x).at(y);
+    std::unique_ptr<CollisionZone> &cz = collision_zones.at(x).at(y);
     return cz;
 }
-vector<unique_ptr<CollisionZone>>& GameMap::getCollisionZoneRow(uint32_t x) {
+std::vector<std::unique_ptr<CollisionZone>>& GameMap::getCollisionZoneRow(uint32_t x) {
     return collision_zones.at(x);
 }

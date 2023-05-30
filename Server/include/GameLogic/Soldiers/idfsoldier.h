@@ -9,11 +9,11 @@ private:
     int32_t y;
     int8_t dir;
     uint8_t health;
-    unique_ptr<Weapon> weapon;
-    unique_ptr<Grenade> grenade;
+    std::unique_ptr<Weapon> weapon;
+    std::unique_ptr<Grenade> grenade;
 
 public:
-    explicit IdfSoldier(int32_t x, int32_t y, int8_t dir, uint8_t health, unique_ptr<Weapon> &&weapon, unique_ptr<Grenade> &&grenade);
+    explicit IdfSoldier(uint8_t health, std::unique_ptr<Weapon> &&weapon, std::unique_ptr<Grenade> &&grenade);
 
     void move(GameMap &map,
     uint8_t state,

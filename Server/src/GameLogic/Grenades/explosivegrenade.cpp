@@ -19,7 +19,7 @@ void ExplosiveGrenade::throwg(uint32_t x, uint32_t y, uint8_t dir, GameMap &map)
     // zona de explosion
     for (int32_t i = -4; i < 5; i++) {
         for (int32_t j = -4; j < 5; j++) {
-            unique_ptr<CollisionZone> &cz = map.getCollisionZone(x_explosion + i, y + j);
+            std::unique_ptr<CollisionZone> &cz = map.getCollisionZone(x_explosion + i, y + j);
             if (cz->is_occupied()) {
                 cz->executeCollision(damage);
             }

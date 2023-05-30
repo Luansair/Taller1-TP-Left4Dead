@@ -3,6 +3,7 @@
 
 #include "gamemap.h"
 #include "Soldiers/soldier.h"
+#include "Soldiers/soldierfactory.h"
 #include "Zombies/zombie.h"
 
 #include <string>
@@ -36,6 +37,9 @@ public:
 
     /* Elimina Soldier del Match, parámetros: id del soldado */
     void delete_soldier(uint32_t soldier_id);
+
+    /* Agrega Soldier al Match, parámetros: id del soldado, tipo de soldado */
+    void join(uint32_t soldier_id, uint8_t soldier_type);
 
     /* Ejecuta shoot, parámetros: id del soldado que dispara, parámetros shoot */
     void shoot(uint32_t soldier_id, uint8_t state);

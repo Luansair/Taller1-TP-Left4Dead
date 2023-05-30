@@ -27,11 +27,31 @@ add_executable(gamemanager_test gamemanager_test.cpp
         ../Server/src/Command/command.cpp
         ../Server/src/GameLogic/match.cpp
         ../Server/src/GameLogic/gamemap.cpp
-        ../Server/src/GameLogic/collisionzone.cpp)
+        ../Server/src/GameLogic/collisionzone.cpp
+        ../Server/src/GameLogic/Soldiers/soldierfactory.cpp
+        ../Server/src/GameLogic/Soldiers/p90soldier.cpp
+        ../Server/src/GameLogic/Soldiers/idfsoldier.cpp
+        ../Server/src/GameLogic/Soldiers/scoutsoldier.cpp
+        ../Server/src/GameLogic/Weapons/p90weapon.cpp
+        ../Server/src/GameLogic/Weapons/scoutweapon.cpp
+        ../Server/src/GameLogic/Weapons/idfweapon.cpp
+        ../Server/src/GameLogic/Grenades/explosivegrenade.cpp
+        ../Server/src/GameLogic/Grenades/smokegrenade.cpp
+        ../Server/src/GameLogic/Grenades/aerialgrenade.cpp)
 add_executable(gamemap_test gamemap_test.cpp
         ../Server/src/GameLogic/match.cpp
         ../Server/src/GameLogic/gamemap.cpp
-        ../Server/src/GameLogic/collisionzone.cpp)
+        ../Server/src/GameLogic/collisionzone.cpp
+        ../Server/src/GameLogic/Soldiers/soldierfactory.cpp
+        ../Server/src/GameLogic/Soldiers/p90soldier.cpp
+        ../Server/src/GameLogic/Soldiers/idfsoldier.cpp
+        ../Server/src/GameLogic/Soldiers/scoutsoldier.cpp
+        ../Server/src/GameLogic/Weapons/p90weapon.cpp
+        ../Server/src/GameLogic/Weapons/scoutweapon.cpp
+        ../Server/src/GameLogic/Weapons/idfweapon.cpp
+        ../Server/src/GameLogic/Grenades/explosivegrenade.cpp
+        ../Server/src/GameLogic/Grenades/smokegrenade.cpp
+        ../Server/src/GameLogic/Grenades/aerialgrenade.cpp)
 add_executable(collisionzone_test collisionzone_test.cpp
         ../Server/src/GameLogic/gamemap.cpp
         ../Server/src/GameLogic/collisionzone.cpp

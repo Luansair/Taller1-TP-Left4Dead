@@ -16,6 +16,12 @@ void Match::delete_soldier(uint32_t soldier_id) {
     }
 }
 
+void Match::join(uint32_t soldier_id, uint8_t soldier_type) {
+    SoldierFactory factory;
+    std::unique_ptr<Soldier> soldier = factory.create(soldier_type);
+    soldiers.emplace(soldier_id, std::move(soldier));
+}
+
 void Match::shoot(uint32_t soldier_id, uint8_t state) {
     if (soldiers.count(soldier_id)>0) {
         std::unique_ptr<Soldier> &soldier = soldiers.at(soldier_id);

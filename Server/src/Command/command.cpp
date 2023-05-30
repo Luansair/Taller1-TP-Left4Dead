@@ -1,5 +1,15 @@
 #include "../../include/Command/command.h"
 
+JoinCommand::JoinCommand(uint8_t player_id, const std::vector<int8_t> &data) : 
+    player_id_(player_id),
+    data(data) {
+    }
+
+void JoinCommand::Execute(Match &match) const {
+    int8_t soldier_type = data[1];
+    match.join(player_id_, soldier_type);
+}
+
 ShootCommand::ShootCommand(uint8_t player_id, const std::vector<int8_t> &data) : 
     player_id_(player_id),
     data(data) {
@@ -60,7 +70,7 @@ void ThrowCommand::Execute(Match &match) const {
     match.throwGrenade(player_id_);
 }
 
-Command* Factory::create(uint8_t player_id, const std::vector<int8_t> &data) {
+Command* CommandFactory::create(uint8_t player_id, const std::vector<int8_t> &data) {
     switch(data[0])
     {
         case IDLE:

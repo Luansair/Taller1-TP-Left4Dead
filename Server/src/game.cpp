@@ -6,7 +6,7 @@ Game::Game(std::uint8_t max_players) :
         is_running(true),
         commands_recv(10000),
         player_queues(),
-        match(100, 100) { // por ahora se crea un match de 100x100
+        match(1, 1) { // por ahora se crea un match de 10x10
     player_queues.reserve(max_players);
 }
 

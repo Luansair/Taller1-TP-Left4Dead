@@ -39,7 +39,7 @@ public:
 
     /* Ocupa la celda con un ente del juego Soldier/Zombie, parámetros: puntero a soldier o zombie */
     /* Solo se debe envíar un puntero, el otro debe ser nullptr porque dos entes no pueden estar en la misma celda */
-    void occupy(Soldier* soldier, Zombie* zombie);
+    bool occupy(Soldier* soldier, Zombie* zombie);
 
     /* Desocupa la celda */
     void vacate(void);

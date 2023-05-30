@@ -33,10 +33,9 @@ void P90Soldier::move(
     if ((next_x > map.get_x_limit()) || (next_y > map.get_y_limit())) return;
 
     std::unique_ptr<CollisionZone> &next_cz = map.getCollisionZone(next_x, next_y);
-    if (next_cz->is_occupied()) return;
+    if (!(next_cz->occupy(this, nullptr))) return;
     std::unique_ptr<CollisionZone> &actual_cz = map.getCollisionZone(x, y);
     actual_cz->vacate();
-    next_cz->occupy(this, nullptr);
     x = next_x;
     y = next_y;
 }

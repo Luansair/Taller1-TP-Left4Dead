@@ -1,5 +1,6 @@
 #include "../include/protocol.h"
 #include "../../Common/include/Action/action_code.h"
+#include "../../Common/include/Action/action_startshoot.h"
 
 Protocol::Protocol(Socket &socket) : socket(socket) {}
 

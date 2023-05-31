@@ -107,6 +107,5 @@ bool GameManager::joinGame(Queue<Command *> *&game_queue,
 
 
 GameManager::~GameManager() {
-    // Use locks just in case... maybe?
     cleanAllGames();
 }

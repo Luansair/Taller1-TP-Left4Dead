@@ -20,7 +20,11 @@ include_directories(${PROJECT_SOURCE_DIR}/Server/include)
 add_executable(resolver_test resolver_test.cpp
         ${PROJECT_SOURCE_DIR}/Common/src/resolver.cpp)
 add_executable(actiondto_test actiondto_test.cpp
-        ../Common/src/Action/action_dto.cpp)
+       ../Common/src/Action/action_startshoot.cpp
+        ../Common/src/Action/action_creategame.cpp
+        ../Common/src/Action/action_joingame.cpp
+        ../Common/src/Action/action.cpp
+        )
 add_executable(gamemanager_test gamemanager_test.cpp
         ../Server/src/game_manager.cpp
         ../Server/src/game.cpp

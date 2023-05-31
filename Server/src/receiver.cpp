@@ -3,6 +3,7 @@
 #include <memory>
 #include "../include/receiver.h"
 #include "../../Common/include/Action/action_code.h"
+#include "../../Common/include/Action/action_joingame.h"
 
 #define SHUT_RDWR 2
 
@@ -24,7 +25,7 @@ void Receiver::run() {
     using std::endl;
     using std::uint32_t;
     try {
-
+    // modularizar. Meter en un metodo: joinear partida
     while (keep_talking && !joined) {
         // Excepcion si join falla (o nullptr). Excepcion: JoinFailed
         // Crear los comandos en una clase fuera del protocolo
@@ -36,19 +37,14 @@ void Receiver::run() {
         if(recv_action == nullptr)
             continue;
 
-        std::vector<int8_t> data = recv_action->serialize();
-        if (data[0] == ActionID::JOIN) {
-            uint32_t game_code = 0;
-            // Capaz sería buena idea que recv_action tenga como parámetro
-            // algunas cosas segun la acción así no hay que serializar y
-            // rearmar a cada rato.
-            for (int i = 1; i < 5; i++) {
-                game_code |= static_cast<uint32_t>(data[i]) << (8 * i);
-            }
+        if (recv_action->id == ActionID::JOIN) {
+            // Dynamic_cast has more checks than static_cast but is slower.
+            // It is safer in these cases to avoid undefined behaviour.
+            auto* join_action = dynamic_cast<JoinGameAction *>(recv_action);
             joined = game_manager.joinGame(game_queue, send_state_queue,
-                                           &player_id, game_code);
+                                           &player_id, join_action->game_code);
 
-        } else if (data[0] == ActionID::CREATE) {
+        } else if (recv_action->id == ActionID::CREATE) {
             game_manager.createGame(game_queue,
                                     send_state_queue,
                                     &player_id);
@@ -59,6 +55,7 @@ void Receiver::run() {
     if (joined) {
         sender.start();
     }
+    // otro metodo privado: recibir acciones
     while (keep_talking) {
         recv_action = protocol.recvAction();
         if (recv_action == nullptr) {
@@ -102,5 +99,6 @@ Receiver::~Receiver() {
         sender.join();
     }
     // Just in case. Deleting nullptr has no effect.
+    // Usar smart pointer
     delete recv_action;
 }

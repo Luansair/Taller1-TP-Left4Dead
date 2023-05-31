@@ -2,7 +2,7 @@
 #define PROTOCOL_H_
 
 #include "../../Common/include/socket.h"
-#include "../../Common/include/Action/action_dto.h"
+#include "../../Common/include/Action/action.h"
 
 class Protocol {
     Socket& socket;

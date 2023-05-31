@@ -2,6 +2,9 @@
 #include <SDL2pp/SDL2pp.hh>
 #include "yaml-cpp/yaml.h"
 #include "../include/client.h"
+#include "../../Common/include/Action/action_startshoot.h"
+#include "../../Common/include/Action/action_joingame.h"
+#include "../../Common/include/Action/action_creategame.h"
 
 Client::Client(const char *hostname, const char *servname) :
     socket(hostname, servname) ,
@@ -25,6 +28,12 @@ void Client::processEvent(std::uint32_t event_type, int key_code, bool *quit) {
     }
 }
 
+// Crear clases: texture manager q tenga dicc mapa etc para mapear. No crear
+// la textura en cada game loop.
+// jugadores, animaciones, mapa
+// Es responsabilidad del cliente transformar lo q reciba a pixeles. No va a
+// recibir pixeles directamente
+// Poder cambiar parametros in game para probar
 void Client::init() {
     using SDL2pp::SDL;
     using SDL2pp::Window;

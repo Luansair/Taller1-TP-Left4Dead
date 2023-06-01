@@ -33,6 +33,9 @@ public:
     virtual void recvDamage(uint8_t damage) = 0;
 
     virtual void setPos(uint32_t x, uint32_t y) = 0;
+
+    virtual int32_t getXPos(void) = 0;
+    virtual int32_t getYPos(void) = 0;
 };
 
 #endif  // SOLDIER_H_

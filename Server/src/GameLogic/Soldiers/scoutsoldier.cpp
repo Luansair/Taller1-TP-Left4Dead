@@ -32,12 +32,10 @@ void ScoutSoldier::move(
 
     if ((next_x > map.get_x_limit()) || (next_y > map.get_y_limit())) return;
 
+    std::unique_ptr<CollisionZone> &actual_cz = map.getCollisionZone(x, y);
     std::unique_ptr<CollisionZone> &next_cz = map.getCollisionZone(next_x, next_y);
     if (!(next_cz->occupy(this, nullptr))) return;
-    std::unique_ptr<CollisionZone> &actual_cz = map.getCollisionZone(x, y);
     actual_cz->vacate();
-    x = next_x;
-    y = next_y;
 }
 
 void ScoutSoldier::shoot(GameMap &map, uint8_t state) {

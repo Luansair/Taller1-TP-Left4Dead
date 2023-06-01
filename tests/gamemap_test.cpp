@@ -94,6 +94,34 @@ TEST(gamemap_test, Test05InsertSomeSoldiers) {
 
 }
 
+TEST(gamemap_test, Test06MoveSoldier) {
+
+    GameMap gamemap(10,10);
+    std::unique_ptr<CollisionZone>& cz0 = gamemap.getCollisionZone(0,0);
+    std::unique_ptr<CollisionZone>& cz1 = gamemap.getCollisionZone(1,0);
+    SoldierFactory factory;
+    std::unique_ptr<Soldier> soldier = factory.create(1);
+    ASSERT_NO_FATAL_FAILURE(gamemap.insertSoldier(soldier.get()));
+    ASSERT_TRUE(cz0->is_occupied());
+    ASSERT_TRUE(cz0->getSoldier() != nullptr);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    ASSERT_TRUE(soldier->getYPos() == 0);
+    ASSERT_TRUE(soldier->getXPos() == 1);
+    ASSERT_FALSE(cz0->is_occupied());
+    ASSERT_TRUE(cz0->getSoldier() == nullptr);
+    ASSERT_TRUE(cz1->is_occupied());
+    ASSERT_TRUE(cz1->getSoldier() != nullptr);
+    soldier->move(std::ref(gamemap), 1, 0, -1, 1);
+    ASSERT_TRUE(soldier->getYPos() == 0);
+    ASSERT_TRUE(soldier->getXPos() == 0);
+    ASSERT_FALSE(cz1->is_occupied());
+    ASSERT_TRUE(cz1->getSoldier() == nullptr);
+    ASSERT_TRUE(cz0->is_occupied());
+    ASSERT_TRUE(cz0->getSoldier() != nullptr);
+
+
+}
+
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

@@ -33,8 +33,8 @@ public:
 
     void setPos(uint32_t x, uint32_t y) override;
 
-    int32_t getXPos(void);
-    int32_t getYPos(void);
+    int32_t getXPos(void) override;
+    int32_t getYPos(void) override;
 };
 
 #endif  // IDFSOLDIER_H_

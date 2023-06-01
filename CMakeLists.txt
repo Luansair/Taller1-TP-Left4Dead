@@ -13,6 +13,9 @@ set(SDL2PP_WITH_IMAGE YES)
 set(SDL2PP_WITH_TTF YES)
 
 add_subdirectory(libs/libSDL2pp-0.18.1)
+
+enable_testing()
+
 add_subdirectory(tests)
 
 add_definitions(-DRESOURCES_PATH="${PROJECT_SOURCE_DIR}/Resources")
@@ -31,4 +34,4 @@ target_link_libraries(Client PUBLIC SDL2pp yaml-cpp)
 
 file(COPY Resources DESTINATION ${CMAKE_BINARY_DIR})
 
-enable_testing()
+

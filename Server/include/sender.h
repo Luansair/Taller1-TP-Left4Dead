@@ -22,7 +22,7 @@ protected:
     void run() override;
 
 public:
-    Sender(Socket& peer, Queue<GameState*>& game_state_queue);
+    Sender(GameSocket& peer, Queue<GameState*>& game_state_queue);
 
     bool isDead() const;
 

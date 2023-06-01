@@ -8,13 +8,13 @@
 #include "../../libs/thread.h"
 #include "../../libs/queue.h"
 #include "protocol.h"
-#include "../../Common/include/socket.h"
+#include "../../Common/include/Socket/socket_game.h"
 #include "sender.h"
 #include "game_manager.h"
 
 class Receiver: public Thread {
 private:
-    Socket peer;
+    GameSocket peer;
     Protocol protocol;
     // Queue<int>& commands_queue;
     Queue<GameState*> send_state_queue;
@@ -33,7 +33,7 @@ protected:
     virtual void run() override;
 
 public:
-    explicit Receiver(Socket&& peer, GameManager& game_manager);
+    explicit Receiver(GameSocket&& peer, GameManager& game_manager);
 
     [[nodiscard]] bool isDead() const;
 

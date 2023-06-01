@@ -1,14 +1,14 @@
 #ifndef PROTOCOL_H_
 #define PROTOCOL_H_
 
-#include "../../Common/include/socket.h"
+#include "../../Common/include/Socket/socket_game.h"
 #include "../../Common/include/Action/action.h"
 
 class Protocol {
-    Socket& socket;
+    GameSocket& socket;
 
 public:
-    explicit Protocol(Socket& socket);
+    explicit Protocol(GameSocket& socket);
 
     void sendAction(const Action& action);
 

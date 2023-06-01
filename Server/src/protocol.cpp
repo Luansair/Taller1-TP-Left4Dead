@@ -2,7 +2,7 @@
 #include "../../Common/include/Action/action_code.h"
 #include "../../Common/include/Action/action_startshoot.h"
 
-Protocol::Protocol(Socket &socket) : socket(socket) {}
+Protocol::Protocol(GameSocket &socket) : socket(socket) {}
 
 Action* Protocol::recvAction() {
     uint8_t action_id;

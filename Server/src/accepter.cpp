@@ -15,7 +15,7 @@ void Accepter::run() {
 
     try {
     while (true) {
-        Socket peer = skt.acceptClient();
+        GameSocket peer = skt.acceptClient();
         auto* receiver = new Receiver(std::move(peer), game_manager);
         clients.push_back(receiver);
         receiver->start();

@@ -5,12 +5,12 @@
 #include <sstream>
 #include <cstring>
 
-#include "../include/socket.h"
-#include "../include/resolver.h"
+#include "../../include/Socket/socket_game.h"
+#include "../../include/resolver.h"
 
 constexpr int MAX_PENDING_CONNECTIONS = 20;
 
-Socket::Socket(const char *hostname, const char *servname) {
+GameSocket::GameSocket(const char *hostname, const char *servname) {
     Resolver resolver(hostname, servname, false);
 
     closed = true;
@@ -41,7 +41,7 @@ Socket::Socket(const char *hostname, const char *servname) {
     }
 }
 
-Socket::Socket(const char* servname) {
+GameSocket::GameSocket(const char* servname) {
     Resolver resolver = Resolver(nullptr, servname, true);
     closed = true;
     fd = -1;
@@ -75,7 +75,7 @@ Socket::Socket(const char* servname) {
     }
 }
 
-Socket::Socket(Socket && other) noexcept {
+GameSocket::GameSocket(GameSocket && other) noexcept {
     this->fd = other.fd;
     this->closed = other.closed;
 
@@ -83,7 +83,7 @@ Socket::Socket(Socket && other) noexcept {
     other.closed = true;
 }
 
-Socket& Socket::operator=(Socket&& other) noexcept {
+GameSocket& GameSocket::operator=(GameSocket&& other) noexcept {
     if (this == &other)
         return *this;
 
@@ -100,12 +100,12 @@ Socket& Socket::operator=(Socket&& other) noexcept {
     return *this;
 }
 
-Socket::Socket(int sktfd) {
+GameSocket::GameSocket(int sktfd) {
     fd = sktfd;
     closed = false;
 }
 
-std::size_t Socket::sendSome(const void *data, std::size_t amount)
+std::size_t GameSocket::sendSome(const void *data, std::size_t amount)
 const {
     ssize_t bytesSent = send(fd, data, amount, MSG_NOSIGNAL);
     if (bytesSent == -1) {
@@ -126,7 +126,7 @@ const {
     return bytesSent;
 }
 
-std::size_t Socket::recvSome(void *data, std::size_t amount)
+std::size_t GameSocket::recvSome(void *data, std::size_t amount)
 const {
     ssize_t bytesRecv = recv(fd, data, amount, 0);
     if (bytesRecv == 0 && amount > 0) {
@@ -140,7 +140,7 @@ const {
     return bytesRecv;
 }
 
-void Socket::sendData(const void *data, std::size_t amount) {
+void GameSocket::sendData(const void *data, std::size_t amount) {
     size_t bytesSent = 0;
     while (bytesSent < amount) {
         bytesSent += sendSome((std::int8_t*)data + bytesSent,
@@ -148,7 +148,7 @@ void Socket::sendData(const void *data, std::size_t amount) {
     }
 }
 
-void Socket::recvData(void *data, std::size_t amount) {
+void GameSocket::recvData(void *data, std::size_t amount) {
     size_t bytesRecv = 0;
     while (bytesRecv < amount) {
         bytesRecv += recvSome((std::int8_t*)data + bytesRecv,
@@ -156,7 +156,7 @@ void Socket::recvData(void *data, std::size_t amount) {
     }
 }
 
-Socket Socket::acceptClient() const {
+GameSocket GameSocket::acceptClient() const {
     int peerfd = accept(fd, nullptr, nullptr);
     if (peerfd == -1) {
         if (errno == EBADF || errno == EINVAL) {
@@ -168,19 +168,19 @@ Socket Socket::acceptClient() const {
             throw std::runtime_error(error_msg.str());
         }
     }
-    return Socket(peerfd);
+    return GameSocket(peerfd);
 }
 
-int Socket::_shutdown(int how) const {
+int GameSocket::_shutdown(int how) const {
     return shutdown(fd, how);
 }
 
-int Socket::_close() {
+int GameSocket::_close() {
     closed = true;
     return close(fd);
 }
 
-Socket::~Socket() {
+GameSocket::~GameSocket() {
     if (!closed) {
         shutdown(fd, SHUT_RDWR);
         close(fd);

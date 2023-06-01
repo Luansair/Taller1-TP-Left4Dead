@@ -30,7 +30,7 @@ private:
 public:
 
     /* Constructor de Match, parámetros: dimensiones del mapa */
-    explicit Match(uint32_t x_dimension, uint32_t y_dimension);
+    explicit Match(int32_t x_dimension, int32_t y_dimension);
 
     /* Agrega Soldier al Match, parámetros: id del soldado, puntero al soldado */
     void add_soldier(uint32_t soldier_id, std::unique_ptr<Soldier> &&soldier);

@@ -94,7 +94,7 @@ TEST(gamemap_test, Test05InsertSomeSoldiers) {
 
 }
 
-TEST(gamemap_test, Test06MoveSoldier) {
+TEST(gamemap_test, Test06MoveSoldierOnXAndBack) {
 
     GameMap gamemap(10,10);
     std::unique_ptr<CollisionZone>& cz0 = gamemap.getCollisionZone(0,0);
@@ -119,6 +119,156 @@ TEST(gamemap_test, Test06MoveSoldier) {
     ASSERT_TRUE(cz0->is_occupied());
     ASSERT_TRUE(cz0->getSoldier() != nullptr);
 
+}
+
+TEST(gamemap_test, Test07MoveSoldierOnYAndBack) {
+
+    GameMap gamemap(10,10);
+    std::unique_ptr<CollisionZone>& cz0 = gamemap.getCollisionZone(0,0);
+    std::unique_ptr<CollisionZone>& cz1 = gamemap.getCollisionZone(0,1);
+    SoldierFactory factory;
+    std::unique_ptr<Soldier> soldier = factory.create(1);
+    ASSERT_NO_FATAL_FAILURE(gamemap.insertSoldier(soldier.get()));
+    ASSERT_TRUE(cz0->is_occupied());
+    ASSERT_TRUE(cz0->getSoldier() != nullptr);
+    soldier->move(std::ref(gamemap), 1, 1, -1, 1);
+    ASSERT_TRUE(soldier->getYPos() == 1);
+    ASSERT_TRUE(soldier->getXPos() == 0);
+    ASSERT_FALSE(cz0->is_occupied());
+    ASSERT_TRUE(cz0->getSoldier() == nullptr);
+    ASSERT_TRUE(cz1->is_occupied());
+    ASSERT_TRUE(cz1->getSoldier() != nullptr);
+    soldier->move(std::ref(gamemap), 1, 1, 1, 1);
+    ASSERT_TRUE(soldier->getYPos() == 0);
+    ASSERT_TRUE(soldier->getXPos() == 0);
+    ASSERT_FALSE(cz1->is_occupied());
+    ASSERT_TRUE(cz1->getSoldier() == nullptr);
+    ASSERT_TRUE(cz0->is_occupied());
+    ASSERT_TRUE(cz0->getSoldier() != nullptr);
+
+}
+
+TEST(gamemap_test, Test08MoveSoldierOnXSomeCz) {
+
+    GameMap gamemap(10,10);
+    std::unique_ptr<CollisionZone>& cz0 = gamemap.getCollisionZone(0,0);
+    std::unique_ptr<CollisionZone>& cz1 = gamemap.getCollisionZone(8,0);
+    SoldierFactory factory;
+    std::unique_ptr<Soldier> soldier = factory.create(1);
+    ASSERT_NO_FATAL_FAILURE(gamemap.insertSoldier(soldier.get()));
+    ASSERT_TRUE(cz0->is_occupied());
+    ASSERT_TRUE(cz0->getSoldier() != nullptr);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    ASSERT_TRUE(soldier->getYPos() == 0);
+    ASSERT_TRUE(soldier->getXPos() == 8);
+    ASSERT_FALSE(cz0->is_occupied());
+    ASSERT_TRUE(cz0->getSoldier() == nullptr);
+    ASSERT_TRUE(cz1->is_occupied());
+    ASSERT_TRUE(cz1->getSoldier() != nullptr);
+
+}
+
+TEST(gamemap_test, Test09MoveSoldierOnXLimitAndYLimit) {
+
+    GameMap gamemap(10,10);
+    std::unique_ptr<CollisionZone>& cz0 = gamemap.getCollisionZone(0,0);
+    SoldierFactory factory;
+    std::unique_ptr<Soldier> soldier = factory.create(1);
+    ASSERT_NO_FATAL_FAILURE(gamemap.insertSoldier(soldier.get()));
+    ASSERT_TRUE(cz0->is_occupied());
+    ASSERT_TRUE(cz0->getSoldier() != nullptr);
+    soldier->move(std::ref(gamemap), 1, 0, -1, 1);
+    ASSERT_TRUE(soldier->getYPos() == 0);
+    ASSERT_TRUE(soldier->getXPos() == 0);
+    ASSERT_TRUE(cz0->is_occupied());
+    ASSERT_TRUE(cz0->getSoldier() != nullptr);
+    soldier->move(std::ref(gamemap), 1, 1, 1, 1);
+    ASSERT_TRUE(soldier->getYPos() == 0);
+    ASSERT_TRUE(soldier->getXPos() == 0);
+    ASSERT_TRUE(cz0->is_occupied());
+    ASSERT_TRUE(cz0->getSoldier() != nullptr);
+
+}
+
+TEST(gamemap_test, Test10MoveSoldierOnXMaxLim) {
+
+    GameMap gamemap(10,10);
+    std::unique_ptr<CollisionZone>& cz1 = gamemap.getCollisionZone(9,0);
+    SoldierFactory factory;
+    std::unique_ptr<Soldier> soldier = factory.create(1);
+    ASSERT_NO_FATAL_FAILURE(gamemap.insertSoldier(soldier.get()));
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 1);
+    ASSERT_TRUE(soldier->getYPos() == 0);
+    ASSERT_TRUE(soldier->getXPos() == 9);
+    ASSERT_TRUE(cz1->is_occupied());
+    ASSERT_TRUE(cz1->getSoldier() != nullptr);
+
+}
+
+TEST(gamemap_test, Test11MoveSoldierOnYMaxLim) {
+
+    GameMap gamemap(10,10);
+    std::unique_ptr<CollisionZone>& cz1 = gamemap.getCollisionZone(0,9);
+    SoldierFactory factory;
+    std::unique_ptr<Soldier> soldier = factory.create(1);
+    ASSERT_NO_FATAL_FAILURE(gamemap.insertSoldier(soldier.get()));
+    soldier->move(std::ref(gamemap), 1, 1, -1, 1);
+    soldier->move(std::ref(gamemap), 1, 1, -1, 1);
+    soldier->move(std::ref(gamemap), 1, 1, -1, 1);
+    soldier->move(std::ref(gamemap), 1, 1, -1, 1);
+    soldier->move(std::ref(gamemap), 1, 1, -1, 1);
+    soldier->move(std::ref(gamemap), 1, 1, -1, 1);
+    soldier->move(std::ref(gamemap), 1, 1, -1, 1);
+    soldier->move(std::ref(gamemap), 1, 1, -1, 1);
+    soldier->move(std::ref(gamemap), 1, 1, -1, 1);
+    soldier->move(std::ref(gamemap), 1, 1, -1, 1);
+    soldier->move(std::ref(gamemap), 1, 1, -1, 1);
+    soldier->move(std::ref(gamemap), 1, 1, -1, 1);
+    ASSERT_TRUE(soldier->getYPos() == 9);
+    ASSERT_TRUE(soldier->getXPos() == 0);
+    ASSERT_TRUE(cz1->is_occupied());
+    ASSERT_TRUE(cz1->getSoldier() != nullptr);
+
+}
+
+TEST(gamemap_test, Test12MoveSoldierWithForce) {
+
+    GameMap gamemap(10,10);
+    std::unique_ptr<CollisionZone>& cz0 = gamemap.getCollisionZone(0,0);
+    std::unique_ptr<CollisionZone>& cz1 = gamemap.getCollisionZone(8,0);
+    SoldierFactory factory;
+    std::unique_ptr<Soldier> soldier = factory.create(1);
+    ASSERT_NO_FATAL_FAILURE(gamemap.insertSoldier(soldier.get()));
+    ASSERT_TRUE(cz0->is_occupied());
+    ASSERT_TRUE(cz0->getSoldier() != nullptr);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 2);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 2);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 2);
+    soldier->move(std::ref(gamemap), 1, 0, 1, 2);
+    ASSERT_TRUE(soldier->getYPos() == 0);
+    ASSERT_TRUE(soldier->getXPos() == 8);
+    ASSERT_FALSE(cz0->is_occupied());
+    ASSERT_TRUE(cz0->getSoldier() == nullptr);
+    ASSERT_TRUE(cz1->is_occupied());
+    ASSERT_TRUE(cz1->getSoldier() != nullptr);
 
 }
 

@@ -16,8 +16,8 @@ void IdfSoldier::move(
     int8_t moveDirection,
     uint8_t moveForce) {
     
-    uint32_t next_x;
-    uint32_t next_y;
+    int32_t next_x;
+    int32_t next_y;
 
     switch(moveAxis) {
         case X:
@@ -25,12 +25,12 @@ void IdfSoldier::move(
             next_y = y;
             break;
         case Y:
-            next_y = y + (moveDirection * moveForce);
+            next_y = y - (moveDirection * moveForce);
             next_x = x;
             break;
     }
 
-    if ((next_x > map.get_x_limit()) || (next_y > map.get_y_limit())) return;
+    if ((next_x >= map.get_x_limit()) || (next_x < 0) || (next_y >= map.get_y_limit()) || (next_y < 0)) return;
 
     std::unique_ptr<CollisionZone> &actual_cz = map.getCollisionZone(x, y);
     std::unique_ptr<CollisionZone> &next_cz = map.getCollisionZone(next_x, next_y);
@@ -58,7 +58,7 @@ void IdfSoldier::recvDamage(uint8_t damage) {
     health -= damage;
 }
 
-void IdfSoldier::setPos(uint32_t new_x, uint32_t new_y) {
+void IdfSoldier::setPos(int32_t new_x, int32_t new_y) {
     x = new_x;
     y = new_y;
 }

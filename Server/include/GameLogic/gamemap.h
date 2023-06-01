@@ -26,24 +26,24 @@
 class GameMap {
 private:
     std::vector<std::vector<std::unique_ptr<CollisionZone>>> collision_zones;
-    uint32_t x_dimension;
-    uint32_t y_dimension;
+    int32_t x_dimension;
+    int32_t y_dimension;
 
 public:
     /* Constructor de GameMap párametros: dimensiones del mapa 2d */
-    explicit GameMap(uint32_t x_dimension, uint32_t y_dimension);
+    explicit GameMap(int32_t x_dimension, int32_t y_dimension);
 
     /* getter del límite en eje x (altura) */
-    uint32_t get_x_limit(void);
+    int32_t get_x_limit(void);
 
     /* getter del límite en eje y (ancho) */
-    uint32_t get_y_limit(void);
+    int32_t get_y_limit(void);
 
     /* getter de una CollisionZone parámetros: coordenadas x,y */
-    std::unique_ptr<CollisionZone>& getCollisionZone(uint32_t x, uint32_t y);
+    std::unique_ptr<CollisionZone>& getCollisionZone(int32_t x, int32_t y);
 
     /* getter del una fila del mapa parámetros: nro fila */
-    std::vector<std::unique_ptr<CollisionZone>>& getCollisionZoneRow(uint32_t y);
+    std::vector<std::unique_ptr<CollisionZone>>& getCollisionZoneRow(int32_t y);
 
     void insertSoldier(Soldier *soldier);
 

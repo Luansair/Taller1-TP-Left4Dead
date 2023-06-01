@@ -5,8 +5,8 @@
 
 class IdfSoldier : public Soldier {
 private:
-    uint32_t x;
-    uint32_t y;
+    int32_t x;
+    int32_t y;
     int8_t dir;
     uint8_t health;
     std::unique_ptr<Weapon> weapon;
@@ -31,7 +31,7 @@ public:
 
     void recvDamage(uint8_t damage) override;
 
-    void setPos(uint32_t x, uint32_t y) override;
+    void setPos(int32_t x, int32_t y) override;
 
     int32_t getXPos(void) override;
     int32_t getYPos(void) override;

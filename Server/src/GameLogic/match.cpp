@@ -19,6 +19,7 @@ void Match::delete_soldier(uint32_t soldier_id) {
 void Match::join(uint32_t soldier_id, uint8_t soldier_type) {
     SoldierFactory factory;
     std::unique_ptr<Soldier> soldier = factory.create(soldier_type);
+    gamemap.insertSoldier(soldier.get()); // mando puntero del soldado
     soldiers.emplace(soldier_id, std::move(soldier));
 }
 

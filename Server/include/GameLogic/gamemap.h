@@ -43,7 +43,9 @@ public:
     std::unique_ptr<CollisionZone>& getCollisionZone(uint32_t x, uint32_t y);
 
     /* getter del una fila del mapa parámetros: nro fila */
-    std::vector<std::unique_ptr<CollisionZone>>& getCollisionZoneRow(uint32_t x);
+    std::vector<std::unique_ptr<CollisionZone>>& getCollisionZoneRow(uint32_t y);
+
+    void insertSoldier(Soldier *soldier);
 
     GameMap(const GameMap&) = delete;
     GameMap& operator=(const GameMap&) = delete;

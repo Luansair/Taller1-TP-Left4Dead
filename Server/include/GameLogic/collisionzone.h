@@ -43,6 +43,12 @@ public:
     /* Desocupa la celda */
     void vacate(void);
 
+    /* para testing */
+    Soldier* getSoldier(void);
+
+    /* para testing */
+    Zombie* getZombie(void);
+
     CollisionZone(const CollisionZone&) = delete;
     CollisionZone& operator=(const CollisionZone&) = delete;
 };

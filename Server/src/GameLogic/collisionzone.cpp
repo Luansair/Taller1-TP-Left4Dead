@@ -31,3 +31,11 @@ void CollisionZone::vacate(void) {
     zombie = nullptr;
     occupied = false;
 }
+
+Soldier* CollisionZone::getSoldier(void) {
+    return soldier;
+}
+
+Zombie* CollisionZone::getZombie(void) {
+    return zombie;
+}

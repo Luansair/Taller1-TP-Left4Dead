@@ -19,6 +19,8 @@ class Zombie;
 
 class CollisionZone {
 private:
+    uint32_t x_pos;
+    uint32_t y_pos;
     bool occupied;
     // bool smoked;
     Soldier* soldier = nullptr;
@@ -28,7 +30,7 @@ private:
 public:
 
     /* Constructor de CollisionZone */
-    CollisionZone(void);
+    explicit CollisionZone(uint32_t x, uint32_t y);
 
     /* Ejecuta la colisión, parámetros: efecto de la colisión (daño) */
     void executeCollision(uint8_t damage);

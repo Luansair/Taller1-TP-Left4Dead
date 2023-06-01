@@ -59,3 +59,15 @@ void ScoutSoldier::cGrenade(void) {
 void ScoutSoldier::recvDamage(uint8_t damage) {
     health -= damage; // chequeo de muerte hacer
 }
+
+void ScoutSoldier::setPos(uint32_t new_x, uint32_t new_y) {
+    x = new_x;
+    y = new_y;
+}
+
+int32_t ScoutSoldier::getXPos(void) {
+    return x;
+}
+int32_t ScoutSoldier::getYPos(void) {
+    return y;
+}

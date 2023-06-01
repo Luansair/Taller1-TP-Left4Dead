@@ -8,7 +8,7 @@ GameMap::GameMap(uint32_t x_dimension, uint32_t y_dimension) :
         std::vector<std::unique_ptr<CollisionZone>> row;
         collision_zones.emplace_back(std::move(row));
         for (uint32_t x = 0; x < x_dimension; x++) {
-            std::unique_ptr<CollisionZone> czptr(new CollisionZone());
+            std::unique_ptr<CollisionZone> czptr(new CollisionZone(x, y));
             (collision_zones[y]).emplace_back(std::move(czptr));
         }
     }
@@ -39,4 +39,5 @@ void GameMap::insertSoldier(Soldier* soldier) {
             return;
         }
     }
+    // lanzar excepción de que no se pudo insertar
 }

@@ -5,15 +5,15 @@
 #include "GameLogic/Soldiers/soldier.h"
 
 TEST(collisionzone_test, Test00CreateCollisionZone) {
-    ASSERT_NO_FATAL_FAILURE(CollisionZone collisionzone);
-    CollisionZone collisionzone;
+    ASSERT_NO_FATAL_FAILURE(CollisionZone collisionzone(10, 10));
+    CollisionZone collisionzone(10 ,10);
     ASSERT_FALSE(collisionzone.is_occupied());
     ASSERT_TRUE(collisionzone.getSoldier() == nullptr);
     ASSERT_TRUE(collisionzone.getZombie() == nullptr);
 }
 
 TEST(collisionzone_test, Test01OccupyCollisionZone) {
-    CollisionZone collisionzone;
+    CollisionZone collisionzone(10, 10);
     SoldierFactory factory;
     std::unique_ptr<Soldier> soldier = factory.create(1);
     ASSERT_FALSE(collisionzone.is_occupied());
@@ -26,7 +26,7 @@ TEST(collisionzone_test, Test01OccupyCollisionZone) {
 }
 
 TEST(collisionzone_test, Test02NotOccupyCollisionZone) {
-    CollisionZone collisionzone;
+    CollisionZone collisionzone(10, 10);
     ASSERT_FALSE(collisionzone.is_occupied());
     ASSERT_TRUE(collisionzone.getSoldier() == nullptr);
     ASSERT_TRUE(collisionzone.getZombie() == nullptr);
@@ -37,7 +37,7 @@ TEST(collisionzone_test, Test02NotOccupyCollisionZone) {
 }
 
 TEST(collisionzone_test, Test03VacateCollisionZone) {
-    CollisionZone collisionzone;
+    CollisionZone collisionzone(10, 10);
     SoldierFactory factory;
     std::unique_ptr<Soldier> soldier = factory.create(1);
     ASSERT_FALSE(collisionzone.is_occupied());
@@ -54,7 +54,7 @@ TEST(collisionzone_test, Test03VacateCollisionZone) {
 }
 
 TEST(collisionzone_test, Test04VacateAndOccupyCollisionZone) {
-    CollisionZone collisionzone;
+    CollisionZone collisionzone(10, 10);
     SoldierFactory factory;
     std::unique_ptr<Soldier> soldier = factory.create(1);
     ASSERT_FALSE(collisionzone.is_occupied());

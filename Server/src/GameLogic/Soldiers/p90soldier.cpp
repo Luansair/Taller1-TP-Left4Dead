@@ -59,3 +59,15 @@ void P90Soldier::cGrenade(void) {
 void P90Soldier::recvDamage(uint8_t damage) {
     health -= damage;
 }
+
+void P90Soldier::setPos(uint32_t new_x, uint32_t new_y) {
+    x = new_x;
+    y = new_y;
+}
+
+int32_t P90Soldier::getXPos(void) {
+    return x;
+}
+int32_t P90Soldier::getYPos(void) {
+    return y;
+}

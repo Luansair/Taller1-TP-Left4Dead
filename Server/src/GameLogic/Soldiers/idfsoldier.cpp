@@ -59,3 +59,15 @@ void IdfSoldier::cGrenade(void) {
 void IdfSoldier::recvDamage(uint8_t damage) {
     health -= damage;
 }
+
+void IdfSoldier::setPos(uint32_t new_x, uint32_t new_y) {
+    x = new_x;
+    y = new_y;
+}
+
+int32_t IdfSoldier::getXPos(void) {
+    return x;
+}
+int32_t IdfSoldier::getYPos(void) {
+    return y;
+}

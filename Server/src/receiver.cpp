@@ -7,7 +7,7 @@
 
 #define SHUT_RDWR 2
 
-Receiver::Receiver(Socket &&peer, GameManager& game_manager) :
+Receiver::Receiver(GameSocket &&peer, GameManager& game_manager) :
     peer(std::move(peer)),
     protocol(this->peer),
     send_state_queue(5000),

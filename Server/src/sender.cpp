@@ -2,7 +2,7 @@
 
 #include "../include/sender.h"
 
-Sender::Sender(Socket& socket, Queue<GameState*>& game_state_queue) :
+Sender::Sender(GameSocket& socket, Queue<GameState*>& game_state_queue) :
     protocol(socket),
     game_state_queue(game_state_queue),
     is_running(true) ,

@@ -7,14 +7,14 @@
 #include <string>
 #include <utility>
 #include "../../libs/thread.h"
-#include "../../Common/include/socket.h"
+#include "../../Common/include/Socket/socket_game.h"
 #include "game.h"
 #include "receiver.h"
 #include "game_manager.h"
 
 class Accepter: public Thread {
 private:
-    Socket skt;
+    GameSocket skt;
     GameManager game_manager;
     std::list<Receiver*> clients;
 

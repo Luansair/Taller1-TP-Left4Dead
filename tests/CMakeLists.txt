@@ -19,7 +19,7 @@ include_directories(${PROJECT_SOURCE_DIR}/Server/include)
 # Si se olvidan de alguno les tira 'undefined reference to <method>'.
 add_executable(resolver_test resolver_test.cpp
         ${PROJECT_SOURCE_DIR}/Common/src/resolver.cpp)
-add_executable(actiondto_test actiondto_test.cpp
+add_executable(actiondto_test action_test.cpp
        ../Common/src/Action/action_startshoot.cpp
         ../Common/src/Action/action_creategame.cpp
         ../Common/src/Action/action_joingame.cpp

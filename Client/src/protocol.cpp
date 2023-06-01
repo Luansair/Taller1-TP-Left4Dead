@@ -1,7 +1,7 @@
 #include <netinet/in.h>
 #include "../include/protocol.h"
 
-Protocol::Protocol(Socket& socket) : socket(socket) {
+Protocol::Protocol(GameSocket& socket) : socket(socket) {
 }
 
 void Protocol::sendAction(const Action &action) {

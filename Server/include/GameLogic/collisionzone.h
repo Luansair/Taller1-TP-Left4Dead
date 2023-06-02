@@ -33,14 +33,14 @@ public:
     explicit CollisionZone(uint32_t x, uint32_t y);
 
     /* Ejecuta la colisión, parámetros: efecto de la colisión (daño) */
-    void executeCollision(uint8_t damage);
+    void executeCollision(int8_t damage);
 
     /* Retorna si está ocupada o no la celda */
     bool is_occupied(void);
 
-    /* Ocupa la celda con un ente del juego Soldier/Zombie, parámetros: puntero a soldier o zombie */
+    /* Ocupa la celda con un ente del juego Soldier/Zombie, parámetros: puntero a soldier o zombie y dirección */
     /* Solo se debe envíar un puntero, el otro debe ser nullptr porque dos entes no pueden estar en la misma celda */
-    bool occupy(Soldier* soldier, Zombie* zombie);
+    bool occupy(Soldier* soldier, Zombie* zombie, int8_t dir);
 
     /* Desocupa la celda */
     void vacate(void);

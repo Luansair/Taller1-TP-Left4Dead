@@ -20,7 +20,7 @@ private:
 public:
     explicit ScoutWeapon(uint8_t ammo, uint8_t damage);
 
-    void shoot(uint32_t x, uint32_t y, uint8_t dir, GameMap &map) override;
+    void shoot(int32_t x, int32_t y, int8_t dir, GameMap &map) override;
 
     void reload(uint8_t state) override;
 

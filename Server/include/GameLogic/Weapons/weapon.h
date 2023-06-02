@@ -10,7 +10,7 @@
 class Weapon {
 public:
     virtual ~Weapon() {}
-    virtual void shoot(uint32_t x, uint32_t y, uint8_t dir, GameMap &map) = 0;
+    virtual void shoot(int32_t x, int32_t y, int8_t dir, GameMap &map) = 0;
     virtual void reload(uint8_t state) = 0;
 };
 

@@ -8,7 +8,7 @@ CollisionZone::CollisionZone(uint32_t x, uint32_t y) :
     occupied(false) {
 }
 
-void CollisionZone::executeCollision(uint8_t damage) {
+void CollisionZone::executeCollision(int8_t damage) {
     soldier->recvDamage(damage);
 }
 
@@ -16,13 +16,13 @@ bool CollisionZone::is_occupied(void) {
     return occupied;
 }
 
-bool CollisionZone::occupy(Soldier* new_soldier, Zombie* new_zombie) {
+bool CollisionZone::occupy(Soldier* new_soldier, Zombie* new_zombie, int8_t dir) {
     if (occupied) return false;
     if (new_soldier && new_zombie) return false;
     if (!(new_soldier || new_zombie)) return false;
     if (new_soldier) {
         soldier = new_soldier;
-        soldier->setPos(x_pos, y_pos);
+        soldier->setPos(x_pos, y_pos, dir);
     } else if (new_zombie) {
         zombie = new_zombie;
     }

@@ -19,7 +19,7 @@ TEST(collisionzone_test, Test01OccupyCollisionZone) {
     ASSERT_FALSE(collisionzone.is_occupied());
     ASSERT_TRUE(collisionzone.getSoldier() == nullptr);
     ASSERT_TRUE(collisionzone.getZombie() == nullptr);
-    ASSERT_TRUE(collisionzone.occupy(soldier.get(), nullptr));
+    ASSERT_TRUE(collisionzone.occupy(soldier.get(), nullptr, 1));
     ASSERT_TRUE(collisionzone.is_occupied());
     ASSERT_TRUE(collisionzone.getSoldier() != nullptr);
     ASSERT_TRUE(collisionzone.getZombie() == nullptr);
@@ -30,7 +30,7 @@ TEST(collisionzone_test, Test02NotOccupyCollisionZone) {
     ASSERT_FALSE(collisionzone.is_occupied());
     ASSERT_TRUE(collisionzone.getSoldier() == nullptr);
     ASSERT_TRUE(collisionzone.getZombie() == nullptr);
-    ASSERT_FALSE(collisionzone.occupy(nullptr, nullptr));
+    ASSERT_FALSE(collisionzone.occupy(nullptr, nullptr, 1));
     ASSERT_FALSE(collisionzone.is_occupied());
     ASSERT_TRUE(collisionzone.getSoldier() == nullptr);
     ASSERT_TRUE(collisionzone.getZombie() == nullptr);
@@ -43,7 +43,7 @@ TEST(collisionzone_test, Test03VacateCollisionZone) {
     ASSERT_FALSE(collisionzone.is_occupied());
     ASSERT_TRUE(collisionzone.getSoldier() == nullptr);
     ASSERT_TRUE(collisionzone.getZombie() == nullptr);
-    ASSERT_TRUE(collisionzone.occupy(soldier.get(), nullptr));
+    ASSERT_TRUE(collisionzone.occupy(soldier.get(), nullptr, 1));
     ASSERT_TRUE(collisionzone.is_occupied());
     ASSERT_TRUE(collisionzone.getSoldier() != nullptr);
     ASSERT_TRUE(collisionzone.getZombie() == nullptr);
@@ -60,7 +60,7 @@ TEST(collisionzone_test, Test04VacateAndOccupyCollisionZone) {
     ASSERT_FALSE(collisionzone.is_occupied());
     ASSERT_TRUE(collisionzone.getSoldier() == nullptr);
     ASSERT_TRUE(collisionzone.getZombie() == nullptr);
-    ASSERT_TRUE(collisionzone.occupy(soldier.get(), nullptr));
+    ASSERT_TRUE(collisionzone.occupy(soldier.get(), nullptr, 1));
     ASSERT_TRUE(collisionzone.is_occupied());
     ASSERT_TRUE(collisionzone.getSoldier() != nullptr);
     ASSERT_TRUE(collisionzone.getZombie() == nullptr);
@@ -68,7 +68,7 @@ TEST(collisionzone_test, Test04VacateAndOccupyCollisionZone) {
     ASSERT_FALSE(collisionzone.is_occupied());
     ASSERT_TRUE(collisionzone.getSoldier() == nullptr);
     ASSERT_TRUE(collisionzone.getZombie() == nullptr);
-    ASSERT_TRUE(collisionzone.occupy(soldier.get(), nullptr));
+    ASSERT_TRUE(collisionzone.occupy(soldier.get(), nullptr, 1));
     ASSERT_TRUE(collisionzone.is_occupied());
     ASSERT_TRUE(collisionzone.getSoldier() != nullptr);
     ASSERT_TRUE(collisionzone.getZombie() == nullptr);

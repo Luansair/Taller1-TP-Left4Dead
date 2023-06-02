@@ -30,12 +30,15 @@ public:
 
     virtual void cGrenade(void) = 0;
 
-    virtual void recvDamage(uint8_t damage) = 0;
+    virtual void recvDamage(int8_t damage) = 0;
 
-    virtual void setPos(int32_t x, int32_t y) = 0;
+    virtual void setPos(int32_t x, int32_t y, int8_t dir) = 0;
 
     virtual int32_t getXPos(void) = 0;
     virtual int32_t getYPos(void) = 0;
+    virtual int8_t getDir(void) = 0;
+    virtual int8_t getHealth(void) = 0;
+
 };
 
 #endif  // SOLDIER_H_

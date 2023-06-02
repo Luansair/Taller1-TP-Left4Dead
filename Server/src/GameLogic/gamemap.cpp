@@ -35,7 +35,7 @@ void GameMap::insertSoldier(Soldier* soldier) {
         for (int32_t x = 0; x < x_dimension; x++) {
             std::unique_ptr<CollisionZone> &cz = collision_zones.at(y).at(x);
             if (cz->is_occupied()) continue;
-            cz->occupy(soldier, nullptr);
+            cz->occupy(soldier, nullptr, 1);
             return;
         }
     }

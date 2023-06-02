@@ -18,7 +18,7 @@ TEST(collisionzone_test, Test01SetPosToSoldier) {
     std::unique_ptr<Weapon> wptr(nullptr);
     std::unique_ptr<Grenade> gptr(nullptr);
     P90Soldier psoldier(100, std::move(wptr), std::move(gptr));
-    psoldier.setPos(10,10);
+    psoldier.setPos(10, 10, 1);
     ASSERT_TRUE(psoldier.getXPos() == 10);
     ASSERT_TRUE(psoldier.getYPos() == 10);
 

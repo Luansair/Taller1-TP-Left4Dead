@@ -8,12 +8,12 @@ private:
     int32_t x;
     int32_t y;
     int8_t dir;
-    uint8_t health;
+    int8_t health;
     std::unique_ptr<Weapon> weapon;
     std::unique_ptr<Grenade> grenade;
 
 public:
-    explicit P90Soldier(uint8_t health, std::unique_ptr<Weapon> &&weapon, std::unique_ptr<Grenade> &&grenade);
+    explicit P90Soldier(int8_t health, std::unique_ptr<Weapon> &&weapon, std::unique_ptr<Grenade> &&grenade);
     
     void move(GameMap &map,
     uint8_t state,
@@ -29,12 +29,14 @@ public:
 
     void cGrenade(void) override;
 
-    void recvDamage(uint8_t damage) override;
+    void recvDamage(int8_t damage) override;
 
-    void setPos(int32_t x, int32_t y) override;
+    void setPos(int32_t x, int32_t y, int8_t dir) override;
 
     int32_t getXPos(void) override;
     int32_t getYPos(void) override;
+    int8_t getDir(void) override;
+    int8_t getHealth(void) override;
 };
 
 #endif  // P90SOLDIER_H_

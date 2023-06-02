@@ -5,26 +5,26 @@ P90Weapon::P90Weapon(uint8_t ammo, uint8_t damage) :
     damage(damage) {
 }
 
-void P90Weapon::shoot(uint32_t x, uint32_t y, uint8_t dir, GameMap &map) {
+void P90Weapon::shoot(int32_t x, int32_t y, int8_t dir, GameMap &map) {
     if (ammo == 0) return;
     std::vector<std::unique_ptr<CollisionZone>> &trajectory = map.getCollisionZoneRow(y);
-    uint32_t x_limit = map.get_x_limit();
-    uint32_t damage = P90_DAMAGE;
+    int32_t x_limit = map.get_x_limit();
+    uint8_t shoot_damage = damage;
     // disparo hacia la izquierda
     if (dir == LEFT) {
-        for (uint32_t i = x; i > 0; i--) {
+        for (int32_t i = x-1; i > -1; i--) {
             std::unique_ptr<CollisionZone> &cz = trajectory[i];
             if (cz->is_occupied()) {
-                cz->executeCollision(damage);
+                cz->executeCollision(shoot_damage);
                 break;
             }
         }
     // disparo hacia la derecha
     } else {
-        for (uint32_t i = x; i < x_limit; i++) {
+        for (int32_t i = x+1; i < x_limit; i++) {
             std::unique_ptr<CollisionZone> &cz = trajectory[i];
             if (cz->is_occupied()) {
-                cz->executeCollision(damage);
+                cz->executeCollision(shoot_damage);
                 break;
             }
         }

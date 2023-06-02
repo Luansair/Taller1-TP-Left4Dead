@@ -176,6 +176,24 @@ TEST(gamemap_test, Test08ShootIdfLeftDistantVictim) {
     ASSERT_NEAR(victim1->getHealth(), (P90SOLDIERHEALTH - IDF_DAMAGE * DAMAGE_REDUCTION_COEF * DAMAGE_REDUCTION_COEF * DAMAGE_REDUCTION_COEF), 1);
 }
 
+TEST(gamemap_test, Test09Reload) {
+
+    GameMap gamemap(10,10);
+    SoldierFactory factory;
+    std::unique_ptr<Soldier> shooter = factory.create(P90SOLDIER);
+    std::unique_ptr<Soldier> victim = factory.create(P90SOLDIER);
+    ASSERT_NO_FATAL_FAILURE(gamemap.insertSoldier(shooter.get()));
+    for (int i = 0; i < P90_AMMO; i++) {
+        shooter->shoot(std::ref(gamemap), ON);
+    }
+    ASSERT_NO_FATAL_FAILURE(gamemap.insertSoldier(victim.get()));
+    shooter->shoot(std::ref(gamemap), ON);
+    ASSERT_EQ(victim->getHealth(), P90SOLDIERHEALTH);
+    shooter->reload(ON);
+    shooter->shoot(std::ref(gamemap), ON);
+    ASSERT_NEAR(victim->getHealth(), (P90SOLDIERHEALTH - P90_DAMAGE), 1);
+}
+
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

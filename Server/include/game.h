@@ -34,7 +34,7 @@ public:
 
     void stop();
 
-    bool isEmpty() const;
+    [[nodiscard]] bool isEmpty() const;
 
     virtual ~Game() override;
 };

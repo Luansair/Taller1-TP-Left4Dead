@@ -27,7 +27,8 @@ private:
 
     std::uint8_t player_id;  // id that changes when joining a game.
 
-    Action* recv_action;
+    void joinGame();
+    void readActions();
 
 protected:
     virtual void run() override;

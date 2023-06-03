@@ -17,30 +17,30 @@ Receiver::Receiver(GameSocket &&peer, GameManager& game_manager) :
     is_running(true),
     keep_talking(true),
     joined(false),
-    player_id(0),
-    recv_action(nullptr) { }
+    player_id(0) {
 
-void Receiver::run() {
-    using std::cerr;
-    using std::endl;
-    using std::uint32_t;
-    try {
-    // modularizar. Meter en un metodo: joinear partida
+}
+
+// Excepcion si join falla (o nullptr). Excepcion: JoinFailed
+// Crear los comandos en una clase fuera del protocolo
+// Protocolo crea DTOs para evitar includes de todo el juego
+// Receiver puede pushear el command
+// Execute recibe siempre el Juego
+// Skippear lobby
+
+void Receiver::joinGame() {
+
     while (keep_talking && !joined) {
-        // Excepcion si join falla (o nullptr). Excepcion: JoinFailed
-        // Crear los comandos en una clase fuera del protocolo
-        // Protocolo crea DTOs para evitar includes de todo el juego
-        // Receiver puede pushear el command
-        // Execute recibe siempre el Juego
-        // Skippear lobby
-        recv_action = protocol.recvAction();
+
+        std::unique_ptr<Action> recv_action(protocol.recvAction());
         if(recv_action == nullptr)
             continue;
 
         if (recv_action->id == ActionID::JOIN) {
             // Dynamic_cast has more checks than static_cast but is slower.
             // It is safer in these cases to avoid undefined behaviour.
-            auto* join_action = dynamic_cast<JoinGameAction *>(recv_action);
+            auto* join_action =
+                    dynamic_cast<JoinGameAction *>(recv_action.get());
             joined = game_manager.joinGame(game_queue, send_state_queue,
                                            &player_id, join_action->game_code);
 
@@ -50,25 +50,36 @@ void Receiver::run() {
                                     &player_id);
             joined = true;
         }
-        delete recv_action;
     }
-    if (joined) {
-        sender.start();
-    }
-    // otro metodo privado: recibir acciones
+}
+
+void Receiver::readActions() {
     while (keep_talking) {
-        recv_action = protocol.recvAction();
+        std::unique_ptr<Action> recv_action(protocol.recvAction());
         if (recv_action == nullptr) {
             continue;
         }
         // Hacer el comando y pushearlo
-        delete recv_action;
-        recv_action = nullptr;
+
     }
+}
+
+void Receiver::run() {
+    using std::cerr;
+    using std::endl;
+    using std::uint32_t;
+    try {
+
+    joinGame();
+
+    if (joined) {
+        sender.start();
+    }
+
+    readActions();
 
     } catch (const ClosedSocket& err) {
         cerr << "In Receiver thread: " << err.what() << endl;
-        // revisar catcheos
         is_running = false;
         keep_talking = false;
     } catch (const std::exception& e) {
@@ -98,7 +109,4 @@ Receiver::~Receiver() {
         }
         sender.join();
     }
-    // Just in case. Deleting nullptr has no effect.
-    // Usar smart pointer
-    delete recv_action;
 }

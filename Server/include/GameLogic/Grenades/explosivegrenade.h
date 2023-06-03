@@ -15,7 +15,7 @@ private:
 public:
     explicit ExplosiveGrenade(uint8_t damage, uint8_t cooldown, uint8_t scope);
 
-    void throwg(uint32_t x, uint32_t y, uint8_t dir, GameMap &map) override;
+    void throwg(uint32_t x, uint32_t y, uint8_t dir) override;
 
 };
 

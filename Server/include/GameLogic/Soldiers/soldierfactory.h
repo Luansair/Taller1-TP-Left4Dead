@@ -5,9 +5,8 @@
 #include "../Soldiers/scoutsoldier.h"
 #include "../Soldiers/p90soldier.h"
 #include "../Soldiers/idfsoldier.h"
-#include "../Weapons/scoutweapon.h"
-#include "../Weapons/p90weapon.h"
-#include "../Weapons/idfweapon.h"
+#include "../Weapons/weaponfactory.h"
+#include "../Grenades/grenadefactory.h"
 
 #define P90SOLDIER 1
 #define SCOUTSOLDIER 2

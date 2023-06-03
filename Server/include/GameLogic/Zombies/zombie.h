@@ -1,6 +1,8 @@
 #ifndef ZOMBIE_H_
 #define ZOMBIE_H_
-using namespace std;
+
+#include <utility>
+#include <cstdint>
 
 class Zombie {
 public:

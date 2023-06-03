@@ -1,9 +1,8 @@
 #ifndef MATCH_H_
 #define MATCH_H_
 
-#include "gamemap.h"
 #include "Soldiers/soldier.h"
-#include "Soldiers/soldierfactory.h"
+//#include "Soldiers/soldierfactory.h"
 #include "Zombies/zombie.h"
 
 #include <string>
@@ -25,7 +24,6 @@ private:
     // Como no se puede tener un map con una clase abstracta, le pongo punteros.
     std::map<uint32_t, std::unique_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::unique_ptr<Zombie>> zombies;
-    GameMap gamemap;
 
 public:
 

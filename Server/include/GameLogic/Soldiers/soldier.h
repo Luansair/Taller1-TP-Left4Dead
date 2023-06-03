@@ -1,43 +1,60 @@
 #ifndef SOLDIER_H_
 #define SOLDIER_H_
 
-#include "../collisionzone.h"
 #include "../Weapons/weapon.h"
 #include "../Grenades/grenade.h"
-#include "../Grenades/explosivegrenade.h"
-#include "../Grenades/smokegrenade.h"
-#include "../Grenades/aerialgrenade.h"
 #include "../../../../Common/include/Action/action_code.h"
-#include "../gamemap.h"
 
 #include <memory>
 
 class Soldier {
+
 public:
+    uint16_t x;
+    uint16_t y;
+    int8_t dir;
+    uint8_t width;
+    uint8_t height;
+    uint8_t speed;
+    uint16_t health;
+    std::unique_ptr<Weapon> weapon;
+    std::unique_ptr<Grenade> grenade;
+
+    explicit Soldier(
+    uint16_t x, 
+    uint16_t y,
+    int8_t dir,
+    uint8_t width,
+    uint8_t height,
+    uint8_t speed,
+    uint16_t health,
+    std::unique_ptr<Weapon>&& weapon,
+    std::unique_ptr<Grenade>&& grenade);
+
     virtual ~Soldier() {}
 
-    virtual void move(GameMap &map,
+    virtual void move(
     uint8_t state,
     uint8_t moveAxis,
     int8_t moveDirection,
-    uint8_t moveForce) = 0;
+    uint8_t moveForce);
 
-    virtual void shoot(GameMap &map, uint8_t state) = 0;
+    virtual void shoot(uint8_t state);
 
-    virtual void reload(uint8_t state) = 0;
+    virtual void reload(uint8_t state);
 
-    virtual void throwGrenade(GameMap &map) = 0;
+    virtual void throwGrenade(void);
 
-    virtual void cGrenade(void) = 0;
+    virtual void cGrenade(void);
 
-    virtual void recvDamage(int8_t damage) = 0;
+    virtual void recvDamage(int8_t damage);
 
-    virtual void setPos(int32_t x, int32_t y, int8_t dir) = 0;
+    virtual void setPos(uint16_t x, uint16_t y, int8_t dir);
 
-    virtual int32_t getXPos(void) = 0;
-    virtual int32_t getYPos(void) = 0;
-    virtual int8_t getDir(void) = 0;
-    virtual int8_t getHealth(void) = 0;
+    uint16_t getXPos(void);
+    uint16_t getYPos(void);
+    int8_t getDir(void);
+    int8_t getHealth(void);
 
 };
 

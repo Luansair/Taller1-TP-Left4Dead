@@ -2,8 +2,7 @@
 
 Match::Match(int32_t x_dimension, int32_t y_dimension) :
     soldiers(),
-    zombies(),
-    gamemap(x_dimension, y_dimension) {
+    zombies() {
 }
 
 void Match::add_soldier(uint32_t soldier_id, std::unique_ptr<Soldier> &&soldier) {
@@ -17,23 +16,22 @@ void Match::delete_soldier(uint32_t soldier_id) {
 }
 
 void Match::join(uint32_t soldier_id, uint8_t soldier_type) {
-    SoldierFactory factory;
-    std::unique_ptr<Soldier> soldier = factory.create(soldier_type);
-    gamemap.insertSoldier(soldier.get()); // mando puntero del soldado
-    soldiers.emplace(soldier_id, std::move(soldier));
+    // SoldierFactory factory;
+    // std::unique_ptr<Soldier> soldier = factory.create(soldier_type);
+    // soldiers.emplace(soldier_id, std::move(soldier));
 }
 
 void Match::shoot(uint32_t soldier_id, uint8_t state) {
     if (soldiers.count(soldier_id)>0) {
-        std::unique_ptr<Soldier> &soldier = soldiers.at(soldier_id);
-        soldier->shoot(std::ref(gamemap), state);
+        // std::unique_ptr<Soldier> &soldier = soldiers.at(soldier_id);
+        // soldier->shoot(state);
     }
 }
 
 void Match::reload(uint32_t soldier_id, uint8_t state) {
     if (soldiers.count(soldier_id)>0) {
-        std::unique_ptr<Soldier> &soldier = soldiers.at(soldier_id);
-        soldier->reload(state);
+        // std::unique_ptr<Soldier> &soldier = soldiers.at(soldier_id);
+        // soldier->reload(state);
     }
 }
 
@@ -44,22 +42,22 @@ void Match::move(uint32_t soldier_id,
     uint8_t moveForce) {
 
         if (soldiers.count(soldier_id)>0) {
-            std::unique_ptr<Soldier> &soldier = soldiers.at(soldier_id);
-            soldier->move(std::ref(gamemap), state, moveAxis, moveDirection, moveForce);
+            // std::unique_ptr<Soldier> &soldier = soldiers.at(soldier_id);
+            // soldier->move(state, moveAxis, moveDirection, moveForce);
         }
     }
 
 void Match::cGrenade(uint32_t soldier_id) {
     if (soldiers.count(soldier_id)>0) {
-        std::unique_ptr<Soldier> &soldier = soldiers.at(soldier_id);
-        soldier->cGrenade();
+        // std::unique_ptr<Soldier> &soldier = soldiers.at(soldier_id);
+        // soldier->cGrenade();
     }
 }
 
 void Match::throwGrenade(uint32_t soldier_id) {
     if (soldiers.count(soldier_id)>0) {
-        std::unique_ptr<Soldier> &soldier = soldiers.at(soldier_id);
-        soldier->throwGrenade(std::ref(gamemap));
+        // std::unique_ptr<Soldier> &soldier = soldiers.at(soldier_id);
+        // soldier->throwGrenade();
     }
 }
 

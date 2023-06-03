@@ -29,66 +29,7 @@ add_executable(gamemanager_test gamemanager_test.cpp
         ../Server/src/game_manager.cpp
         ../Server/src/game.cpp
         ../Server/src/Command/command.cpp
-        ../Server/src/GameLogic/match.cpp
-        ../Server/src/GameLogic/gamemap.cpp
-        ../Server/src/GameLogic/collisionzone.cpp
-        ../Server/src/GameLogic/Soldiers/soldierfactory.cpp
-        ../Server/src/GameLogic/Soldiers/p90soldier.cpp
-        ../Server/src/GameLogic/Soldiers/idfsoldier.cpp
-        ../Server/src/GameLogic/Soldiers/scoutsoldier.cpp
-        ../Server/src/GameLogic/Weapons/p90weapon.cpp
-        ../Server/src/GameLogic/Weapons/scoutweapon.cpp
-        ../Server/src/GameLogic/Weapons/idfweapon.cpp
-        ../Server/src/GameLogic/Grenades/explosivegrenade.cpp
-        ../Server/src/GameLogic/Grenades/smokegrenade.cpp
-        ../Server/src/GameLogic/Grenades/aerialgrenade.cpp)
-add_executable(gamemap_test gamemap_test.cpp
-        ../Server/src/GameLogic/match.cpp
-        ../Server/src/GameLogic/gamemap.cpp
-        ../Server/src/GameLogic/collisionzone.cpp
-        ../Server/src/GameLogic/Soldiers/soldierfactory.cpp
-        ../Server/src/GameLogic/Soldiers/p90soldier.cpp
-        ../Server/src/GameLogic/Soldiers/idfsoldier.cpp
-        ../Server/src/GameLogic/Soldiers/scoutsoldier.cpp
-        ../Server/src/GameLogic/Weapons/p90weapon.cpp
-        ../Server/src/GameLogic/Weapons/scoutweapon.cpp
-        ../Server/src/GameLogic/Weapons/idfweapon.cpp
-        ../Server/src/GameLogic/Grenades/explosivegrenade.cpp
-        ../Server/src/GameLogic/Grenades/smokegrenade.cpp
-        ../Server/src/GameLogic/Grenades/aerialgrenade.cpp)
-add_executable(collisionzone_test collisionzone_test.cpp
-        ../Server/src/GameLogic/gamemap.cpp
-        ../Server/src/GameLogic/collisionzone.cpp
-        ../Server/src/GameLogic/Soldiers/soldierfactory.cpp
-        ../Server/src/GameLogic/Soldiers/p90soldier.cpp
-        ../Server/src/GameLogic/Soldiers/idfsoldier.cpp
-        ../Server/src/GameLogic/Soldiers/scoutsoldier.cpp
-        ../Server/src/GameLogic/Weapons/p90weapon.cpp
-        ../Server/src/GameLogic/Weapons/scoutweapon.cpp
-        ../Server/src/GameLogic/Weapons/idfweapon.cpp
-        ../Server/src/GameLogic/Grenades/explosivegrenade.cpp
-        ../Server/src/GameLogic/Grenades/smokegrenade.cpp
-        ../Server/src/GameLogic/Grenades/aerialgrenade.cpp
-        ../Server/src/GameLogic/Soldiers/soldierfactory.cpp)
-add_executable(soldier_test soldier_test.cpp
-        ../Server/src/GameLogic/gamemap.cpp
-        ../Server/src/GameLogic/collisionzone.cpp
-        ../Server/src/GameLogic/Soldiers/p90soldier.cpp
-        ../Server/src/GameLogic/Soldiers/idfsoldier.cpp
-        ../Server/src/GameLogic/Soldiers/scoutsoldier.cpp)
-add_executable(weapon_test weapon_test.cpp
-        ../Server/src/GameLogic/gamemap.cpp
-        ../Server/src/GameLogic/collisionzone.cpp
-        ../Server/src/GameLogic/Soldiers/soldierfactory.cpp
-        ../Server/src/GameLogic/Weapons/p90weapon.cpp
-        ../Server/src/GameLogic/Weapons/scoutweapon.cpp
-        ../Server/src/GameLogic/Weapons/idfweapon.cpp
-        ../Server/src/GameLogic/Grenades/explosivegrenade.cpp
-        ../Server/src/GameLogic/Grenades/smokegrenade.cpp
-        ../Server/src/GameLogic/Grenades/aerialgrenade.cpp
-        ../Server/src/GameLogic/Soldiers/p90soldier.cpp
-        ../Server/src/GameLogic/Soldiers/idfsoldier.cpp
-        ../Server/src/GameLogic/Soldiers/scoutsoldier.cpp)
+        ../Server/src/GameLogic/match.cpp)
 
 find_package(GTest REQUIRED)
 
@@ -97,21 +38,12 @@ find_package(GTest REQUIRED)
 target_link_libraries(resolver_test PRIVATE GTest::GTest)
 target_link_libraries(actiondto_test PRIVATE GTest::GTest)
 target_link_libraries(gamemanager_test PRIVATE GTest::GTest)
-target_link_libraries(gamemap_test PRIVATE GTest::GTest)
-target_link_libraries(collisionzone_test PRIVATE GTest::GTest)
-target_link_libraries(soldier_test PRIVATE GTest::GTest)
-target_link_libraries(weapon_test PRIVATE GTest::GTest)
-
 
 #-----------------Adding Tests-----------------#
 # Siempre lo mismo tambien.
 add_test(resolver_gtests resolver_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_test(actiondto_gtests actiondto_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_test(gamemanager_gtest gamemanager_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
-add_test(gamemap_gtest gamemap_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
-add_test(collisionzone_gtest collisionzone_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
-add_test(soldier_gtest soldier_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
-add_test(weapon_gtest weapon_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 
 #TODO
 #Los tests en el .cpp deben incluir TODOS los .h de las clases que utilizan

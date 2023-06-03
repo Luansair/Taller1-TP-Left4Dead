@@ -79,8 +79,7 @@ void Client::init() {
 
     Renderer renderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    Texture idle_sprites(renderer, RESOURCES_PATH "/Soldier_1/Idle.png");
-    Texture run_sprites(renderer, RESOURCES_PATH "/Soldier_1/Run.png");
+    SoldierOneDrawer soldier1_drawer(renderer);
 
     double position = 0.0;
     bool is_running_right = false;
@@ -88,15 +87,7 @@ void Client::init() {
     bool last_input_right = false;
     bool last_input_left = false;
     unsigned int prev_ticks = SDL_GetTicks();
-    int direction = SDL_FLIP_NONE;
-
-    // Para el cppcheck que igual no anda :)
-    PlayerStateDTO player_state = {0,0,0,0};
-    if (player_state.position_x != 0 && player_state.position_y != 0) {
-        SoldierOneDrawer soldier1_drawer(renderer);
-        soldier1_drawer.updateInfo(player_state);
-        soldier1_drawer.draw();
-    }
+    std::uint8_t direction = Direction::RIGHT;
 
     bool quit = false;
     while(!quit) {
@@ -141,29 +132,24 @@ void Client::init() {
                 }
             }
         }
-        unsigned int run_phase = (frame_ticks / 100) % 8;
         if (is_running_right && is_running_left) {
             if (last_input_right) {
-                direction = SDL_FLIP_NONE;
+                direction = Direction::RIGHT;
                 position += frame_delta * 0.3;
             } else if (last_input_left) {
-                direction = SDL_FLIP_HORIZONTAL;
+                direction = Direction::LEFT;
                 position -= frame_delta * 0.3;
             }
         } else if (is_running_right) {
-            direction = SDL_FLIP_NONE;
+            direction = Direction::RIGHT;
             position += frame_delta * 0.3;
         } else if (is_running_left) {
-            direction = SDL_FLIP_HORIZONTAL;
+            direction = Direction::LEFT;
             position -= frame_delta * 0.3;
-        } else {
-            run_phase = 0;
         }
 
         int src_width = 128;
         int src_height = 128;
-        int src_x = static_cast<int>(src_width * run_phase);
-        int src_y = 0;
 
         if (position > renderer.GetOutputWidth())
             position = -src_width;
@@ -174,25 +160,14 @@ void Client::init() {
         int vcenter = renderer.GetOutputHeight() / 2;
 
         renderer.Clear();
+        uint8_t action = ActionID::IDLE;
         if (is_running_right || is_running_left) {
-            renderer.Copy(
-                    run_sprites,
-                    Rect(src_x,src_y,src_width,src_height),
-                    Rect(static_cast<int>(position),vcenter - src_height, src_width, src_height),
-                    0.0,
-                    NullOpt,
-                    direction);
-        } else {
-            renderer.Copy(
-                    idle_sprites,
-                    Rect(src_x,src_y,src_width,src_height),
-                    Rect(static_cast<int>(position),vcenter - src_height, src_width, src_height),
-                    0.0,
-                    NullOpt,
-                    direction);
+            action = ActionID::MOVE;
         }
-
-
+        PlayerStateDTO player_state = {action, direction, static_cast<int>(position), vcenter - src_height};
+        soldier1_drawer.updateInfo(player_state);
+        soldier1_drawer.draw(frame_ticks);
+        
         renderer.Present();
 
         SDL_Delay(1);

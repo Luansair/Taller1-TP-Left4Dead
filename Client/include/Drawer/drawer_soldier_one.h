@@ -17,7 +17,7 @@ public:
     explicit SoldierOneDrawer(SDL2pp::Renderer& renderer);
 
     void updateInfo(const PlayerStateDTO &player_state);
-    void draw();
+    void draw(unsigned int frame_ticks);
 };
 
 #endif  // DRAWER_PLAYER_H_

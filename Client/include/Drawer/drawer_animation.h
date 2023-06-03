@@ -18,7 +18,7 @@ public:
     void reset();
     void prevSprite();
     void updateInfo(const DrawInfoDTO& draw_info);
-    void draw();
+    void draw(unsigned int frame_ticks);
 };
 
 #endif // TP_DRAWER_ANIMATION_H

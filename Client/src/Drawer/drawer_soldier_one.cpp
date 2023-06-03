@@ -37,8 +37,8 @@ void SoldierOneDrawer::updateInfo(const PlayerStateDTO &player_state) {
     }
 }
 
-void SoldierOneDrawer::draw() {
-    actual_action->draw();
+void SoldierOneDrawer::draw(unsigned int frame_ticks) {
+    actual_action->draw(frame_ticks);
 }
 
 

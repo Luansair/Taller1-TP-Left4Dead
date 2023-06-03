@@ -26,7 +26,12 @@ AnimationDrawer::AnimationDrawer(SDL2pp::Renderer &renderer,
 }
 
 void AnimationDrawer::nextSprite() {
-    sprite_index++;
+    if (sprite_index >= sprites.size() - 1) {
+        reset();
+    } else {
+        sprite_index++;
+    }
+
 }
 
 void AnimationDrawer::reset() {
@@ -34,14 +39,18 @@ void AnimationDrawer::reset() {
 }
 
 void AnimationDrawer::prevSprite() {
-    sprite_index--;
+    if (sprite_index == 0) {
+        sprite_index = sprites.size();
+    } else {
+        sprite_index--;
+    }
 }
 
 
-void AnimationDrawer::draw() {
+void AnimationDrawer::draw(unsigned int frame_ticks) {
     renderer.Copy(texture, sprites[sprite_index], sprite_destination, 0.0,
                   SDL2pp::NullOpt, sprite_flip);
-    nextSprite();
+    sprite_index = (frame_ticks / 100) % sprites.size();
 }
 
 void AnimationDrawer::updateInfo(const DrawInfoDTO &draw_info) {

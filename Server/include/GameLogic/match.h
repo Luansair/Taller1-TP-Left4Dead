@@ -2,7 +2,7 @@
 #define MATCH_H_
 
 #include "Soldiers/soldier.h"
-//#include "Soldiers/soldierfactory.h"
+#include "Soldiers/soldierfactory.h"
 #include "Zombies/zombie.h"
 
 #include <string>

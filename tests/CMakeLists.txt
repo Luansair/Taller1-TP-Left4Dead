@@ -14,6 +14,9 @@ include_directories(${PROJECT_SOURCE_DIR}/Common/include)
 include_directories(${PROJECT_SOURCE_DIR}/Server/include)
 # include_directories(${PROJECT_SOURCE_DIR}/Client/include)
 
+
+file(GLOB_RECURSE GAMELOGIC_SOURCES "${PROJECT_SOURCE_DIR}/Server/src/GameLogic/*.cpp")
+
 #-----------------Test Executables-----------------#
 # Se debe añadir TODOS los archivos fuente (.cpp) de lo que utiliza el programa.
 # Si se olvidan de alguno les tira 'undefined reference to <method>'.
@@ -29,7 +32,7 @@ add_executable(gamemanager_test gamemanager_test.cpp
         ../Server/src/game_manager.cpp
         ../Server/src/game.cpp
         ../Server/src/Command/command.cpp
-        ../Server/src/GameLogic/match.cpp)
+        ${GAMELOGIC_SOURCES})
 
 find_package(GTest REQUIRED)
 

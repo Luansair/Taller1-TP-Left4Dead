@@ -62,13 +62,15 @@ std::uint32_t GameManager::createGame(Queue<Command *> *&game_queue,
     using std::runtime_error;
     using std::pair;
 
+    using std::unique_lock;
+    using std::mutex;
     /*
      * It could search for empty games to reutilize them. The problem is
      * that it uses the same game_code and is not very secure (old players
      * could re-enter).
      *
      */
-    // Race Cond if someone is modifying the size at the same time. Use locks
+    unique_lock<mutex> lck(mtx);
     if (games.size() >= MAX_SIZE) {
         /*
          * Could use a specific type of Exception to avoid stopping the User for
@@ -97,7 +99,11 @@ std::uint32_t GameManager::createGame(Queue<Command *> *&game_queue,
 bool GameManager::joinGame(Queue<Command *> *&game_queue,
                            Queue<GameState *> &player_queue,
                            std::uint8_t *player_id, std::uint32_t game_code) {
-    // Race cond if someone is creating a game at the same time. Use locks
+    using std::unique_lock;
+    using std::mutex;
+
+    unique_lock<mutex> lck(mtx);
+
     auto game = games.find(game_code);
     if (game == games.end())
         return false;

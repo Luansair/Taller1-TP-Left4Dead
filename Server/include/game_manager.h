@@ -10,6 +10,7 @@
 
 class GameManager {
     std::map<std::uint32_t,Game*> games;
+    std::mutex mtx;
 
     [[nodiscard]] std::uint32_t generateGameCode();
 

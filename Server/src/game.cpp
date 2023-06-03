@@ -4,6 +4,7 @@ Game::Game(std::uint8_t max_players) :
         max_players(max_players),
         players_amount(0),
         is_running(true),
+        started(false),
         commands_recv(10000),
         player_queues(),
         match(10, 10) { // por ahora se crea un match de 10x10
@@ -16,28 +17,27 @@ Game::addAdmin(std::uint8_t player_id) {
 }
 */
 
-// Implementar que el juego comience y una vez arranca retorna false.
-bool Game::join(Queue<Command *> *&game_queue, Queue<GameState *> &player_queue,
+bool Game::join(Queue<Command*> *&game_queue, Queue<GameState*> &player_queue,
                 std::uint8_t* player_id) {
-
-    // If a player leaves and at the same time Game manager access to its value
-    // it could lead to a Race Cond. Need locks or be atomic
-    if (players_amount >= max_players) {
+    std::unique_lock<std::mutex> lck(mtx);
+    if (started) {
         return false;
     }
     game_queue = &this->commands_recv;
 
-    // Mandatory lock. Game uses this to send information. Game Manager (from
-    // Receiver thread) uses this to add new players. Likely RC...
     player_queues.push_back(&player_queue);
 
     // Also a random function could be used for the ids.
     *player_id = ++players_amount;
+
+    // Game starts when max_players is reached.
+    if (players_amount == max_players) {
+        started = true;
+    }
     return true;
 }
 
 bool Game::isEmpty() const {
-    // Need locks or be atomic.
     return players_amount == 0;
 }
 

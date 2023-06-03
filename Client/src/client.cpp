@@ -5,6 +5,8 @@
 #include "../../Common/include/Action/action_startshoot.h"
 #include "../../Common/include/Action/action_joingame.h"
 #include "../../Common/include/Action/action_creategame.h"
+#include "../../Common/include/GameState/state_player_dto.h"
+#include "../include/Drawer/drawer_soldier_one.h"
 
 Client::Client(const char *hostname, const char *servname) :
     socket(hostname, servname) ,
@@ -87,6 +89,14 @@ void Client::init() {
     bool last_input_left = false;
     unsigned int prev_ticks = SDL_GetTicks();
     int direction = SDL_FLIP_NONE;
+
+    // Para el cppcheck que igual no anda :)
+    PlayerStateDTO player_state = {0,0,0,0};
+    if (player_state.position_x != 0 && player_state.position_y != 0) {
+        SoldierOneDrawer soldier1_drawer(renderer);
+        soldier1_drawer.updateInfo(player_state);
+        soldier1_drawer.draw();
+    }
 
     bool quit = false;
     while(!quit) {

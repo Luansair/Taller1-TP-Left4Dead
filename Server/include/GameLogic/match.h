@@ -4,6 +4,7 @@
 #include "Soldiers/soldier.h"
 #include "Soldiers/soldierfactory.h"
 #include "Zombies/zombie.h"
+#include "position.h"
 
 #include <string>
 #include <cstdint>
@@ -22,16 +23,16 @@ Se le pasa el soldier_id y le delega realizar la acción */
 class Match {
 private:
     // Como no se puede tener un map con una clase abstracta, le pongo punteros.
-    std::map<uint32_t, std::unique_ptr<Soldier>> soldiers;
-    std::map<uint32_t, std::unique_ptr<Zombie>> zombies;
-
+    std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
+    std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
+    int32_t x_dim;
+    int32_t y_dim;
+    uint8_t soldier_counter = 0;
+    uint8_t zombie_counter = 0;
 public:
 
     /* Constructor de Match, parámetros: dimensiones del mapa */
     explicit Match(int32_t x_dimension, int32_t y_dimension);
-
-    /* Agrega Soldier al Match, parámetros: id del soldado, puntero al soldado */
-    void add_soldier(uint32_t soldier_id, std::unique_ptr<Soldier> &&soldier);
 
     /* Elimina Soldier del Match, parámetros: id del soldado */
     void delete_soldier(uint32_t soldier_id);

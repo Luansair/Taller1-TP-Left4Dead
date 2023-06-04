@@ -14,10 +14,13 @@
 
 #define P90_DAMAGE 50
 #define P90_AMMO 30
+#define P90_SCOPE 1
 #define SCOUT_DAMAGE 60
 #define SCOUT_AMMO 20
+#define SCOUT_SCOPE 1
 #define IDF_DAMAGE 80
 #define IDF_AMMO 50
+#define IDF_SCOPE 1
 
 class WeaponFactory {
 public:

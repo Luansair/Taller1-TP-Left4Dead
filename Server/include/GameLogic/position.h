@@ -19,8 +19,8 @@ public:
 
     bool collides(Position &other);
 
-    int16_t getXPos(void);
-    int16_t getYPos(void);
+    int16_t getXPos(void) const;
+    int16_t getYPos(void) const;
     uint8_t getWidth(void);
     uint8_t getHeight(void);
 
@@ -31,6 +31,7 @@ public:
     void setXPos(int16_t new_x);
     void setYPos(int16_t new_y);
 
+    bool operator==(const Position &other) const;
 
 };
 

@@ -10,19 +10,23 @@
 
 class Hitbox {
 public:
-    uint16_t x_min;
-    uint16_t x_max;
-    uint8_t y_min;
-    uint8_t y_max;
+    int16_t x_min;
+    int16_t x_max;
+    int16_t y_min;
+    int16_t y_max;
 
-    explicit Hitbox(uint16_t x_min, uint16_t x_max, uint16_t y_min, uint16_t y_max);
+    Hitbox() {}
 
-    bool hits(Position &victim_position);
+    explicit Hitbox(int16_t x_min, int16_t x_max, int16_t y_min, int16_t y_max);
+    void setValues(int16_t x_min, int16_t x_max, int16_t y_min, int16_t y_max);
 
-    uint16_t getXMax(void);
-    uint16_t getXMin(void);
-    uint16_t getYMax(void);
-    uint16_t getYMin(void);
+    bool move_hits(Position &victim_position);
+    bool shoot_hits(Position &victim_position);
+
+    int16_t getXMax(void);
+    int16_t getXMin(void);
+    int16_t getYMax(void);
+    int16_t getYMin(void);
 
 };
 

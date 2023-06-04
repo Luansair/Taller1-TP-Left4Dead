@@ -21,16 +21,16 @@ bool Position::collides(Position &other) {
     int16_t y_max = getYMax();
     int16_t y_min = getYMin();
 
-    if ((((x_other_min <= x_max) || (x_max <= x_other_max)) || (((x_other_min <= x_min) || (x_min <= x_other_max)))) && 
-    (((y_other_min <= y_max) || (y_max <= y_other_max)) || (((y_other_min <= y_min) || (y_min <= y_other_max))))) return true;
+    if ((((x_other_min <= x_max) && (x_max <= x_other_max)) || (((x_other_min <= x_min) && (x_min <= x_other_max)))) && 
+    (((y_other_min <= y_max) && (y_max <= y_other_max)) || (((y_other_min <= y_min) && (y_min <= y_other_max))))) return true;
 
     return false;
 }
 
-int16_t Position::getXPos(void) {
+int16_t Position::getXPos(void) const {
     return x;
 }
-int16_t Position::getYPos(void) {
+int16_t Position::getYPos(void) const {
     return y;
 }
 
@@ -64,4 +64,8 @@ void Position::setXPos(int16_t new_x) {
 
 void Position::setYPos(int16_t new_y) {
     y = new_y;
+}
+
+bool Position::operator==(const Position &other) const {
+    return ((this->getXPos() == other.getXPos()) && (this->getYPos() == other.getYPos()));
 }

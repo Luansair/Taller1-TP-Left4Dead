@@ -5,6 +5,7 @@
 #include "../Grenades/grenade.h"
 #include "../Zombies/zombie.h"
 #include "../position.h"
+#include "../../../include/GameLogic/hitbox.h"
 #include "../../../../Common/include/Action/action_code.h"
 
 #include <map>
@@ -70,7 +71,18 @@ public:
     void setPosition(Position&& new_pos);
 
     Position& getPosition(void);
+    const Position& seePosition(void) const;
 
+};
+
+class Distance_from_left_is_minor {
+public:
+    bool operator()(std::shared_ptr<Soldier> below, std::shared_ptr<Soldier> above);
+};
+
+class Distance_from_right_is_minor {
+public:
+    bool operator()(std::shared_ptr<Soldier> below, std::shared_ptr<Soldier> above);
 };
 
 #endif  // SOLDIER_H_

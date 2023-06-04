@@ -11,6 +11,7 @@
 #include "../../Common/include/Socket/socket_game.h"
 #include "sender.h"
 #include "game_manager.h"
+#include "Command/command_ingame.h"
 
 class Receiver: public Thread {
 private:
@@ -18,7 +19,7 @@ private:
     Protocol protocol;
     // Queue<int>& commands_queue;
     Queue<GameState*> send_state_queue;
-    Queue<Command*>* game_queue;
+    Queue<InGameCommand*>* game_queue;
     Sender sender;
     GameManager& game_manager;
     std::atomic<bool> is_running;
@@ -28,7 +29,7 @@ private:
     std::uint8_t player_id;  // id that changes when joining a game.
 
     void joinGame();
-    void readActions();
+    void readCommands();
 
 protected:
     virtual void run() override;

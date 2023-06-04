@@ -1,6 +1,5 @@
 #include "../../include/Drawer/drawer_animation.h"
-#include "../../../Common/include/GameState/state_code.h"
-
+#include "../../../Common/include/Action/action_code.h"
 
 AnimationDrawer::AnimationDrawer(SDL2pp::Renderer &renderer,
                                  const std::string &sprite_filepath) :
@@ -56,9 +55,9 @@ void AnimationDrawer::draw(unsigned int frame_ticks) {
 void AnimationDrawer::updateInfo(const DrawInfoDTO &draw_info) {
     sprite_destination.SetX(draw_info.position_x);
     sprite_destination.SetY(draw_info.position_y);
-    if (draw_info.direction == Direction::RIGHT) {
+    if (draw_info.direction == DrawDirection::DRAW_RIGHT) {
         sprite_flip = SDL_FLIP_NONE;
-    } else if (draw_info.direction == Direction::LEFT) {
+    } else if (draw_info.direction == DrawDirection::DRAW_LEFT) {
         sprite_flip = draw_info.direction;
     } else {
         throw std::runtime_error("AnimationDrawer::updateInfo. Invalid "

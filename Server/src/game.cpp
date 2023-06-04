@@ -17,7 +17,7 @@ Game::addAdmin(std::uint8_t player_id) {
 }
 */
 
-bool Game::join(Queue<Command*> *&game_queue, Queue<GameState*> &player_queue,
+bool Game::join(Queue<InGameCommand*> *&game_queue, Queue<GameState*> &player_queue,
                 std::uint8_t* player_id) {
     std::unique_lock<std::mutex> lck(mtx);
     if (started) {
@@ -54,11 +54,4 @@ void Game::run() {
     }
 }
 
-Game::~Game() {
-    Command* cmd = nullptr;
-    // Usar smart pointer
-    while (commands_recv.try_pop(cmd)) {
-        delete cmd;
-        cmd = nullptr;
-    }
-}
+Game::~Game() = default;

@@ -1,7 +1,6 @@
 #include <netinet/in.h>
 #include "../../include/Action/action.h"
 
-
 Action::Action(std::uint8_t id) : id(id) {
 }
 
@@ -33,4 +32,3 @@ Action::deserializeFourBytesNumber(const std::vector<int8_t>&
     }
     return ntohl(bigendian_game_code);
 }
-

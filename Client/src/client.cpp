@@ -7,6 +7,7 @@
 #include "../../Common/include/Action/action_creategame.h"
 #include "../../Common/include/GameState/state_player_dto.h"
 #include "../include/Drawer/drawer_soldier_one.h"
+#include "../../Common/include/Action/action_code.h"
 
 Client::Client(const char *hostname, const char *servname) :
     socket(hostname, servname) ,
@@ -87,7 +88,7 @@ void Client::init() {
     bool last_input_right = false;
     bool last_input_left = false;
     unsigned int prev_ticks = SDL_GetTicks();
-    std::uint8_t direction = Direction::RIGHT;
+    std::uint8_t direction = DrawDirection::DRAW_RIGHT;
 
     bool quit = false;
     while(!quit) {
@@ -134,17 +135,17 @@ void Client::init() {
         }
         if (is_running_right && is_running_left) {
             if (last_input_right) {
-                direction = Direction::RIGHT;
+                direction = DrawDirection::DRAW_RIGHT;
                 position += frame_delta * 0.3;
             } else if (last_input_left) {
-                direction = Direction::LEFT;
+                direction = DrawDirection::DRAW_LEFT;
                 position -= frame_delta * 0.3;
             }
         } else if (is_running_right) {
-            direction = Direction::RIGHT;
+            direction = DrawDirection::DRAW_RIGHT;
             position += frame_delta * 0.3;
         } else if (is_running_left) {
-            direction = Direction::LEFT;
+            direction = DrawDirection::DRAW_LEFT;
             position -= frame_delta * 0.3;
         }
 

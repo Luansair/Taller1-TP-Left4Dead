@@ -4,9 +4,9 @@
 #include <vector>
 #include <map>
 #include "game.h"
-#include "Command/command.h"
 #include "GameLogic/match.h"
 #include "game_state.h"
+#include "Command/command_ingame.h"
 
 class GameManager {
     std::map<std::uint32_t,Game*> games;
@@ -19,11 +19,11 @@ class GameManager {
 public:
     explicit GameManager();
 
-    std::uint32_t createGame(Queue<Command *> *&game_queue,
+    std::uint32_t createGame(Queue<InGameCommand *> *&game_queue,
                              Queue<GameState *> &player_queue,
                              std::uint8_t* player_id);
 
-    bool joinGame(Queue<Command *> *&game_queue,
+    bool joinGame(Queue<InGameCommand *> *&game_queue,
                   Queue<GameState *> &player_queue,
                   std::uint8_t* player_id,
                   std::uint32_t game_code);

@@ -3,7 +3,6 @@
 #include <memory>
 #include "../include/receiver.h"
 #include "../../Common/include/Action/action_code.h"
-#include "../../Common/include/Action/action_joingame.h"
 
 #define SHUT_RDWR 2
 
@@ -29,13 +28,20 @@ Receiver::Receiver(GameSocket &&peer, GameManager& game_manager) :
 // Skippear lobby
 
 void Receiver::joinGame() {
-
+    using std::unique_ptr;
     while (keep_talking && !joined) {
 
-        std::unique_ptr<Action> recv_action(protocol.recvAction());
-        if(recv_action == nullptr)
-            continue;
+        unique_ptr<PreGameCommand> pregame_cmd(
+                protocol.recvPreGameCommand());
+        if(pregame_cmd == nullptr)
+            // Maybe protocol should throw this? It is to avoid infinite loop.
+            throw std::runtime_error("Receiver::joinGame. Invalid pre game "
+                                     "command.\n");
 
+        joined = pregame_cmd->execute(game_manager, game_queue,
+                                      send_state_queue, &player_id);
+
+        /*
         if (recv_action->id == ActionID::JOIN) {
             // Dynamic_cast has more checks than static_cast but is slower.
             // It is safer in these cases to avoid undefined behaviour.
@@ -50,17 +56,23 @@ void Receiver::joinGame() {
                                     &player_id);
             joined = true;
         }
+         */
     }
 }
 
-void Receiver::readActions() {
-    while (keep_talking) {
-        std::unique_ptr<Action> recv_action(protocol.recvAction());
-        if (recv_action == nullptr) {
-            continue;
-        }
-        // Hacer el comando y pushearlo
+void Receiver::readCommands() {
+    using std::unique_ptr;
+    using std::shared_ptr;
 
+    while (keep_talking) {
+        unique_ptr<InGameCommand> ingame_cmd(
+                protocol.recvInGameCommand(player_id));
+
+        if (ingame_cmd == nullptr) {
+            throw std::runtime_error("Receiver::readCommands. Invalid ingame "
+                                     "command.\n");
+        }
+        game_queue->push(ingame_cmd.get());
     }
 }
 
@@ -76,7 +88,7 @@ void Receiver::run() {
         sender.start();
     }
 
-    readActions();
+        readCommands();
 
     } catch (const ClosedSocket& err) {
         cerr << "In Receiver thread: " << err.what() << endl;

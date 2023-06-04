@@ -6,7 +6,7 @@
 #include "../../libs/queue.h"
 #include "../../libs/thread.h"
 #include "GameLogic/match.h"
-#include "Command/command.h"
+#include "Command/command_ingame.h"
 
 class Game : public Thread {
     // std::vector<std::uint8_t> admins;
@@ -15,7 +15,7 @@ class Game : public Thread {
     std::atomic<bool> is_running;
     std::atomic<bool> started;
 
-    Queue<Command*> commands_recv;
+    Queue<InGameCommand*> commands_recv;
     std::vector<Queue<GameState*>*> player_queues;
 
     Match match;
@@ -29,7 +29,7 @@ public:
 
     // bool addAdmin(std::uint8_t player_id);
 
-    bool join(Queue<Command *> *&game_queue, Queue<GameState *> &player_queue,
+    bool join(Queue<InGameCommand *> *&game_queue, Queue<GameState *> &player_queue,
               std::uint8_t* player_id);
 
     void stop();

@@ -33,6 +33,8 @@ add_executable(gamemanager_test gamemanager_test.cpp
         ../Server/src/game.cpp
         ../Server/src/Command/command.cpp
         ${GAMELOGIC_SOURCES})
+add_executable(soldier_test soldier_test.cpp
+        ${GAMELOGIC_SOURCES})
 
 find_package(GTest REQUIRED)
 
@@ -41,12 +43,14 @@ find_package(GTest REQUIRED)
 target_link_libraries(resolver_test PRIVATE GTest::GTest)
 target_link_libraries(actiondto_test PRIVATE GTest::GTest)
 target_link_libraries(gamemanager_test PRIVATE GTest::GTest)
+target_link_libraries(soldier_test PRIVATE GTest::GTest)
 
 #-----------------Adding Tests-----------------#
 # Siempre lo mismo tambien.
 add_test(resolver_gtests resolver_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_test(actiondto_gtests actiondto_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_test(gamemanager_gtest gamemanager_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+add_test(soldier_gtest soldier_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 
 #TODO
 #Los tests en el .cpp deben incluir TODOS los .h de las clases que utilizan

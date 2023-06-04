@@ -14,14 +14,19 @@ class P90Weapon : public Weapon {
 private:
     uint8_t ammo;
     uint8_t damage;
+    uint8_t scope;
 
 public:
-    explicit P90Weapon(uint8_t ammo, uint8_t damage);
+    explicit P90Weapon(uint8_t ammo, uint8_t damage, uint8_t scope);
 
-    void shoot(int32_t x, int32_t y, int8_t dir) override;
+    bool shoot(
+    Position& from,
+    int8_t dir,
+    uint16_t time,
+    std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies) override;
 
-    void reload(uint8_t state) override;
-
+    void reload(void) override;
 };
 
 #endif  // P90WEAPON_H_

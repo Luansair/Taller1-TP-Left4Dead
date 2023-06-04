@@ -13,19 +13,23 @@
 #define IDFSOLDIER 3
 
 #define P90SOLDIERHEALTH 100
-#define IDFSOLDIERHEALTH 120
-#define SCOUTSOLDIERHEALTH 80
+#define P90SOLDIERWIDTH 2
+#define P90SOLDIERHEIGTH 6
+#define P90SOLDIERSPEED 1
 
-#define P90_DAMAGE 50
-#define P90_AMMO 30
-#define SCOUT_DAMAGE 60
-#define SCOUT_AMMO 20
-#define IDF_DAMAGE 80
-#define IDF_AMMO 50
+#define IDFSOLDIERHEALTH 100
+#define IDFSOLDIERWIDTH 2
+#define IDFSOLDIERHEIGTH 6
+#define IDFSOLDIERSPEED 1
+
+#define SCOUTSOLDIERHEALTH 100
+#define SCOUTSOLDIERWIDTH 2
+#define SCOUTSOLDIERHEIGTH 6
+#define SCOUTSOLDIERSPEED 1
 
 class SoldierFactory {
 public:
-    std::unique_ptr<Soldier> create(uint8_t soldier_type);
+    std::shared_ptr<Soldier> create(uint8_t soldier_type);
 };
 
 #endif  // SOLDIERFACTORY_H_

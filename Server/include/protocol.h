@@ -3,15 +3,17 @@
 
 #include "../../Common/include/Socket/socket_game.h"
 #include "../../Common/include/Action/action.h"
+#include "Command/command_pregame.h"
 
 class Protocol {
     GameSocket& socket;
 
-
 public:
     explicit Protocol(GameSocket& socket);
 
-    [[nodiscard]] Action* recvAction();
+    [[nodiscard]] PreGameCommand* recvPreGameCommand();
+
+    [[nodiscard]] InGameCommand* recvInGameCommand(std::uint8_t player_id);
 };
 
 #endif  // PROTOCOL_H

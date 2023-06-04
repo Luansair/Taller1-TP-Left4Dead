@@ -1,4 +1,3 @@
-#include <netinet/in.h>
 #include "../../include/Action/action_joingame.h"
 #include "../../include/Action/action_code.h"
 

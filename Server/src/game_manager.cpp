@@ -55,7 +55,7 @@ GameManager::GameManager() :
         games() {
 }
 
-std::uint32_t GameManager::createGame(Queue<Command *> *&game_queue,
+std::uint32_t GameManager::createGame(Queue<InGameCommand *> *&game_queue,
                                       Queue<GameState *> &player_queue,
                                       std::uint8_t *player_id) {
     using std::uint32_t;
@@ -96,7 +96,7 @@ std::uint32_t GameManager::createGame(Queue<Command *> *&game_queue,
     return game_code;
 }
 
-bool GameManager::joinGame(Queue<Command *> *&game_queue,
+bool GameManager::joinGame(Queue<InGameCommand *> *&game_queue,
                            Queue<GameState *> &player_queue,
                            std::uint8_t *player_id, std::uint32_t game_code) {
     using std::unique_lock;

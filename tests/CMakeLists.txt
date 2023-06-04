@@ -16,6 +16,7 @@ include_directories(${PROJECT_SOURCE_DIR}/Server/include)
 
 
 file(GLOB_RECURSE GAMELOGIC_SOURCES "${PROJECT_SOURCE_DIR}/Server/src/GameLogic/*.cpp")
+file(GLOB_RECURSE COMMAND_SOURCES "${PROJECT_SOURCE_DIR}/Server/src/Command/*.cpp")
 
 #-----------------Test Executables-----------------#
 # Se debe añadir TODOS los archivos fuente (.cpp) de lo que utiliza el programa.
@@ -23,7 +24,7 @@ file(GLOB_RECURSE GAMELOGIC_SOURCES "${PROJECT_SOURCE_DIR}/Server/src/GameLogic/
 add_executable(resolver_test resolver_test.cpp
         ${PROJECT_SOURCE_DIR}/Common/src/resolver.cpp)
 add_executable(actiondto_test action_test.cpp
-       ../Common/src/Action/action_startshoot.cpp
+        ../Common/src/Action/action_startshoot.cpp
         ../Common/src/Action/action_creategame.cpp
         ../Common/src/Action/action_joingame.cpp
         ../Common/src/Action/action.cpp
@@ -31,7 +32,14 @@ add_executable(actiondto_test action_test.cpp
 add_executable(gamemanager_test gamemanager_test.cpp
         ../Server/src/game_manager.cpp
         ../Server/src/game.cpp
-        ../Server/src/Command/command.cpp
+        ../Server/src/Command/command_ingame_startshoot.cpp
+        ../Server/src/Command/command_ingame.cpp
+        ${GAMELOGIC_SOURCES})
+
+add_executable(command_test command_test.cpp
+        ../Server/src/game_manager.cpp
+        ../Server/src/game.cpp
+        ${COMMAND_SOURCES}
         ${GAMELOGIC_SOURCES})
 
 find_package(GTest REQUIRED)
@@ -41,12 +49,14 @@ find_package(GTest REQUIRED)
 target_link_libraries(resolver_test PRIVATE GTest::GTest)
 target_link_libraries(actiondto_test PRIVATE GTest::GTest)
 target_link_libraries(gamemanager_test PRIVATE GTest::GTest)
+target_link_libraries(command_test PRIVATE GTest::GTest)
 
 #-----------------Adding Tests-----------------#
 # Siempre lo mismo tambien.
 add_test(resolver_gtests resolver_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_test(actiondto_gtests actiondto_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_test(gamemanager_gtest gamemanager_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+add_test(command_gtest command_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 
 #TODO
 #Los tests en el .cpp deben incluir TODOS los .h de las clases que utilizan

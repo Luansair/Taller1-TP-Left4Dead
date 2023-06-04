@@ -3,6 +3,7 @@
 //
 
 #include "../../include/Drawer/drawer_soldier_one.h"
+#include "../../../Common/include/Action/action_code.h"
 
 SoldierOneDrawer::SoldierOneDrawer(SDL2pp::Renderer &renderer) :
     run(renderer, RESOURCES_PATH "/Soldier_1/Run.png"),

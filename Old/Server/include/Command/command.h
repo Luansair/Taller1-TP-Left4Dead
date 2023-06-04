@@ -1,8 +1,8 @@
 #ifndef COMMAND_H_
 #define COMMAND_H_
 
-#include "../GameLogic/match.h"
-#include "../../../Common/include/Action/action_code.h"
+#include "../../../../Server/include/GameLogic/match.h"
+#include "../../../../Common/include/Action/action_code.h"
 
 #include <iostream>
 #include <string>

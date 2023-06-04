@@ -3,7 +3,6 @@
 
 #include <SDL2pp/SDL2pp.hh>
 #include "drawer_animation.h"
-#include "../../../Common/include/GameState/state_code.h"
 #include "../../../Common/include/GameState/state_player_dto.h"
 
 // Decides which animation to display. AnimationDrawer handles the display.

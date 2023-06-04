@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "game_manager.h"
+#include "Command/command_ingame_startshoot.h"
 
 enum PlayerNum : std::uint8_t {
     PLAYER_1,
@@ -16,7 +17,7 @@ enum GameNum : std::uint8_t {
 };
 
 TEST(gamemanager_test, CreateTest00CreateGameShouldChangeGameQueuePointer) {
-    Queue<Command*>* game_q = nullptr;
+    Queue<InGameCommand*>* game_q = nullptr;
     Queue<GameState*> player_q(10);
     std::uint8_t player_id;
     GameManager manager = GameManager();
@@ -27,17 +28,18 @@ TEST(gamemanager_test, CreateTest00CreateGameShouldChangeGameQueuePointer) {
 
 TEST(gamemanager_test,
      CreateTest01GameQueueReceivedByGameManagerShouldBeValid) {
-    Queue<Command*>* game_q = nullptr;
+    Queue<InGameCommand*>* game_q = nullptr;
     Queue<GameState*> player_q(10);
     std::uint8_t player_id;
     GameManager manager = GameManager();
 
     manager.createGame(game_q, player_q, &player_id);
-    ASSERT_NO_FATAL_FAILURE(game_q->push(new ShootCommand(1, {0})));
+    std::shared_ptr<InGameCommand> shoot_cmd(new StartShootCommand(player_id));
+    ASSERT_NO_FATAL_FAILURE(game_q->push(shoot_cmd.get()));
 }
 
 TEST(gamemanager_test, CreateTest02CreateGameUpdatesPlayerID) {
-    Queue<Command*>* game_q = nullptr;
+    Queue<InGameCommand*>* game_q = nullptr;
     Queue<GameState*> player_q(10);
     std::uint8_t player_id = 0;
     GameManager manager = GameManager();
@@ -49,14 +51,14 @@ TEST(gamemanager_test, CreateTest02CreateGameUpdatesPlayerID) {
 TEST(gamemanager_test,
      CreateTest03CreatingTwoGamesTheirGameCodesShouldBeDifferent) {
     GameManager manager = GameManager();
-    Queue<Command*>* game_q1 = nullptr;
+    Queue<InGameCommand*>* game_q1 = nullptr;
     Queue<GameState*> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code1 = manager.createGame(game_q1, player_q1,
                                                   &player_id1);
 
-    Queue<Command*>* game_q2 = nullptr;
+    Queue<InGameCommand*>* game_q2 = nullptr;
     Queue<GameState*> player_q2(10);
     std::uint8_t player_id2 = 0;
 
@@ -69,14 +71,14 @@ TEST(gamemanager_test,
 TEST(gamemanager_test,
      CreateTest04CreatingTwoGamesTheQueuePointersShouldBeDifferent) {
     GameManager manager = GameManager();
-    Queue<Command*>* game_q1 = nullptr;
+    Queue<InGameCommand*>* game_q1 = nullptr;
     Queue<GameState*> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     manager.createGame(game_q1, player_q1,
                        &player_id1);
 
-    Queue<Command*>* game_q2 = nullptr;
+    Queue<InGameCommand*>* game_q2 = nullptr;
     Queue<GameState*> player_q2(10);
     std::uint8_t player_id2 = 0;
 
@@ -94,14 +96,14 @@ TEST(gamemanager_test,
 
 TEST(gamemanager_test, JoinTest00JoiningValidGameShouldReturnTrue) {
     GameManager manager = GameManager();
-    Queue<Command*>* game_q1 = nullptr;
+    Queue<InGameCommand*>* game_q1 = nullptr;
     Queue<GameState*> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
                                                 &player_id1);
 
-    Queue<Command*>* game_q2 = nullptr;
+    Queue<InGameCommand*>* game_q2 = nullptr;
     Queue<GameState*> player_q2(10);
     std::uint8_t player_id2 = 0;
 
@@ -112,14 +114,14 @@ TEST(gamemanager_test, JoinTest00JoiningValidGameShouldReturnTrue) {
 
 TEST(gamemanager_test, JoinTest01JoiningInvalidGameShouldReturnFalse) {
     GameManager manager = GameManager();
-    Queue<Command*>* game_q1 = nullptr;
+    Queue<InGameCommand*>* game_q1 = nullptr;
     Queue<GameState*> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
                                                  &player_id1);
 
-    Queue<Command*>* game_q2 = nullptr;
+    Queue<InGameCommand*>* game_q2 = nullptr;
     Queue<GameState*> player_q2(10);
     std::uint8_t player_id2 = 0;
 
@@ -131,14 +133,14 @@ TEST(gamemanager_test, JoinTest01JoiningInvalidGameShouldReturnFalse) {
 
 TEST(gamemanager_test, JoinTest02JoiningValidGameShouldUpdateGameQueuePointer) {
     GameManager manager = GameManager();
-    Queue<Command*>* game_q1 = nullptr;
+    Queue<InGameCommand*>* game_q1 = nullptr;
     Queue<GameState*> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
                                                  &player_id1);
 
-    Queue<Command*>* game_q2 = nullptr;
+    Queue<InGameCommand*>* game_q2 = nullptr;
     Queue<GameState*> player_q2(10);
     std::uint8_t player_id2 = 0;
 
@@ -151,14 +153,14 @@ TEST(gamemanager_test, JoinTest02JoiningValidGameShouldUpdateGameQueuePointer) {
 TEST(gamemanager_test,
      JoinTest03JoiningInvalidGameShouldNotUpdateGameQueuePointer) {
     GameManager manager = GameManager();
-    Queue<Command*>* game_q1 = nullptr;
+    Queue<InGameCommand*>* game_q1 = nullptr;
     Queue<GameState*> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
                                                  &player_id1);
 
-    Queue<Command*>* game_q2 = nullptr;
+    Queue<InGameCommand*>* game_q2 = nullptr;
     Queue<GameState*> player_q2(10);
     std::uint8_t player_id2 = 0;
 
@@ -170,14 +172,14 @@ TEST(gamemanager_test,
 
 TEST(gamemanager_test, JoinTest04JoiningValidGameShouldUpdatePlayer2ID) {
     GameManager manager = GameManager();
-    Queue<Command*>* game_q1 = nullptr;
+    Queue<InGameCommand*>* game_q1 = nullptr;
     Queue<GameState*> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
                                                  &player_id1);
 
-    Queue<Command*>* game_q2 = nullptr;
+    Queue<InGameCommand*>* game_q2 = nullptr;
     Queue<GameState*> player_q2(10);
     std::uint8_t player_id2 = 0;
 
@@ -190,14 +192,14 @@ TEST(gamemanager_test, JoinTest04JoiningValidGameShouldUpdatePlayer2ID) {
 TEST(gamemanager_test,
      JoinTest05AfterJoiningTheSameGameTheGamePointerOfPlayer1ShouldEqualThePointerOfPlayer2) {
     GameManager manager = GameManager();
-    Queue<Command*>* game_q1 = nullptr;
+    Queue<InGameCommand*>* game_q1 = nullptr;
     Queue<GameState*> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
                                                  &player_id1);
 
-    Queue<Command*>* game_q2 = nullptr;
+    Queue<InGameCommand*>* game_q2 = nullptr;
     Queue<GameState*> player_q2(10);
     std::uint8_t player_id2 = 0;
 
@@ -210,14 +212,14 @@ TEST(gamemanager_test,
 TEST(gamemanager_test,
      JoinTest06AfterJoiningTheSameGameTheIDFromPlayer1ShouldNotEqualTheIDFromPlayer2) {
     GameManager manager = GameManager();
-    Queue<Command*>* game_q1 = nullptr;
+    Queue<InGameCommand*>* game_q1 = nullptr;
     Queue<GameState*> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
                                                  &player_id1);
 
-    Queue<Command*>* game_q2 = nullptr;
+    Queue<InGameCommand*>* game_q2 = nullptr;
     Queue<GameState*> player_q2(10);
     std::uint8_t player_id2 = 0;
 
@@ -237,7 +239,7 @@ TEST(gamemanager_test,
     GameManager manager = GameManager();
 
     // Initialize four players.
-    array<Queue<Command*>*, 4> cmd_queues{nullptr};
+    array<Queue<InGameCommand*>*, 4> cmd_queues{nullptr};
     array<Queue<GameState*>*, 4> player_queues{new Queue<GameState*>(10)};
     array<uint8_t, 4> player_ids{0};
     array<uint32_t, 2> game_codes{0};

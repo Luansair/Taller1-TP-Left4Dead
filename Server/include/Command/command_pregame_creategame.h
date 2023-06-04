@@ -13,7 +13,7 @@ public:
 
     virtual bool execute(GameManager& game_manager,
                          Queue<InGameCommand *> *&game_queue,
-                         Queue<GameState *> &player_queue,
+                         Queue<ServerFeedback *> &player_queue,
                          std::uint8_t* player_id) override;
 
     ~CreateGameCommand() = default;

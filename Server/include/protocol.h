@@ -14,6 +14,8 @@ public:
     [[nodiscard]] PreGameCommand* recvPreGameCommand();
 
     [[nodiscard]] InGameCommand* recvInGameCommand(std::uint8_t player_id);
+
+    void sendFeedback(const ServerFeedback& feed);
 };
 
 #endif  // PROTOCOL_H

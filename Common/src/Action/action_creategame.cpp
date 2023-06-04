@@ -6,6 +6,3 @@ std::vector<std::int8_t> CreateGameAction::serialize() const {
     return {static_cast<int8_t>(ActionID::CREATE)};
 }
 
-CreateGameAction::CreateGameAction() :
-    Action(ActionID::CREATE) {
-}

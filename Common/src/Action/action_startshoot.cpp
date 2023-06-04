@@ -6,7 +6,3 @@ std::vector<std::int8_t> StartShootAction::serialize() const {
     return {static_cast<int8_t>(ActionID::SHOOT), static_cast<int8_t>
     (ActionState::ON)};
 }
-
-StartShootAction::StartShootAction() :
-    Action(ActionID::SHOOT) {
-}

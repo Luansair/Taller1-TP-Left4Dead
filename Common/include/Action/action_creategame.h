@@ -6,7 +6,7 @@
 class CreateGameAction : public Action {
 
 public:
-    CreateGameAction();
+    CreateGameAction() = default;
 
     [[nodiscard]] virtual std::vector<int8_t> serialize() const override;
 

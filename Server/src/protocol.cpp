@@ -34,3 +34,8 @@ InGameCommand* Protocol::recvInGameCommand(std::uint8_t player_id) {
     }
     return nullptr;
 }
+
+void Protocol::sendFeedback(const ServerFeedback &feed) {
+    std::vector<int8_t> feedback_vec = feed.serialize();
+    socket.sendData(feedback_vec.data(), feedback_vec.size());
+}

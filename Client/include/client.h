@@ -12,7 +12,7 @@ class Client {
 public:
     Client(const char* hostname, const char* servname);
 
-    void init();
+    void start();
 
 };
 

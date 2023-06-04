@@ -7,7 +7,7 @@
 
 #include "command_ingame.h"
 #include "../../../libs/queue.h"
-#include "../game_state.h"
+#include "../../../Common/include/Feedback/feedback_server.h"
 #include "../game_manager.h"
 
 class PreGameCommand {
@@ -17,7 +17,7 @@ public:
 
     virtual bool execute(GameManager& game_manager,
                          Queue<InGameCommand *> *&game_queue,
-                         Queue<GameState *> &player_queue,
+                         Queue<ServerFeedback *> &player_queue,
                          std::uint8_t* player_id) = 0;
 
     virtual ~PreGameCommand() = default;

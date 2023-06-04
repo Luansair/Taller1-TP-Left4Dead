@@ -5,7 +5,7 @@
 #include <map>
 #include "game.h"
 #include "GameLogic/match.h"
-#include "game_state.h"
+#include "../../Common/include/Feedback/feedback_server.h"
 #include "Command/command_ingame.h"
 
 class GameManager {
@@ -20,11 +20,11 @@ public:
     explicit GameManager();
 
     std::uint32_t createGame(Queue<InGameCommand *> *&game_queue,
-                             Queue<GameState *> &player_queue,
+                             Queue<ServerFeedback *> &player_queue,
                              std::uint8_t* player_id);
 
     bool joinGame(Queue<InGameCommand *> *&game_queue,
-                  Queue<GameState *> &player_queue,
+                  Queue<ServerFeedback *> &player_queue,
                   std::uint8_t* player_id,
                   std::uint32_t game_code);
 

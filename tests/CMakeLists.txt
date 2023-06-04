@@ -14,9 +14,12 @@ include_directories(${PROJECT_SOURCE_DIR}/Common/include)
 include_directories(${PROJECT_SOURCE_DIR}/Server/include)
 # include_directories(${PROJECT_SOURCE_DIR}/Client/include)
 
+set(ADDITIONAL_FEEDBACK_SOURCES "${PROJECT_SOURCE_DIR}/Common/src/serializer.cpp")
 
 file(GLOB_RECURSE GAMELOGIC_SOURCES "${PROJECT_SOURCE_DIR}/Server/src/GameLogic/*.cpp")
 file(GLOB_RECURSE COMMAND_SOURCES "${PROJECT_SOURCE_DIR}/Server/src/Command/*.cpp")
+file(GLOB_RECURSE FEEDBACK_SOURCES "${PROJECT_SOURCE_DIR}/Common/src/Feedback/*.cpp")
+list(APPEND FEEDBACK_SOURCES ${ADDITIONAL_FEEDBACK_SOURCES})
 
 #-----------------Test Executables-----------------#
 # Se debe añadir TODOS los archivos fuente (.cpp) de lo que utiliza el programa.
@@ -40,7 +43,8 @@ add_executable(command_test command_test.cpp
         ../Server/src/game_manager.cpp
         ../Server/src/game.cpp
         ${COMMAND_SOURCES}
-        ${GAMELOGIC_SOURCES})
+        ${GAMELOGIC_SOURCES}
+        ${FEEDBACK_SOURCES})
 add_executable(soldier_test soldier_test.cpp
         ${GAMELOGIC_SOURCES})
 add_executable(weapon_test weapon_test.cpp

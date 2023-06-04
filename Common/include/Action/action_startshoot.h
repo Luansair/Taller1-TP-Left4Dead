@@ -6,7 +6,7 @@
 class StartShootAction : public Action {
 
 public:
-    StartShootAction();
+    StartShootAction() = default;
 
     [[nodiscard]] virtual std::vector<int8_t> serialize() const override;
 

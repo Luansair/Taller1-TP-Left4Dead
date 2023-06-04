@@ -8,12 +8,12 @@
 #include "../../libs/thread.h"
 #include "../../libs/queue.h"
 #include "protocol.h"
-#include "game_state.h"
+#include "../../Common/include/Feedback/feedback_server.h"
 
 class Sender: public Thread {
 private:
     Protocol protocol;
-    Queue<GameState*>& game_state_queue;
+    Queue<ServerFeedback*>& game_state_queue;
 
     std::atomic<bool> is_running;
     std::atomic<bool> keep_talking;
@@ -22,7 +22,7 @@ protected:
     void run() override;
 
 public:
-    Sender(GameSocket& peer, Queue<GameState*>& game_state_queue);
+    Sender(GameSocket& peer, Queue<ServerFeedback*>& game_state_queue);
 
     bool isDead() const;
 

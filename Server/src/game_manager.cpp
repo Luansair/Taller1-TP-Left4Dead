@@ -56,7 +56,7 @@ GameManager::GameManager() :
 }
 
 std::uint32_t GameManager::createGame(Queue<InGameCommand *> *&game_queue,
-                                      Queue<GameState *> &player_queue,
+                                      Queue<ServerFeedback *> &player_queue,
                                       std::uint8_t *player_id) {
     using std::uint32_t;
     using std::runtime_error;
@@ -97,7 +97,7 @@ std::uint32_t GameManager::createGame(Queue<InGameCommand *> *&game_queue,
 }
 
 bool GameManager::joinGame(Queue<InGameCommand *> *&game_queue,
-                           Queue<GameState *> &player_queue,
+                           Queue<ServerFeedback *> &player_queue,
                            std::uint8_t *player_id, std::uint32_t game_code) {
     using std::unique_lock;
     using std::mutex;

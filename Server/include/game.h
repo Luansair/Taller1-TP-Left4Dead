@@ -2,11 +2,12 @@
 #define GAME_H_
 
 #include <atomic>
-#include "game_state.h"
+#include "../../Common/include/Feedback/feedback_server.h"
 #include "../../libs/queue.h"
 #include "../../libs/thread.h"
 #include "GameLogic/match.h"
 #include "Command/command_ingame.h"
+#include "../../Common/include/Feedback/feedback_server.h"
 
 class Game : public Thread {
     // std::vector<std::uint8_t> admins;
@@ -16,7 +17,7 @@ class Game : public Thread {
     std::atomic<bool> started;
 
     Queue<InGameCommand*> commands_recv;
-    std::vector<Queue<GameState*>*> player_queues;
+    std::vector<Queue<ServerFeedback*>*> player_queues;
 
     Match match;
 
@@ -29,7 +30,7 @@ public:
 
     // bool addAdmin(std::uint8_t player_id);
 
-    bool join(Queue<InGameCommand *> *&game_queue, Queue<GameState *> &player_queue,
+    bool join(Queue<InGameCommand *> *&game_queue, Queue<ServerFeedback *> &player_queue,
               std::uint8_t* player_id);
 
     void stop();

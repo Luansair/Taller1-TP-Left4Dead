@@ -5,7 +5,7 @@
 #include "../../Common/include/Action/action_startshoot.h"
 #include "../../Common/include/Action/action_joingame.h"
 #include "../../Common/include/Action/action_creategame.h"
-#include "../../Common/include/GameState/state_player_dto.h"
+#include "../../Common/include/Feedback/state_player_dto.h"
 #include "../include/Drawer/drawer_soldier_one.h"
 #include "../../Common/include/Action/action_code.h"
 
@@ -37,7 +37,7 @@ void Client::processEvent(std::uint32_t event_type, int key_code, bool *quit) {
 // Es responsabilidad del cliente transformar lo q reciba a pixeles. No va a
 // recibir pixeles directamente
 // Poder cambiar parametros in game para probar
-void Client::init() {
+void Client::start() {
     using SDL2pp::SDL;
     using SDL2pp::Window;
     using SDL2pp::Renderer;
@@ -81,7 +81,7 @@ void Client::init() {
     Renderer renderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     SoldierOneDrawer soldier1_drawer(renderer);
-
+    // Big part of this logic has to be done by the Server
     double position = 0.0;
     bool is_running_right = false;
     bool is_running_left = false;
@@ -173,5 +173,4 @@ void Client::init() {
 
         SDL_Delay(1);
     }
-
 }

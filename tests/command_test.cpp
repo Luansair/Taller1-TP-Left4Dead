@@ -10,7 +10,7 @@
 TEST(command_test,
      CreateGameTest00ExecuteShouldReturnTrue) {
     Queue<InGameCommand*>* game_q = nullptr;
-    Queue<GameState*> player_q(10);
+    Queue<ServerFeedback*> player_q(10);
     std::uint8_t player_id = 0;
     GameManager manager = GameManager();
     CreateGameCommand create_game_cmd{};
@@ -24,7 +24,7 @@ TEST(command_test,
 TEST(command_test,
      CreateGameTest01ExecuteShouldSetUpPlayerIDDifferentFromZero) {
     Queue<InGameCommand*>* game_q = nullptr;
-    Queue<GameState*> player_q(10);
+    Queue<ServerFeedback*> player_q(10);
     std::uint8_t player_id = 0;
     GameManager manager = GameManager();
     CreateGameCommand create_game_cmd{};
@@ -38,7 +38,7 @@ TEST(command_test,
 TEST(command_test,
      CreateGameTest02ExecuteShouldSetUpGameQueueDifferentFromNull) {
     Queue<InGameCommand*>* game_q = nullptr;
-    Queue<GameState*> player_q(10);
+    Queue<ServerFeedback*> player_q(10);
     std::uint8_t player_id = 0;
     GameManager manager = GameManager();
     CreateGameCommand create_game_cmd{};
@@ -52,7 +52,7 @@ TEST(command_test,
 TEST(command_test,
      CreateGameTest03ExecuteThenCallingPushToPlayerQueueShouldNotBreak) {
     Queue<InGameCommand*>* game_q = nullptr;
-    Queue<GameState*> player_q(10);
+    Queue<ServerFeedback*> player_q(10);
     std::uint8_t player_id = 0;
     GameManager manager = GameManager();
     CreateGameCommand create_game_cmd{};

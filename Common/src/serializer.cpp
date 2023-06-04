@@ -1,8 +1,11 @@
+//
+// Created by luan on 04/06/23.
+//
 #include <netinet/in.h>
-#include "../../include/Action/action.h"
+#include "../include/serializer.h"
 
-void Action::serializeFourBytesNumber(std::vector<int8_t>& result,
-                                      std::uint32_t number) {
+void Serializer::serializeFourBytesNumber(std::vector<int8_t> &result,
+                                          std::uint32_t number) {
     using std::uint32_t;
     using std::uint8_t;
 
@@ -15,17 +18,17 @@ void Action::serializeFourBytesNumber(std::vector<int8_t>& result,
     }
 }
 
-std::uint32_t
-Action::deserializeFourBytesNumber(const std::vector<int8_t>&
-        serialized_number) {
+std::uint32_t Serializer::deserializeFourBytesNumber(
+        const std::vector<int8_t> &serialized_number) {
     using std::uint32_t;
 
     uint32_t bigendian_game_code = 0;
     for (int i = 1; i < 5; i++) {
         uint32_t mask = 0xFF;
         uint32_t byte = (static_cast<uint32_t>(serialized_number[i]) & mask) <<
-                (8 * (i - 1));
+                                                                             (8 * (i - 1));
         bigendian_game_code |= byte;
     }
     return ntohl(bigendian_game_code);
 }
+

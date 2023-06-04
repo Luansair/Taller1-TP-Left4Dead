@@ -2,13 +2,11 @@
 #include "../../include/Action/action_code.h"
 
 JoinGameAction::JoinGameAction(uint32_t game_code) :
-        Action(ActionID::JOIN),
         game_code(game_code) {
 }
 
 JoinGameAction::JoinGameAction(
         const std::vector<int8_t>& serialized_bigendian_game_code) :
-        Action(ActionID::JOIN),
         game_code(deserializeFourBytesNumber
         (serialized_bigendian_game_code)) {
 }

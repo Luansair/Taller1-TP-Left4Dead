@@ -17,7 +17,6 @@ void Sender::run() {
         std::shared_ptr<ServerFeedback> feed = game_state_queue.pop();
         protocol.sendFeedback(*feed);
     }
-    is_running = false;
     } catch (const ClosedQueue& err) {
         cerr << "In Sender thread: " << err.what() << endl;
         is_running = false;
@@ -28,11 +27,12 @@ void Sender::run() {
     } catch (...) {
         cerr << "An unknown exception was caught in the Sender thread." << endl;
     }
-
+    is_running = false;
 }
 
 void Sender::stop() {
     keep_talking = false;
+    game_state_queue.close();
 }
 
 bool Sender::isDead() const {

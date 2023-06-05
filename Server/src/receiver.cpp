@@ -107,7 +107,6 @@ void Receiver::stop() {
     keep_talking = false;
     peer._shutdown(SHUT_RDWR);
     peer._close();
-    send_state_queue.close();
 }
 
 bool Receiver::isDead() const {

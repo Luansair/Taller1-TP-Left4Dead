@@ -55,8 +55,8 @@ GameManager::GameManager() :
         games() {
 }
 
-std::uint32_t GameManager::createGame(Queue<InGameCommand *> *&game_queue,
-                                      Queue<ServerFeedback *> &player_queue,
+std::uint32_t GameManager::createGame(Queue<std::shared_ptr<InGameCommand>> *&game_queue,
+                                      Queue<std::shared_ptr<ServerFeedback>> &player_queue,
                                       std::uint8_t *player_id) {
     using std::uint32_t;
     using std::runtime_error;
@@ -96,8 +96,8 @@ std::uint32_t GameManager::createGame(Queue<InGameCommand *> *&game_queue,
     return game_code;
 }
 
-bool GameManager::joinGame(Queue<InGameCommand *> *&game_queue,
-                           Queue<ServerFeedback *> &player_queue,
+bool GameManager::joinGame(Queue<std::shared_ptr<InGameCommand>> *&game_queue,
+                           Queue<std::shared_ptr<ServerFeedback>> &player_queue,
                            std::uint8_t *player_id, std::uint32_t game_code) {
     using std::unique_lock;
     using std::mutex;

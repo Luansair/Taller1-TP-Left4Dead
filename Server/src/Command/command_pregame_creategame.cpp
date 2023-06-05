@@ -5,8 +5,8 @@
 #include "../../../Common/include/Feedback/feedback_server_creategame.h"
 
 bool CreateGameCommand::execute(GameManager &game_manager,
-                                Queue<InGameCommand *> *&game_queue,
-                                Queue<ServerFeedback *> &player_queue,
+                                Queue<std::shared_ptr<InGameCommand>> *&game_queue,
+                                Queue<std::shared_ptr<ServerFeedback>> &player_queue,
                                 std::uint8_t *player_id) {
     // Creates the game and retrieves its code.
     std::uint32_t game_code = game_manager.createGame(game_queue,
@@ -16,6 +16,6 @@ bool CreateGameCommand::execute(GameManager &game_manager,
     std::shared_ptr<CreateGameFeedback> create_feed(
             new CreateGameFeedback(game_code));
     // Push feedback for the player
-    player_queue.push(create_feed.get());
+    player_queue.push(create_feed);
     return true;
 }

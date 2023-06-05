@@ -8,6 +8,7 @@
 #include "../../Common/include/Feedback/state_player_dto.h"
 #include "../include/Drawer/drawer_soldier_one.h"
 #include "../../Common/include/Action/action_code.h"
+#include "../../Common/include/Feedback/feedback_server_creategame.h"
 
 Client::Client(const char *hostname, const char *servname) :
     socket(hostname, servname) ,
@@ -61,6 +62,14 @@ void Client::start() {
             joined = true;
         } else if (action == "create") {
             protocol.sendAction(CreateGameAction());
+            std::unique_ptr<ServerFeedback> create_feed(
+                    protocol.recvPreGameFeedback());
+            if (create_feed == nullptr) {
+                throw std::runtime_error("Client::start. CreateFeedback is "
+                                         "null.\n");
+            }
+            std::cout << dynamic_cast<CreateGameFeedback*>(create_feed.get())
+            ->game_code << std::endl;
             joined = true;
         }
     }

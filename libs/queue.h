@@ -38,7 +38,7 @@ class Queue {
 	explicit Queue(const unsigned int max_size) : max_size(max_size), closed(false) {}
 
 
-        bool try_push(T const& val) {
+        bool try_push(T const&& val) {
             std::unique_lock<std::mutex> lck(mtx);
 
             if (closed) {
@@ -57,7 +57,7 @@ class Queue {
             return true;
         }
 
-        bool try_pop(T& val) {
+        bool try_pop(T&& val) {
             std::unique_lock<std::mutex> lck(mtx);
 
             if (q.empty()) {
@@ -76,7 +76,7 @@ class Queue {
             return true;
         }
 
-        void push(T const& val) {
+        void push(T const&& val) {
             std::unique_lock<std::mutex> lck(mtx);
 
             if (closed) {

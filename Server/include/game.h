@@ -16,8 +16,8 @@ class Game : public Thread {
     std::atomic<bool> is_running;
     std::atomic<bool> started;
 
-    Queue<InGameCommand*> commands_recv;
-    std::vector<Queue<ServerFeedback*>*> player_queues;
+    Queue<std::shared_ptr<InGameCommand>> commands_recv;
+    std::vector<Queue<std::shared_ptr<ServerFeedback>>*> player_queues;
 
     Match match;
 
@@ -30,7 +30,7 @@ public:
 
     // bool addAdmin(std::uint8_t player_id);
 
-    bool join(Queue<InGameCommand *> *&game_queue, Queue<ServerFeedback *> &player_queue,
+    bool join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, Queue<std::shared_ptr<ServerFeedback>> &player_queue,
               std::uint8_t* player_id);
 
     void stop();

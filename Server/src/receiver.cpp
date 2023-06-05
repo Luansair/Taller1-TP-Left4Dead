@@ -65,14 +65,14 @@ void Receiver::readCommands() {
     using std::shared_ptr;
 
     while (keep_talking) {
-        unique_ptr<InGameCommand> ingame_cmd(
+        shared_ptr<InGameCommand> ingame_cmd(
                 protocol.recvInGameCommand(player_id));
 
         if (ingame_cmd == nullptr) {
             throw std::runtime_error("Receiver::readCommands. Invalid ingame "
                                      "command.\n");
         }
-        game_queue->push(ingame_cmd.get());
+        game_queue->push(std::move(ingame_cmd));
     }
 }
 

@@ -17,7 +17,7 @@ Game::addAdmin(std::uint8_t player_id) {
 }
 */
 
-bool Game::join(Queue<InGameCommand*> *&game_queue, Queue<ServerFeedback*> &player_queue,
+bool Game::join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, Queue<std::shared_ptr<ServerFeedback>> &player_queue,
                 std::uint8_t* player_id) {
     std::unique_lock<std::mutex> lck(mtx);
     if (started) {

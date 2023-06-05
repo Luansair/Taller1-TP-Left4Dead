@@ -19,8 +19,8 @@ private:
     GameSocket peer;
     Protocol protocol;
     // Queue<int>& commands_queue;
-    Queue<ServerFeedback*> send_state_queue;
-    Queue<InGameCommand*>* game_queue;
+    Queue<std::shared_ptr<ServerFeedback>> send_state_queue;
+    Queue<std::shared_ptr<InGameCommand>>* game_queue;
     Sender sender;
     GameManager& game_manager;
     std::atomic<bool> is_running;

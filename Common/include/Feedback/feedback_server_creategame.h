@@ -10,8 +10,10 @@
 // De hecho recibe la queue del player c:
 // Entonces puede devolver el booleano y listo. Sin grandes cambios
 class CreateGameFeedback : public ServerFeedback {
-    std::uint32_t game_code;
+
 public:
+    std::uint32_t game_code;
+
     explicit CreateGameFeedback(std::uint32_t game_code);
 
     [[nodiscard]] virtual std::vector<std::int8_t> serialize() const override;

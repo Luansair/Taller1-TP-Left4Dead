@@ -16,8 +16,8 @@ public:
     PreGameCommand() = default;
 
     virtual bool execute(GameManager& game_manager,
-                         Queue<InGameCommand *> *&game_queue,
-                         Queue<ServerFeedback *> &player_queue,
+                         Queue<std::shared_ptr<InGameCommand>> *&game_queue,
+                         Queue<std::shared_ptr<ServerFeedback>> &player_queue,
                          std::uint8_t* player_id) = 0;
 
     virtual ~PreGameCommand() = default;

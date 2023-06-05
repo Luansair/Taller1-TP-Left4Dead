@@ -19,12 +19,12 @@ class GameManager {
 public:
     explicit GameManager();
 
-    std::uint32_t createGame(Queue<InGameCommand *> *&game_queue,
-                             Queue<ServerFeedback *> &player_queue,
+    std::uint32_t createGame(Queue<std::shared_ptr<InGameCommand>> *&game_queue,
+                             Queue<std::shared_ptr<ServerFeedback>> &player_queue,
                              std::uint8_t* player_id);
 
-    bool joinGame(Queue<InGameCommand *> *&game_queue,
-                  Queue<ServerFeedback *> &player_queue,
+    bool joinGame(Queue<std::shared_ptr<InGameCommand>> *&game_queue,
+                  Queue<std::shared_ptr<ServerFeedback>> &player_queue,
                   std::uint8_t* player_id,
                   std::uint32_t game_code);
 

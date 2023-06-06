@@ -29,7 +29,7 @@ endfunction()
 # Si se olvidan de alguno les tira 'undefined reference to <method>'.
 add_executable(resolver_test resolver_test.cpp
         ${PROJECT_SOURCE_DIR}/Common/src/resolver.cpp)
-add_executable(actiondto_test action_test.cpp
+add_executable(information_test information_test.cpp
         ../Common/src/Information/action_startshoot.cpp
         ../Common/src/Information/action_creategame.cpp
         ../Common/src/Information/action_joingame.cpp
@@ -58,7 +58,7 @@ find_package(GTest REQUIRED)
 #----------------Linking Executables----------------#
 # Siempre lo mismo, así funciona gtest
 target_link_libraries(resolver_test PRIVATE GTest::GTest)
-target_link_libraries(actiondto_test PRIVATE GTest::GTest)
+target_link_libraries(information_test PRIVATE GTest::GTest)
 target_link_libraries(gamemanager_test PRIVATE GTest::GTest)
 target_link_libraries(command_test PRIVATE GTest::GTest)
 target_link_libraries(soldier_test PRIVATE GTest::GTest)
@@ -67,7 +67,7 @@ target_link_libraries(weapon_test PRIVATE GTest::GTest)
 #-----------------Adding Tests-----------------#
 # Siempre lo mismo tambien.
 add_test(resolver_gtests resolver_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
-add_test(actiondto_gtests actiondto_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+add_test(information_gtests information_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_test(gamemanager_gtest gamemanager_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_test(command_gtest command_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_test(soldier_gtest soldier_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})

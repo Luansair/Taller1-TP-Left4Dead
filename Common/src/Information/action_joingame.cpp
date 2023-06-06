@@ -14,11 +14,12 @@ JoinGameAction::JoinGameAction(
 std::vector<std::int8_t> JoinGameAction::serialize() const {
     using std::int8_t;
     using std::vector;
+    using std::uint32_t;
 
     vector<int8_t> result;
     result.reserve(5);
 
     result.push_back(static_cast<int8_t>(InformationID::REQUEST_JOIN_GAME));
-    serializeFourBytesNumber(result, game_code);
+    this->serializeNumber<uint32_t>(result, game_code);
     return result;
 }

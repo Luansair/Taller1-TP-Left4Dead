@@ -5,12 +5,12 @@
 #include "Information/action_joingame.h"
 #include "Information/action_creategame.h"
 
-TEST(actiondto_test, test00ConstructStartShootActionWithCorrectID) {
+TEST(information_test, test00ConstructStartShootActionWithCorrectID) {
     auto shoot = StartShootAction();
     ASSERT_EQ(shoot.serialize()[0], InformationID::ACTION_SHOOT);
 }
 
-TEST(actiondto_test, test01shootActionNormalCaseSerializationWithPolimorfism) {
+TEST(information_test, test01shootActionNormalCaseSerializationWithPolimorfism) {
     using std::uint8_t;
     using std::vector;
 
@@ -22,7 +22,7 @@ TEST(actiondto_test, test01shootActionNormalCaseSerializationWithPolimorfism) {
     ASSERT_EQ(serialized_action[1], ActionState::ON);
 }
 
-TEST(actiondto_test,
+TEST(information_test,
      JoinTest01JoinActionConstructorWithSerializedJoinShouldDeserializeLittleGameCodeCorrectly) {
     using std::int8_t;
     using std::uint32_t;
@@ -36,7 +36,7 @@ TEST(actiondto_test,
     ASSERT_EQ(deserialized_join.game_code, game_code);
 }
 
-TEST(actiondto_test,
+TEST(information_test,
      JoinTest02JoinActionConstructorWithSerializedJoinShouldDeserializeBigGameCodeCorrectly) {
     using std::int8_t;
     using std::uint32_t;
@@ -50,7 +50,7 @@ TEST(actiondto_test,
     ASSERT_EQ(deserialized_join.game_code, game_code);
 }
 
-TEST(actiondto_test,
+TEST(information_test,
      JoinTest03JoinActionConstructorWithSerializedJoinShouldDeserializeRegularGameCodeCorrectly) {
     using std::int8_t;
     using std::uint32_t;

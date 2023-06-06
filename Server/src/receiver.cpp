@@ -4,8 +4,6 @@
 #include "../include/receiver.h"
 #include "../../Common/include/Information/information_code.h"
 
-#define SHUT_RDWR 2
-
 Receiver::Receiver(GameSocket &&peer, GameManager& game_manager) :
     peer(std::move(peer)),
     protocol(this->peer),
@@ -41,22 +39,6 @@ void Receiver::joinGame() {
         joined = pregame_cmd->execute(game_manager, game_queue,
                                       send_state_queue, &player_id);
 
-        /*
-        if (recv_action->id == ActionID::JOIN) {
-            // Dynamic_cast has more checks than static_cast but is slower.
-            // It is safer in these cases to avoid undefined behaviour.
-            auto* join_action =
-                    dynamic_cast<JoinGameAction *>(recv_action.get());
-            joined = game_manager.joinGame(game_queue, send_state_queue,
-                                           &player_id, join_action->game_code);
-
-        } else if (recv_action->id == ActionID::CREATE) {
-            game_manager.createGame(game_queue,
-                                    send_state_queue,
-                                    &player_id);
-            joined = true;
-        }
-         */
     }
 }
 

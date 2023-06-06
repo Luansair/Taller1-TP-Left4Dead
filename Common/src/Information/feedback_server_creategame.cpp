@@ -16,7 +16,7 @@ std::vector<std::int8_t> CreateGameFeedback::serialize() const {
     result.reserve(5);
 
     result.push_back(static_cast<int8_t>(InformationID::FEEDBACK_CREATE_GAME));
-    serializeFourBytesNumber(result, game_code);
+    serializeNumber(result, game_code);
     return result;
 }
 

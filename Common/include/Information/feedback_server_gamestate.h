@@ -10,7 +10,13 @@
 
 class GameStateFeedback : Information {
 public:
-    const std::vector<std::pair<std::uint32_t, ElementStateDTO>> elements;
+    const std::vector<std::pair<std::uint32_t, ElementStateDTO>>&& elements;
+
+    explicit GameStateFeedback(std::vector<
+            std::pair<std::uint32_t,ElementStateDTO>
+            >&& elements);
+
+    [[nodiscard]] std::vector<int8_t> serialize() const override;
 };
 
 #endif //TP_FEEDBACK_SERVER_GAMESTATE_H

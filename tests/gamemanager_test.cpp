@@ -18,7 +18,7 @@ enum GameNum : std::uint8_t {
 
 TEST(gamemanager_test, CreateTest00CreateGameShouldChangeGameQueuePointer) {
     Queue<std::shared_ptr<InGameCommand>>* game_q = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q(10);
+    Queue<std::shared_ptr<Information>> player_q(10);
     std::uint8_t player_id;
     GameManager manager = GameManager();
 
@@ -29,7 +29,7 @@ TEST(gamemanager_test, CreateTest00CreateGameShouldChangeGameQueuePointer) {
 TEST(gamemanager_test,
      CreateTest01GameQueueReceivedByGameManagerShouldBeValid) {
     Queue<std::shared_ptr<InGameCommand>>* game_q = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q(10);
+    Queue<std::shared_ptr<Information>> player_q(10);
     std::uint8_t player_id;
     GameManager manager = GameManager();
 
@@ -40,7 +40,7 @@ TEST(gamemanager_test,
 
 TEST(gamemanager_test, CreateTest02CreateGameUpdatesPlayerID) {
     Queue<std::shared_ptr<InGameCommand>>* game_q = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q(10);
+    Queue<std::shared_ptr<Information>> player_q(10);
     std::uint8_t player_id = 0;
     GameManager manager = GameManager();
 
@@ -52,14 +52,14 @@ TEST(gamemanager_test,
      CreateTest03CreatingTwoGamesTheirGameCodesShouldBeDifferent) {
     GameManager manager = GameManager();
     Queue<std::shared_ptr<InGameCommand>>* game_q1 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q1(10);
+    Queue<std::shared_ptr<Information>> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code1 = manager.createGame(game_q1, player_q1,
                                                   &player_id1);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q2(10);
+    Queue<std::shared_ptr<Information>> player_q2(10);
     std::uint8_t player_id2 = 0;
 
     std::uint32_t game_code2 = manager.createGame(game_q2, player_q2,
@@ -72,14 +72,14 @@ TEST(gamemanager_test,
      CreateTest04CreatingTwoGamesTheQueuePointersShouldBeDifferent) {
     GameManager manager = GameManager();
     Queue<std::shared_ptr<InGameCommand>>* game_q1 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q1(10);
+    Queue<std::shared_ptr<Information>> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     manager.createGame(game_q1, player_q1,
                        &player_id1);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q2(10);
+    Queue<std::shared_ptr<Information>> player_q2(10);
     std::uint8_t player_id2 = 0;
 
     manager.createGame(game_q2, player_q2,
@@ -97,14 +97,14 @@ TEST(gamemanager_test,
 TEST(gamemanager_test, JoinTest00JoiningValidGameShouldReturnTrue) {
     GameManager manager = GameManager();
     Queue<std::shared_ptr<InGameCommand>>* game_q1 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q1(10);
+    Queue<std::shared_ptr<Information>> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
                                                 &player_id1);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q2(10);
+    Queue<std::shared_ptr<Information>> player_q2(10);
     std::uint8_t player_id2 = 0;
 
     bool success = manager.joinGame(game_q2, player_q2, &player_id2, game_code);
@@ -115,14 +115,14 @@ TEST(gamemanager_test, JoinTest00JoiningValidGameShouldReturnTrue) {
 TEST(gamemanager_test, JoinTest01JoiningInvalidGameShouldReturnFalse) {
     GameManager manager = GameManager();
     Queue<std::shared_ptr<InGameCommand>>* game_q1 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q1(10);
+    Queue<std::shared_ptr<Information>> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
                                                  &player_id1);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q2(10);
+    Queue<std::shared_ptr<Information>> player_q2(10);
     std::uint8_t player_id2 = 0;
 
     bool success = manager.joinGame(game_q2, player_q2, &player_id2,
@@ -134,14 +134,14 @@ TEST(gamemanager_test, JoinTest01JoiningInvalidGameShouldReturnFalse) {
 TEST(gamemanager_test, JoinTest02JoiningValidGameShouldUpdateGameQueuePointer) {
     GameManager manager = GameManager();
     Queue<std::shared_ptr<InGameCommand>>* game_q1 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q1(10);
+    Queue<std::shared_ptr<Information>> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
                                                  &player_id1);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q2(10);
+    Queue<std::shared_ptr<Information>> player_q2(10);
     std::uint8_t player_id2 = 0;
 
     manager.joinGame(game_q2, player_q2, &player_id2,
@@ -154,14 +154,14 @@ TEST(gamemanager_test,
      JoinTest03JoiningInvalidGameShouldNotUpdateGameQueuePointer) {
     GameManager manager = GameManager();
     Queue<std::shared_ptr<InGameCommand>>* game_q1 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q1(10);
+    Queue<std::shared_ptr<Information>> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
                                                  &player_id1);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q2(10);
+    Queue<std::shared_ptr<Information>> player_q2(10);
     std::uint8_t player_id2 = 0;
 
     manager.joinGame(game_q2, player_q2, &player_id2,
@@ -173,14 +173,14 @@ TEST(gamemanager_test,
 TEST(gamemanager_test, JoinTest04JoiningValidGameShouldUpdatePlayer2ID) {
     GameManager manager = GameManager();
     Queue<std::shared_ptr<InGameCommand>>* game_q1 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q1(10);
+    Queue<std::shared_ptr<Information>> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
                                                  &player_id1);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q2(10);
+    Queue<std::shared_ptr<Information>> player_q2(10);
     std::uint8_t player_id2 = 0;
 
     manager.joinGame(game_q2, player_q2, &player_id2,
@@ -193,14 +193,14 @@ TEST(gamemanager_test,
      JoinTest05AfterJoiningTheSameGameTheGamePointerOfPlayer1ShouldEqualThePointerOfPlayer2) {
     GameManager manager = GameManager();
     Queue<std::shared_ptr<InGameCommand>>* game_q1 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q1(10);
+    Queue<std::shared_ptr<Information>> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
                                                  &player_id1);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q2(10);
+    Queue<std::shared_ptr<Information>> player_q2(10);
     std::uint8_t player_id2 = 0;
 
     manager.joinGame(game_q2, player_q2, &player_id2,
@@ -213,14 +213,14 @@ TEST(gamemanager_test,
      JoinTest06AfterJoiningTheSameGameTheIDFromPlayer1ShouldNotEqualTheIDFromPlayer2) {
     GameManager manager = GameManager();
     Queue<std::shared_ptr<InGameCommand>>* game_q1 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q1(10);
+    Queue<std::shared_ptr<Information>> player_q1(10);
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
                                                  &player_id1);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
-    Queue<std::shared_ptr<ServerFeedback>> player_q2(10);
+    Queue<std::shared_ptr<Information>> player_q2(10);
     std::uint8_t player_id2 = 0;
 
     manager.joinGame(game_q2, player_q2, &player_id2,
@@ -240,7 +240,7 @@ TEST(gamemanager_test,
 
     // Initialize four players.
     array<Queue<std::shared_ptr<InGameCommand>>*, 4> cmd_queues{nullptr};
-    array<Queue<std::shared_ptr<ServerFeedback>>*, 4> player_queues{new Queue<std::shared_ptr<ServerFeedback>>(10)};
+    array<Queue<std::shared_ptr<Information>>*, 4> player_queues{new Queue<std::shared_ptr<Information>>(10)};
     array<uint8_t, 4> player_ids{0};
     array<uint32_t, 2> game_codes{0};
 

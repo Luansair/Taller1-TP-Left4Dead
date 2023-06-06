@@ -1,8 +1,8 @@
 #include <netinet/in.h>
-#include "../../include/Action/action.h"
+#include "../../include/Information/information.h"
 
-void Action::serializeFourBytesNumber(std::vector<int8_t>& result,
-                                      std::uint32_t number) {
+void Information::serializeFourBytesNumber(std::vector<int8_t>& result,
+                                           std::uint32_t number) {
     using std::uint32_t;
     using std::uint8_t;
 
@@ -16,7 +16,7 @@ void Action::serializeFourBytesNumber(std::vector<int8_t>& result,
 }
 
 std::uint32_t
-Action::deserializeFourBytesNumber(const std::vector<int8_t>&
+Information::deserializeFourBytesNumber(const std::vector<int8_t>&
         serialized_number) {
     using std::uint32_t;
 

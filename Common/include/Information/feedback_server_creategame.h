@@ -5,11 +5,11 @@
 #ifndef TP_FEEDBACK_SERVER_CREATEGAME_H
 #define TP_FEEDBACK_SERVER_CREATEGAME_H
 
-#include "feedback_server.h"
+#include "../Information/information.h"
 // PreGameCommand puede recibir la Queue del Send para pushear info.
 // De hecho recibe la queue del player c:
 // Entonces puede devolver el booleano y listo. Sin grandes cambios
-class CreateGameFeedback : public ServerFeedback {
+class CreateGameFeedback : public Information {
 
 public:
     std::uint32_t game_code;

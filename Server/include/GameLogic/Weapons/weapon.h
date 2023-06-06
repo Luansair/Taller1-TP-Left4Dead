@@ -1,7 +1,7 @@
 #ifndef WEAPON_H_
 #define WEAPON_H_
 
-#include "../../../../Common/include/Action/action_code.h"
+#include "../../../../Common/include/Information/information_code.h"
 #include "../../../include/GameLogic/position.h"
 #include "../../../include/GameLogic/hitbox.h"
 

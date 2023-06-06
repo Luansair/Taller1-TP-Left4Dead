@@ -2,7 +2,7 @@
 
 #include "../include/sender.h"
 
-Sender::Sender(GameSocket& socket, Queue<std::shared_ptr<ServerFeedback>>& game_state_queue) :
+Sender::Sender(GameSocket& socket, Queue<std::shared_ptr<Information>>& game_state_queue) :
     protocol(socket),
     game_state_queue(game_state_queue),
     is_running(true) ,
@@ -14,7 +14,7 @@ void Sender::run() {
     using std::endl;
     try {
     while (keep_talking) {
-        std::shared_ptr<ServerFeedback> feed = game_state_queue.pop();
+        std::shared_ptr<Information> feed = game_state_queue.pop();
         protocol.sendFeedback(*feed);
     }
     } catch (const ClosedQueue& err) {

@@ -1,9 +1,8 @@
 //
 // Created by luan on 04/06/23.
 //
-#include "../../include/Feedback/feedback_server_creategame.h"
-#include "../../include/Feedback/feedback_code.h"
-#include "../../include/serializer.h"
+#include "../../include/Information/feedback_server_creategame.h"
+#include "../../include/Information/information_code.h"
 
 CreateGameFeedback::CreateGameFeedback(std::uint32_t game_code) :
     game_code(game_code) {
@@ -16,8 +15,8 @@ std::vector<std::int8_t> CreateGameFeedback::serialize() const {
     vector<int8_t> result;
     result.reserve(5);
 
-    result.push_back(static_cast<int8_t>(FeedbackType::FEED_CREATE));
-    Serializer::serializeFourBytesNumber(result, game_code);
+    result.push_back(static_cast<int8_t>(InformationID::FEEDBACK_CREATE_GAME));
+    serializeFourBytesNumber(result, game_code);
     return result;
 }
 

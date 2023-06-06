@@ -3,7 +3,7 @@
 //
 
 #include "../../include/Drawer/drawer_soldier_one.h"
-#include "../../../Common/include/Action/action_code.h"
+#include "../../../Common/include/Information/information_code.h"
 
 SoldierOneDrawer::SoldierOneDrawer(SDL2pp::Renderer &renderer) :
     run(renderer, RESOURCES_PATH "/Soldier_1/Run.png"),
@@ -11,16 +11,16 @@ SoldierOneDrawer::SoldierOneDrawer(SDL2pp::Renderer &renderer) :
     actual_action(&idle) {
 }
 
-void SoldierOneDrawer::updateInfo(const PlayerStateDTO &player_state) {
+void SoldierOneDrawer::updateInfo(const ElementStateDTO &player_state) {
     AnimationDrawer* next_action = nullptr;
-
-    if (player_state.action == ActionID::MOVE) {
+    // Podría usar polimorfismo y que cada clase sepa como hacer...
+    if (player_state.action == InformationID::ACTION_MOVE) {
         run.updateInfo({player_state.position_x,
                         player_state.position_y,
                         player_state.direction} );
         next_action = &run;
 
-    } else if (player_state.action == ActionID::IDLE) {
+    } else if (player_state.action == InformationID::ACTION_IDLE) {
         idle.updateInfo( {player_state.position_x,
                           player_state.position_y,
                           player_state.direction} );

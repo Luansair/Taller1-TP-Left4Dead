@@ -2,13 +2,13 @@
 #include <SDL2pp/SDL2pp.hh>
 #include "yaml-cpp/yaml.h"
 #include "../include/client.h"
-#include "../../Common/include/Action/action_startshoot.h"
-#include "../../Common/include/Action/action_joingame.h"
-#include "../../Common/include/Action/action_creategame.h"
-#include "../../Common/include/Feedback/state_player_dto.h"
+#include "../../Common/include/Information/action_startshoot.h"
+#include "../../Common/include/Information/action_joingame.h"
+#include "../../Common/include/Information/action_creategame.h"
+#include "../../Common/include/Information/state_dto_element.h"
 #include "../include/Drawer/drawer_soldier_one.h"
-#include "../../Common/include/Action/action_code.h"
-#include "../../Common/include/Feedback/feedback_server_creategame.h"
+#include "../../Common/include/Information/information_code.h"
+#include "../../Common/include/Information/feedback_server_creategame.h"
 
 Client::Client(const char *hostname, const char *servname) :
     socket(hostname, servname) ,
@@ -62,7 +62,7 @@ void Client::start() {
             joined = true;
         } else if (action == "create") {
             protocol.sendAction(CreateGameAction());
-            std::unique_ptr<ServerFeedback> create_feed(
+            std::unique_ptr<Information> create_feed(
                     protocol.recvPreGameFeedback());
             if (create_feed == nullptr) {
                 throw std::runtime_error("Client::start. CreateFeedback is "
@@ -170,11 +170,13 @@ void Client::start() {
         int vcenter = renderer.GetOutputHeight() / 2;
 
         renderer.Clear();
-        uint8_t action = ActionID::IDLE;
+        uint8_t action = InformationID::ACTION_IDLE;
         if (is_running_right || is_running_left) {
-            action = ActionID::MOVE;
+            action = InformationID::ACTION_MOVE;
         }
-        PlayerStateDTO player_state = {action, direction, static_cast<int>(position), vcenter - src_height};
+        ElementStateDTO player_state = {1, action, direction,
+                                        static_cast<int>(position),
+                                        vcenter - src_height};
         soldier1_drawer.updateInfo(player_state);
         soldier1_drawer.draw(frame_ticks);
         

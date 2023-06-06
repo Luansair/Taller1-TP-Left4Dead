@@ -4,10 +4,10 @@
 #ifndef TP_ACTION_H
 #define TP_ACTION_H
 
-class Action {
+class Information {
 
 protected:
-    Action() = default;
+    Information() = default;
 
     static void serializeFourBytesNumber(std::vector<int8_t>& result,
                                          std::uint32_t number);
@@ -19,13 +19,13 @@ public:
     [[nodiscard]] virtual std::vector<int8_t> serialize() const
     = 0;
 
-    Action(Action&&) = default;
-    Action& operator=(Action&&) = delete;
+    Information(Information&&) = default;
+    Information& operator=(Information&&) = delete;
 
-    Action(Action&) = default;
-    Action& operator=(Action&) = delete;
+    Information(Information&) = default;
+    Information& operator=(Information&) = delete;
 
-    virtual ~Action() = default;
+    virtual ~Information() = default;
 };
 
 #endif //TP_ACTION_H

@@ -75,7 +75,7 @@ class Queue {
             q.pop();
             return true;
         }
-
+        // hacer cpy paste sin const
         void push(T const&& val) {
             std::unique_lock<std::mutex> lck(mtx);
 

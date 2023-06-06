@@ -12,14 +12,14 @@
 #include "sender.h"
 #include "game_manager.h"
 #include "Command/command_ingame.h"
-#include "../../Common/include/Feedback/feedback_server.h"
+#include "../../Common/include/Information/information.h"
 
 class Receiver: public Thread {
 private:
     GameSocket peer;
     Protocol protocol;
     // Queue<int>& commands_queue;
-    Queue<std::shared_ptr<ServerFeedback>> send_state_queue;
+    Queue<std::shared_ptr<Information>> send_state_queue;
     Queue<std::shared_ptr<InGameCommand>>* game_queue;
     Sender sender;
     GameManager& game_manager;

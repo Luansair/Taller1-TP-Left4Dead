@@ -6,7 +6,7 @@
 #include "../Zombies/zombie.h"
 #include "../position.h"
 #include "../../../include/GameLogic/hitbox.h"
-#include "../../../../Common/include/Action/action_code.h"
+#include "../../../../Common/include/Information/information_code.h"
 
 #include <map>
 #include <memory>

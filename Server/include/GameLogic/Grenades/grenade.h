@@ -1,7 +1,7 @@
 #ifndef GRENADE_H_
 #define GRENADE_H_
 
-#include "../../../../Common/include/Action/action_code.h"
+#include "../../../../Common/include/Information/information_code.h"
 
 #include <cstdint>
 #include <utility>

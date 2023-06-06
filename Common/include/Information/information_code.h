@@ -3,15 +3,15 @@
 
 #include <cstdint>
 
-enum ActionID : std::uint8_t {
-    IDLE,
-    SHOOT,
-    MOVE,
-    RELOAD,
-    CHANGE_GRENADE,
-    THROW,
-    CREATE,
-    JOIN,
+enum InformationID : std::uint8_t {
+    ACTION_IDLE,
+    ACTION_SHOOT,
+    ACTION_MOVE,
+    REQUEST_CREATE_GAME,
+    REQUEST_JOIN_GAME,
+    FEEDBACK_CREATE_GAME,
+    FEEDBACK_JOIN_GAME,
+    FEEDBACK_GAME_STATE
 };
 
 enum ActionState : std::uint8_t {

@@ -14,7 +14,7 @@ public:
 
     virtual bool execute(GameManager& game_manager,
                          Queue<std::shared_ptr<InGameCommand>> *&game_queue,
-                         Queue<std::shared_ptr<ServerFeedback>> &player_queue,
+                         Queue<std::shared_ptr<Information>> &player_queue,
                          std::uint8_t* player_id) override;
 
     ~JoinGameCommand() = default;

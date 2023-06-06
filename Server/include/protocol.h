@@ -2,7 +2,7 @@
 #define PROTOCOL_H
 
 #include "../../Common/include/Socket/socket_game.h"
-#include "../../Common/include/Action/action.h"
+#include "../../Common/include/Information/information.h"
 #include "Command/command_pregame.h"
 
 class Protocol {
@@ -15,7 +15,7 @@ public:
 
     [[nodiscard]] InGameCommand* recvInGameCommand(std::uint8_t player_id);
 
-    void sendFeedback(const ServerFeedback& feed);
+    void sendFeedback(const Information& feed);
 };
 
 #endif  // PROTOCOL_H

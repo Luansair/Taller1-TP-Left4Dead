@@ -3,10 +3,11 @@
 
 #include <SDL2pp/SDL2pp.hh>
 #include "drawer_animation.h"
-#include "../../../Common/include/Feedback/state_player_dto.h"
+#include "../../../Common/include/Information/state_dto_element.h"
+#include "drawer.h"
 
 // Decides which animation to display. AnimationDrawer handles the display.
-class SoldierOneDrawer {
+class SoldierOneDrawer : Drawer {
     AnimationDrawer run;
     AnimationDrawer idle;
     // More animations
@@ -15,8 +16,8 @@ class SoldierOneDrawer {
 public:
     explicit SoldierOneDrawer(SDL2pp::Renderer& renderer);
 
-    void updateInfo(const PlayerStateDTO &player_state);
-    void draw(unsigned int frame_ticks);
+    void updateInfo(const ElementStateDTO &player_state);
+    virtual void draw(unsigned int frame_ticks) override;
 };
 
 #endif  // DRAWER_PLAYER_H_

@@ -1,20 +1,20 @@
 #include <netinet/in.h>
 #include "../include/protocol.h"
-#include "../../Common/include/Feedback/feedback_code.h"
-#include "../../Common/include/Feedback/feedback_server_creategame.h"
+#include "../../Common/include/Information/feedback_server_creategame.h"
+#include "../../Common/include/Information/information_code.h"
 
 Protocol::Protocol(GameSocket& socket) : socket(socket) {
 }
 
-void Protocol::sendAction(const Action &action) {
+void Protocol::sendAction(const Information &action) {
     std::vector<int8_t> action_vec = action.serialize();
     socket.sendData(action_vec.data(), action_vec.size());
 }
 
-ServerFeedback *Protocol::recvPreGameFeedback() {
+Information *Protocol::recvPreGameFeedback() {
     std::uint8_t feedback_type;
     socket.recvData(&feedback_type, 1);
-    if (feedback_type == FeedbackType::FEED_CREATE) {
+    if (feedback_type == InformationID::FEEDBACK_CREATE_GAME) {
         std::uint32_t bigendian_game_code;
         socket.recvData(&bigendian_game_code, sizeof(bigendian_game_code));
         std::uint32_t game_code = ntohl(bigendian_game_code);

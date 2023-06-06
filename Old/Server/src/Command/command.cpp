@@ -73,11 +73,11 @@ void ThrowCommand::Execute(Match &match) const {
 Command* CommandFactory::create(uint8_t player_id, const std::vector<int8_t> &data) {
     switch(data[0])
     {
-        case IDLE:
+        case ACTION_IDLE:
             return new IdleCommand(player_id, data);
-        case SHOOT:
+        case ACTION_SHOOT:
             return new ShootCommand(player_id, data);
-        case MOVE:
+        case ACTION_MOVE:
             return new MoveCommand(player_id, data);
         case RELOAD:
             return new ReloadCommand(player_id, data);

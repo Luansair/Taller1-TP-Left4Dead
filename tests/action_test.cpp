@@ -1,13 +1,13 @@
 #include <gtest/gtest.h>
-#include "Action/action.h"
-#include "Action/action_code.h"
-#include "Action/action_startshoot.h"
-#include "Action/action_joingame.h"
-#include "Action/action_creategame.h"
+#include "Information/information.h"
+#include "Information/information_code.h"
+#include "Information/action_startshoot.h"
+#include "Information/action_joingame.h"
+#include "Information/action_creategame.h"
 
 TEST(actiondto_test, test00ConstructStartShootActionWithCorrectID) {
     auto shoot = StartShootAction();
-    ASSERT_EQ(shoot.serialize()[0], ActionID::SHOOT);
+    ASSERT_EQ(shoot.serialize()[0], InformationID::ACTION_SHOOT);
 }
 
 TEST(actiondto_test, test01shootActionNormalCaseSerializationWithPolimorfism) {
@@ -15,10 +15,10 @@ TEST(actiondto_test, test01shootActionNormalCaseSerializationWithPolimorfism) {
     using std::vector;
 
     auto shoot = StartShootAction();
-    Action* action = &shoot;
+    Information* action = &shoot;
 
     vector<int8_t> serialized_action = action->serialize();
-    ASSERT_EQ(serialized_action[0], ActionID::SHOOT);
+    ASSERT_EQ(serialized_action[0], InformationID::ACTION_SHOOT);
     ASSERT_EQ(serialized_action[1], ActionState::ON);
 }
 

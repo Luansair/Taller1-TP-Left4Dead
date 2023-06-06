@@ -1,5 +1,5 @@
 #include "../../include/Drawer/drawer_animation.h"
-#include "../../../Common/include/Action/action_code.h"
+#include "../../../Common/include/Information/information_code.h"
 
 AnimationDrawer::AnimationDrawer(SDL2pp::Renderer &renderer,
                                  const std::string &sprite_filepath) :

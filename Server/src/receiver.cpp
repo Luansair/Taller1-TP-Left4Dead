@@ -2,7 +2,7 @@
 
 #include <memory>
 #include "../include/receiver.h"
-#include "../../Common/include/Action/action_code.h"
+#include "../../Common/include/Information/information_code.h"
 
 #define SHUT_RDWR 2
 
@@ -88,7 +88,7 @@ void Receiver::run() {
         sender.start();
     }
 
-        readCommands();
+    readCommands();
 
     } catch (const ClosedSocket& err) {
         cerr << "In Receiver thread: " << err.what() << endl;

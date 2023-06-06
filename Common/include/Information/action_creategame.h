@@ -1,9 +1,9 @@
 #ifndef ACTION_CREATEGAME_H
 #define ACTION_CREATEGAME_H
 
-#include "action.h"
+#include "information.h"
 
-class CreateGameAction : public Action {
+class CreateGameAction : public Information {
 
 public:
     CreateGameAction() = default;

@@ -1,5 +1,5 @@
-#include "../../include/Action/action_joingame.h"
-#include "../../include/Action/action_code.h"
+#include "../../include/Information/action_joingame.h"
+#include "../../include/Information/information_code.h"
 
 JoinGameAction::JoinGameAction(uint32_t game_code) :
         game_code(game_code) {
@@ -18,7 +18,7 @@ std::vector<std::int8_t> JoinGameAction::serialize() const {
     vector<int8_t> result;
     result.reserve(5);
 
-    result.push_back(static_cast<int8_t>(ActionID::JOIN));
+    result.push_back(static_cast<int8_t>(InformationID::REQUEST_JOIN_GAME));
     serializeFourBytesNumber(result, game_code);
     return result;
 }

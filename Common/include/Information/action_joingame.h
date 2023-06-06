@@ -1,9 +1,9 @@
 #ifndef ACTION_JOINGAME_H
 #define ACTION_JOINGAME_H
 
-#include "action.h"
+#include "information.h"
 
-class JoinGameAction : public Action {
+class JoinGameAction : public Information {
 public:
     const uint32_t game_code;
 

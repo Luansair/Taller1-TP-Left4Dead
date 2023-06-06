@@ -4,6 +4,13 @@
 #include <SDL2pp/SDL2pp.hh>
 #include "draw_info_dto.h"
 
+// Cargar al inicio del juego y pasarlo crear texture manager y pasasr texture
+// Texture y sprites pueden ser referencias dado que solo se leen.
+// De esta manera no se hace una texture y sprites para cada objeto (q son
+// cosas de lectura!)
+// TextureManager->SoldierOneTexture->draw(index,flip,dest)
+// Esto dado que tiene lo base pero nada de info del destino y la misma cambia
+// con el tiempo (eso no puede ser una referencia constante!)
 class AnimationDrawer {
     SDL2pp::Renderer& renderer;
     SDL2pp::Texture texture;

@@ -2,8 +2,7 @@
 #define PROTOCOL_H_
 
 #include "../../Common/include/Socket/socket_game.h"
-#include "../../Common/include/Action/action.h"
-#include "../../Common/include/Feedback/feedback_server.h"
+#include "../../Common/include/Information/information.h"
 
 class Protocol {
     GameSocket& socket;
@@ -11,9 +10,9 @@ class Protocol {
 public:
     explicit Protocol(GameSocket& socket);
 
-    void sendAction(const Action& action);
+    void sendAction(const Information& action);
 
-    [[nodiscard]] ServerFeedback* recvPreGameFeedback();
+    [[nodiscard]] Information* recvPreGameFeedback();
 
     Protocol(const Protocol&) = delete;
     Protocol& operator=(const Protocol&) = delete;

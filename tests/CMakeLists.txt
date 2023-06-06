@@ -14,23 +14,26 @@ include_directories(${PROJECT_SOURCE_DIR}/Common/include)
 include_directories(${PROJECT_SOURCE_DIR}/Server/include)
 # include_directories(${PROJECT_SOURCE_DIR}/Client/include)
 
-set(ADDITIONAL_FEEDBACK_SOURCES "${PROJECT_SOURCE_DIR}/Common/src/serializer.cpp")
-
 file(GLOB_RECURSE GAMELOGIC_SOURCES "${PROJECT_SOURCE_DIR}/Server/src/GameLogic/*.cpp")
 file(GLOB_RECURSE COMMAND_SOURCES "${PROJECT_SOURCE_DIR}/Server/src/Command/*.cpp")
-file(GLOB_RECURSE FEEDBACK_SOURCES "${PROJECT_SOURCE_DIR}/Common/src/Feedback/*.cpp")
-list(APPEND FEEDBACK_SOURCES ${ADDITIONAL_FEEDBACK_SOURCES})
+file(GLOB_RECURSE INFORMATION_SOURCES "${PROJECT_SOURCE_DIR}/Common/src/Information/*.cpp")
 
+function(run_test NAME SOURCES)
+    add_executable(${NAME}_test ${NAME}_test.cpp
+            ${SOURCES})
+    target_link_libraries(${NAME}_test PRIVATE GTest::GTest)
+    add_test(${NAME}_gtests ${NAME}_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+endfunction()
 #-----------------Test Executables-----------------#
 # Se debe añadir TODOS los archivos fuente (.cpp) de lo que utiliza el programa.
 # Si se olvidan de alguno les tira 'undefined reference to <method>'.
 add_executable(resolver_test resolver_test.cpp
         ${PROJECT_SOURCE_DIR}/Common/src/resolver.cpp)
 add_executable(actiondto_test action_test.cpp
-        ../Common/src/Action/action_startshoot.cpp
-        ../Common/src/Action/action_creategame.cpp
-        ../Common/src/Action/action_joingame.cpp
-        ../Common/src/Action/action.cpp
+        ../Common/src/Information/action_startshoot.cpp
+        ../Common/src/Information/action_creategame.cpp
+        ../Common/src/Information/action_joingame.cpp
+        ../Common/src/Information/information.cpp
         )
 add_executable(gamemanager_test gamemanager_test.cpp
         ../Server/src/game_manager.cpp
@@ -44,7 +47,7 @@ add_executable(command_test command_test.cpp
         ../Server/src/game.cpp
         ${COMMAND_SOURCES}
         ${GAMELOGIC_SOURCES}
-        ${FEEDBACK_SOURCES})
+        ${INFORMATION_SOURCES})
 add_executable(soldier_test soldier_test.cpp
         ${GAMELOGIC_SOURCES})
 add_executable(weapon_test weapon_test.cpp

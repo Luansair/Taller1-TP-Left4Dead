@@ -1,9 +1,9 @@
 #ifndef ACTION_STARTSHOOT_H
 #define ACTION_STARTSHOOT_H
 
-#include "action.h"
+#include "information.h"
 
-class StartShootAction : public Action {
+class StartShootAction : public Information {
 
 public:
     StartShootAction() = default;

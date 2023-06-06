@@ -1,6 +1,6 @@
 #include <netinet/in.h>
 #include "../include/protocol.h"
-#include "../../Common/include/Action/action_code.h"
+#include "../../Common/include/Information/information_code.h"
 #include "../include/Command/command_pregame_joingame.h"
 #include "../include/Command/command_pregame_creategame.h"
 #include "../include/Command/command_ingame_startshoot.h"
@@ -11,12 +11,12 @@ Protocol::Protocol(GameSocket &socket) : socket(socket) {}
 PreGameCommand *Protocol::recvPreGameCommand() {
     std::uint8_t action_id;
     socket.recvData(&action_id, 1);
-    if (action_id == ActionID::JOIN) {
+    if (action_id == InformationID::REQUEST_JOIN_GAME) {
         std::uint32_t bigendian_game_code;
         socket.recvData(&bigendian_game_code, sizeof(bigendian_game_code));
         std::uint32_t game_code = ntohl(bigendian_game_code);
         return new JoinGameCommand(game_code);
-    } else if (action_id == ActionID::CREATE) {
+    } else if (action_id == InformationID::REQUEST_CREATE_GAME) {
         return new CreateGameCommand();
     }
     return nullptr;
@@ -25,7 +25,7 @@ PreGameCommand *Protocol::recvPreGameCommand() {
 InGameCommand* Protocol::recvInGameCommand(std::uint8_t player_id) {
     uint8_t action_id;
     socket.recvData(&action_id, 1);
-    if (action_id == SHOOT) {
+    if (action_id == ACTION_SHOOT) {
         uint8_t action_state;
         socket.recvData(&action_state, 1);
         if (action_state == ON) {
@@ -35,7 +35,7 @@ InGameCommand* Protocol::recvInGameCommand(std::uint8_t player_id) {
     return nullptr;
 }
 
-void Protocol::sendFeedback(const ServerFeedback& feed) {
+void Protocol::sendFeedback(const Information& feed) {
     // SegFault
     std::vector<int8_t> feedback_vec = feed.serialize();
     socket.sendData(feedback_vec.data(), feedback_vec.size());

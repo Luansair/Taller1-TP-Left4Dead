@@ -2,7 +2,7 @@
 #define COMMAND_H_
 
 #include "../../../../Server/include/GameLogic/match.h"
-#include "../../../../Common/include/Action/action_code.h"
+#include "../../../../Common/include/Information/information_code.h"
 
 #include <iostream>
 #include <string>

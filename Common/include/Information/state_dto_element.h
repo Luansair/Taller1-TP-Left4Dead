@@ -8,8 +8,9 @@
 #include <cstdint>
 
 struct ElementStateDTO {
-    const std::uint8_t id;
-    const std::uint8_t action;
+    const std::uint16_t id;  // Ej: 1, 153, ...
+    const std::uint8_t type;  // Ej: SOLDIER_1, ZOMBIE, ...
+    const std::uint8_t action;  // Ej: ACTION_IDLE, ...
     const std::uint8_t direction;
     const int position_x;
     const int position_y;

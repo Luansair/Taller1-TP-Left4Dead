@@ -174,7 +174,8 @@ void Client::start() {
         if (is_running_right || is_running_left) {
             action = InformationID::ACTION_MOVE;
         }
-        ElementStateDTO player_state = {1, action, direction,
+        ElementStateDTO player_state = {1, ElementType::SOLDIER_1,action,
+                                        direction,
                                         static_cast<int>(position),
                                         vcenter - src_height};
         soldier1_drawer.updateInfo(player_state);

@@ -14,6 +14,21 @@ enum InformationID : std::uint8_t {
     FEEDBACK_GAME_STATE
 };
 
+enum ElementType : std::uint8_t {
+    SOLDIER_1,
+    SOLDIER_2,
+    SOLDIER_3,
+    ZOMBIE,
+    SPEAR,
+    JUMPER,
+    WITCH,
+    VENOM
+};
+
+enum ActionID : std::uint8_t {
+
+};
+
 enum ActionState : std::uint8_t {
     OFF,
     ON

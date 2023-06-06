@@ -6,9 +6,10 @@
 #include "../../Common/include/Information/action_joingame.h"
 #include "../../Common/include/Information/action_creategame.h"
 #include "../../Common/include/Information/state_dto_element.h"
-#include "../include/Drawer/drawer_soldier_one.h"
 #include "../../Common/include/Information/information_code.h"
 #include "../../Common/include/Information/feedback_server_creategame.h"
+#include "../include/Animations/animation_manager.h"
+#include "../include/Drawer/drawer_actor.h"
 
 Client::Client(const char *hostname, const char *servname) :
     socket(hostname, servname) ,
@@ -89,7 +90,10 @@ void Client::start() {
 
     Renderer renderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    SoldierOneDrawer soldier1_drawer(renderer);
+    AnimationManager animation_manager(renderer);
+
+    ActorDrawer player(animation_manager);
+
     // Big part of this logic has to be done by the Server
     double position = 0.0;
     bool is_running_right = false;
@@ -145,17 +149,17 @@ void Client::start() {
         if (is_running_right && is_running_left) {
             if (last_input_right) {
                 direction = DrawDirection::DRAW_RIGHT;
-                position += frame_delta * 0.3;
+                position += frame_delta * 0.2;
             } else if (last_input_left) {
                 direction = DrawDirection::DRAW_LEFT;
-                position -= frame_delta * 0.3;
+                position -= frame_delta * 0.2;
             }
         } else if (is_running_right) {
             direction = DrawDirection::DRAW_RIGHT;
-            position += frame_delta * 0.3;
+            position += frame_delta * 0.2;
         } else if (is_running_left) {
             direction = DrawDirection::DRAW_LEFT;
-            position -= frame_delta * 0.3;
+            position -= frame_delta * 0.2;
         }
 
         int src_width = 128;
@@ -170,16 +174,18 @@ void Client::start() {
         int vcenter = renderer.GetOutputHeight() / 2;
 
         renderer.Clear();
-        uint8_t action = InformationID::ACTION_IDLE;
+
+        uint8_t type = ElementType::SOLDIER_1;
+        uint8_t action = SoldierOneActionID::SOLDIER_1_IDLE;
         if (is_running_right || is_running_left) {
-            action = InformationID::ACTION_MOVE;
+            action = SoldierOneActionID::SOLDIER_1_RUN;
         }
-        ElementStateDTO player_state = {1, ElementType::SOLDIER_1,action,
+        ElementStateDTO player_state = {1, type, action,
                                         direction,
                                         static_cast<int>(position),
                                         vcenter - src_height};
-        soldier1_drawer.updateInfo(player_state);
-        soldier1_drawer.draw(frame_ticks);
+        player.updateInfo(player_state);
+        player.draw(frame_ticks);
         
         renderer.Present();
 

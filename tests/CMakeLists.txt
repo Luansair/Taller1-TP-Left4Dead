@@ -30,11 +30,7 @@ endfunction()
 add_executable(resolver_test resolver_test.cpp
         ${PROJECT_SOURCE_DIR}/Common/src/resolver.cpp)
 add_executable(information_test information_test.cpp
-        ../Common/src/Information/action_startshoot.cpp
-        ../Common/src/Information/action_creategame.cpp
-        ../Common/src/Information/action_joingame.cpp
-        ../Common/src/Information/information.cpp
-        )
+        ${INFORMATION_SOURCES})
 add_executable(gamemanager_test gamemanager_test.cpp
         ../Server/src/game_manager.cpp
         ../Server/src/game.cpp

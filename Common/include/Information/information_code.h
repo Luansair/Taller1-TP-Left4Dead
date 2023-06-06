@@ -25,8 +25,19 @@ enum ElementType : std::uint8_t {
     VENOM
 };
 
-enum ActionID : std::uint8_t {
-
+// Don't change or animations will break!
+enum SoldierOneActionID : std::uint8_t {
+    SOLDIER_1_ATTACK,
+    SOLDIER_1_DEAD,
+    SOLDIER_1_EXPLOSION,
+    SOLDIER_1_GRENADE,
+    SOLDIER_1_HURT,
+    SOLDIER_1_IDLE,
+    SOLDIER_1_RECHARGE,
+    SOLDIER_1_RUN,
+    SOLDIER_1_SHOOT_1,
+    SOLDIER_1_SHOOT_2,
+    SOLDIER_1_WALK,
 };
 
 enum ActionState : std::uint8_t {

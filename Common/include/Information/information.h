@@ -51,8 +51,8 @@ public:
     Information(Information&&) = default;
     Information& operator=(Information&&) = delete;
 
-    Information(Information&) = default;
-    Information& operator=(Information&) = delete;
+    Information(const Information&) = default;
+    Information& operator=(const Information&) = delete;
 
     virtual ~Information() = default;
 };

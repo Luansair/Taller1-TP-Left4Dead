@@ -8,12 +8,12 @@
 #include "../Information/information.h"
 #include "state_dto_element.h"
 
-class GameStateFeedback : Information {
+class GameStateFeedback : public Information {
 public:
-    const std::vector<std::pair<std::uint32_t, ElementStateDTO>>&& elements;
+    const std::vector<std::pair<std::uint16_t, ElementStateDTO>>&& elements;
 
     explicit GameStateFeedback(std::vector<
-            std::pair<std::uint32_t,ElementStateDTO>
+            std::pair<std::uint16_t,ElementStateDTO>
             >&& elements);
 
     [[nodiscard]] std::vector<int8_t> serialize() const override;

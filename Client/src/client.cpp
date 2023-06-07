@@ -64,7 +64,7 @@ void Client::start() {
         } else if (action == "create") {
             protocol.sendAction(CreateGameAction());
             std::unique_ptr<Information> create_feed(
-                    protocol.recvPreGameFeedback());
+                    protocol.recvFeedback());
             if (create_feed == nullptr) {
                 throw std::runtime_error("Client::start. CreateFeedback is "
                                          "null.\n");
@@ -180,7 +180,7 @@ void Client::start() {
         if (is_running_right || is_running_left) {
             action = SoldierOneActionID::SOLDIER_1_RUN;
         }
-        ElementStateDTO player_state = {1, type, action,
+        ElementStateDTO player_state = {type, action,
                                         direction,
                                         static_cast<int>(position),
                                         vcenter - src_height};

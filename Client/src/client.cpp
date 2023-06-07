@@ -5,11 +5,9 @@
 #include "../../Common/include/Information/action_startshoot.h"
 #include "../../Common/include/Information/action_joingame.h"
 #include "../../Common/include/Information/action_creategame.h"
-#include "../../Common/include/Information/state_dto_element.h"
 #include "../../Common/include/Information/information_code.h"
-#include "../../Common/include/Information/feedback_server_creategame.h"
 #include "../include/Animations/animation_manager.h"
-#include "../include/Drawer/drawer_actor.h"
+#include "../include/Drawer/drawer_manager.h"
 
 Client::Client(const char *hostname, const char *servname) :
     socket(hostname, servname) ,
@@ -90,9 +88,8 @@ void Client::start() {
 
     Renderer renderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    AnimationManager animation_manager(renderer);
-
-    ActorDrawer player(animation_manager);
+    DrawerManager drawer_manager(renderer);
+    std::uint16_t player_id = 0x1234;
 
     // Big part of this logic has to be done by the Server
     double position = 0.0;
@@ -149,17 +146,17 @@ void Client::start() {
         if (is_running_right && is_running_left) {
             if (last_input_right) {
                 direction = DrawDirection::DRAW_RIGHT;
-                position += frame_delta * 0.2;
+                position += frame_delta * 0.27;
             } else if (last_input_left) {
                 direction = DrawDirection::DRAW_LEFT;
-                position -= frame_delta * 0.2;
+                position -= frame_delta * 0.27;
             }
         } else if (is_running_right) {
             direction = DrawDirection::DRAW_RIGHT;
-            position += frame_delta * 0.2;
+            position += frame_delta * 0.27;
         } else if (is_running_left) {
             direction = DrawDirection::DRAW_LEFT;
-            position -= frame_delta * 0.2;
+            position -= frame_delta * 0.27;
         }
 
         int src_width = 128;
@@ -180,13 +177,14 @@ void Client::start() {
         if (is_running_right || is_running_left) {
             action = SoldierOneActionID::SOLDIER_1_RUN;
         }
+
         ElementStateDTO player_state = {type, action,
                                         direction,
                                         static_cast<int>(position),
                                         vcenter - src_height};
-        player.updateInfo(player_state);
-        player.draw(frame_ticks);
-        
+        drawer_manager.updateInfo(player_id, player_state);
+        drawer_manager.draw(frame_ticks);
+
         renderer.Present();
 
         SDL_Delay(1);

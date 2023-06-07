@@ -24,6 +24,7 @@ public:
     // Necesito saber la cantidad de sprites para mandar un indice válido!
     void updateInfo(const ElementStateDTO& actor_state);
     void draw(unsigned int frame_ticks);
+
 };
 
 

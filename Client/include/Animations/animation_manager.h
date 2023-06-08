@@ -11,9 +11,13 @@
 #include <SDL2pp/Renderer.hh>
 
 #include "animation_actor.h"
+#include "animation_soldier1.h"
 
 class AnimationManager {
-    std::array<std::unique_ptr<ActorAnimation>, 8> actors;
+    SoldierOneAnimation soldier_1_animation;
+    // Other actor animations...
+
+    std::array<ActorAnimation*, 8> actors;
 
 public:
     explicit AnimationManager(SDL2pp::Renderer& renderer);

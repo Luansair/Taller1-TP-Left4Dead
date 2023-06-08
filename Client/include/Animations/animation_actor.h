@@ -6,9 +6,13 @@
 #define TP_ANIMATION_ACTOR_H
 
 #include <SDL2pp/Renderer.hh>
+#include "LoopType/looptype_no_loopable.h"
+#include "LoopType/looptype_loopable.h"
 
 class ActorAnimation {
-
+protected:
+    Loopable loopable;
+    NoLoopable no_loopable;
 public:
     ActorAnimation() = default;
 
@@ -17,8 +21,11 @@ public:
                       std::uint8_t direction,
                       const SDL2pp::Rect& sprite_destination) = 0;
 
-    ActorAnimation(ActorAnimation&&) = delete;
+    ActorAnimation(ActorAnimation&&) = default;
+    ActorAnimation& operator=(ActorAnimation&&) = default;
+
     ActorAnimation(const ActorAnimation&) = delete;
+    ActorAnimation& operator=(const ActorAnimation&) = delete;
 
     virtual ~ActorAnimation() = default;
 };

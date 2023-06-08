@@ -1,7 +1,7 @@
 //
 // Created by luan on 08/06/23.
 //
-#include "../../include/Animations/animation_no_loopable.h"
+#include "../../../include/Animations/LoopType/looptype_no_loopable.h"
 
 void NoLoopable::fixIndex(std::uint8_t* sprite_index, std::size_t max_index) {
     if (checkIndexOverflow(*sprite_index, max_index))

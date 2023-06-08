@@ -6,14 +6,14 @@
 
 
 #include <SDL2pp/SDL2pp.hh>
-#include "animation_loop_type.h"
+#include "LoopType/looptype.h"
 
 class ActionAnimation {
 
     SDL2pp::Renderer& renderer;
     SDL2pp::Texture texture;
     std::vector<SDL2pp::Rect> sprites;
-    std::unique_ptr<LoopType> loop_type;
+    LoopType* loop_type;
 
     std::uint8_t determineFlipValue(std::uint8_t direction);
 
@@ -28,6 +28,14 @@ public:
     void draw(std::uint8_t *sprite_index,
                       std::uint8_t direction,
                       const SDL2pp::Rect& sprite_destination);
+
+    ActionAnimation(ActionAnimation&&) = default;
+    ActionAnimation& operator=(ActionAnimation&&) = delete;
+
+    ActionAnimation(const ActionAnimation&) = delete;
+    ActionAnimation& operator=(const ActionAnimation&) = delete;
+
+    ~ActionAnimation() = default;
 };
 
 

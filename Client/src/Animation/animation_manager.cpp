@@ -6,8 +6,9 @@
 #include "../../../Common/include/Information/information_code.h"
 
 AnimationManager::AnimationManager(SDL2pp::Renderer& renderer) :
+    soldier_1_animation(renderer),
     actors{
-            {nullptr,
+            { &soldier_1_animation,
              nullptr,
              nullptr,
              nullptr,
@@ -16,16 +17,14 @@ AnimationManager::AnimationManager(SDL2pp::Renderer& renderer) :
              nullptr,
              nullptr}
     }
-    {
-        actors.at(ElementType::SOLDIER_1) = std::unique_ptr<ActorAnimation>(
-                        new SoldierOneAnimation(renderer));
-    }
+{
+}
 
 void
 AnimationManager::draw(std::uint8_t actor_index, std::uint8_t animation_index,
                        std::uint8_t *sprite_index, std::uint8_t direction,
                        const SDL2pp::Rect &sprite_destination) {
-    ActorAnimation* actor_animation = actors.at(actor_index).get();
+    ActorAnimation* actor_animation = actors.at(actor_index);
 
     if (actor_animation == nullptr) {
         throw std::runtime_error("AnimationManager::draw. Invalid Actor Type"

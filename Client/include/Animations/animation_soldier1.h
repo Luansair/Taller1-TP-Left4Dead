@@ -15,7 +15,7 @@ public:
     explicit SoldierOneAnimation(SDL2pp::Renderer& renderer);
 
     void draw(std::uint8_t animation_index,
-              unsigned int frame_ticks,
+              std::uint8_t *sprite_index,
               std::uint8_t direction,
               const SDL2pp::Rect& sprite_destination) override;
 

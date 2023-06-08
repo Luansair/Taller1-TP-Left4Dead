@@ -6,22 +6,28 @@
 
 
 #include <SDL2pp/SDL2pp.hh>
+#include "animation_loop_type.h"
 
 class ActionAnimation {
+
     SDL2pp::Renderer& renderer;
     SDL2pp::Texture texture;
     std::vector<SDL2pp::Rect> sprites;
+    std::unique_ptr<LoopType> loop_type;
 
-    unsigned int frame_threshold;
+    std::uint8_t determineFlipValue(std::uint8_t direction);
+
+    void _draw(std::uint8_t sprite_index, std::uint8_t sprite_flip,
+              const SDL2pp::Rect& sprite_destination);
 
 public:
     ActionAnimation(SDL2pp::Renderer &renderer,
                     const std::string &texture_filepath,
-                    unsigned int frame_threshold);
+                    LoopType* loop_type);
 
-    void draw(unsigned int frame_ticks,
-              std::uint8_t direction,
-              const SDL2pp::Rect& sprite_destination);
+    void draw(std::uint8_t *sprite_index,
+                      std::uint8_t direction,
+                      const SDL2pp::Rect& sprite_destination);
 };
 
 

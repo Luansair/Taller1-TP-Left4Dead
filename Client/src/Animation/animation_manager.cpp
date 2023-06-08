@@ -3,11 +3,11 @@
 //
 #include "../../include/Animations/animation_manager.h"
 #include "../../include/Animations/animation_soldier1.h"
+#include "../../../Common/include/Information/information_code.h"
 
 AnimationManager::AnimationManager(SDL2pp::Renderer& renderer) :
     actors{
-            {std::unique_ptr<ActorAnimation>(
-                    new SoldierOneAnimation(renderer)),
+            {nullptr,
              nullptr,
              nullptr,
              nullptr,
@@ -16,11 +16,14 @@ AnimationManager::AnimationManager(SDL2pp::Renderer& renderer) :
              nullptr,
              nullptr}
     }
-    { }
+    {
+        actors.at(ElementType::SOLDIER_1) = std::unique_ptr<ActorAnimation>(
+                        new SoldierOneAnimation(renderer));
+    }
 
 void
 AnimationManager::draw(std::uint8_t actor_index, std::uint8_t animation_index,
-                       unsigned int frame_ticks, std::uint8_t direction,
+                       std::uint8_t *sprite_index, std::uint8_t direction,
                        const SDL2pp::Rect &sprite_destination) {
     ActorAnimation* actor_animation = actors.at(actor_index).get();
 
@@ -29,7 +32,7 @@ AnimationManager::draw(std::uint8_t actor_index, std::uint8_t animation_index,
                                  ".\n");
     }
 
-    actor_animation->draw(animation_index, frame_ticks, direction,
+    actor_animation->draw(animation_index, sprite_index, direction,
                           sprite_destination);
 }
 

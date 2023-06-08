@@ -13,7 +13,7 @@ public:
     ActorAnimation() = default;
 
     virtual void draw(std::uint8_t animation_index,
-                      unsigned int frame_ticks,
+                      std::uint8_t *sprite_index,
                       std::uint8_t direction,
                       const SDL2pp::Rect& sprite_destination) = 0;
 

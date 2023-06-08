@@ -26,6 +26,7 @@ enum ElementType : std::uint8_t {
 };
 
 // Don't change or animations will break!
+// Se puede agregar una señal para eliminar, id - update/erase - lo demas...
 enum SoldierOneActionID : std::uint8_t {
     SOLDIER_1_ATTACK,
     SOLDIER_1_DEAD,
@@ -38,6 +39,11 @@ enum SoldierOneActionID : std::uint8_t {
     SOLDIER_1_SHOOT_1,
     SOLDIER_1_SHOOT_2,
     SOLDIER_1_WALK,
+};
+
+enum SoldierOneGrenadeStatus : std::uint8_t {
+    SOLDIER_1_GRENADE_IDLE,
+    SOLDIER_1_GRENADE_EXPLOSION
 };
 
 enum ActionState : std::uint8_t {

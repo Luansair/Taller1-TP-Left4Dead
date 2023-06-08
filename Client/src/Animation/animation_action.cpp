@@ -7,11 +7,11 @@
 
 ActionAnimation::ActionAnimation(SDL2pp::Renderer &renderer,
                                  const std::string &texture_filepath,
-                                 unsigned int frame_threshold) :
-                                 renderer(renderer),
-                                 texture(renderer,texture_filepath),
-                                 sprites(),
-                                 frame_threshold(frame_threshold) {
+                                 LoopType* loop_type) :
+        renderer(renderer),
+        texture(renderer,texture_filepath),
+        sprites() ,
+        loop_type(loop_type) {
     int sprite_width = 128;
     int sprite_height = 128;
     int texture_width = texture.GetWidth();
@@ -22,15 +22,7 @@ ActionAnimation::ActionAnimation(SDL2pp::Renderer &renderer,
     }
 }
 
-void ActionAnimation::draw(unsigned int frame_ticks, std::uint8_t direction,
-                           const SDL2pp::Rect &sprite_destination) {
-    // Medio raro, es mejor si se le manda el index directamente. Sin embargo,
-    // para sabe que index mandar hay que saber cuantos sprites hay!
-    // Dado que texture es propiedad de este objeto, no hay forma de saberlo
-    // desde fuera a menos que devuelva el size de alguna manera...
-    std::uint8_t sprite_index =
-            (frame_ticks / frame_threshold) % sprites.size();
-
+std::uint8_t ActionAnimation::determineFlipValue(std::uint8_t direction) {
     std::uint8_t sprite_flip;
     if (direction == DrawDirection::DRAW_RIGHT) {
         sprite_flip = SDL_FLIP_NONE;
@@ -40,9 +32,22 @@ void ActionAnimation::draw(unsigned int frame_ticks, std::uint8_t direction,
         throw std::runtime_error("ActionAnimation::draw. Invalid "
                                  "direction\n");
     }
+    return sprite_flip;
+}
 
+void ActionAnimation::_draw(std::uint8_t sprite_index, std::uint8_t sprite_flip,
+                           const SDL2pp::Rect &sprite_destination) {
     renderer.Copy(texture, sprites[sprite_index],
                   sprite_destination, 0.0,
                   SDL2pp::NullOpt, sprite_flip);
 }
+
+void ActionAnimation::draw(std::uint8_t *sprite_index, std::uint8_t direction,
+                           const SDL2pp::Rect &sprite_destination) {
+    loop_type->fixIndex(sprite_index, sprites.size() - 1);
+    std::uint8_t sprite_flip = determineFlipValue(direction);
+    _draw(*sprite_index, sprite_flip, sprite_destination);
+}
+
+
 

@@ -177,7 +177,11 @@ void Client::start() {
         if (is_running_right || is_running_left) {
             action = SoldierOneActionID::SOLDIER_1_RUN;
         }
-
+        if (frame_ticks > 10000) {
+            action = SoldierOneActionID::SOLDIER_1_DEAD;
+            position = (renderer.GetOutputWidth() / 2) - src_width;
+            direction = DrawDirection::DRAW_RIGHT;
+        }
         ElementStateDTO player_state = {type, action,
                                         direction,
                                         static_cast<int>(position),

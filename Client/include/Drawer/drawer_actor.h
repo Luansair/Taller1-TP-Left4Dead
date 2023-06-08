@@ -14,9 +14,11 @@ class ActorDrawer {
     AnimationManager& animation_manager;
     std::uint8_t type;
     std::uint8_t animation;
-    // std::uint8_t sprite_index;
     std::uint8_t direction;
     SDL2pp::Rect sprite_destination;
+
+    std::uint8_t sprite_index;
+    unsigned int previous_frame_ticks;
 
 public:
     explicit ActorDrawer(AnimationManager& animation_manager);

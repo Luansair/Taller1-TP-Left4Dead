@@ -7,23 +7,17 @@
 
 #include <SDL2pp/SDL2pp.hh>
 #include "LoopType/looptype.h"
+#include "sprite_manager.h"
 
 class ActionAnimation {
 
-    SDL2pp::Renderer& renderer;
     SDL2pp::Texture texture;
-    std::vector<SDL2pp::Rect> sprites;
-    LoopType* loop_type;
-
-    std::uint8_t determineFlipValue(std::uint8_t direction);
-
-    void _draw(std::uint8_t sprite_index, std::uint8_t sprite_flip,
-              const SDL2pp::Rect& sprite_destination);
+    SpriteManager sprite_manager;
 
 public:
     ActionAnimation(SDL2pp::Renderer &renderer,
                     const std::string &texture_filepath,
-                    LoopType* loop_type);
+                    const LoopType& loop_type);
 
     void draw(std::uint8_t *sprite_index,
                       std::uint8_t direction,

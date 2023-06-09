@@ -9,10 +9,10 @@
 
 class LoopType {
 protected:
-    bool checkIndexOverflow(std::uint8_t sprite_index, std::size_t max_index);
+    [[nodiscard]] bool checkIndexOverflow(std::uint8_t sprite_index, std::size_t max_index) const;
     LoopType() = default;
 public:
-    virtual void fixIndex(std::uint8_t* sprite_index, std::size_t max_index) = 0;
+    virtual void fixIndex(std::uint8_t* sprite_index, std::size_t max_index) const = 0;
 
     LoopType(LoopType&&) = default;
     LoopType& operator=(LoopType&&) = default;

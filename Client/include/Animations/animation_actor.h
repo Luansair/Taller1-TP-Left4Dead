@@ -11,8 +11,8 @@
 
 class ActorAnimation {
 protected:
-    Loopable loopable;
-    NoLoopable no_loopable;
+    const Loopable loopable;
+    const NoLoopable no_loopable;
 public:
     ActorAnimation() = default;
 
@@ -21,8 +21,8 @@ public:
                       std::uint8_t direction,
                       const SDL2pp::Rect& sprite_destination) = 0;
 
-    ActorAnimation(ActorAnimation&&) = default;
-    ActorAnimation& operator=(ActorAnimation&&) = default;
+    ActorAnimation(ActorAnimation&&) = delete;
+    ActorAnimation& operator=(ActorAnimation&&) = delete;
 
     ActorAnimation(const ActorAnimation&) = delete;
     ActorAnimation& operator=(const ActorAnimation&) = delete;

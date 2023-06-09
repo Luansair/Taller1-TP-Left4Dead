@@ -12,7 +12,7 @@ class NoLoopable : public LoopType {
 public:
     NoLoopable() = default;
 
-    void fixIndex(std::uint8_t* sprite_index, std::size_t max_index) override;
+    void fixIndex(std::uint8_t* sprite_index, std::size_t max_index) const override;
 
     NoLoopable(NoLoopable&&) = default;
     NoLoopable& operator=(NoLoopable&&) = default;

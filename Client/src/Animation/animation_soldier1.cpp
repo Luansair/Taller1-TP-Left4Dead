@@ -9,27 +9,27 @@
 SoldierOneAnimation::SoldierOneAnimation(SDL2pp::Renderer &renderer) :
     animations{
     {ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Attack.png",
-                     &loopable),
+                     loopable),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Dead.png",
-                     &no_loopable),
+                     no_loopable),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Explosion.png",
-                     &no_loopable),
+                     no_loopable),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Grenade.png",
-                     &loopable),
+                     loopable),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Hurt.png",
-                     &loopable),
+                     loopable),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Idle.png",
-                     &loopable),
+                     loopable),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Recharge.png",
-                     &no_loopable),
+                     no_loopable),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Run.png",
-                     &loopable),
+                     loopable),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Shot_1.png",
-                     &loopable),
+                     loopable),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Shot_2.png",
-                     &loopable),
+                     loopable),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Walk.png",
-                     &loopable)}} {
+                     loopable)}} {
 }
 
 void SoldierOneAnimation::draw(std::uint8_t animation_index,

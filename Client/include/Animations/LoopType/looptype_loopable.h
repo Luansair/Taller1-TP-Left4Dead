@@ -11,7 +11,7 @@ class Loopable : public LoopType {
 public:
     Loopable() = default;
 
-    void fixIndex(std::uint8_t* sprite_index, std::size_t max_index) override;
+    void fixIndex(std::uint8_t* sprite_index, std::size_t max_index) const override;
 
     Loopable(Loopable&&) = default;
     Loopable& operator=(Loopable&&) = default;

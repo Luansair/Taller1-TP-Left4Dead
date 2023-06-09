@@ -27,6 +27,13 @@ public:
               std::uint8_t *sprite_index,
               std::uint8_t direction,
               const SDL2pp::Rect& sprite_destination);
+
+    // Moving have a cost in performance due to array of arrays being moved.
+    AnimationManager(AnimationManager&&) = delete;
+    AnimationManager& operator=(const AnimationManager&&) = delete;
+
+    AnimationManager(const AnimationManager&) = delete;
+    AnimationManager& operator=(const AnimationManager&) = delete;
 };
 
 #endif //TP_ANIMATION_MANAGER_H

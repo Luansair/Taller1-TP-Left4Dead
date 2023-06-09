@@ -19,7 +19,14 @@ public:
               std::uint8_t direction,
               const SDL2pp::Rect& sprite_destination) override;
 
-    ~SoldierOneAnimation() = default;
+    // Should not move because it can affect performance!
+    SoldierOneAnimation(SoldierOneAnimation&&) = delete;
+    SoldierOneAnimation& operator=(SoldierOneAnimation&&) = delete;
+
+    SoldierOneAnimation(const SoldierOneAnimation&) = delete;
+    SoldierOneAnimation& operator=(const SoldierOneAnimation&) = delete;
+
+    ~SoldierOneAnimation() override = default;
 };
 
 #endif //TP_ANIMATION_SOLDIER1_H

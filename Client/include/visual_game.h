@@ -10,18 +10,22 @@
 #include "Drawer/drawer.h"
 #include "../../Common/include/Information/information.h"
 #include "../../Common/include/Information/feedback_server_gamestate.h"
+#include "Drawer/drawer_manager.h"
 
 class GameVisual {
     SDL2pp::SDL sdl;
     SDL2pp::Window window;
     SDL2pp::Renderer renderer;
-    std::map<std::uint16_t, Drawer> drawers;  // (id, drawer)
+    DrawerManager drawer_manager;  // (id, drawer)
 
 public:
-    void init();
+    GameVisual(std::uint16_t window_width, std::uint16_t window_height);
 
     void draw(unsigned int frameticks);
     void updateInfo(const GameStateFeedback& feed);
+
+    void clear();
+    void present();
 };
 
 #endif //TP_VISUAL_GAME_H

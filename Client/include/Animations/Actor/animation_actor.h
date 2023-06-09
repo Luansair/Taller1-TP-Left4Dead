@@ -5,9 +5,9 @@
 #ifndef TP_ANIMATION_ACTOR_H
 #define TP_ANIMATION_ACTOR_H
 
-#include <SDL2pp/Renderer.hh>
-#include "LoopType/looptype_no_loopable.h"
-#include "LoopType/looptype_loopable.h"
+#include "SDL2pp/Renderer.hh"
+#include "../LoopType/looptype_no_loopable.h"
+#include "../LoopType/looptype_loopable.h"
 
 class ActorAnimation {
 protected:

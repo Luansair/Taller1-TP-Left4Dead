@@ -10,11 +10,13 @@
 #include <SDL2pp/Rect.hh>
 #include <SDL2pp/Renderer.hh>
 
-#include "animation_actor.h"
-#include "animation_soldier1.h"
+#include "Actor/animation_actor.h"
+#include "Actor/animation_soldier1.h"
+#include "Actor/animation_zombie.h"
 
 class AnimationManager {
     SoldierOneAnimation soldier_1_animation;
+    ZombieAnimation zombie_animation;
     // Other actor animations...
 
     std::array<ActorAnimation*, 8> actors;

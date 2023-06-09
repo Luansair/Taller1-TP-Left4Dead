@@ -5,7 +5,7 @@
 #ifndef TP_ANIMATION_SOLDIER1_H
 #define TP_ANIMATION_SOLDIER1_H
 
-#include "animation_action.h"
+#include "../animation_action.h"
 #include "animation_actor.h"
 
 class SoldierOneAnimation : public ActorAnimation {

@@ -2,20 +2,21 @@
 // Created by luan on 06/06/23.
 //
 #include "../../include/Animations/animation_manager.h"
-#include "../../include/Animations/animation_soldier1.h"
+#include "../../include/Animations/Actor/animation_soldier1.h"
 #include "../../../Common/include/Information/information_code.h"
 
 AnimationManager::AnimationManager(SDL2pp::Renderer& renderer) :
     soldier_1_animation(renderer),
+    zombie_animation(renderer),
     actors{
-            { &soldier_1_animation,
+             &soldier_1_animation,
+             nullptr,
+             nullptr,
+             &zombie_animation,
              nullptr,
              nullptr,
              nullptr,
-             nullptr,
-             nullptr,
-             nullptr,
-             nullptr}
+             nullptr
     }
 {
 }

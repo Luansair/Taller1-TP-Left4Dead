@@ -27,6 +27,8 @@ enum ElementType : std::uint8_t {
 
 // Don't change or animations will break!
 // Se puede agregar una señal para eliminar, id - update/erase - lo demas...
+// Se puede separar la info del server de la del user y despues con un
+// case switch ir eligiendo asi no  debe recompilar todo con cada cambio.
 enum SoldierOneActionID : std::uint8_t {
     SOLDIER_1_ATTACK,
     SOLDIER_1_DEAD,
@@ -39,6 +41,19 @@ enum SoldierOneActionID : std::uint8_t {
     SOLDIER_1_SHOOT_1,
     SOLDIER_1_SHOOT_2,
     SOLDIER_1_WALK,
+};
+
+enum ZombieActionID : std::uint8_t {
+    ZOMBIE_ATTACK_1,
+    ZOMBIE_ATTACK_2,
+    ZOMBIE_ATTACK_3,
+    ZOMBIE_BITE,
+    ZOMBIE_DEAD,
+    ZOMBIE_HURT,
+    ZOMBIE_IDLE,
+    ZOMBIE_JUMP,
+    ZOMBIE_RUN,
+    ZOMBIE_WALK,
 };
 
 enum SoldierOneGrenadeStatus : std::uint8_t {

@@ -8,6 +8,7 @@
 #include "../../Common/include/Information/information_code.h"
 #include "../include/Animations/animation_manager.h"
 #include "../include/Drawer/drawer_manager.h"
+#include "../include/visual_game.h"
 
 Client::Client(const char *hostname, const char *servname) :
     socket(hostname, servname) ,
@@ -73,8 +74,6 @@ void Client::start() {
         }
     }
 
-    SDL sdl(SDL_INIT_VIDEO);
-
     Node window_config = LoadFile(CLIENT_CONFIG_PATH "/config.yaml")["window"];
 
     const auto window_width =
@@ -82,13 +81,8 @@ void Client::start() {
     const auto window_height =
             window_config["height"].as<std::uint16_t>();
 
-    Window window("Game", SDL_WINDOWPOS_UNDEFINED,
-                  SDL_WINDOWPOS_UNDEFINED, window_width,
-                  window_height,SDL_WINDOW_RESIZABLE);
+    GameVisual game_visual(window_width, window_height);
 
-    Renderer renderer(window, -1, SDL_RENDERER_ACCELERATED);
-
-    DrawerManager drawer_manager(renderer);
     std::uint16_t player_id = 0x1234;
 
     // Big part of this logic has to be done by the Server
@@ -162,15 +156,15 @@ void Client::start() {
         int src_width = 128;
         int src_height = 128;
 
-        if (position > renderer.GetOutputWidth())
+        if (position > window_width)
             position = -src_width;
 
         if (position < -src_width)
-            position = renderer.GetOutputWidth();
+            position = window_width;
 
-        int vcenter = renderer.GetOutputHeight() / 2;
+        int vcenter = window_height / 2;
 
-        renderer.Clear();
+        game_visual.clear();
 
         uint8_t type = ElementType::SOLDIER_1;
         uint8_t action = SoldierOneActionID::SOLDIER_1_IDLE;
@@ -179,17 +173,24 @@ void Client::start() {
         }
         if (frame_ticks > 10000) {
             action = SoldierOneActionID::SOLDIER_1_DEAD;
-            position = (renderer.GetOutputWidth() / 2) - src_width;
+            position = (window_width / 2) - src_width;
             direction = DrawDirection::DRAW_RIGHT;
         }
         ElementStateDTO player_state = {type, action,
                                         direction,
                                         static_cast<int>(position),
                                         vcenter - src_height};
-        drawer_manager.updateInfo(player_id, player_state);
-        drawer_manager.draw(frame_ticks);
+        ElementStateDTO zombie1_state = {
+            ZOMBIE, ZOMBIE_IDLE, DRAW_RIGHT, window_width/4, window_height/4
+        };
+        std::vector<std::pair<std::uint16_t, ElementStateDTO>> actors;
+        actors.emplace_back(player_id, player_state);
+        actors.emplace_back(0x5678, zombie1_state);
+        GameStateFeedback game_state(std::move(actors));
+        game_visual.updateInfo(game_state);
+        game_visual.draw(frame_ticks);
 
-        renderer.Present();
+        game_visual.present();
 
         SDL_Delay(1);
     }

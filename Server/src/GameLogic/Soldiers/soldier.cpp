@@ -41,66 +41,44 @@ void Soldier::move(
 
 void Soldier::simulateMove(uint16_t time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies) {
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int16_t dim_x, int16_t dim_y) {
 
+    // refactorizo simplificando el tema de la colisión, 
+    // son tiempos tan chicos que si colisiono con algo directamente no me muevo
+    // no uso hitbox, uso colisión entre posiciones y listo por el tema del mapa circular
     int16_t next_x;
     int16_t next_y;
-    Hitbox hitbox;
 
     // calculo proxima coordenada.
     switch(axis) {
         case X:
             next_x = position.getXPos() + (dir * speed * time);
             next_y = position.getYPos();
-            if (next_x < 0) next_x = width / 2;
-            if (dir == RIGHT) {
-                hitbox.setValues(position.getXPos(), next_x + width / 2, position.getYPos() - height / 2, position.getYPos() + height / 2);
-            } else {
-                hitbox.setValues(next_x - width / 2, position.getXPos(), position.getYPos() - height / 2, position.getYPos() + height / 2);
-            }
+            if (next_x < 0) next_x = dim_x + next_x;
+            if (next_x > dim_x) next_x = next_x - dim_x;
             break;
         case Y:
             next_y = position.getYPos() + (dir * speed * time);
             next_x = position.getXPos();
-            if (next_y < 0) next_y = height / 2;
-            if (dir == UP) {
-                hitbox.setValues(position.getXPos() - width / 2, position.getXPos() + width / 2, position.getYPos(), next_y + height / 2);
-            } else {
-                hitbox.setValues(position.getXPos() - width / 2, position.getXPos() + width / 2, next_y - height / 2, position.getYPos());
-            }
+            if (next_y < 0) next_y = dim_y + next_y;
+            if (next_y > dim_y) next_y = next_y - dim_y;
             break;
     }
 
-    Position next_pos(next_x, next_y, position.getWidth(), position.getHeight());
+    Position next_pos(next_x, next_y, position.getWidth(), position.getHeight(), dim_x, dim_y);
 
     // verifico las colisiones.
 
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
         Position other_pos = i->second->getPosition();
-        if (hitbox.move_hits(other_pos)) {
-            if (axis == X) {
-                if (dir == RIGHT) {
-                    next_pos.setXPos(other_pos.getXMin() - width / 2 - 1);
-                    hitbox.setValues(position.getXPos(), other_pos.getXMin() - 1 , position.getYPos() - height / 2, position.getYPos() + height / 2);
-                } else if (dir == LEFT) {
-                    next_pos.setXPos(other_pos.getXMax() + width / 2 + 1);
-                    hitbox.setValues(other_pos.getXMax() + 1, position.getXPos(), position.getYPos() - height / 2, position.getYPos() + height / 2);
-                }
-            } else if (axis == Y) {
-                if (dir == DOWN) {
-                    next_pos.setYPos(other_pos.getYMax() + height / 2 + 1);
-                    hitbox.setValues(position.getXPos() - width / 2, position.getXPos() + width / 2, position.getYPos(), other_pos.getYMax() + 1);
-                } else if (dir == UP) {
-                    next_pos.setYPos(other_pos.getYMin() - height / 2 - 1);
-                    hitbox.setValues(position.getXPos() - width / 2, position.getXPos() + width / 2, other_pos.getYMin() - 1, position.getYPos());
-                }
-            }
+        if (next_pos.collides(other_pos)) {
+            return;
         }
     }
 
     // lo mismo con los zombies
 
-    // cambio de pos
+    // si no colisiono cambio de pos
     position = next_pos;
 
 }

@@ -20,8 +20,7 @@ public:
     explicit Hitbox(int16_t x_min, int16_t x_max, int16_t y_min, int16_t y_max);
     void setValues(int16_t x_min, int16_t x_max, int16_t y_min, int16_t y_max);
 
-    bool move_hits(Position &victim_position);
-    bool shoot_hits(Position &victim_position);
+    bool shoot_hits(const Position &victim_position);
 
     int16_t getXMax(void);
     int16_t getXMin(void);

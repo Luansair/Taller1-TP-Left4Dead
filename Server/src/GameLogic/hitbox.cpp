@@ -18,25 +18,11 @@ void Hitbox::setValues(int16_t x_mi, int16_t x_ma, int16_t y_mi, int16_t y_ma) {
     y_max = y_ma;
 }
 
-bool Hitbox::move_hits(Position &other_position) {
-    int16_t x_max_other = other_position.getXMax();
-    int16_t x_min_other = other_position.getXMin();
-    int16_t y_max_other = other_position.getYMax();
-    int16_t y_min_other = other_position.getYMin();
-
-    bool hits_x = ((x_min <= x_max_other) && (x_max_other <= x_max)) || (((x_min <= x_min_other) && (x_min_other <= x_max)));
-
-    bool hits_y = ((y_min <= y_max_other) && (y_max_other <= y_max)) || (((y_min <= y_min_other) && (y_min_other <= y_max)));
-
-    return (hits_x && hits_y);
-}
-
-bool Hitbox::shoot_hits(Position &victim_position) {
-    int16_t x_max_victim = victim_position.getXMax();
-    int16_t x_min_victim = victim_position.getXMin();
+bool Hitbox::shoot_hits(const Position &victim_position) {
+    int16_t x_victim = victim_position.getXPos();
     int16_t y_victim = victim_position.getYPos();
 
-    bool hits_x = ((x_min <= x_max_victim) && (x_max_victim <= x_max)) || (((x_min <= x_min_victim) && (x_min_victim <= x_max)));
+    bool hits_x = ((x_min <= x_victim) && (x_victim <= x_max));
 
     bool hits_y = ((y_min <= y_victim) && (y_victim <= y_max));
 

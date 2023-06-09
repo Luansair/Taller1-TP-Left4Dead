@@ -17,7 +17,7 @@ void Match::join(uint32_t soldier_id, uint8_t soldier_type) {
     SoldierFactory factory;
     std::shared_ptr<Soldier> soldier = factory.create(soldier_type);
     // los va poniendo apilados al lado del borde izq
-    Position position(soldier->getWidth() + 1, soldier->getHeight() * soldier_counter + 1, soldier->getWidth(), soldier->getHeight());
+    Position position(soldier->getWidth() + 1, soldier->getHeight() * soldier_counter + 1, soldier->getWidth(), soldier->getHeight(), x_dim, y_dim);
     soldier->setPosition(std::move(position));
     soldiers.emplace(soldier_id, std::move(soldier));
     soldier_counter += 1;

@@ -54,7 +54,7 @@ public:
 
     virtual void simulateMove(uint16_t time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies);
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int16_t dim_x, int16_t dim_y);
 
     virtual void simulateShoot(uint16_t time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,

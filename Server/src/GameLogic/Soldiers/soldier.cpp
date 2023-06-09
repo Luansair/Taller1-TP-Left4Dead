@@ -1,6 +1,7 @@
 #include "../../../include/GameLogic/Soldiers/soldier.h"
 
 Soldier::Soldier(
+    uint32_t soldier_id,
     int8_t dir,
     int8_t width,
     int8_t height,
@@ -8,6 +9,7 @@ Soldier::Soldier(
     int16_t health,
     std::unique_ptr<Weapon>&& weapon,
     std::unique_ptr<Grenade>&& grenade) :
+    soldier_id(soldier_id),
     dir(dir),
     speed(speed),
     health(health),
@@ -18,7 +20,14 @@ Soldier::Soldier(
     grenade(std::move(grenade)) {
 }
 
-void Soldier::simulateStep(uint16_t time) {}
+void Soldier::simulate(uint16_t time,
+    std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int16_t dim_x, int16_t dim_y) {
+    if (moving) simulateMove(time, soldiers, zombies, dim_x, dim_y);
+    if (reloading) simulateReload(time);
+    if (shooting) simulateShoot(time, soldiers, zombies);
+    // simulateThrow(time, soldiers, zombies);
+}
 
 void Soldier::move(
     uint8_t state,
@@ -71,6 +80,7 @@ void Soldier::simulateMove(uint16_t time,
 
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
         Position other_pos = i->second->getPosition();
+        if (i->second->getId() == soldier_id) continue;
         if (next_pos.collides(other_pos)) {
             return;
         }
@@ -98,7 +108,7 @@ void Soldier::shoot(uint8_t state) {
 void Soldier::simulateShoot(uint16_t time, 
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies) {
-    weapon->shoot(getPosition(), dir, time, std::ref(soldiers), std::ref(zombies));
+    if (!(weapon->shoot(getPosition(), dir, time, std::ref(soldiers), std::ref(zombies)))) reload(ON);
 }
 
 void Soldier::reload(uint8_t state) {
@@ -110,10 +120,12 @@ void Soldier::reload(uint8_t state) {
             reloading = false;
             break;
     }
-    weapon->reload();
 }
 
-void Soldier::simulateReload(uint16_t time) {}
+void Soldier::simulateReload(uint16_t time) {
+    (weapon->reload());
+    reload(OFF);
+}
 
 void Soldier::throwGrenade(uint8_t state){
     switch(state) {
@@ -129,8 +141,16 @@ void Soldier::throwGrenade(uint8_t state){
 
 void Soldier::simulateThrow(uint16_t time) {}
 
-void Soldier::cGrenade(void) {
-    // grenade_type = otra
+void Soldier::idle(uint8_t state) {
+    switch(state) {
+        case ON:
+            reloading = false;
+            shooting = false;
+            moving = false;
+            break;
+        case OFF:
+            break;
+    }
 }
 
 void Soldier::recvDamage(int8_t damage) {
@@ -165,6 +185,10 @@ uint8_t Soldier::getWidth(void) {
 }
 uint8_t Soldier::getHeight(void) {
     return height;
+}
+
+uint32_t Soldier::getId(void) {
+    return soldier_id;
 }
 
 bool Distance_from_left_is_minor::operator()(std::shared_ptr<Soldier> below, std::shared_ptr<Soldier> above)

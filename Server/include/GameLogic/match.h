@@ -16,6 +16,8 @@
 #include <vector>
 #include <memory>
 
+#define TIME 1
+
 /* Class Match para representar una partida del juego.
 Tiene un map de soldier_id y punteros a esos Soldier.
 Se le pasa el soldier_id y le delega realizar la acción */
@@ -27,8 +29,8 @@ private:
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
     int32_t x_dim;
     int32_t y_dim;
-    uint8_t soldier_counter = 0;
-    uint8_t zombie_counter = 0;
+    uint8_t soldier_counter = 1;
+    uint8_t zombie_counter = 1;
 public:
 
     /* Constructor de Match, parámetros: dimensiones del mapa */
@@ -53,16 +55,15 @@ public:
     int8_t moveDirection,
     uint8_t moveForce);
 
-    /* Ejecuta cGrenade, parámetros: id del soldado que cambia de granada */
-    void cGrenade(uint32_t soldier_id);
-
     /* Ejecuta throwGrenade, parámetros: id del soldado que tira granada */
-    void throwGrenade(uint32_t soldier_id);
+    void throwGrenade(uint32_t soldier_id, uint8_t state);
 
     /* Ejecuta idle, parámetros: id del soldado idle */
-    void idle(uint32_t soldier_id);
+    void idle(uint32_t soldier_id, uint8_t state);
 
-    //simular step
+    std::map<uint32_t, std::shared_ptr<Soldier>>& getSoldiers(void);
+
+    void simulateStep(void);
     //dar gamestate
 
     Match(const Match&) = delete;

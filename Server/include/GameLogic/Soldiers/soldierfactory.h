@@ -29,7 +29,7 @@
 
 class SoldierFactory {
 public:
-    std::shared_ptr<Soldier> create(uint8_t soldier_type);
+    std::shared_ptr<Soldier> create(uint32_t soldier_id, uint8_t soldier_type);
 };
 
 #endif  // SOLDIERFACTORY_H_

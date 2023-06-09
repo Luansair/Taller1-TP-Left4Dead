@@ -48,6 +48,8 @@ add_executable(soldier_test soldier_test.cpp
         ${GAMELOGIC_SOURCES})
 add_executable(weapon_test weapon_test.cpp
         ${GAMELOGIC_SOURCES})
+add_executable(match_test match_test.cpp
+        ${GAMELOGIC_SOURCES})
 
 find_package(GTest REQUIRED)
 
@@ -59,6 +61,7 @@ target_link_libraries(gamemanager_test PRIVATE GTest::GTest)
 target_link_libraries(command_test PRIVATE GTest::GTest)
 target_link_libraries(soldier_test PRIVATE GTest::GTest)
 target_link_libraries(weapon_test PRIVATE GTest::GTest)
+target_link_libraries(match_test PRIVATE GTest::GTest)
 
 #-----------------Adding Tests-----------------#
 # Siempre lo mismo tambien.
@@ -68,6 +71,7 @@ add_test(gamemanager_gtest gamemanager_test WORKING_DIRECTORY ${PROJECT_SOURCE_D
 add_test(command_gtest command_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_test(soldier_gtest soldier_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_test(weapon_gtest weapon_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+add_test(match_gtest match_test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 
 
 #TODO

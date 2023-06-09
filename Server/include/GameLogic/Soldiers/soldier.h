@@ -14,6 +14,7 @@
 class Soldier {
 
 public:
+    uint32_t soldier_id;
     int8_t dir;
     uint8_t axis = 0;
     int8_t speed;
@@ -29,6 +30,7 @@ public:
     bool throwing = false;
 
     explicit Soldier(
+    uint32_t soldier_id,
     int8_t dir,
     int8_t width,
     int8_t height,
@@ -47,10 +49,12 @@ public:
     virtual void shoot(uint8_t state);
     virtual void reload(uint8_t state);
     virtual void throwGrenade(uint8_t state);
-    virtual void cGrenade(void);
+    virtual void idle(uint8_t state);
     virtual void recvDamage(int8_t damage);
 
-    virtual void simulateStep(uint16_t time);
+    virtual void simulate(uint16_t time,
+    std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int16_t dim_x, int16_t dim_y);
 
     virtual void simulateMove(uint16_t time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
@@ -67,6 +71,7 @@ public:
     int8_t getHealth(void);
     uint8_t getWidth(void);
     uint8_t getHeight(void);
+    uint32_t getId(void);
 
     void setPosition(Position&& new_pos);
 

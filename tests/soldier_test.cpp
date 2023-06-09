@@ -7,14 +7,14 @@
 
 TEST(soldier_test, Test00CreateSoldier) {
     SoldierFactory sfactory;
-    ASSERT_NO_FATAL_FAILURE(sfactory.create(P90SOLDIER));
-    ASSERT_NO_FATAL_FAILURE(sfactory.create(SCOUTSOLDIER));
-    ASSERT_NO_FATAL_FAILURE(sfactory.create(IDFSOLDIER));
+    ASSERT_NO_FATAL_FAILURE(sfactory.create(1,P90SOLDIER));
+    ASSERT_NO_FATAL_FAILURE(sfactory.create(2,SCOUTSOLDIER));
+    ASSERT_NO_FATAL_FAILURE(sfactory.create(3,IDFSOLDIER));
 }
 
 TEST(soldier_test, Test02SetPositionToSoldier) {
     SoldierFactory sfactory;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
     Position pos(10, 10, soldier->getWidth(), soldier->getHeight(), 100, 100);
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
     Position& pos1 = soldier->getPosition();
@@ -29,7 +29,7 @@ TEST(soldier_test, Test03MoveSoldierOnXRigth) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
     int16_t initial_x = 10;
     int16_t initial_y = 10;
     Position pos(initial_x, initial_y, soldier->getWidth(), soldier->getHeight(), 100, 100);
@@ -49,7 +49,7 @@ TEST(soldier_test, Test04MoveSoldierAWhileOnXRight) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
     int16_t initial_x = 10;
     int16_t initial_y = 10;
     Position pos(initial_x, initial_y, soldier->getWidth(), soldier->getHeight(), 100, 100);
@@ -69,7 +69,7 @@ TEST(soldier_test, Test05MoveSoldierOnXLeft) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
     int16_t initial_x = 10;
     int16_t initial_y = 10;
     Position pos(initial_x, initial_y, soldier->getWidth(), soldier->getHeight(), 100, 100);
@@ -89,7 +89,7 @@ TEST(soldier_test, Test06MoveSoldierAWhileOnXleft) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
     int16_t initial_x = 30;
     int16_t initial_y = 30;
     Position pos(initial_x, initial_y, soldier->getWidth(), soldier->getHeight(), 100, 100);
@@ -109,7 +109,7 @@ TEST(soldier_test, Test07MoveSoldierOnYUp) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
     int16_t initial_x = 10;
     int16_t initial_y = 10;
     Position pos(initial_x, initial_y, soldier->getWidth(), soldier->getHeight(), 100, 100);
@@ -129,7 +129,7 @@ TEST(soldier_test, Test08MoveSoldierOnYDown) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
     int16_t initial_x = 10;
     int16_t initial_y = 10;
     Position pos(initial_x, initial_y, soldier->getWidth(), soldier->getHeight(), 100, 100);
@@ -149,8 +149,8 @@ TEST(soldier_test, Test09MoveWithCollisionOnRight) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
+    std::shared_ptr<Soldier> soldier2 = sfactory.create(2,P90SOLDIER);
     int16_t initial_x = 10;
     int16_t initial_y = 10;
     int16_t initial_x_2 = 13;
@@ -175,8 +175,8 @@ TEST(soldier_test, Test10MoveWithCollisionOnLeft) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
+    std::shared_ptr<Soldier> soldier2 = sfactory.create(2,P90SOLDIER);
     int16_t initial_x = 13;
     int16_t initial_y = 10;
     int16_t initial_x_2 = 10;
@@ -200,8 +200,8 @@ TEST(soldier_test, Test11MoveWithCollisionGoingDown) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
+    std::shared_ptr<Soldier> soldier2 = sfactory.create(2,P90SOLDIER);
     int16_t initial_x = 13;
     int16_t initial_y = 20;
     int16_t initial_x_2 = 13;
@@ -226,8 +226,8 @@ TEST(soldier_test, Test12MoveWithCollisionGoingUp) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
+    std::shared_ptr<Soldier> soldier2 = sfactory.create(2,P90SOLDIER);
     int16_t initial_x = 13;
     int16_t initial_y_2 = 20;
     int16_t initial_x_2 = 13;
@@ -250,7 +250,7 @@ TEST(soldier_test, Test12MoveWithCollisionGoingUp) {
 
 TEST(soldier_test, Test13SetPositionOnMaxXLimitToSoldier) {
     SoldierFactory sfactory;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
     Position pos(100, 10, soldier->getWidth(), soldier->getHeight(), 100, 100);
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
     Position& pos1 = soldier->getPosition();
@@ -263,7 +263,7 @@ TEST(soldier_test, Test13SetPositionOnMaxXLimitToSoldier) {
 
 TEST(soldier_test, Test14SetPositionOnMinYLimitToSoldier) {
     SoldierFactory sfactory;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
     Position pos(0, 10, soldier->getWidth(), soldier->getHeight(), 100, 100);
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
     Position& pos1 = soldier->getPosition();
@@ -276,7 +276,7 @@ TEST(soldier_test, Test14SetPositionOnMinYLimitToSoldier) {
 
 TEST(soldier_test, Test15SetPositionOnMinYLimitToSoldier) {
     SoldierFactory sfactory;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
     Position pos(20, 0, soldier->getWidth(), soldier->getHeight(), 100, 100);
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
     Position& pos1 = soldier->getPosition();
@@ -289,7 +289,7 @@ TEST(soldier_test, Test15SetPositionOnMinYLimitToSoldier) {
 
 TEST(soldier_test, Test16SetPositionOnMaxYLimitToSoldier) {
     SoldierFactory sfactory;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
     Position pos(20, 100, soldier->getWidth(), soldier->getHeight(), 100, 100);
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
     Position& pos1 = soldier->getPosition();
@@ -304,8 +304,8 @@ TEST(soldier_test, Test17MoveWithCollisionOnRightWithComplementPosition) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
+    std::shared_ptr<Soldier> soldier2 = sfactory.create(2,P90SOLDIER);
     int16_t initial_x = 97;
     int16_t initial_y = 10;
     int16_t initial_x_2 = 100;
@@ -330,8 +330,8 @@ TEST(soldier_test, Test18MoveWithCollisionOnLeftWithComplementPosition) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
+    std::shared_ptr<Soldier> soldier2 = sfactory.create(2,P90SOLDIER);
     int16_t initial_x = 3;
     int16_t initial_y = 10;
     int16_t initial_x_2 = 100;
@@ -356,8 +356,8 @@ TEST(soldier_test, Test19MoveWithNoCollisionOnRight) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
+    std::shared_ptr<Soldier> soldier2 = sfactory.create(2,P90SOLDIER);
     int16_t initial_x = 7;
     int16_t initial_y = 10;
     int16_t initial_x_2 = 10;
@@ -382,8 +382,8 @@ TEST(soldier_test, Test20MoveWithNoCollisionOnRight) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(P90SOLDIER);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,P90SOLDIER);
+    std::shared_ptr<Soldier> soldier2 = sfactory.create(2,P90SOLDIER);
     int16_t initial_x = 7;
     int16_t initial_y = 10;
     int16_t initial_x_2 = 11;

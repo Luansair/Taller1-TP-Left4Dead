@@ -7,6 +7,7 @@ class IdfSoldier : public Soldier {
 
 public:
     explicit IdfSoldier(
+    uint32_t soldier_id,
     int8_t dir,
     int8_t width,
     int8_t height,

@@ -7,6 +7,7 @@ class ScoutSoldier : public Soldier {
 
 public:
     explicit ScoutSoldier(
+    uint32_t soldier_id,
     int8_t dir,
     int8_t width,
     int8_t height,

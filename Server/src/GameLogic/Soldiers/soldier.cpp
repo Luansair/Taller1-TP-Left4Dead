@@ -38,6 +38,9 @@ void Soldier::move(
     switch(state) {
         case ON:
             moving = true;
+            shooting = false;
+            reloading = false;
+            throwing = false;
             axis = moveAxis;
             dir = moveDirection;
             speed = moveForce;
@@ -97,6 +100,9 @@ void Soldier::shoot(uint8_t state) {
     switch(state) {
         case ON:
             shooting = true;
+            moving = false;
+            reloading = false;
+            throwing = false;
             break;
         case OFF:
             shooting = false;
@@ -115,6 +121,9 @@ void Soldier::reload(uint8_t state) {
     switch(state) {
         case ON:
             reloading = true;
+            moving = false;
+            shooting = false;
+            throwing = false;
             break;
         case OFF:
             reloading = false;
@@ -131,6 +140,9 @@ void Soldier::throwGrenade(uint8_t state){
     switch(state) {
         case ON:
             throwing = true;
+            moving = false;
+            shooting = false;
+            reloading = false;
             break;
         case OFF:
             throwing = false;
@@ -147,6 +159,7 @@ void Soldier::idle(uint8_t state) {
             reloading = false;
             shooting = false;
             moving = false;
+            throwing = false;
             break;
         case OFF:
             break;
@@ -189,6 +202,14 @@ uint8_t Soldier::getHeight(void) {
 
 uint32_t Soldier::getId(void) {
     return soldier_id;
+}
+
+uint8_t Soldier::getAction(void) {
+    if (shooting) return ACTION_SHOOT;
+    if (moving) return ACTION_MOVE;
+    if (reloading) return ACTION_RELOAD;
+    if (throwing) return ACTION_THROW;
+    return ACTION_IDLE;
 }
 
 bool Distance_from_left_is_minor::operator()(std::shared_ptr<Soldier> below, std::shared_ptr<Soldier> above)

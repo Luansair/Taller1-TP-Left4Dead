@@ -36,6 +36,7 @@ add_executable(gamemanager_test gamemanager_test.cpp
         ../Server/src/game.cpp
         ../Server/src/Command/command_ingame_startshoot.cpp
         ../Server/src/Command/command_ingame.cpp
+        ${INFORMATION_SOURCES}
         ${GAMELOGIC_SOURCES})
 
 add_executable(command_test command_test.cpp
@@ -45,10 +46,13 @@ add_executable(command_test command_test.cpp
         ${GAMELOGIC_SOURCES}
         ${INFORMATION_SOURCES})
 add_executable(soldier_test soldier_test.cpp
+        ${INFORMATION_SOURCES}
         ${GAMELOGIC_SOURCES})
 add_executable(weapon_test weapon_test.cpp
+        ${INFORMATION_SOURCES}
         ${GAMELOGIC_SOURCES})
 add_executable(match_test match_test.cpp
+        ${INFORMATION_SOURCES}
         ${GAMELOGIC_SOURCES})
 
 find_package(GTest REQUIRED)

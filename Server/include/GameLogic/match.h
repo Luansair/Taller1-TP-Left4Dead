@@ -5,6 +5,9 @@
 #include "Soldiers/soldierfactory.h"
 #include "Zombies/zombie.h"
 #include "position.h"
+#include "../../../Common/include/Information/information_code.h"
+#include "../../../Common/include/Information/state_dto_element.h"
+#include "../../../Common/include/Information/feedback_server_gamestate.h"
 
 #include <string>
 #include <cstdint>
@@ -64,7 +67,10 @@ public:
     std::map<uint32_t, std::shared_ptr<Soldier>>& getSoldiers(void);
 
     void simulateStep(void);
-    //dar gamestate
+    
+    std::vector<std::pair<uint16_t, ElementStateDTO>> getElementStates(void);
+
+    GameStateFeedback getMatchState(void);
 
     Match(const Match&) = delete;
     Match& operator=(const Match&) = delete;

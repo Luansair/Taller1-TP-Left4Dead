@@ -11,3 +11,7 @@ IdfSoldier::IdfSoldier(
     std::unique_ptr<Grenade>&& grenade) :
     Soldier(soldier_id, dir, width, height, speed, health, std::move(weapon), std::move(grenade)) {
 }
+
+uint8_t IdfSoldier::getSoldierType(void) {
+    return SOLDIER_3;
+}

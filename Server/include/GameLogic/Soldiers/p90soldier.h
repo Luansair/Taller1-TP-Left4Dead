@@ -15,6 +15,8 @@ public:
     int16_t health,
     std::unique_ptr<Weapon>&& weapon,
     std::unique_ptr<Grenade>&& grenade);
+
+    virtual uint8_t getSoldierType(void) override;
     
 };
 

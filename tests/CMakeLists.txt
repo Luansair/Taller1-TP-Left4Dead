@@ -9,6 +9,9 @@ FETCHCONTENT_MAKEAVAILABLE(googletest)
 add_library(GTest::Gtest INTERFACE IMPORTED)
 target_link_libraries(GTest::Gtest INTERFACE gtest_main)
 
+
+add_definitions(-DSERVER_CONFIG_PATH="${PROJECT_SOURCE_DIR}/Server/config")
+
 #-----------------Include Directories-----------------#
 include_directories(${PROJECT_SOURCE_DIR}/Common/include)
 include_directories(${PROJECT_SOURCE_DIR}/Server/include)
@@ -59,13 +62,13 @@ find_package(GTest REQUIRED)
 
 #----------------Linking Executables----------------#
 # Siempre lo mismo, así funciona gtest
-target_link_libraries(resolver_test PRIVATE GTest::GTest)
-target_link_libraries(information_test PRIVATE GTest::GTest)
-target_link_libraries(gamemanager_test PRIVATE GTest::GTest)
-target_link_libraries(command_test PRIVATE GTest::GTest)
-target_link_libraries(soldier_test PRIVATE GTest::GTest)
-target_link_libraries(weapon_test PRIVATE GTest::GTest)
-target_link_libraries(match_test PRIVATE GTest::GTest)
+target_link_libraries(resolver_test PRIVATE GTest::GTest yaml-cpp)
+target_link_libraries(information_test PRIVATE GTest::GTest yaml-cpp)
+target_link_libraries(gamemanager_test PRIVATE GTest::GTest yaml-cpp)
+target_link_libraries(command_test PRIVATE GTest::GTest yaml-cpp)
+target_link_libraries(soldier_test PRIVATE GTest::GTest yaml-cpp)
+target_link_libraries(weapon_test PRIVATE GTest::GTest yaml-cpp)
+target_link_libraries(match_test PRIVATE GTest::GTest yaml-cpp)
 
 #-----------------Adding Tests-----------------#
 # Siempre lo mismo tambien.

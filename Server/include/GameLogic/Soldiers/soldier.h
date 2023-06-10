@@ -29,6 +29,7 @@ public:
     bool shooting = false;
     bool reloading = false;
     bool throwing = false;
+    bool alive = true;
 
     explicit Soldier(
     uint32_t soldier_id,
@@ -42,6 +43,8 @@ public:
 
     virtual ~Soldier() {}
 
+    /* COMANDOS */
+
     virtual void move(
     uint8_t state,
     uint8_t moveAxis,
@@ -53,20 +56,21 @@ public:
     virtual void idle(uint8_t state);
     virtual void recvDamage(int8_t damage);
 
+    /* SIMULADORES */
+
     virtual void simulate(uint16_t time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int16_t dim_x, int16_t dim_y);
-
     virtual void simulateMove(uint16_t time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int16_t dim_x, int16_t dim_y);
-
     virtual void simulateShoot(uint16_t time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies);
-
     virtual void simulateReload(uint16_t time);
     virtual void simulateThrow(uint16_t time);
+
+    /* GETTERS */
 
     int8_t getDir(void);
     int8_t getDirX(void);
@@ -76,13 +80,15 @@ public:
     uint32_t getId(void);
     virtual uint8_t getSoldierType(void) = 0;
     uint8_t getAction(void);
-
-    void setPosition(Position&& new_pos);
-
     Position& getPosition(void);
     const Position& seePosition(void) const;
 
+    /* SETTERS */
+
+    void setPosition(Position&& new_pos);
 };
+
+/* COMPARADORES PARA LA COLA DE PRIORIDAD DE SCOUT */
 
 class Distance_from_left_is_minor {
 public:

@@ -1,15 +1,46 @@
 #include "../../../include/GameLogic/Weapons/weaponfactory.h"
+#include "yaml-cpp/yaml.h"
 
 std::unique_ptr<Weapon> WeaponFactory::create(uint8_t weapon_type) {
+    using YAML::LoadFile;
+    using YAML::Node;
+
+    Node p90w_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["p90weapon"];
+
+    const auto p90w_ammo =
+        p90w_config["ammo"].as<std::uint8_t>();
+    const auto p90w_damage =
+        p90w_config["damage"].as<std::uint8_t>();
+    const auto p90w_scope =
+        p90w_config["scope"].as<std::uint8_t>();
+
+    Node scoutw_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["scoutweapon"];
+
+    const auto scoutw_ammo =
+        scoutw_config["ammo"].as<std::uint8_t>();
+    const auto scoutw_damage =
+        scoutw_config["damage"].as<std::uint8_t>();
+    const auto scoutw_scope =
+        scoutw_config["scope"].as<std::uint8_t>();
+
+    Node idfw_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["idfweapon"];
+
+    const auto idfw_ammo =
+        idfw_config["ammo"].as<std::uint8_t>();
+    const auto idfw_damage =
+        idfw_config["damage"].as<std::uint8_t>();
+    const auto idfw_scope =
+        idfw_config["scope"].as<std::uint8_t>();
+
     switch(weapon_type) {
         case P90WEAPON: {
-            return std::unique_ptr<Weapon> (new P90Weapon(P90_AMMO, P90_DAMAGE, P90_SCOPE));
+            return std::unique_ptr<Weapon> (new P90Weapon(p90w_ammo, p90w_damage, p90w_scope));
         }
         case SCOUTWEAPON: {
-            return std::unique_ptr<Weapon> (new ScoutWeapon(SCOUT_AMMO, SCOUT_DAMAGE, SCOUT_SCOPE));
+            return std::unique_ptr<Weapon> (new ScoutWeapon(scoutw_ammo, scoutw_damage, scoutw_scope));
         }
         case IDFWEAPON: {
-            return std::unique_ptr<Weapon> (new IdfWeapon(IDF_AMMO, IDF_DAMAGE, IDF_SCOPE));
+            return std::unique_ptr<Weapon> (new IdfWeapon(idfw_ammo, idfw_damage, idfw_scope));
         }
     }
     return std::unique_ptr<Weapon>(nullptr);

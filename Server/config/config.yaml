@@ -1,0 +1,41 @@
+p90soldier:
+  type: 1
+  health: 100
+  width: 2
+  height: 6
+  speed: 1
+  grenade_type: 1
+
+scoutsoldier:
+  type: 2
+  health: 100
+  width: 2
+  height: 6
+  speed: 1
+  grenade_type: 2
+
+idfsoldier:
+  type: 2
+  health: 100
+  width: 2
+  height: 6
+  speed: 1
+  grenade_type: 2
+
+p90weapon:
+  type: 1
+  damage: 50
+  ammo: 30
+  scope: 2
+
+scoutweapon:
+  type: 2
+  damage: 60
+  ammo: 20
+  scope: 2
+
+idfweapon:
+  type: 3
+  damage: 80
+  ammo: 50
+  scope: 2

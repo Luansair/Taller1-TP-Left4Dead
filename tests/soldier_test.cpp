@@ -4,6 +4,25 @@
 #include "GameLogic/Soldiers/soldierfactory.h"
 #include "GameLogic/position.h"
 #include <tuple>
+#include "yaml-cpp/yaml.h"
+
+using YAML::LoadFile;
+using YAML::Node;
+
+Node p90_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["p90soldier"];
+
+        const auto p90_width =
+            p90_config["width"].as<std::int8_t>();
+        const auto p90_height =
+            p90_config["height"].as<std::int8_t>();
+        const auto p90_speed =
+            p90_config["speed"].as<std::int8_t>();
+        const auto p90_health =
+            p90_config["health"].as<std::int16_t>();
+        const auto p90_type =
+            p90_config["type"].as<std::uint8_t>();
+        const auto p90_grenade =
+            p90_config["grenade_type"].as<std::uint8_t>();
 
 TEST(soldier_test, Test00CreateSoldier) {
     SoldierFactory sfactory;
@@ -38,7 +57,7 @@ TEST(soldier_test, Test03MoveSoldierOnXRigth) {
     uint16_t time = 1;
     soldier->simulateMove(time, std::ref(soldiers), std::ref(zombies), 100, 100);
     Position& pos1 = soldier->getPosition();
-    ASSERT_NEAR(pos1.getXPos(), initial_x + time * P90SOLDIERSPEED, 0.5);
+    ASSERT_NEAR(pos1.getXPos(), initial_x + time * p90_speed, 0.5);
     ASSERT_NEAR(pos1.getYPos(), initial_y, 0.5);
     std::tuple<int16_t, int16_t, bool> tuple {10, 12, true};
     ASSERT_EQ(pos1.getXArea(), tuple);
@@ -58,7 +77,7 @@ TEST(soldier_test, Test04MoveSoldierAWhileOnXRight) {
     uint16_t time = 10;
     soldier->simulateMove(time, std::ref(soldiers), std::ref(zombies), 100, 100);
     Position& pos1 = soldier->getPosition();
-    ASSERT_NEAR(pos1.getXPos(), initial_x + time * P90SOLDIERSPEED, 0.5);
+    ASSERT_NEAR(pos1.getXPos(), initial_x + time * p90_speed, 0.5);
     ASSERT_NEAR(pos1.getYPos(), initial_y, 0.5);
     std::tuple<int16_t, int16_t, bool> tuple {19, 21, true};
     ASSERT_EQ(pos1.getXArea(), tuple);
@@ -78,7 +97,7 @@ TEST(soldier_test, Test05MoveSoldierOnXLeft) {
     uint16_t time = 1;
     soldier->simulateMove(time, std::ref(soldiers), std::ref(zombies), 100, 100);
     Position& pos1 = soldier->getPosition();
-    ASSERT_NEAR(pos1.getXPos(), initial_x - time * P90SOLDIERSPEED, 0.5);
+    ASSERT_NEAR(pos1.getXPos(), initial_x - time * p90_speed, 0.5);
     ASSERT_NEAR(pos1.getYPos(), initial_y, 0.5);
     std::tuple<int16_t, int16_t, bool> tuple {8, 10, true};
     ASSERT_EQ(pos1.getXArea(), tuple);
@@ -98,7 +117,7 @@ TEST(soldier_test, Test06MoveSoldierAWhileOnXleft) {
     uint16_t time = 15;
     soldier->simulateMove(time, std::ref(soldiers), std::ref(zombies), 100, 100);
     Position& pos1 = soldier->getPosition();
-    ASSERT_NEAR(pos1.getXPos(), initial_x - time * P90SOLDIERSPEED, 0.5);
+    ASSERT_NEAR(pos1.getXPos(), initial_x - time * p90_speed, 0.5);
     ASSERT_NEAR(pos1.getYPos(), initial_y, 0.5);
     std::tuple<int16_t, int16_t, bool> tuple {14, 16, true};
     ASSERT_EQ(pos1.getXArea(), tuple);
@@ -119,7 +138,7 @@ TEST(soldier_test, Test07MoveSoldierOnYUp) {
     soldier->simulateMove(time, std::ref(soldiers), std::ref(zombies), 100, 100);
     Position& pos1 = soldier->getPosition();
     ASSERT_NEAR(pos1.getXPos(), initial_x, 0.5);
-    ASSERT_NEAR(pos1.getYPos(), initial_y + time * P90SOLDIERSPEED, 0.5);
+    ASSERT_NEAR(pos1.getYPos(), initial_y + time * p90_speed, 0.5);
     std::tuple<int16_t, int16_t, bool> tuple {8, 14, true};
     ASSERT_EQ(pos1.getYArea(), tuple);
 
@@ -139,7 +158,7 @@ TEST(soldier_test, Test08MoveSoldierOnYDown) {
     soldier->simulateMove(time, std::ref(soldiers), std::ref(zombies), 100, 100);
     Position& pos1 = soldier->getPosition();
     ASSERT_NEAR(pos1.getXPos(), initial_x, 0.5);
-    ASSERT_NEAR(pos1.getYPos(), initial_y - time * P90SOLDIERSPEED, 0.5);
+    ASSERT_NEAR(pos1.getYPos(), initial_y - time * p90_speed, 0.5);
     std::tuple<int16_t, int16_t, bool> tuple {6, 12, true};
     ASSERT_EQ(pos1.getYArea(), tuple);
 

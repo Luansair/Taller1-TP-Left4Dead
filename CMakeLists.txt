@@ -20,6 +20,7 @@ add_subdirectory(tests)
 
 add_definitions(-DRESOURCES_PATH="${PROJECT_SOURCE_DIR}/Resources")
 add_definitions(-DCLIENT_CONFIG_PATH="${PROJECT_SOURCE_DIR}/Client/config")
+add_definitions(-DSERVER_CONFIG_PATH="${PROJECT_SOURCE_DIR}/Server/config")
 
 include_directories(${SDL2PP_INCLUDE_DIRS})
 
@@ -31,6 +32,7 @@ add_executable(Client ${CLIENT_SOURCES} ${COMMON_SOURCES})
 add_executable(Server ${SERVER_SOURCES} ${COMMON_SOURCES})
 
 target_link_libraries(Client PUBLIC SDL2pp yaml-cpp)
+target_link_libraries(Server PUBLIC yaml-cpp)
 
 file(COPY Resources DESTINATION ${CMAKE_BINARY_DIR})
 

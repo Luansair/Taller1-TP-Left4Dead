@@ -24,6 +24,7 @@ public:
     Position position;
     std::unique_ptr<Weapon> weapon;
     std::unique_ptr<Grenade> grenade;
+    int8_t dir_x = RIGHT;
     bool moving = false;
     bool shooting = false;
     bool reloading = false;
@@ -68,6 +69,7 @@ public:
     virtual void simulateThrow(uint16_t time);
 
     int8_t getDir(void);
+    int8_t getDirX(void);
     int8_t getHealth(void);
     uint8_t getWidth(void);
     uint8_t getHeight(void);

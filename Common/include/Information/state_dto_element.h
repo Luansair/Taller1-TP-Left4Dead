@@ -10,7 +10,7 @@
 struct ElementStateDTO {
     const std::uint8_t type;  // Ej: SOLDIER_1, ZOMBIE, ...
     const std::uint8_t action;  // Ej: ACTION_IDLE, ...
-    const std::uint8_t direction;
+    const std::int8_t direction;
     const int position_x;
     const int position_y;
 };

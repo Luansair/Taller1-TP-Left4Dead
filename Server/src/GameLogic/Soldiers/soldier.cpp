@@ -44,6 +44,7 @@ void Soldier::move(
             axis = moveAxis;
             dir = moveDirection;
             speed = moveForce;
+            if (moveAxis == X) dir_x = moveDirection;
             break;
         case OFF:
             moving = false;
@@ -133,7 +134,6 @@ void Soldier::reload(uint8_t state) {
 
 void Soldier::simulateReload(uint16_t time) {
     (weapon->reload());
-    reload(OFF);
 }
 
 void Soldier::throwGrenade(uint8_t state){
@@ -175,6 +175,10 @@ void Soldier::recvDamage(int8_t damage) {
 
 int8_t Soldier::getDir(void) {
     return dir;
+}
+
+int8_t Soldier::getDirX(void) {
+    return dir_x;
 }
 
 int8_t Soldier::getHealth(void) {

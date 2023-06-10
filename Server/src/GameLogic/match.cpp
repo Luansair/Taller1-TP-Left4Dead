@@ -72,13 +72,14 @@ void Match::simulateStep(void) {
 std::vector<std::pair<uint16_t, ElementStateDTO>> Match::getElementStates(void) {
     std::vector<std::pair<uint16_t, ElementStateDTO>> elementStates;
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
+        int id = i->second->getId();
         uint8_t actor_type = i->second->getSoldierType();
         uint8_t actor_action = i->second->getAction();
-        uint8_t actor_direction = i->second->getDir();
+        int8_t actor_direction = i->second->getDirX();
         int position_x = i->second->getPosition().getXPos();
         int position_y = i->second->getPosition().getYPos();
         ElementStateDTO dto {actor_type, actor_action, actor_direction, position_x, position_y};
-        elementStates.emplace_back(i->first, dto);
+        elementStates.emplace_back(id, dto);
     }
     return elementStates;
 

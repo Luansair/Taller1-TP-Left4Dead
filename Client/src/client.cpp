@@ -10,24 +10,27 @@
 #include "../include/Drawer/drawer_manager.h"
 #include "../include/visual_game.h"
 
-Client::Client(const char *hostname, const char *servname) :
-    socket(hostname, servname) ,
-    protocol(socket) {
+Client::Client(const char *hostname, const char *servname) : socket(hostname, servname),
+                                                             protocol(socket)
+{
 }
 
-void Client::processEvent(std::uint32_t event_type, int key_code, bool *quit) {
-    if (event_type == SDL_KEYDOWN) {
-        switch (key_code) {
-            case SDLK_ESCAPE:
-                *quit = true;
-                break;
+void Client::processEvent(std::uint32_t event_type, int key_code, bool *quit)
+{
+    if (event_type == SDL_KEYDOWN)
+    {
+        switch (key_code)
+        {
+        case SDLK_ESCAPE:
+            *quit = true;
+            break;
 
-            case SDLK_z:
-                protocol.sendAction(StartShootAction());
-                break;
+        case SDLK_z:
+            protocol.sendAction(StartShootAction());
+            break;
 
-            default:
-                break;
+        default:
+            break;
         }
     }
 }
@@ -38,38 +41,46 @@ void Client::processEvent(std::uint32_t event_type, int key_code, bool *quit) {
 // Es responsabilidad del cliente transformar lo q reciba a pixeles. No va a
 // recibir pixeles directamente
 // Poder cambiar parametros in game para probar
-void Client::start() {
-    using SDL2pp::SDL;
-    using SDL2pp::Window;
-    using SDL2pp::Renderer;
-    using SDL2pp::Texture;
-    using SDL2pp::Rect;
+void Client::start()
+{
     using SDL2pp::NullOpt;
+    using SDL2pp::Rect;
+    using SDL2pp::Renderer;
+    using SDL2pp::SDL;
+    using SDL2pp::Texture;
+    using SDL2pp::Window;
 
-    using YAML::Node;
     using YAML::LoadFile;
+    using YAML::Node;
 
     bool joined = false;
     std::cout << "Waiting input. Use 'create' or 'join <code>' to join a "
-                 "game." << std::endl;
-    while (!joined) {
+                 "game."
+              << std::endl;
+    while (!joined)
+    {
         std::string action;
         std::cin >> action;
-        if (action == "join") {
+        if (action == "join")
+        {
             std::uint32_t game_code;
             std::cin >> game_code;
             protocol.sendAction(JoinGameAction(game_code));
             joined = true;
-        } else if (action == "create") {
+        }
+        else if (action == "create")
+        {
             protocol.sendAction(CreateGameAction());
             std::unique_ptr<Information> create_feed(
-                    protocol.recvFeedback());
-            if (create_feed == nullptr) {
+                protocol.recvFeedback());
+            if (create_feed == nullptr)
+            {
                 throw std::runtime_error("Client::start. CreateFeedback is "
                                          "null.\n");
             }
-            std::cout << dynamic_cast<CreateGameFeedback*>(create_feed.get())
-            ->game_code << std::endl;
+            std::cout << dynamic_cast<CreateGameFeedback *>(create_feed.get())
+                             ->game_code
+                      << std::endl;
             joined = true;
         }
     }
@@ -77,9 +88,9 @@ void Client::start() {
     Node window_config = LoadFile(CLIENT_CONFIG_PATH "/config.yaml")["window"];
 
     const auto window_width =
-            window_config["width"].as<std::uint16_t>();
+        window_config["width"].as<std::uint16_t>();
     const auto window_height =
-            window_config["height"].as<std::uint16_t>();
+        window_config["height"].as<std::uint16_t>();
 
     GameVisual game_visual(window_width, window_height);
 
@@ -92,63 +103,79 @@ void Client::start() {
     bool last_input_right = false;
     bool last_input_left = false;
     unsigned int prev_ticks = SDL_GetTicks();
-    std::uint8_t direction = DrawDirection::DRAW_RIGHT;
+    std::int8_t direction = DrawDirection::DRAW_RIGHT;
 
     bool quit = false;
-    while(!quit) {
+    while (!quit)
+    {
         unsigned int frame_ticks = SDL_GetTicks();
         unsigned int frame_delta = frame_ticks - prev_ticks;
         prev_ticks = frame_ticks;
 
         SDL_Event event;
-        while (SDL_PollEvent(&event)) {
+        while (SDL_PollEvent(&event))
+        {
             processEvent(event.type, event.key.keysym.sym, &quit);
-            if (event.type == SDL_QUIT) {
+            if (event.type == SDL_QUIT)
+            {
                 quit = true;
+            }
+            else if (event.type == SDL_KEYDOWN)
+            {
+                switch (event.key.keysym.sym)
+                {
+                case SDLK_ESCAPE:
+                    quit = true;
+                    break;
 
-            } else if (event.type == SDL_KEYDOWN) {
-                switch (event.key.keysym.sym) {
-                    case SDLK_ESCAPE:
-                        quit = true;
-                        break;
+                case SDLK_RIGHT:
+                    is_running_right = true;
+                    last_input_right = true;
+                    last_input_left = false;
+                    break;
 
-                    case SDLK_RIGHT:
-                        is_running_right = true;
-                        last_input_right = true;
-                        last_input_left = false;
-                        break;
-
-                    case SDLK_LEFT:
-                        is_running_left = true;
-                        last_input_right = false;
-                        last_input_left = true;
-                        break;
+                case SDLK_LEFT:
+                    is_running_left = true;
+                    last_input_right = false;
+                    last_input_left = true;
+                    break;
                 }
                 // Parseamos y definimos valores
-            } else if (event.type == SDL_KEYUP) {
-                switch (event.key.keysym.sym) {
-                    case SDLK_RIGHT:
-                        is_running_right = false;
-                        break;
+            }
+            else if (event.type == SDL_KEYUP)
+            {
+                switch (event.key.keysym.sym)
+                {
+                case SDLK_RIGHT:
+                    is_running_right = false;
+                    break;
 
-                    case SDLK_LEFT:
-                        is_running_left = false;
-                        break;
+                case SDLK_LEFT:
+                    is_running_left = false;
+                    break;
                 }
             }
         }
-        if (is_running_right && is_running_left) {
-            if (last_input_right) {
+        if (is_running_right && is_running_left)
+        {
+            if (last_input_right)
+            {
                 direction = DrawDirection::DRAW_RIGHT;
                 position += frame_delta * 0.27;
-            } else if (last_input_left) {
+            }
+            else if (last_input_left)
+            {
                 direction = DrawDirection::DRAW_LEFT;
                 position -= frame_delta * 0.27;
             }
-        } else if (is_running_right) {
+        }
+        else if (is_running_right)
+        {
             direction = DrawDirection::DRAW_RIGHT;
             position += frame_delta * 0.27;
-        } else if (is_running_left) {
+        }
+        else if (is_running_left)
+        {
             direction = DrawDirection::DRAW_LEFT;
             position -= frame_delta * 0.27;
         }
@@ -168,10 +195,12 @@ void Client::start() {
 
         uint8_t type = ElementType::SOLDIER_1;
         uint8_t action = SoldierOneActionID::SOLDIER_1_IDLE;
-        if (is_running_right || is_running_left) {
+        if (is_running_right || is_running_left)
+        {
             action = SoldierOneActionID::SOLDIER_1_RUN;
         }
-        if (frame_ticks > 10000) {
+        if (frame_ticks > 10000)
+        {
             action = SoldierOneActionID::SOLDIER_1_DEAD;
             position = (window_width / 2) - src_width;
             direction = DrawDirection::DRAW_RIGHT;
@@ -181,8 +210,7 @@ void Client::start() {
                                         static_cast<int>(position),
                                         vcenter - src_height};
         ElementStateDTO zombie1_state = {
-            ZOMBIE, ZOMBIE_IDLE, DRAW_RIGHT, window_width/4, window_height/4
-        };
+            ZOMBIE, ZOMBIE_IDLE, DRAW_RIGHT, window_width / 4, window_height / 4};
         std::vector<std::pair<std::uint16_t, ElementStateDTO>> actors;
         actors.emplace_back(player_id, player_state);
         actors.emplace_back(0x5678, zombie1_state);

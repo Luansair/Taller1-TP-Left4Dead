@@ -41,7 +41,7 @@ GameStateFeedback *Protocol::builtGameStateFeedback() {
 ElementStateDTO Protocol::recvActorState() {
     uint8_t actor_type;
     uint8_t actor_action;
-    uint8_t actor_direction;
+    int8_t actor_direction;
     int bigendian_actor_position_x;
     int bigendian_actor_position_y;
 

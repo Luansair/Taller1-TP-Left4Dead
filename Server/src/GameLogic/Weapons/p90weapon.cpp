@@ -2,19 +2,22 @@
 #include "../../../include/GameLogic/Soldiers/soldier.h"
 #include "../../../include/GameLogic/Zombies/zombie.h"
 
-P90Weapon::P90Weapon(uint8_t ammo, uint8_t damage, uint8_t scope) :
+P90Weapon::P90Weapon(uint8_t ammo, uint8_t damage, uint8_t scope, float reduction) :
     ammo(ammo),
+    actual_ammo(ammo),
     damage(damage),
-    scope(scope) {
+    scope(scope),
+    damage_reduction_coef(reduction) {
 }
 
 bool P90Weapon::shoot(
     Position& from,
     int8_t dir,
+    int32_t dim_x,
     uint16_t time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies) {
-    if (ammo == 0) return false;
+    if (actual_ammo == 0) return false;
     Hitbox hitbox;
 
     // calculo a donde llega el disparo
@@ -25,7 +28,7 @@ bool P90Weapon::shoot(
         hitbox.setValues(next_x, from.getXPos(), from.getYPos() - scope / 2, from.getYPos() + scope / 2);
     }
 
-    int16_t distance = 16383; // distancia maxima
+    int16_t distance = dim_x; // distancia maxima
     uint32_t victim_id;
     int16_t new_distance;
     bool collision = false;
@@ -49,15 +52,15 @@ bool P90Weapon::shoot(
     }
 
     if (collision) {
-        int8_t actual_damage = damage; // pensar forma para calcular el daño dependiendo la distancia
+        int8_t actual_damage = damage * (1 - ((dim_x - distance) / dim_x));
         (soldiers.at(victim_id))->recvDamage(actual_damage);
     }
     // resto balas/rafagas
-    ammo -= 1;
+    actual_ammo -= 1;
     return true;
 }
 
 void P90Weapon::reload(void) {
-    ammo = P90_AMMO;
+    actual_ammo = ammo;
 }
 

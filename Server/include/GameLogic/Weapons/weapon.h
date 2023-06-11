@@ -21,6 +21,7 @@ public:
     virtual bool shoot(
     Position& from,
     int8_t dir,
+    int32_t dim_x,
     uint16_t time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies) = 0;

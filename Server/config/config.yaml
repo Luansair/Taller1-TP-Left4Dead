@@ -27,15 +27,18 @@ p90weapon:
   damage: 50
   ammo: 30
   scope: 2
+  damage_reduction_coef: 0.8
 
 scoutweapon:
   type: 2
   damage: 60
   ammo: 20
   scope: 2
+  damage_reduction_coef: 0.8
 
 idfweapon:
   type: 3
   damage: 80
   ammo: 50
   scope: 2
+  damage_reduction_coef: 0.8

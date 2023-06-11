@@ -103,16 +103,16 @@ void Soldier::recvDamage(int8_t damage) {
 
 void Soldier::simulate(uint16_t time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int16_t dim_x, int16_t dim_y) {
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y) {
     if (moving) simulateMove(time, soldiers, zombies, dim_x, dim_y);
     if (reloading) simulateReload(time);
-    if (shooting) simulateShoot(time, soldiers, zombies);
+    if (shooting) simulateShoot(time, soldiers, zombies, dim_x);
     if (throwing) simulateThrow(time);
 }
 
 void Soldier::simulateMove(uint16_t time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int16_t dim_x, int16_t dim_y) {
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y) {
 
     int16_t next_x;
     int16_t next_y;
@@ -150,8 +150,8 @@ void Soldier::simulateMove(uint16_t time,
 
 void Soldier::simulateShoot(uint16_t time, 
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies) {
-    if (!(weapon->shoot(getPosition(), dir, time, std::ref(soldiers), std::ref(zombies)))) reload(ON);
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x) {
+    if (!(weapon->shoot(getPosition(), dir, dim_x, time, std::ref(soldiers), std::ref(zombies)))) reload(ON);
 }
 
 void Soldier::simulateReload(uint16_t time) {
@@ -166,7 +166,7 @@ void Soldier::simulateThrow(uint16_t time) {}
 
 bool Distance_from_left_is_minor::operator()(std::shared_ptr<Soldier> below, std::shared_ptr<Soldier> above)
     {
-        if (below->getPosition().getXPos() > above->seePosition().getXPos()) {
+        if (below->seePosition().getXPos() > above->seePosition().getXPos()) {
             return true;
         }
  

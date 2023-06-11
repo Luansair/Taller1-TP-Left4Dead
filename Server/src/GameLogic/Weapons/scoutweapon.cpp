@@ -4,20 +4,22 @@
 
 #include <queue>
 
-ScoutWeapon::ScoutWeapon(uint8_t ammo, uint8_t damage, uint8_t scope) :
+ScoutWeapon::ScoutWeapon(uint8_t ammo, uint8_t damage, uint8_t scope, float reduction) :
     ammo(ammo),
+    actual_ammo(ammo),
     damage(damage),
-    scope(scope) {
+    scope(scope),
+    damage_reduction_coef(reduction) {
 }
 
 bool ScoutWeapon::shoot(
     Position& from,
     int8_t dir,
+    int32_t dim_x,
     uint16_t time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies) {
-
-    if (ammo == 0) return false;
+    if (actual_ammo == 0) return false;
     Hitbox hitbox;
 
     // calculo a donde llega el disparo
@@ -41,11 +43,11 @@ bool ScoutWeapon::shoot(
             const std::shared_ptr<Soldier> &victim = victims_queue.top();
             victim->recvDamage(actual_damage);
             victims_queue.pop();
-            actual_damage = actual_damage * DAMAGE_REDUCTION_COEF;
+            actual_damage = actual_damage * damage_reduction_coef;
         }
     } else if (dir == LEFT) {
         hitbox.setValues(next_x, from.getXPos(), from.getYPos() - scope / 2, from.getYPos() + scope / 2);
-        std::priority_queue<std::shared_ptr<Soldier>, std::vector<std::shared_ptr<Soldier>>, Distance_from_left_is_minor> victims_queue;
+        std::priority_queue<std::shared_ptr<Soldier>, std::vector<std::shared_ptr<Soldier>>, Distance_from_right_is_minor> victims_queue;
 
         for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
             Position victim_pos = i->second->getPosition();
@@ -62,15 +64,16 @@ bool ScoutWeapon::shoot(
             const std::shared_ptr<Soldier> &victim = victims_queue.top();
             victim->recvDamage(actual_damage);
             victims_queue.pop();
-            actual_damage = actual_damage * DAMAGE_REDUCTION_COEF;
+            actual_damage = actual_damage * damage_reduction_coef;
         }
     }
 
     // resto balas/rafagas
-    ammo -= 1;
+    actual_ammo -= 1;
     return true;
 }
 
+
 void ScoutWeapon::reload(void) {
-    ammo = SCOUT_AMMO;
+    actual_ammo = ammo;
 }

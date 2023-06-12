@@ -3,6 +3,9 @@
 
 #include "zombie.h"
 
+/* Esta infectada ocasionalmente se pone a gritar atrayendo a más infectados que llegaran corriendo a la
+zona desde todas las direcciones. Los jugadores deberían eliminarla lo antes posible. */
+
 class Witch: public Zombie {
 private:
     int32_t x;

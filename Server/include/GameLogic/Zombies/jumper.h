@@ -3,6 +3,10 @@
 
 #include "zombie.h"
 
+/* Este infectado tiene la particularidad de saltar sobre sus víctimas y producirles daño al caer sobre ellas. El
+jugador puede ver que el infectado está por saltar por su característica pose en el piso. Si es lo
+suficientemente rápido de reflejos, podrá correr y evitar el ataque. */
+
 class Jumper : public Zombie {
 private:
     int32_t x;

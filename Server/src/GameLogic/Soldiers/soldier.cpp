@@ -1,4 +1,5 @@
 #include "../../../include/GameLogic/Soldiers/soldier.h"
+#include <random>
 
 /* CONSTRUCTOR */
 
@@ -227,4 +228,36 @@ const Position& Soldier::seePosition(void) const {
 
 void Soldier::setPosition(Position&& new_pos) {
     position = new_pos;
+}
+
+void Soldier::setRandomPosition(
+    std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y) {
+    using std::random_device;
+    using std::mt19937;
+    using std::uniform_int_distribution;
+    using std::uint32_t;
+
+    random_device rd;
+    mt19937 mt(rd());
+    uniform_int_distribution<int32_t> distx(0, dim_x);
+    uniform_int_distribution<int32_t> disty(0, dim_y);
+    int32_t x_pos;
+    int32_t y_pos;
+    bool collides;
+    do {
+        collides = false;
+        x_pos = distx(mt);
+        y_pos = disty(mt);
+        Position position(x_pos, y_pos, getWidth(), getHeight(), dim_x, dim_y);
+        for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
+            Position other_pos = i->second->getPosition();
+            if (position.collides(other_pos)) {
+                collides = true;
+                break;
+            }
+        }
+    } while (collides);
+    Position position(x_pos, y_pos, getWidth(), getHeight(), dim_x, dim_y);
+    setPosition(std::move(position));
 }

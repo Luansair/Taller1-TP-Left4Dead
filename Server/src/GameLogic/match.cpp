@@ -16,9 +16,7 @@ void Match::delete_soldier(uint32_t soldier_id) {
 void Match::join(uint32_t soldier_id, uint8_t soldier_type) {
     SoldierFactory factory;
     std::shared_ptr<Soldier> soldier = factory.create(soldier_id, soldier_type);
-    // los va poniendo apilados al lado del borde izq
-    Position position(soldier->getWidth() * 0.5, soldier->getHeight() * 0.5 * soldier_counter, soldier->getWidth(), soldier->getHeight(), x_dim, y_dim);
-    soldier->setPosition(std::move(position));
+    soldier->setRandomPosition(std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
     soldiers.emplace(soldier_id, std::move(soldier));
     soldier_counter += 1;
 }

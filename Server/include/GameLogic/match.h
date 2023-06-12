@@ -32,8 +32,8 @@ private:
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
     int32_t x_dim;
     int32_t y_dim;
-    uint8_t soldier_counter = 1;
-    uint8_t zombie_counter = 1;
+    uint8_t soldier_counter = 0;
+    uint8_t zombie_counter = 0;
 public:
 
     /* Constructor de Match, parámetros: dimensiones del mapa */

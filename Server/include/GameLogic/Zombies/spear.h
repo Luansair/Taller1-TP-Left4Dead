@@ -3,6 +3,9 @@
 
 #include "zombie.h"
 
+/* A pesar de que la mayoría de los infectados muestran un nivel cognitivo básico, algunos han llegado a
+evolucionar a tal punto de ser capaces de usar armas como lanzas. */
+
 class Spear : public Zombie {
 private:
     int32_t x;

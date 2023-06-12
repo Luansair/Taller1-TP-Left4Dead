@@ -4,6 +4,7 @@
 #include "GameLogic/Soldiers/soldier.h"
 #include "../Common/include/Information/state_dto_element.h"
 #include "../Common/include/Information/information_code.h"
+#include <tuple>
 
 bool operator==(const ElementStateDTO& lhs, const ElementStateDTO& rhs) {
     return (lhs.type == rhs.type && 
@@ -46,7 +47,6 @@ TEST(match_test, Test02InsertSomeSoldiers) {
     ASSERT_EQ(dtos.at(1).second, test2);
     ElementStateDTO test3 {SOLDIER_1, ACTION_IDLE, RIGHT, soldiers.at(3)->getPosition().getXPos(), soldiers.at(3)->getPosition().getYPos()};
     ASSERT_EQ(dtos.at(2).second, test3);
-
 }
 
 TEST(match_test, Test03MoveSoldier) {

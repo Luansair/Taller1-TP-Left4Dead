@@ -7,7 +7,7 @@ Game::Game(std::uint8_t max_players) :
         started(false),
         commands_recv(10000),
         player_queues(),
-        match(10, 10) { // por ahora se crea un match de 10x10
+        match(1000, 1000) { // por ahora se crea un match de 10x10
     player_queues.reserve(max_players);
 }
 
@@ -30,6 +30,8 @@ bool Game::join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, Queue<std::s
     // Also a random function could be used for the ids.
     *player_id = ++players_amount;
 
+    match.join(*player_id, 1);
+
     // Game starts when max_players is reached.
     if (players_amount == max_players) {
         started = true;
@@ -48,9 +50,14 @@ void Game::stop() {
 void Game::run() {
     while (is_running && players_amount > 0) {
         // Use trypop, do not block the Game thread ever...
-        // Command *command = nullptr;
-        // if (commands_recv.try_pop(command)) command->Execute(std::ref(match));
-        // delete command;
+        std::shared_ptr<InGameCommand> command (nullptr);
+        if (commands_recv.try_pop(std::ref(command))) command->execute(std::ref(match));
+        match.simulateStep();
+        std::vector<std::pair<short unsigned int, ElementStateDTO> >state = match.getElementStates();
+        // const std::shared_ptr<Information> feedback_ptr = std::make_shared<GameStateFeedback>(match.getMatchState());
+        // for(Queue<std::shared_ptr<Information>>* i : player_queues) {
+        //    i->try_push(std::move(feedback_ptr));
+        // } 
     }
 }
 

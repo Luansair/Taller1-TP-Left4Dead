@@ -57,7 +57,7 @@ class Queue {
             return true;
         }
 
-        bool try_pop(T&& val) {
+        bool try_pop(T& val) {
             std::unique_lock<std::mutex> lck(mtx);
 
             if (q.empty()) {

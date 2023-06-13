@@ -1,7 +1,7 @@
 #ifndef ACTION_STARTSHOOT_H
 #define ACTION_STARTSHOOT_H
 
-#include "information.h"
+#include "../information.h"
 
 class StartShootAction : public Information {
 

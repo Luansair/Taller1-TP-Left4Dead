@@ -4,6 +4,8 @@
 #include "../include/Command/command_pregame_joingame.h"
 #include "../include/Command/command_pregame_creategame.h"
 #include "../include/Command/command_ingame_startshoot.h"
+#include "../include/Command/command_ingame_startmove.h"
+#include "../include/Command/command_ingame_startidle.h"
 
 Protocol::Protocol(GameSocket &socket) : socket(socket) {}
 
@@ -23,6 +25,9 @@ PreGameCommand *Protocol::recvPreGameCommand() {
 }
 
 InGameCommand* Protocol::recvInGameCommand(std::uint8_t player_id) {
+    using std::uint8_t;
+    using std::int8_t;
+
     uint8_t action_id;
     socket.recvData(&action_id, 1);
     if (action_id == ACTION_SHOOT) {
@@ -30,6 +35,18 @@ InGameCommand* Protocol::recvInGameCommand(std::uint8_t player_id) {
         socket.recvData(&action_state, 1);
         if (action_state == ON) {
             return new StartShootCommand(player_id);
+        }
+    } else if (action_id == ACTION_MOVE) {
+        uint8_t action_state;
+        uint8_t axis = X;
+        int8_t direction;
+        uint8_t force = NORMAL;
+        socket.recvData(&action_state, 1);
+        socket.recvData(&direction, 1);
+        if (action_state == ON) {
+            return new StartMoveCommand(player_id, axis, direction, force);
+        } else if (action_state == OFF) {
+            return new StartIdleCommand(player_id);
         }
     }
     return nullptr;

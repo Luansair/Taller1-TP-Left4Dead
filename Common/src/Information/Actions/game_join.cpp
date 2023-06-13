@@ -1,5 +1,5 @@
-#include "../../include/Information/action_joingame.h"
-#include "../../include/Information/information_code.h"
+#include "../../../include/Information/Actions/game_join.h"
+#include "../../../include/Information/information_code.h"
 
 JoinGameAction::JoinGameAction(uint32_t game_code) :
         game_code(game_code) {

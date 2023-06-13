@@ -1,7 +1,7 @@
 #ifndef ACTION_JOINGAME_H
 #define ACTION_JOINGAME_H
 
-#include "information.h"
+#include "../information.h"
 
 class JoinGameAction : public Information {
 public:

@@ -1,29 +1,32 @@
-// Copyright [2023] pgallino
-
+//
+// Created by luan on 12/06/23.
+//
 #include "../include/sender.h"
 
-Sender::Sender(GameSocket& socket, Queue<std::shared_ptr<Information>>& game_state_queue) :
+Sender::Sender(Queue<std::shared_ptr<Information>> &actions_to_send,
+               GameSocket& socket) :
+    actions_to_send(actions_to_send),
     protocol(socket),
-    game_state_queue(game_state_queue),
-    is_running(true) ,
-    keep_talking(true) {
+    keep_sending(true),
+    is_running(true) {
 }
 
 void Sender::run() {
     using std::cerr;
     using std::endl;
     try {
-    while (keep_talking) {
-        const std::shared_ptr<Information>& feed = game_state_queue.pop();
-        protocol.sendFeedback(*feed);
-    }
+        while (keep_sending) {
+            const std::shared_ptr<Information>& action_to_send =
+                    actions_to_send.pop();
+            protocol.sendAction(*action_to_send);
+        }
     } catch (const ClosedQueue& err) {
         cerr << "In Sender thread: " << err.what() << endl;
         is_running = false;
-        keep_talking = false;
+        keep_sending = false;
     } catch (const std::exception& e) {
         cerr << "An exception was caught in the Sender thread: "
-        << e.what() << endl;
+             << e.what() << endl;
     } catch (...) {
         cerr << "An unknown exception was caught in the Sender thread." << endl;
     }
@@ -31,8 +34,8 @@ void Sender::run() {
 }
 
 void Sender::stop() {
-    keep_talking = false;
-    game_state_queue.close();
+    keep_sending = false;
+    actions_to_send.close();
 }
 
 bool Sender::isDead() const {

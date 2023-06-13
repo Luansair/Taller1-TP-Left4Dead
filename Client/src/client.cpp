@@ -2,17 +2,26 @@
 #include <SDL2pp/SDL2pp.hh>
 #include "yaml-cpp/yaml.h"
 #include "../include/client.h"
-#include "../../Common/include/Information/action_startshoot.h"
-#include "../../Common/include/Information/action_joingame.h"
-#include "../../Common/include/Information/action_creategame.h"
+#include "../../Common/include/Information/Actions/shoot_start.h"
+#include "../../Common/include/Information/Actions/game_join.h"
+#include "../../Common/include/Information/Actions/game_create.h"
 #include "../../Common/include/Information/information_code.h"
 #include "../include/Animations/animation_manager.h"
 #include "../include/Drawer/drawer_manager.h"
 #include "../include/visual_game.h"
+#include "../../Common/include/Information/Actions/moving_right_start.h"
+#include "../../Common/include/Information/Actions/moving_left_start.h"
+#include "../../Common/include/Information/Actions/moving_right_stop.h"
+#include "../../Common/include/Information/Actions/moving_left_stop.h"
 
-Client::Client(const char *hostname, const char *servname) : socket(hostname, servname),
-                                                             protocol(socket)
-{
+
+Client::Client(const char *hostname, const char *servname) :
+    socket(hostname, servname) ,
+    protocol(socket),
+    actions_to_send(5000),
+    feedback_received(10000),
+    sender(actions_to_send, socket),
+    receiver(feedback_received, socket) {
 }
 
 void Client::processEvent(std::uint32_t event_type, int key_code, bool *quit)
@@ -41,8 +50,7 @@ void Client::processEvent(std::uint32_t event_type, int key_code, bool *quit)
 // Es responsabilidad del cliente transformar lo q reciba a pixeles. No va a
 // recibir pixeles directamente
 // Poder cambiar parametros in game para probar
-void Client::start()
-{
+void Client::start() {
     using SDL2pp::NullOpt;
     using SDL2pp::Rect;
     using SDL2pp::Renderer;
@@ -53,6 +61,12 @@ void Client::start()
     using YAML::LoadFile;
     using YAML::Node;
 
+    using std::make_shared;
+    using std::shared_ptr;
+
+    sender.start();
+    receiver.start();
+    // crear clase lobby
     bool joined = false;
     std::cout << "Waiting input. Use 'create' or 'join <code>' to join a "
                  "game."
@@ -65,14 +79,16 @@ void Client::start()
         {
             std::uint32_t game_code;
             std::cin >> game_code;
-            protocol.sendAction(JoinGameAction(game_code));
+            actions_to_send.push(
+                    make_shared<JoinGameAction>(game_code));
             joined = true;
         }
         else if (action == "create")
         {
-            protocol.sendAction(CreateGameAction());
-            std::unique_ptr<Information> create_feed(
-                protocol.recvFeedback());
+            actions_to_send.push(make_shared<CreateGameAction>());
+            const std::shared_ptr<Information>& create_feed =
+                    feedback_received.pop();
+
             if (create_feed == nullptr)
             {
                 throw std::runtime_error("Client::start. CreateFeedback is "
@@ -93,7 +109,7 @@ void Client::start()
         window_config["height"].as<std::uint16_t>();
 
     GameVisual game_visual(window_width, window_height);
-
+    /*
     std::uint16_t player_id = 0x1234;
 
     // Big part of this logic has to be done by the Server
@@ -102,15 +118,14 @@ void Client::start()
     bool is_running_left = false;
     bool last_input_right = false;
     bool last_input_left = false;
-    unsigned int prev_ticks = SDL_GetTicks();
-    std::int8_t direction = DrawDirection::DRAW_RIGHT;
 
+    std::int8_t direction = DrawDirection::DRAW_RIGHT;
+    */
+    std::shared_ptr<Information> information_ptr = nullptr;
     bool quit = false;
     while (!quit)
     {
         unsigned int frame_ticks = SDL_GetTicks();
-        unsigned int frame_delta = frame_ticks - prev_ticks;
-        prev_ticks = frame_ticks;
 
         SDL_Event event;
         while (SDL_PollEvent(&event))
@@ -129,15 +144,13 @@ void Client::start()
                     break;
 
                 case SDLK_RIGHT:
-                    is_running_right = true;
-                    last_input_right = true;
-                    last_input_left = false;
+                    actions_to_send.push(
+                            make_shared<StartMovingRightAction>());
                     break;
 
                 case SDLK_LEFT:
-                    is_running_left = true;
-                    last_input_right = false;
-                    last_input_left = true;
+                    actions_to_send.push(
+                            make_shared<StartMovingLeftAction>());
                     break;
                 }
                 // Parseamos y definimos valores
@@ -147,15 +160,18 @@ void Client::start()
                 switch (event.key.keysym.sym)
                 {
                 case SDLK_RIGHT:
-                    is_running_right = false;
+                    actions_to_send.push(
+                            make_shared<StopMovingRightAction>());
                     break;
 
                 case SDLK_LEFT:
-                    is_running_left = false;
+                    actions_to_send.push(
+                            make_shared<StopMovingLeftAction>());
                     break;
                 }
             }
         }
+        /*
         if (is_running_right && is_running_left)
         {
             if (last_input_right)
@@ -191,7 +207,7 @@ void Client::start()
 
         int vcenter = window_height / 2;
 
-        game_visual.clear();
+
 
         uint8_t type = ElementType::SOLDIER_1;
         uint8_t action = SoldierOneActionID::SOLDIER_1_IDLE;
@@ -205,6 +221,16 @@ void Client::start()
             position = (window_width / 2) - src_width;
             direction = DrawDirection::DRAW_RIGHT;
         }
+         */
+        game_visual.clear();
+
+        feedback_received.try_pop(information_ptr);
+        if (information_ptr != nullptr) {
+            game_visual.updateInfo(dynamic_cast<GameStateFeedback&>
+                                   (*information_ptr));
+        }
+
+        /*
         ElementStateDTO player_state = {type, action,
                                         direction,
                                         static_cast<int>(position),
@@ -216,6 +242,7 @@ void Client::start()
         actors.emplace_back(0x5678, zombie1_state);
         GameStateFeedback game_state(std::move(actors));
         game_visual.updateInfo(game_state);
+         */
         game_visual.draw(frame_ticks);
 
         game_visual.present();

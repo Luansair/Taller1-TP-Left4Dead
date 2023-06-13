@@ -1,7 +1,7 @@
 #ifndef ACTION_CREATEGAME_H
 #define ACTION_CREATEGAME_H
 
-#include "information.h"
+#include "../information.h"
 
 class CreateGameAction : public Information {
 

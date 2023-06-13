@@ -1,6 +1,7 @@
 #ifndef PROTOCOL_H_
 #define PROTOCOL_H_
 
+#include <memory>
 #include "../../Common/include/Socket/socket_game.h"
 #include "../../Common/include/Information/information.h"
 #include "../../Common/include/Information/feedback_server_creategame.h"
@@ -10,14 +11,14 @@ class Protocol {
     GameSocket& socket;
 
     ElementStateDTO recvActorState();
-    CreateGameFeedback* builtCreateGameFeedback();
-    GameStateFeedback* builtGameStateFeedback();
+    [[nodiscard]] std::shared_ptr<Information> builtCreateGameFeedback();
+    [[nodiscard]] std::shared_ptr<Information> builtGameStateFeedback();
 public:
     explicit Protocol(GameSocket& socket);
 
     void sendAction(const Information& action);
 
-    [[nodiscard]] Information* recvFeedback();
+    [[nodiscard]] std::shared_ptr<Information> recvFeedback();
 
     Protocol(const Protocol&) = delete;
     Protocol& operator=(const Protocol&) = delete;

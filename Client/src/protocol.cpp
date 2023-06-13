@@ -4,21 +4,23 @@
 #define RECV_DATA(var) socket.recvData(&var, sizeof(var))
 //------------------------PRIVATE METHODS-----------------------------------//
 
-CreateGameFeedback *Protocol::builtCreateGameFeedback() {
+std::shared_ptr<Information> Protocol::builtCreateGameFeedback() {
     using std::uint32_t;
+    using std::make_shared;
 
     uint32_t bigendian_game_code;
     socket.recvData(&bigendian_game_code, sizeof(bigendian_game_code));
     uint32_t game_code = ntohl(bigendian_game_code);
-    return new CreateGameFeedback(game_code);
+    return make_shared<CreateGameFeedback>(game_code);
 }
 
-GameStateFeedback *Protocol::builtGameStateFeedback() {
+std::shared_ptr<Information> Protocol::builtGameStateFeedback() {
     using std::uint8_t;
     using std::uint16_t;
     using std::size_t;
     using std::vector;
     using std::pair;
+    using std::make_shared;
 
     size_t actors_amount = 0;
     RECV_DATA(actors_amount);
@@ -35,7 +37,7 @@ GameStateFeedback *Protocol::builtGameStateFeedback() {
 
         actors.emplace_back(actor_id, actor_state);
     }
-    return new GameStateFeedback(std::move(actors));
+    return make_shared<GameStateFeedback>(std::move(actors));
 }
 
 ElementStateDTO Protocol::recvActorState() {
@@ -68,15 +70,14 @@ void Protocol::sendAction(const Information &action) {
     socket.sendData(action_vec.data(), action_vec.size());
 }
 
-Information *Protocol::recvFeedback() {
-    Information* info = nullptr;
+[[nodiscard]] std::shared_ptr<Information> Protocol::recvFeedback() {
     std::uint8_t feedback_type;
     socket.recvData(&feedback_type, sizeof(feedback_type));
 
     if (feedback_type == InformationID::FEEDBACK_CREATE_GAME) {
-        info = builtCreateGameFeedback();
+        return builtCreateGameFeedback();
     } else if (feedback_type == InformationID::FEEDBACK_GAME_STATE) {
-        info = builtGameStateFeedback();
+        return builtGameStateFeedback();
     }
-    return info;
+    return nullptr;
 }

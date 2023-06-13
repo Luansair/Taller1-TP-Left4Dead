@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 #include "Information/information.h"
 #include "Information/information_code.h"
-#include "Information/action_startshoot.h"
-#include "Information/action_joingame.h"
-#include "Information/action_creategame.h"
+#include "Information/Actions/shoot_start.h"
+#include "Information/Actions/game_join.h"
+#include "Information/Actions/game_create.h"
 #include "Information/state_dto_element.h"
 #include "Information/feedback_server_gamestate.h"
 

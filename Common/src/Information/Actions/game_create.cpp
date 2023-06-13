@@ -1,5 +1,5 @@
-#include "../../include/Information/action_creategame.h"
-#include "../../include/Information/information_code.h"
+#include "../../../include/Information/Actions/game_create.h"
+#include "../../../include/Information/information_code.h"
 
 std::vector<std::int8_t> CreateGameAction::serialize() const {
     using std::int8_t;

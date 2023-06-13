@@ -7,6 +7,8 @@
 #include <netinet/in.h>
 #include <stdexcept>
 
+#include "information_code.h"
+
 class Information {
 
 protected:
@@ -51,7 +53,7 @@ public:
     Information(Information&&) = default;
     Information& operator=(Information&&) = delete;
 
-    Information(const Information&) = default;
+    Information(const Information&) = delete;
     Information& operator=(const Information&) = delete;
 
     virtual ~Information() = default;

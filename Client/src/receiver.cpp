@@ -7,6 +7,7 @@ Receiver::Receiver(Queue<std::shared_ptr<Information>> &feedback_received,
                    GameSocket &socket) :
                    feedback_received(feedback_received),
                    protocol(socket),
+                   socket(socket),
                    is_running(true),
                    keep_receiving(true) {
 }
@@ -19,21 +20,24 @@ void Receiver::run() {
     while (keep_receiving) {
         feedback_received.push(std::move(protocol.recvFeedback()));
     }
-    } catch (const ClosedQueue& err) {
+    } catch (const ClosedSocket& err) {
         cerr << "In Receiver thread: " << err.what() << endl;
         keep_receiving = false;
     } catch (const std::exception& e) {
         cerr << "An exception was caught in Receiver thread: "
              << e.what() << endl;
+        keep_receiving = false;
     } catch (...) {
         cerr << "An unknown exception was caught in Receiver thread." << endl;
+        keep_receiving = false;
     }
     is_running = false;
 }
 
 void Receiver::stop() {
     keep_receiving = false;
-    feedback_received.close();
+    socket._shutdown(SHUT_RDWR);
+    socket._close();
 }
 
 bool Receiver::isDead() const {

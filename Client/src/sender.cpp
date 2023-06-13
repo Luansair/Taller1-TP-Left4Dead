@@ -26,8 +26,10 @@ void Sender::run() {
     } catch (const std::exception& e) {
         cerr << "An exception was caught in the Sender thread: "
              << e.what() << endl;
+        keep_sending = false;
     } catch (...) {
         cerr << "An unknown exception was caught in the Sender thread." << endl;
+        keep_sending = false;
     }
     is_running = false;
 }

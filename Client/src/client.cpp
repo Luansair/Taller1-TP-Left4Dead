@@ -259,8 +259,6 @@ Client::~Client() {
     if(!sender.isDead()) {
         sender.stop();
     }
-    socket._close();
-    socket._shutdown(SHUT_RDWR);
     receiver.join();
     sender.join();
 }

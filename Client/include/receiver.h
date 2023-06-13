@@ -15,6 +15,7 @@
 class Receiver : public Thread {
     Queue<std::shared_ptr<Information>>& feedback_received;
     Protocol protocol;
+    GameSocket& socket;
     std::atomic<bool> is_running;
     std::atomic<bool> keep_receiving;
 

@@ -1,31 +1,27 @@
-#include "../../../include/GameLogic/Soldiers/soldier.h"
+#include "../../../include/GameLogic/Zombies/zombie.h"
 #include <random>
 
 /* CONSTRUCTOR */
 
-Soldier::Soldier(
-    uint32_t soldier_id,
+Zombie::Zombie(
+    uint32_t zombie_id,
     int8_t dir,
     int8_t width,
     int8_t height,
     int8_t speed,
-    int16_t health,
-    std::unique_ptr<Weapon>&& weapon,
-    std::unique_ptr<Grenade>&& grenade) :
-    soldier_id(soldier_id),
+    int16_t health) :
+    zombie_id(zombie_id),
     dir(dir),
     speed(speed),
     health(health),
     width(width),
     height(height),
-    position(),
-    weapon(std::move(weapon)),
-    grenade(std::move(grenade)) {
+    position() {
 }
 
 /* COMANDOS */
 
-void Soldier::move(
+void Zombie::move(
     uint8_t state,
     uint8_t moveAxis,
     int8_t moveDirection,
@@ -34,7 +30,7 @@ void Soldier::move(
     switch(state) {
         case ON:
             moving = true;
-            shooting = reloading = throwing = false;
+            attacking = false;
             axis = moveAxis;
             dir = moveDirection;
             speed = moveForce;
@@ -46,53 +42,29 @@ void Soldier::move(
     }
 }
 
-void Soldier::shoot(uint8_t state) {
+void Zombie::attack(uint8_t state) {
     switch(state) {
         case ON:
-            shooting = true;
-            moving = reloading = throwing = false;
+            attacking = true;
+            moving = false;
             break;
         case OFF:
-            shooting = false;
+            attacking = false;
             break;
     }
 }
 
-void Soldier::reload(uint8_t state) {
+void Zombie::idle(uint8_t state) {
     switch(state) {
         case ON:
-            reloading = true;
-            moving = shooting = throwing = false;
-            break;
-        case OFF:
-            reloading = false;
-            break;
-    }
-}
-
-void Soldier::throwGrenade(uint8_t state){
-    switch(state) {
-        case ON:
-            throwing = true;
-            moving = shooting = reloading = false;
-            break;
-        case OFF:
-            throwing = false;
-            break;
-    }
-}
-
-void Soldier::idle(uint8_t state) {
-    switch(state) {
-        case ON:
-            reloading = shooting = moving = throwing = false;
+            moving = attacking = false;
             break;
         case OFF:
             break;
     }
 }
 
-void Soldier::recvDamage(int8_t damage) {
+void Zombie::recvDamage(int8_t damage) {
     if (damage < health) {
         health -= damage; 
         return;
@@ -102,16 +74,14 @@ void Soldier::recvDamage(int8_t damage) {
 
 /* SIMULADORES */
 
-void Soldier::simulate(uint16_t time,
+void Zombie::simulate(uint16_t time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y) {
     if (moving) simulateMove(time, soldiers, zombies, dim_x, dim_y);
-    if (reloading) simulateReload(time);
-    if (shooting) simulateShoot(time, soldiers, zombies, dim_x);
-    if (throwing) simulateThrow(time);
+    if (attacking) simulateAttack(time, soldiers, zombies, dim_x);
 }
 
-void Soldier::simulateMove(uint16_t time,
+void Zombie::simulateMove(uint16_t time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y) {
 
@@ -138,7 +108,6 @@ void Soldier::simulateMove(uint16_t time,
     // verifico las colisiones.
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
         Position other_pos = i->second->getPosition();
-        if (i->second->getId() == soldier_id) continue;
         if (next_pos.collides(other_pos)) {
             return;
         }
@@ -146,97 +115,66 @@ void Soldier::simulateMove(uint16_t time,
     // lo mismo con los zombies
     for (auto i = zombies.begin(); i != zombies.end(); i++) {
         Position other_pos = i->second->getPosition();
+        if (i->second->getId() == zombie_id) continue;
         if (next_pos.collides(other_pos)) {
             return;
         }
     }
-
     // si no colisiono cambio de pos
     position = next_pos;
 }
 
-void Soldier::simulateShoot(uint16_t time, 
+void Zombie::simulateAttack(uint16_t time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x) {
-    if (!(weapon->shoot(getPosition(), dir, dim_x, time, std::ref(soldiers), std::ref(zombies)))) reload(ON);
-}
-
-void Soldier::simulateReload(uint16_t time) {
-    (weapon->reload());
-}
-
-void Soldier::simulateThrow(uint16_t time) {}
-
-
-
-/* COMPARADORES PARA LA COLA DE PRIORIDAD DE SCOUT */
-
-bool Distance_from_left_is_minor::operator()(std::shared_ptr<Soldier> below, std::shared_ptr<Soldier> above)
-    {
-        if (below->seePosition().getXPos() > above->seePosition().getXPos()) {
-            return true;
-        }
- 
-        return false;
-    }
-
-bool Distance_from_right_is_minor::operator()(std::shared_ptr<Soldier> below, std::shared_ptr<Soldier> above)
-    {
-        if (below->seePosition().getXPos() < above->seePosition().getXPos()) {
-            return true;
-        }
- 
-        return false;
-    }
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
+    int32_t dim_x) {}
 
 /* GETTERS */
 
-uint8_t Soldier::getWidth(void) {
+uint8_t Zombie::getWidth(void) {
     return width;
 }
-uint8_t Soldier::getHeight(void) {
+uint8_t Zombie::getHeight(void) {
     return height;
 }
 
-uint32_t Soldier::getId(void) {
-    return soldier_id;
+uint32_t Zombie::getId(void) {
+    return zombie_id;
 }
 
-uint8_t Soldier::getAction(void) {
-    if (shooting) return ACTION_SHOOT;
+uint8_t Zombie::getAction(void) {
     if (moving) return ACTION_MOVE;
-    if (reloading) return ACTION_RELOAD;
-    if (throwing) return ACTION_THROW;
+    // if (attacking) return ACTION_ATTACK;
     return ACTION_IDLE;
 }
 
-int8_t Soldier::getDir(void) {
+int8_t Zombie::getDir(void) {
     return dir;
 }
 
-int8_t Soldier::getDirX(void) {
+int8_t Zombie::getDirX(void) {
     return dir_x;
 }
 
-int8_t Soldier::getHealth(void) {
+int8_t Zombie::getHealth(void) {
     return health;
 }
 
-Position& Soldier::getPosition(void) {
+Position& Zombie::getPosition(void) {
     return std::ref(position);
 }
 
-const Position& Soldier::seePosition(void) const {
+const Position& Zombie::seePosition(void) const {
     return std::ref(position);
 }
 
 /* SETTERS */
 
-void Soldier::setPosition(Position&& new_pos) {
+void Zombie::setPosition(Position&& new_pos) {
     position = new_pos;
 }
 
-void Soldier::setRandomPosition(
+void Zombie::setRandomPosition(
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y) {
     using std::random_device;

@@ -5,7 +5,7 @@
 #include "../Grenades/grenade.h"
 #include "../Zombies/zombie.h"
 #include "../position.h"
-#include "../../../include/GameLogic/hitbox.h"
+#include "../hitbox.h"
 #include "../../../../Common/include/Information/information_code.h"
 
 #include <map>

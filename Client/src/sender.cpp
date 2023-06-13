@@ -22,7 +22,6 @@ void Sender::run() {
         }
     } catch (const ClosedQueue& err) {
         cerr << "In Sender thread: " << err.what() << endl;
-        is_running = false;
         keep_sending = false;
     } catch (const std::exception& e) {
         cerr << "An exception was caught in the Sender thread: "

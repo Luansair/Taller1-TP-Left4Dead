@@ -250,3 +250,17 @@ void Client::start() {
         SDL_Delay(1);
     }
 }
+
+Client::~Client() {
+
+    if (!receiver.isDead()) {
+        receiver.stop();
+    }
+    if(!sender.isDead()) {
+        sender.stop();
+    }
+    socket._close();
+    socket._shutdown(SHUT_RDWR);
+    receiver.join();
+    sender.join();
+}

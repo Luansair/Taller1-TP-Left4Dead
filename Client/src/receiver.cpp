@@ -19,9 +19,8 @@ void Receiver::run() {
     while (keep_receiving) {
         feedback_received.push(std::move(protocol.recvFeedback()));
     }
-    } catch (const ClosedSocket& err) {
+    } catch (const ClosedQueue& err) {
         cerr << "In Receiver thread: " << err.what() << endl;
-        is_running = false;
         keep_receiving = false;
     } catch (const std::exception& e) {
         cerr << "An exception was caught in Receiver thread: "
@@ -29,6 +28,7 @@ void Receiver::run() {
     } catch (...) {
         cerr << "An unknown exception was caught in Receiver thread." << endl;
     }
+    is_running = false;
 }
 
 void Receiver::stop() {

@@ -20,6 +20,12 @@ public:
                          Queue<std::shared_ptr<Information>> &player_queue,
                          std::uint8_t* player_id) = 0;
 
+    PreGameCommand(PreGameCommand&&) = default;
+    PreGameCommand& operator=(PreGameCommand&&) = default;
+
+    PreGameCommand(const PreGameCommand&) = delete;
+    PreGameCommand& operator=(const PreGameCommand&) = delete;
+
     virtual ~PreGameCommand() = default;
 };
 

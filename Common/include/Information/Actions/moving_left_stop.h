@@ -13,6 +13,9 @@ public:
 
     [[nodiscard]] std::vector<int8_t> serialize() const override;
 
+    StopMovingLeftAction(const StopMovingLeftAction&) = delete;
+    StopMovingLeftAction& operator=(const StopMovingLeftAction&) = delete;
+
     ~StopMovingLeftAction() override = default;
 };
 

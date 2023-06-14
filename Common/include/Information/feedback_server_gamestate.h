@@ -17,6 +17,11 @@ public:
             >&& elements);
 
     [[nodiscard]] std::vector<int8_t> serialize() const override;
+
+    GameStateFeedback(const GameStateFeedback&) = delete;
+    GameStateFeedback operator=(const GameStateFeedback&) = delete;
+
+    ~GameStateFeedback() override = default;
 };
 
 #endif //TP_FEEDBACK_SERVER_GAMESTATE_H

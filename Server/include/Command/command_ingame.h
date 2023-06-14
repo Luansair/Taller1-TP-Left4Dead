@@ -17,6 +17,12 @@ public:
 
     virtual void execute(Match& match) const = 0;
 
+    InGameCommand(InGameCommand&&) = default;
+    InGameCommand& operator=(InGameCommand&&) = default;
+
+    InGameCommand(const InGameCommand&) = delete;
+    InGameCommand& operator=(const InGameCommand&) = delete;
+
     virtual ~InGameCommand() = default;
 };
 #endif //TP_COMMAND_INGAME_H

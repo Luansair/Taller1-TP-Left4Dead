@@ -6,9 +6,7 @@
 #define TP_FEEDBACK_SERVER_CREATEGAME_H
 
 #include "../Information/information.h"
-// PreGameCommand puede recibir la Queue del Send para pushear info.
-// De hecho recibe la queue del player c:
-// Entonces puede devolver el booleano y listo. Sin grandes cambios
+
 class CreateGameFeedback : public Information {
 
 public:
@@ -16,7 +14,12 @@ public:
 
     explicit CreateGameFeedback(std::uint32_t game_code);
 
-    [[nodiscard]] virtual std::vector<std::int8_t> serialize() const override;
+    [[nodiscard]] std::vector<std::int8_t> serialize() const override;
+
+    CreateGameFeedback(const CreateGameFeedback&) = delete;
+    CreateGameFeedback& operator=(const CreateGameFeedback&) = delete;
+
+    ~CreateGameFeedback() override = default;
 };
 
 

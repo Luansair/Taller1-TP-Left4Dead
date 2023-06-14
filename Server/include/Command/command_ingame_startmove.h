@@ -12,7 +12,10 @@ public:
 
     virtual void execute(Match& match) const override;
 
-    ~StartMoveCommand() = default;
+    StartMoveCommand(const StartMoveCommand&) = delete;
+    StartMoveCommand& operator=(const StartMoveCommand&) = delete;
+
+    ~StartMoveCommand() override = default;
 };
 
 #endif //TP_COMMAND_INGAME_STARTMOVE_H

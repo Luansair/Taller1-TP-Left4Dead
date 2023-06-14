@@ -38,7 +38,7 @@ class Queue {
 	explicit Queue(const unsigned int max_size) : max_size(max_size), closed(false) {}
 
 
-        bool try_push(T const&& val) {
+        bool try_push(T&& val) {
             std::unique_lock<std::mutex> lck(mtx);
 
             if (closed) {
@@ -53,11 +53,11 @@ class Queue {
                 is_not_empty.notify_all();
             }
 
-            q.push(val);
+            q.push(std::move(val));
             return true;
         }
 
-        bool try_pop(T& val) {
+        bool try_pop(T&& val) {
             std::unique_lock<std::mutex> lck(mtx);
 
             if (q.empty()) {
@@ -71,12 +71,12 @@ class Queue {
                 is_not_full.notify_all();
             }
 
-            val = q.front();
+            val = std::move(q.front());
             q.pop();
             return true;
         }
-        // hacer cpy paste sin const
-        void push(T const&& val) {
+
+        void push(T&& val) {
             std::unique_lock<std::mutex> lck(mtx);
 
             if (closed) {
@@ -91,7 +91,7 @@ class Queue {
                 is_not_empty.notify_all();
             }
 
-            q.push(val);
+            q.push(std::move(val));
         }
 
 
@@ -109,7 +109,7 @@ class Queue {
                 is_not_full.notify_all();
             }
 
-            T const val = q.front();
+            auto val = std::move(q.front());
             q.pop();
 
             return val;

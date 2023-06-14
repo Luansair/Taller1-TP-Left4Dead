@@ -8,9 +8,12 @@ class CreateGameAction : public Information {
 public:
     CreateGameAction() = default;
 
-    [[nodiscard]] virtual std::vector<int8_t> serialize() const override;
+    [[nodiscard]] std::vector<int8_t> serialize() const override;
 
-    ~CreateGameAction() = default;
+    CreateGameAction(const CreateGameAction&) = delete;
+    CreateGameAction& operator=(const CreateGameAction&) = delete;
+
+    ~CreateGameAction() override = default;
 };
 
 #endif  // ACTION_CREATEGAME_H

@@ -9,7 +9,10 @@ public:
 
     virtual void execute(Match& match) const override;
 
-    ~StartIdleCommand() = default;
+    StartIdleCommand(const StartIdleCommand&) = delete;
+    StartIdleCommand& operator=(const StartIdleCommand&) = delete;
+
+    ~StartIdleCommand() override = default;
 };
 
 #endif //TP_COMMAND_INGAME_STARTIDLE_H

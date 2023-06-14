@@ -10,7 +10,10 @@ public:
 
     [[nodiscard]] virtual std::vector<int8_t> serialize() const override;
 
-    ~StartShootAction() = default;
+    StartShootAction(const StartShootAction&) = delete;
+    StartShootAction& operator=(const StartShootAction&) = delete;
+
+    ~StartShootAction() override = default;
 };
 
 #endif  // ACTION_STARTSHOOT_H

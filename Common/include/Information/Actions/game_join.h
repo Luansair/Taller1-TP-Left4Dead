@@ -11,9 +11,12 @@ public:
     explicit JoinGameAction(const std::vector<int8_t>&
             serialized_bigendian_game_code);
 
-    [[nodiscard]] virtual std::vector<int8_t> serialize() const override;
+    [[nodiscard]] std::vector<int8_t> serialize() const override;
 
-    ~JoinGameAction() = default;
+    JoinGameAction(const JoinGameAction&) = delete;
+    JoinGameAction& operator=(const JoinGameAction&) = delete;
+
+    ~JoinGameAction() override = default;
 };
 
 #endif  // ACTION_JOINGAME_H

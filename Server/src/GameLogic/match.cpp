@@ -67,7 +67,8 @@ void Match::simulateStep(void) {
     }
 }
 
-std::vector<std::pair<uint16_t, ElementStateDTO>> Match::getElementStates(void) {
+std::vector<std::pair<uint16_t, ElementStateDTO>> Match::getElementStates
+(void) {
     std::vector<std::pair<uint16_t, ElementStateDTO>> elementStates;
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
         int id = i->second->getId();
@@ -80,7 +81,6 @@ std::vector<std::pair<uint16_t, ElementStateDTO>> Match::getElementStates(void) 
         elementStates.emplace_back(id, dto);
     }
     return elementStates;
-
 }
 
 GameStateFeedback Match::getMatchState(void) {

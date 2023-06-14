@@ -16,8 +16,13 @@ std::vector<int8_t> GameStateFeedback::serialize() const {
     using std::vector;
 
     vector<int8_t> result;
-    result.reserve(
-            elements.size() * (sizeof(ElementStateDTO) + sizeof(uint16_t)));
+    std::size_t byte_amount = elements.size() * (sizeof(ElementStateDTO) +
+            sizeof(uint16_t));
+    unsigned int vector_max_size = result.max_size();
+    if (byte_amount < vector_max_size) {
+        result.reserve(byte_amount);
+    }
+
     // Push Feedback ID
     result.push_back(InformationID::FEEDBACK_GAME_STATE);
 

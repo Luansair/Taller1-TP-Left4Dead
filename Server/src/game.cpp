@@ -53,11 +53,14 @@ void Game::run() {
         std::shared_ptr<InGameCommand> command (nullptr);
         if (commands_recv.try_pop(std::ref(command))) command->execute(std::ref(match));
         match.simulateStep();
-        std::vector<std::pair<short unsigned int, ElementStateDTO> >state = match.getElementStates();
-        // const std::shared_ptr<Information> feedback_ptr = std::make_shared<GameStateFeedback>(match.getMatchState());
-        // for(Queue<std::shared_ptr<Information>>* i : player_queues) {
-        //    i->try_push(std::move(feedback_ptr));
-        // } 
+        std::vector<std::pair<short unsigned int, ElementStateDTO> >state =
+                match.getElementStates(); // hace una copia
+
+        std::shared_ptr<Information> feedback_ptr =
+                std::make_shared<GameStateFeedback>(std::move(state));
+        for (auto& player_queue : player_queues) {
+           player_queue->try_push(std::move(feedback_ptr));
+        }
     }
 }
 

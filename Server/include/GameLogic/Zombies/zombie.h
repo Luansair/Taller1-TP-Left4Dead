@@ -77,8 +77,8 @@ public:
 
     void setPosition(Position&& new_pos);
     void setRandomPosition(
-    std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y);
+            const std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
+            const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, int32_t dim_x, int32_t dim_y);
 
 };
 

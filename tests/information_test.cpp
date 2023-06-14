@@ -105,7 +105,7 @@ TEST(information_test,
     uint16_t actor_id = 0x1234;
     ElementStateDTO actor_state = {SOLDIER_1, SOLDIER_1_ATTACK, DRAW_RIGHT,
                                    0x12345678, 0x11223344};
-    actors.emplace_back(actor_id, actor_state);
+    actors.emplace_back(actor_id, std::move(actor_state));
     GameStateFeedback game_state = GameStateFeedback(std::move(actors));
 
     vector<int8_t> serialized_game_state = game_state.serialize();
@@ -128,8 +128,6 @@ TEST(information_test,
     EXPECT_EQ(serialized_game_state.at(15), 0x22);
     EXPECT_EQ(serialized_game_state.at(16), 0x33);
     EXPECT_EQ(serialized_game_state.at(17), 0x44);
-    // Me da fiaca, ademas el tamaño depende del SO (4 u 8 bytes)
-    // Capaz conviene usar para todos los valores grandes std::uint32_t
 }
 
 int main(int argc, char** argv) {

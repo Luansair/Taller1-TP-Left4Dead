@@ -51,10 +51,11 @@ void Game::run() {
     while (is_running && players_amount > 0) {
         // Use trypop, do not block the Game thread ever...
         std::shared_ptr<InGameCommand> command (nullptr);
+
         if (commands_recv.try_pop(std::ref(command))) command->execute(std::ref(match));
         match.simulateStep();
-        std::vector<std::pair<short unsigned int, ElementStateDTO> >state =
-                match.getElementStates(); // hace una copia
+        std::vector<std::pair<short unsigned int, ElementStateDTO>>state =
+                match.getElementStates();
 
         std::shared_ptr<Information> feedback_ptr =
                 std::make_shared<GameStateFeedback>(std::move(state));

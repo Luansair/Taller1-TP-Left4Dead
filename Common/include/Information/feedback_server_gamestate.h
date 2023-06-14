@@ -12,9 +12,7 @@ class GameStateFeedback : public Information {
 public:
     const std::vector<std::pair<std::uint16_t, ElementStateDTO>>&& elements;
 
-    explicit GameStateFeedback(std::vector<
-            std::pair<std::uint16_t,ElementStateDTO>
-            >&& elements);
+    explicit GameStateFeedback(std::vector<std::pair<std::uint16_t,ElementStateDTO>>&& elements);
 
     [[nodiscard]] std::vector<int8_t> serialize() const override;
 

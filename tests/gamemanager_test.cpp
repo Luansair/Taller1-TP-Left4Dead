@@ -109,7 +109,7 @@ TEST(gamemanager_test, JoinTest00JoiningValidGameShouldReturnTrue) {
 
     bool success = manager.joinGame(game_q2, player_q2, &player_id2, game_code);
 
-    ASSERT_TRUE(success);
+    EXPECT_TRUE(success);
 }
 
 TEST(gamemanager_test, JoinTest01JoiningInvalidGameShouldReturnFalse) {

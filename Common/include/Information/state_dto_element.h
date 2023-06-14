@@ -13,6 +13,12 @@ struct ElementStateDTO {
     const std::int8_t direction;
     const int position_x;
     const int position_y;
+
+    ElementStateDTO(ElementStateDTO&&) = default;
+    ElementStateDTO& operator=(ElementStateDTO&&) = default;
+
+    ElementStateDTO(const ElementStateDTO&) = delete;
+    ElementStateDTO& operator=(const ElementStateDTO&) = delete;
 };
 
 #endif // TP_STATE_DTO_ELEMENT_H

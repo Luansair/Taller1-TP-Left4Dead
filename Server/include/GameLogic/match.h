@@ -68,7 +68,7 @@ public:
 
     void simulateStep(void);
     
-    std::vector<std::pair<uint16_t, ElementStateDTO>> getElementStates(void);
+    std::vector<std::pair<uint16_t, ElementStateDTO >> getElementStates();
 
     GameStateFeedback getMatchState(void);
 

@@ -41,7 +41,13 @@ public:
     std::unique_ptr<Weapon>&& weapon,
     std::unique_ptr<Grenade>&& grenade);
 
-    virtual ~Soldier() {}
+    virtual ~Soldier() = default;
+
+    Soldier(Soldier&&) = default;
+    Soldier& operator=(Soldier&&) = default;
+
+    Soldier(const Soldier&) = delete;
+    Soldier& operator=(const Soldier&) = delete;
 
     /* COMANDOS */
 
@@ -73,23 +79,23 @@ public:
 
     /* GETTERS */
 
-    int8_t getDir(void);
-    int8_t getDirX(void);
-    int8_t getHealth(void);
-    uint8_t getWidth(void);
-    uint8_t getHeight(void);
-    uint32_t getId(void);
-    virtual uint8_t getSoldierType(void) = 0;
-    uint8_t getAction(void);
-    Position& getPosition(void);
-    const Position& seePosition(void) const;
+    int8_t getDir();
+    int8_t getDirX();
+    int8_t getHealth();
+    uint8_t getWidth();
+    uint8_t getHeight();
+    uint32_t getId();
+    virtual uint8_t getSoldierType() = 0;
+    uint8_t getAction();
+    Position& getPosition();
+    [[nodiscard]] const Position& seePosition() const;
 
     /* SETTERS */
 
     void setPosition(Position&& new_pos);
     void setRandomPosition(
-    std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y);
+            const std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
+            const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, int32_t dim_x, int32_t dim_y);
 };
 
 /* COMPARADORES PARA LA COLA DE PRIORIDAD DE SCOUT */

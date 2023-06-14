@@ -16,21 +16,21 @@ public:
     int16_t dim_x;
     int16_t dim_y;
 
-    Position() {};
+    ~Position() = default;
 
     explicit Position(int16_t x, int16_t y, uint8_t width, uint8_t height, int16_t dim_x, int16_t dim_y);
 
-    bool collides(Position &other);
+    [[nodiscard]] bool collides(const Position &other) const;
 
-    int16_t getXPos(void) const;
-    int16_t getYPos(void) const;
-    uint8_t getWidth(void);
-    uint8_t getHeight(void);
+    [[nodiscard]] int16_t getXPos() const;
+    [[nodiscard]] int16_t getYPos() const;
+    [[nodiscard]] uint8_t getWidth() const;
+    [[nodiscard]] uint8_t getHeight() const;
     void setXPos(int16_t new_x);
     void setYPos(int16_t new_y);
 
-    std::tuple<int16_t, int16_t, bool> getXArea(void);
-    std::tuple<int16_t, int16_t, bool> getYArea(void);
+    [[nodiscard]] std::tuple<int16_t, int16_t, bool> getXArea() const;
+    [[nodiscard]] std::tuple<int16_t, int16_t, bool> getYArea() const;
 
     bool operator==(const Position &other) const;
 

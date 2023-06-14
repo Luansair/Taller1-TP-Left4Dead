@@ -62,29 +62,28 @@ void Match::idle(uint32_t soldier_id, uint8_t state) {
 }
 
 void Match::simulateStep(void) {
-    for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
-        i->second->simulate(TIME, std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
+    for (auto & soldier : soldiers) {
+        soldier.second->simulate(TIME, std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
     }
 }
 
-std::vector<std::pair<uint16_t, ElementStateDTO>> Match::getElementStates
-(void) {
+std::vector<std::pair<uint16_t, ElementStateDTO >> Match::getElementStates() {
     std::vector<std::pair<uint16_t, ElementStateDTO>> elementStates;
-    for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
-        int id = i->second->getId();
-        uint8_t actor_type = i->second->getSoldierType();
-        uint8_t actor_action = i->second->getAction();
-        int8_t actor_direction = i->second->getDirX();
-        int position_x = i->second->getPosition().getXPos();
-        int position_y = i->second->getPosition().getYPos();
+    for (const auto & soldier : soldiers) {
+        int id = soldier.second->getId();
+        uint8_t actor_type = soldier.second->getSoldierType();
+        uint8_t actor_action = soldier.second->getAction();
+        int8_t actor_direction = soldier.second->getDirX();
+        int position_x = soldier.second->getPosition().getXPos();
+        int position_y = soldier.second->getPosition().getYPos();
         ElementStateDTO dto {actor_type, actor_action, actor_direction, position_x, position_y};
-        elementStates.emplace_back(id, dto);
+        elementStates.emplace_back(id, std::move(dto));
     }
     return elementStates;
 }
 
 GameStateFeedback Match::getMatchState(void) {
-    return GameStateFeedback(std::move(getElementStates()));
+    return GameStateFeedback(getElementStates());
 }
 
 std::map<uint32_t, std::shared_ptr<Soldier>>& Match::getSoldiers(void) {

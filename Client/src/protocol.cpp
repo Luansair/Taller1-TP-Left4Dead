@@ -35,7 +35,7 @@ std::shared_ptr<Information> Protocol::builtGameStateFeedback() {
 
         ElementStateDTO actor_state = recvActorState();
 
-        actors.emplace_back(actor_id, actor_state);
+        actors.emplace_back(actor_id, std::move(actor_state));
     }
     return make_shared<GameStateFeedback>(std::move(actors));
 }

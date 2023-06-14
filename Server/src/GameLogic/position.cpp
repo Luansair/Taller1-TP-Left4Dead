@@ -15,7 +15,7 @@ Position::Position(
     dim_y(dim_y) {
 }
 
-bool Position::collides(Position &other) {
+bool Position::collides(const Position &other) const {
     std::tuple<int16_t, int16_t, bool> area_other_x = other.getXArea();
     std::tuple<int16_t, int16_t, bool> area_other_y = other.getYArea();
     std::tuple<int16_t, int16_t, bool> area_x = getXArea();
@@ -92,15 +92,15 @@ int16_t Position::getYPos(void) const {
     return y;
 }
 
-uint8_t Position::getWidth(void) {
+uint8_t Position::getWidth(void) const {
     return width;
 }
 
-uint8_t Position::getHeight(void) {
+uint8_t Position::getHeight(void) const {
     return height;
 }
 
-std::tuple<int16_t, int16_t, bool> Position::getXArea(void) {
+std::tuple<int16_t, int16_t, bool> Position::getXArea() const{
     // como el mapa es circular, indico los limites de la pos
     // y con el booleano si es el area real o el complemento
     int16_t x_max = x + width * 0.5;
@@ -112,7 +112,7 @@ std::tuple<int16_t, int16_t, bool> Position::getXArea(void) {
     return std::tuple<int16_t, int16_t, bool>{x_min, x_max, true};
 }
 
-std::tuple<int16_t, int16_t, bool> Position::getYArea(void) {
+std::tuple<int16_t, int16_t, bool> Position::getYArea() const{
     // como el mapa es circular, indico los limites de la pos
     // y con el booleano si es el area real o el complemento
     int16_t y_max = y + height * 0.5;

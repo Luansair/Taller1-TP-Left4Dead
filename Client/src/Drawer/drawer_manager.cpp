@@ -16,7 +16,7 @@ void DrawerManager::draw(unsigned int frame_ticks) {
 }
 
 void
-DrawerManager::updateInfo(std::uint16_t actor_id, ElementStateDTO actor_state) {
+DrawerManager::updateInfo(std::uint16_t actor_id, const ElementStateDTO &actor_state) {
     auto pair_id_actor_ptr = actor_drawers.find(actor_id);
     if (pair_id_actor_ptr == actor_drawers.end()) {
         addActor(actor_id, actor_state);
@@ -28,7 +28,7 @@ DrawerManager::updateInfo(std::uint16_t actor_id, ElementStateDTO actor_state) {
 
 //-----------------------PRIVATE METHODS-------------------------------//
 void
-DrawerManager::addActor(std::uint16_t actor_id, ElementStateDTO actor_state) {
+DrawerManager::addActor(std::uint16_t actor_id, const ElementStateDTO &actor_state) {
     auto res = actor_drawers.emplace(
             actor_id, ActorDrawer(animation_manager));
     if (!res.second) {

@@ -16,7 +16,7 @@ Zombie::Zombie(
     health(health),
     width(width),
     height(height),
-    position() {
+    position(0,0,width,height,0,0) {
 }
 
 /* COMANDOS */
@@ -175,8 +175,8 @@ void Zombie::setPosition(Position&& new_pos) {
 }
 
 void Zombie::setRandomPosition(
-    std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y) {
+        const std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
+        const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, int32_t dim_x, int32_t dim_y) {
     using std::random_device;
     using std::mt19937;
     using std::uniform_int_distribution;
@@ -193,7 +193,7 @@ void Zombie::setRandomPosition(
         collides = false;
         x_pos = distx(mt);
         y_pos = disty(mt);
-        Position position(x_pos, y_pos, getWidth(), getHeight(), dim_x, dim_y);
+        Position _position(x_pos, y_pos, getWidth(), getHeight(), dim_x, dim_y);
         for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
             Position other_pos = i->second->getPosition();
             if (position.collides(other_pos)) {
@@ -202,6 +202,6 @@ void Zombie::setRandomPosition(
             }
         }
     } while (collides);
-    Position position(x_pos, y_pos, getWidth(), getHeight(), dim_x, dim_y);
-    setPosition(std::move(position));
+    Position _position(x_pos, y_pos, getWidth(), getHeight(), dim_x, dim_y);
+    setPosition(std::move(_position));
 }

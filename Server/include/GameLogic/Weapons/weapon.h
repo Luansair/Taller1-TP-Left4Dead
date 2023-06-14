@@ -15,8 +15,10 @@ class Soldier;
 class Zombie;
 
 class Weapon {
+protected:
+    Weapon() = default;
 public:
-    virtual ~Weapon() {}
+    virtual ~Weapon() = default;
 
     virtual bool shoot(
     Position& from,
@@ -26,7 +28,10 @@ public:
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies) = 0;
 
-    virtual void reload(void) = 0;
+    virtual void reload() = 0;
+
+    Weapon(const Weapon&) = delete;
+    Weapon& operator=(const Weapon&) = delete;
 };
 
 #endif  // WEAPON_H_

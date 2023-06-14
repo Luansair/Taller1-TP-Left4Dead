@@ -49,5 +49,5 @@ std::unique_ptr<Weapon> WeaponFactory::create(uint8_t weapon_type) {
             return std::unique_ptr<Weapon> (new IdfWeapon(idfw_ammo, idfw_damage, idfw_scope, idfw_reduction));
         }
     }
-    return std::unique_ptr<Weapon>(nullptr);
+    return {nullptr};
 }

@@ -22,8 +22,9 @@ std::shared_ptr<Information> Protocol::builtGameStateFeedback() {
     using std::pair;
     using std::make_shared;
 
-    size_t actors_amount = 0;
-    RECV_DATA(actors_amount);
+    size_t bigendian_actors_amount = 0;
+    RECV_DATA(bigendian_actors_amount);
+    size_t actors_amount = ntohs(bigendian_actors_amount);
 
     vector<pair<uint16_t, ElementStateDTO>> actors;
     actors.reserve(actors_amount * sizeof(pair<uint16_t, ElementStateDTO>));

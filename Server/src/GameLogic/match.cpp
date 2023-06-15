@@ -83,7 +83,7 @@ std::vector<std::pair<uint16_t, ElementStateDTO >> Match::getElementStates() {
 }
 
 GameStateFeedback Match::getMatchState(void) {
-    return GameStateFeedback(getElementStates());
+    return GameStateFeedback(std::move(getElementStates()));
 }
 
 std::map<uint32_t, std::shared_ptr<Soldier>>& Match::getSoldiers(void) {

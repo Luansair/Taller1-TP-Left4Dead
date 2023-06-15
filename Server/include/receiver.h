@@ -19,7 +19,7 @@ private:
     GameSocket peer;
     Protocol protocol;
     // Queue<int>& commands_queue;
-    Queue<std::shared_ptr<Information>> send_state_queue;
+    std::shared_ptr<Queue<std::shared_ptr<Information>>> send_state_queue;
     Queue<std::shared_ptr<InGameCommand>>* game_queue;
     Sender sender;
     GameManager& game_manager;

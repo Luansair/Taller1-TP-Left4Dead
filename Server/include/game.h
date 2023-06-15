@@ -17,7 +17,9 @@ class Game : public Thread {
     std::atomic<bool> started;
 
     Queue<std::shared_ptr<InGameCommand>> commands_recv;
-    std::vector<Queue<std::shared_ptr<Information>>*> player_queues;
+    std::vector<
+      std::shared_ptr<
+        Queue<std::shared_ptr<Information>>>> player_queues;
 
     Match match;
 
@@ -30,14 +32,14 @@ public:
 
     // bool addAdmin(std::uint8_t player_id);
 
-    bool join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, Queue<std::shared_ptr<Information>> &player_queue,
+    bool join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, const std::shared_ptr<Queue<std::shared_ptr<Information>>> &player_queue,
               std::uint8_t* player_id);
 
     void stop();
 
     [[nodiscard]] bool isEmpty() const;
 
-    virtual ~Game() override;
+    ~Game() override;
 };
 
 #endif  // GAME_H_

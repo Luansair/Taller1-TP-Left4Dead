@@ -1,3 +1,4 @@
+#include <chrono>
 #include "../include/game.h"
 
 Game::Game(std::uint8_t max_players) :
@@ -17,7 +18,7 @@ Game::addAdmin(std::uint8_t player_id) {
 }
 */
 
-bool Game::join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, Queue<std::shared_ptr<Information>> &player_queue,
+bool Game::join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, const std::shared_ptr<Queue<std::shared_ptr<Information>>> &player_queue,
                 std::uint8_t* player_id) {
     std::unique_lock<std::mutex> lck(mtx);
     if (started) {
@@ -25,7 +26,7 @@ bool Game::join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, Queue<std::s
     }
     game_queue = &this->commands_recv;
 
-    player_queues.push_back(&player_queue);
+    player_queues.push_back(player_queue);
 
     // Also a random function could be used for the ids.
     *player_id = ++players_amount;
@@ -48,6 +49,9 @@ void Game::stop() {
 }
 
 void Game::run() {
+    using std::this_thread::sleep_for;
+    using std::chrono::milliseconds;
+
     while (is_running && players_amount > 0) {
         // Use trypop, do not block the Game thread ever...
         std::shared_ptr<InGameCommand> command (nullptr);
@@ -59,9 +63,25 @@ void Game::run() {
 
         std::shared_ptr<Information> feedback_ptr =
                 std::make_shared<GameStateFeedback>(std::move(state));
-        for (auto& player_queue : player_queues) {
-           player_queue->try_push(std::move(feedback_ptr));
+        for (
+                auto player_queue = player_queues.begin();
+                player_queue !=player_queues.end(); ) {
+            try {
+                if (!(*player_queue)) {
+                    player_queue = player_queues.erase(player_queue);
+                    continue;
+                }
+                if (!(*player_queue)->try_push(std::move(feedback_ptr))) {
+                    player_queue = player_queues.erase(player_queue);
+                    continue;
+                }
+            } catch(const ClosedQueue& e) {
+                std::cout << e.what() << std::endl;
+                player_queues.erase(player_queue);
+            }
+            player_queue++;
         }
+        //sleep_for(milliseconds(5));
     }
 }
 

@@ -7,9 +7,11 @@
 Receiver::Receiver(GameSocket &&peer, GameManager& game_manager) :
     peer(std::move(peer)),
     protocol(this->peer),
-    send_state_queue(5000),
+    send_state_queue(
+            std::make_shared<
+                    Queue<std::shared_ptr<Information>>>(5000)),
     game_queue(nullptr),
-    sender(this->peer, send_state_queue),
+    sender(this->peer, *send_state_queue),
     game_manager(game_manager),
     is_running(true),
     keep_talking(true),

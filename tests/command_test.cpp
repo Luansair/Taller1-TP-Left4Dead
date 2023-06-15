@@ -10,7 +10,8 @@
 TEST(command_test,
      CreateGameTest00ExecuteShouldReturnTrue) {
     Queue<std::shared_ptr<InGameCommand>>* game_q = nullptr;
-    Queue<std::shared_ptr<Information>> player_q(10);
+    std::shared_ptr<Queue<std::shared_ptr<Information>>> player_q =
+            std::make_shared<Queue<std::shared_ptr<Information>>>(10000);
     std::uint8_t player_id = 0;
     GameManager manager = GameManager();
     CreateGameCommand create_game_cmd{};
@@ -24,7 +25,8 @@ TEST(command_test,
 TEST(command_test,
      CreateGameTest01ExecuteShouldSetUpPlayerIDDifferentFromZero) {
     Queue<std::shared_ptr<InGameCommand>>* game_q = nullptr;
-    Queue<std::shared_ptr<Information>> player_q(10);
+    std::shared_ptr<Queue<std::shared_ptr<Information>>> player_q =
+            std::make_shared<Queue<std::shared_ptr<Information>>>(10000);
     std::uint8_t player_id = 0;
     GameManager manager = GameManager();
     CreateGameCommand create_game_cmd{};
@@ -38,7 +40,8 @@ TEST(command_test,
 TEST(command_test,
      CreateGameTest02ExecuteShouldSetUpGameQueueDifferentFromNull) {
     Queue<std::shared_ptr<InGameCommand>>* game_q = nullptr;
-    Queue<std::shared_ptr<Information>> player_q(10);
+    std::shared_ptr<Queue<std::shared_ptr<Information>>> player_q =
+            std::make_shared<Queue<std::shared_ptr<Information>>>(10000);
     std::uint8_t player_id = 0;
     GameManager manager = GameManager();
     CreateGameCommand create_game_cmd{};
@@ -52,7 +55,8 @@ TEST(command_test,
 TEST(command_test,
      CreateGameTest03ExecuteThenCallingPushToPlayerQueueShouldNotBreak) {
     Queue<std::shared_ptr<InGameCommand>>* game_q = nullptr;
-    Queue<std::shared_ptr<Information>> player_q(10);
+    std::shared_ptr<Queue<std::shared_ptr<Information>>> player_q =
+            std::make_shared<Queue<std::shared_ptr<Information>>>(10000);
     std::uint8_t player_id = 0;
     GameManager manager = GameManager();
     CreateGameCommand create_game_cmd{};
@@ -60,7 +64,7 @@ TEST(command_test,
     create_game_cmd.execute(manager, game_q, player_q,
                             &player_id);
 
-    ASSERT_NO_FATAL_FAILURE(player_q.push(nullptr));
+    ASSERT_NO_FATAL_FAILURE(player_q->push(nullptr));
 }
 
 int main(int argc, char** argv) {

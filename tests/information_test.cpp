@@ -112,22 +112,20 @@ TEST(information_test,
 
     EXPECT_EQ(serialized_game_state.at(0), InformationID::FEEDBACK_GAME_STATE);
     EXPECT_EQ(serialized_game_state.at(1), 0x00);
-    EXPECT_EQ(serialized_game_state.at(2), 0x00);
-    EXPECT_EQ(serialized_game_state.at(3), 0x00);
-    EXPECT_EQ(serialized_game_state.at(4), 0x01);
-    EXPECT_EQ(serialized_game_state.at(5), 0x12);
-    EXPECT_EQ(serialized_game_state.at(6), 0x34);
-    EXPECT_EQ(serialized_game_state.at(7), SOLDIER_1);
-    EXPECT_EQ(serialized_game_state.at(8), SOLDIER_1_ATTACK);
-    EXPECT_EQ(serialized_game_state.at(9), DRAW_RIGHT);
-    EXPECT_EQ(serialized_game_state.at(10), 0x12);
-    EXPECT_EQ(serialized_game_state.at(11), 0x34);
-    EXPECT_EQ(serialized_game_state.at(12), 0x56);
-    EXPECT_EQ(serialized_game_state.at(13), 0x78);
-    EXPECT_EQ(serialized_game_state.at(14), 0x11);
-    EXPECT_EQ(serialized_game_state.at(15), 0x22);
-    EXPECT_EQ(serialized_game_state.at(16), 0x33);
-    EXPECT_EQ(serialized_game_state.at(17), 0x44);
+    EXPECT_EQ(serialized_game_state.at(2), 0x01);
+    EXPECT_EQ(serialized_game_state.at(3), 0x12);
+    EXPECT_EQ(serialized_game_state.at(4), 0x34);
+    EXPECT_EQ(serialized_game_state.at(5), SOLDIER_1);
+    EXPECT_EQ(serialized_game_state.at(6), SOLDIER_1_ATTACK);
+    EXPECT_EQ(serialized_game_state.at(7), DRAW_RIGHT);
+    EXPECT_EQ(serialized_game_state.at(8), 0x12);
+    EXPECT_EQ(serialized_game_state.at(9), 0x34);
+    EXPECT_EQ(serialized_game_state.at(10), 0x56);
+    EXPECT_EQ(serialized_game_state.at(11), 0x78);
+    EXPECT_EQ(serialized_game_state.at(12), 0x11);
+    EXPECT_EQ(serialized_game_state.at(13), 0x22);
+    EXPECT_EQ(serialized_game_state.at(14), 0x33);
+    EXPECT_EQ(serialized_game_state.at(15), 0x44);
 }
 
 int main(int argc, char** argv) {

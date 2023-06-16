@@ -79,7 +79,7 @@ void Game::run() {
             }
             player_queue++;
         }
-        //sleep_for(milliseconds(5));
+        sleep_for(milliseconds(50));
     }
 }
 

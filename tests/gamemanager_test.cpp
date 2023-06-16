@@ -262,10 +262,18 @@ TEST(gamemanager_test,
     GameManager manager = GameManager();
 
     // Initialize four players.
-    array<Queue<shared_ptr<InGameCommand>>*, 4> cmd_queues{nullptr};
+    array<Queue<shared_ptr<InGameCommand>>*, 4> cmd_queues{
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr};
 
     array<shared_ptr<Queue<shared_ptr<Information>>>, 4>
-    player_queues{make_shared<Queue<std::shared_ptr<Information>>>(10000)};
+    player_queues{
+        make_shared<Queue<std::shared_ptr<Information>>>(10000),
+        make_shared<Queue<std::shared_ptr<Information>>>(10000),
+        make_shared<Queue<std::shared_ptr<Information>>>(10000),
+        make_shared<Queue<std::shared_ptr<Information>>>(10000)};
 
     array<uint8_t, 4> player_ids{0};
     array<uint32_t, 2> game_codes{0};

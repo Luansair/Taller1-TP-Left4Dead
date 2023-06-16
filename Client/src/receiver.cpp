@@ -36,9 +36,9 @@ void Receiver::run() {
 
 void Receiver::stop() {
     keep_receiving = false;
-    feedback_received.close();
     socket._shutdown(SHUT_RDWR);
     socket._close();
+    feedback_received.close();
 }
 
 bool Receiver::isDead() const {

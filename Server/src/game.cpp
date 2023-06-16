@@ -50,7 +50,10 @@ void Game::run() {
     using std::chrono::milliseconds;
 
     while (is_running && players_amount > 0) {
-        // Use trypop, do not block the Game thread ever...
+
+        sleep_for(milliseconds(50));
+        std::unique_lock<std::mutex> lck(mtx);
+
         std::shared_ptr<InGameCommand> command (nullptr);
 
         if (commands_recv.try_pop(std::ref(command)))
@@ -79,7 +82,6 @@ void Game::run() {
             }
             player_queue++;
         }
-        sleep_for(milliseconds(50));
     }
 }
 

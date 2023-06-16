@@ -4,6 +4,6 @@
 #include "../../../include/Information/Actions/moving_right_stop.h"
 
 std::vector<int8_t> StopMovingRightAction::serialize() const {
-    return {ACTION_MOVE, OFF, RIGHT};
+    return {ACTION_MOVE, OFF, X, RIGHT, NORMAL};
 }
 

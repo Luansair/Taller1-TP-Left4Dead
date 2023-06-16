@@ -40,11 +40,13 @@ InGameCommand* Protocol::recvInGameCommand(std::uint8_t player_id) {
         }
     } else if (action_id == ACTION_MOVE) {
         uint8_t action_state;
-        uint8_t axis = X;
+        uint8_t axis;
         int8_t direction;
-        uint8_t force = NORMAL;
+        uint8_t force;
         socket.recvData(&action_state, 1);
+        socket.recvData(&axis, 1);
         socket.recvData(&direction, 1);
+        socket.recvData(&force, 1);
         if (action_state == ON) {
             return new StartMoveCommand(player_id, axis, direction, force);
         } else if (action_state == OFF) {

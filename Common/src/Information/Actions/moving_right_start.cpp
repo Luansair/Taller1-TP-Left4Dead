@@ -5,6 +5,6 @@
 #include "../../../include/Information/information_code.h"
 
 std::vector<int8_t> StartMovingRightAction::serialize() const {
-    return {ACTION_MOVE, ON, RIGHT};
+    return {ACTION_MOVE, ON, X, RIGHT, NORMAL};
 }
 

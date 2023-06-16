@@ -10,8 +10,12 @@
 #include "../include/Drawer/drawer_manager.h"
 #include "../include/visual_game.h"
 #include "../../Common/include/Information/Actions/moving_right_start.h"
+#include "../../Common/include/Information/Actions/moving_up_start.h"
+#include "../../Common/include/Information/Actions/moving_down_start.h"
 #include "../../Common/include/Information/Actions/moving_left_start.h"
 #include "../../Common/include/Information/Actions/moving_right_stop.h"
+#include "../../Common/include/Information/Actions/moving_up_stop.h"
+#include "../../Common/include/Information/Actions/moving_down_stop.h"
 #include "../../Common/include/Information/Actions/moving_left_stop.h"
 #include "../../Common/include/Information/feedback_server_joingame.h"
 
@@ -56,6 +60,16 @@ void Client::processEvent(std::uint32_t event_type, int key_code, bool *quit)
             actions_to_send.push(
                     make_shared<StartMovingLeftAction>());
             break;
+        
+        case SDLK_UP:
+            actions_to_send.push(
+                    make_shared<StartMovingDownAction>());
+            break;
+        
+        case SDLK_DOWN:
+            actions_to_send.push(
+                    make_shared<StartMovingUpAction>());
+            break;
 
         default:
             break;
@@ -80,6 +94,16 @@ void Client::processEvent(std::uint32_t event_type, int key_code, bool *quit)
         case SDLK_LEFT:
             actions_to_send.push(
                     make_shared<StopMovingLeftAction>());
+            break;
+        
+        case SDLK_DOWN:
+            actions_to_send.push(
+                    make_shared<StopMovingUpAction>());
+            break;
+
+        case SDLK_UP:
+            actions_to_send.push(
+                    make_shared<StopMovingDownAction>());
             break;
 
         default:

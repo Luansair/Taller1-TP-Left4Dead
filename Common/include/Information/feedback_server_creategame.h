@@ -10,7 +10,7 @@
 class CreateGameFeedback : public Information {
 
 public:
-    std::uint32_t game_code;
+    const std::uint32_t game_code;
 
     explicit CreateGameFeedback(std::uint32_t game_code);
 

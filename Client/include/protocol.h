@@ -12,7 +12,9 @@ class Protocol {
 
     ElementStateDTO recvActorState();
     [[nodiscard]] std::shared_ptr<Information> builtCreateGameFeedback();
+    [[nodiscard]] std::shared_ptr<Information> builtJoinGameFeedback();
     [[nodiscard]] std::shared_ptr<Information> builtGameStateFeedback();
+
 public:
     explicit Protocol(GameSocket& socket);
 

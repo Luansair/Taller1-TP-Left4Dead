@@ -79,6 +79,7 @@ void Game::run() {
             } catch(const ClosedQueue& e) {
                 std::cout << e.what() << std::endl;
                 player_queues.erase(player_queue);
+                continue;
             }
             player_queue++;
         }

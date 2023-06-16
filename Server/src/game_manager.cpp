@@ -1,6 +1,7 @@
 #include <random>
 #include "../include/game_manager.h"
 #include "../../Common/include/Information/feedback_server_creategame.h"
+#include "../../Common/include/Information/feedback_server_joingame.h"
 
 /*
  * MAX_SIZE is defined so the chances for the generator to generate a game_code
@@ -11,6 +12,10 @@
 constexpr unsigned int MAX_SIZE = 10000;
 constexpr std::uint8_t MAX_PLAYERS = 10;
 
+enum {
+    NOT_JOINED,
+    JOINED
+};
 
 //-----------------------PRIVATE----------------------------//
 std::uint32_t GameManager::generateGameCode() {
@@ -116,15 +121,20 @@ bool GameManager::joinGame(Queue<std::shared_ptr<InGameCommand>> *&game_queue,
     using std::unique_lock;
     using std::mutex;
 
+    using std::shared_ptr;
+    using std::make_shared;
+
     unique_lock<mutex> lck(mtx);
 
     auto game = games.find(game_code);
     if (game == games.end())
         return false;
 
-    if (game->second->isFull())
+    if (game->second->isFull()) {
+        player_queue->push(make_shared<JoinGameFeedback>(NOT_JOINED));
         return false;
-    // Push success info
+    }
+    player_queue->push(make_shared<JoinGameFeedback>(JOINED));
 
     game->second->join(game_queue, player_queue, player_id);
     return true;

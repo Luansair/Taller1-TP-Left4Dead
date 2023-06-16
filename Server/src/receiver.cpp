@@ -27,14 +27,16 @@ Receiver::Receiver(GameSocket &&peer, GameManager& game_manager) :
 // Execute recibe siempre el Juego
 // Skippear lobby
 
+// Se pueden crear objetos del tipo InvalidCommand que al ejecutarlos tiran
+// una exception.
 void Receiver::joinGame() {
     using std::unique_ptr;
     while (keep_talking && !joined) {
 
         unique_ptr<PreGameCommand> pregame_cmd(
                 protocol.recvPreGameCommand());
-        if(pregame_cmd == nullptr)
-            // Maybe protocol should throw this? It is to avoid infinite loop.
+        if (pregame_cmd == nullptr)
+
             throw std::runtime_error("Receiver::joinGame. Invalid pre game "
                                      "command.\n");
 

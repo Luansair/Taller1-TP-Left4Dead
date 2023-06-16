@@ -1,6 +1,8 @@
 #include <netinet/in.h>
 #include "../include/protocol.h"
 #include "../../Common/include/Information/information_code.h"
+#include "../../Common/include/Information/feedback_server_joingame.h"
+
 #define RECV_DATA(var) socket.recvData(&var, sizeof(var))
 //------------------------PRIVATE METHODS-----------------------------------//
 
@@ -12,6 +14,16 @@ std::shared_ptr<Information> Protocol::builtCreateGameFeedback() {
     socket.recvData(&bigendian_game_code, sizeof(bigendian_game_code));
     uint32_t game_code = ntohl(bigendian_game_code);
     return make_shared<CreateGameFeedback>(game_code);
+}
+
+std::shared_ptr<Information> Protocol::builtJoinGameFeedback() {
+    using std::uint8_t;
+    using std::make_shared;
+
+    uint8_t joined;
+
+    RECV_DATA(joined);
+    return make_shared<JoinGameFeedback>(joined);
 }
 
 std::shared_ptr<Information> Protocol::builtGameStateFeedback() {
@@ -78,6 +90,8 @@ void Protocol::sendAction(const Information &action) {
 
     if (feedback_type == InformationID::FEEDBACK_CREATE_GAME) {
         return builtCreateGameFeedback();
+    } else if (feedback_type == InformationID::FEEDBACK_JOIN_GAME) {
+        return builtJoinGameFeedback();
     } else if (feedback_type == InformationID::FEEDBACK_GAME_STATE) {
         return builtGameStateFeedback();
     }

@@ -13,6 +13,7 @@
 #include "../../Common/include/Information/Actions/moving_left_start.h"
 #include "../../Common/include/Information/Actions/moving_right_stop.h"
 #include "../../Common/include/Information/Actions/moving_left_stop.h"
+#include "../../Common/include/Information/feedback_server_joingame.h"
 
 
 Client::Client(const char *hostname, const char *servname) :
@@ -91,6 +92,9 @@ void Client::lobbyProcess() {
     using std::make_shared;
     using std::shared_ptr;
 
+    using std::cout;
+    using std::endl;
+
     bool joined = false;
     std::cout << "Waiting input. Use 'create' or 'join <code>' to join a "
                  "game."
@@ -105,7 +109,18 @@ void Client::lobbyProcess() {
             std::cin >> game_code;
             actions_to_send.push(
                     make_shared<JoinGameAction>(game_code));
-            joined = true;
+            const auto& feed = feedback_received.pop();
+            if (feed == nullptr) {
+                throw std::runtime_error("Client::lobbyProcess. "
+                                         "Feedback for join is null.\n");
+            }
+            const auto& join_feed = dynamic_cast<JoinGameFeedback&>(*feed);
+            if (join_feed.joined == 0) {
+                cout << "Joined failed for code: " << game_code << endl;
+            } else if (join_feed.joined == 1) {
+                cout << "Joined game with code: " << game_code << endl;
+                joined = true;
+            }
         }
         else if (action == "create")
         {

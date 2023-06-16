@@ -21,6 +21,14 @@ void Match::join(uint32_t soldier_id, uint8_t soldier_type) {
     soldier_counter += 1;
 }
 
+void Match::setZombie(uint32_t zombie_id, uint8_t zombie_type) {
+    ZombieFactory factory;
+    std::shared_ptr<Zombie> zombie = factory.create(zombie_id, zombie_type);
+    zombie->setRandomPosition(std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
+    zombies.emplace(zombie_id, std::move(zombie));
+    zombie_counter += 1;
+}
+
 void Match::shoot(uint32_t soldier_id, uint8_t state) {
     if (soldiers.count(soldier_id)>0) {
         std::shared_ptr<Soldier> &soldier = soldiers.at(soldier_id);
@@ -65,6 +73,9 @@ void Match::simulateStep(void) {
     for (auto & soldier : soldiers) {
         soldier.second->simulate(TIME, std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
     }
+    for (auto & zombie : zombies) {
+        zombie.second->simulate(TIME, std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
+    }
 }
 
 std::vector<std::pair<uint16_t, ElementStateDTO >> Match::getElementStates() {
@@ -76,6 +87,16 @@ std::vector<std::pair<uint16_t, ElementStateDTO >> Match::getElementStates() {
         int8_t actor_direction = soldier.second->getDirX();
         int position_x = soldier.second->getPosition().getXPos();
         int position_y = soldier.second->getPosition().getYPos();
+        ElementStateDTO dto {actor_type, actor_action, actor_direction, position_x, position_y};
+        elementStates.emplace_back(id, std::move(dto));
+    }
+    for (const auto & zombie : zombies) {
+        int id = zombie.second->getId();
+        uint8_t actor_type = zombie.second->getZombieType();
+        uint8_t actor_action = zombie.second->getAction();
+        int8_t actor_direction = zombie.second->getDirX();
+        int position_x = zombie.second->getPosition().getXPos();
+        int position_y = zombie.second->getPosition().getYPos();
         ElementStateDTO dto {actor_type, actor_action, actor_direction, position_x, position_y};
         elementStates.emplace_back(id, std::move(dto));
     }

@@ -15,7 +15,7 @@ scoutsoldier:
   grenade_type: 2
 
 idfsoldier:
-  type: 2
+  type: 3
   health: 100
   width: 2
   height: 6

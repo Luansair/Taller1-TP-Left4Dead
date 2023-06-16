@@ -8,11 +8,6 @@ jugador puede ver que el infectado está por saltar por su característica pose 
 suficientemente rápido de reflejos, podrá correr y evitar el ataque. */
 
 class Jumper : public Zombie {
-private:
-    int32_t x;
-    int32_t y;
-    uint8_t health;
-
 public:
     explicit Jumper(int32_t x, int32_t y, uint8_t health);
 };

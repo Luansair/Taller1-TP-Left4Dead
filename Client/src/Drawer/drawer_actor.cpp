@@ -26,6 +26,7 @@ void ActorDrawer::updateInfo(const ElementStateDTO &actor_state) {
     }
     // se congela la animación, si le mando directamente desde server sin traducir anda bien.
     setActorType(actor_state.type);
+    //this->animation = actor_state.action;
     setActorAnimation(actor_state.action);
     setActorDirection(actor_state.direction);
     sprite_destination.SetX(actor_state.position_x);
@@ -44,16 +45,20 @@ void ActorDrawer::draw(unsigned int frame_ticks) {
 void ActorDrawer::setActorType(uint8_t actor_type) {
     switch (actor_type)
     {
-    case 1:
+    case 0:
         this->type = SOLDIER_1;
         break;
     
-    case 2:
+    case 1:
         this->type = SOLDIER_2;
         break;
 
-    case 3:
+    case 2:
         this->type = SOLDIER_3;
+        break;
+
+    case 3:
+        this->type = ZOMBIE;
         break;
     }
 }

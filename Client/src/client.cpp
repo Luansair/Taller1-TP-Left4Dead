@@ -3,6 +3,7 @@
 #include "yaml-cpp/yaml.h"
 #include "../include/client.h"
 #include "../../Common/include/Information/Actions/shoot_start.h"
+#include "../../Common/include/Information/Actions/shoot_stop.h"
 #include "../../Common/include/Information/Actions/game_join.h"
 #include "../../Common/include/Information/Actions/game_create.h"
 #include "../../Common/include/Information/information_code.h"
@@ -79,12 +80,10 @@ void Client::processEvent(std::uint32_t event_type, int key_code, bool *quit)
         //process key up method
         switch (key_code)
         {
-        /*
         case SDLK_z:
             actions_to_send.push(
                     make_shared<StopShootAction>());
             break;
-        */
 
         case SDLK_RIGHT:
             actions_to_send.push(

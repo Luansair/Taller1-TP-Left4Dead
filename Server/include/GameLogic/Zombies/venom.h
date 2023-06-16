@@ -9,11 +9,6 @@ líquido desde largas distancias.
 El spray daña a todo jugador que esté en contacto con él */
 
 class Venom : public Zombie {
-private:
-    int32_t x;
-    int32_t y;
-    uint8_t health;
-
 public:
     explicit Venom(int32_t x, int32_t y, uint8_t health);
 };

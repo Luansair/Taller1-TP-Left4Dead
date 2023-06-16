@@ -7,11 +7,6 @@
 evolucionar a tal punto de ser capaces de usar armas como lanzas. */
 
 class Spear : public Zombie {
-private:
-    int32_t x;
-    int32_t y;
-    uint8_t health;
-
 public:
     explicit Spear(int32_t x, int32_t y, uint8_t health);
 };

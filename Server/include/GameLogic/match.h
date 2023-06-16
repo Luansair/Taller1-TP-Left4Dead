@@ -4,6 +4,7 @@
 #include "Soldiers/soldier.h"
 #include "Soldiers/soldierfactory.h"
 #include "Zombies/zombie.h"
+#include "Zombies/zombiefactory.h"
 #include "position.h"
 #include "../../../Common/include/Information/information_code.h"
 #include "../../../Common/include/Information/state_dto_element.h"
@@ -71,6 +72,8 @@ public:
     std::vector<std::pair<uint16_t, ElementStateDTO >> getElementStates();
 
     GameStateFeedback getMatchState(void);
+
+    void setZombie(uint32_t zombie_id, uint8_t zombie_type);
 
     Match(const Match&) = delete;
     Match& operator=(const Match&) = delete;

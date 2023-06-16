@@ -145,7 +145,7 @@ uint32_t Zombie::getId(void) {
 uint8_t Zombie::getAction(void) {
     if (moving) return ACTION_MOVE;
     // if (attacking) return ACTION_ATTACK;
-    return ACTION_IDLE;
+    return ZOMBIE_IDLE;
 }
 
 int8_t Zombie::getDir(void) {

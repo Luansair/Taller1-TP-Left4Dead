@@ -68,7 +68,7 @@ public:
     uint8_t getWidth(void);
     uint8_t getHeight(void);
     uint32_t getId(void);
-    virtual uint8_t getSoldierType(void) = 0;
+    virtual uint8_t getZombieType(void) = 0;
     uint8_t getAction(void);
     Position& getPosition(void);
     const Position& seePosition(void) const;

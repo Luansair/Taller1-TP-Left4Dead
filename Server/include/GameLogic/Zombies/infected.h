@@ -8,13 +8,17 @@ empezará a caminar hacia los jugadores en cuanto estén a la vista para matarlo
 zarpazos o mordidas). */
 
 class Infected : public Zombie {
-private:
-    int32_t x;
-    int32_t y;
-    uint8_t health;
 
 public:
-    explicit Infected(int32_t x, int32_t y, uint8_t health);
+    explicit Infected(
+    uint32_t zombie_id,
+    int8_t dir,
+    int8_t width,
+    int8_t height,
+    int8_t speed,
+    int16_t health);
+
+    uint8_t getZombieType(void) override;
 };
 
 #endif  // INFECTED_H_

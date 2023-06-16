@@ -1,11 +1,86 @@
-# Informe del tp1
+# Informe TP1-Left4Dead-2D
+
+## Alumnos
 
 Pedro Gallino - 107587 - pgallino@fi.uba.ar
 
-Franco Daniel Capra - 99642 - fcapra@fi.uba.ar
-
 Luan Shair Corrionero - 102439 - lcorrionero@fi.uba.ar
 
+-----------------------
+
+## Instalacion / Dependencias
+
+Tener en cuenta que esto es para Linux Ubuntu 22.04. Todavía no se probaron
+otros SO.
+
+### CMake
+
+Indispensable para buildear, instalar e integrar otras librerias.
+
+```shell
+sudo apt-get install cmake
+```
+
+### SDL / SDL2 / SDL2pp
+
+Necesario para las animaciones
+
+Se descargan los siguientes archivos:
+- libsdl2-image 2.6.3 https://github.com/libsdl-org/SDL_image/releases/tag/release-2.6.3
+- libsdl2-mixer 2.6.3 https://github.com/libsdl-org/SDL_mixer/releases/tag/release-2.6.3
+- libsdl2-ttf 2.20.2 https://github.com/libsdl-org/SDL_ttf/releases/tag/release-2.20.2
+
+Se instalan las dependencias
+
+```shell
+sudo apt-get install libjpeg-dev libpng-dev libfreetype-dev libopusfile-dev libflac-dev libxmp-dev libfluidsynth-dev libwavpack-dev cmake libmodplug-dev libsdl2-dev
+```
+
+Descomprimir los archivos descargados anteriormente y repetir estos pasos 
+para cada uno.
+
+```shell
+cd carpeta_sdl_x
+mkdir build 
+cd build 
+cmake .. 
+make -j4
+sudo make install
+```
+
+El siguiente paso es compilar e instalar la version 0.18.1 de libsdl2pp
+Descargar el archivo: https://github.com/libSDL2pp/libSDL2pp/releases/tag/0.18.1
+Descomprimir el archivo descargado
+
+```shell
+cd libSDL2pp-0.18.1
+mkdir build 
+cd build 
+cmake .. 
+make -j4
+sudo make install
+```
+
+### Yaml
+
+Necesario para leer los archivos de configuracion del juego y persistencia.
+
+Se puede seguir el tutorial del repositorio: https://github.com/jbeder/yaml-cpp
+
+Descargar el archivo: https://github.com/jbeder/yaml-cpp/releases/tag/yaml-cpp-0.7.0
+Descomprimirlo
+Dentro de la carpeta ejecutar
+
+```shell
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
+
+Se puede remover el directorio `build` luego de instalarlo
+
+-------------------------
 
 ## Build
 
@@ -35,15 +110,66 @@ cambios.
 **Chequear** que se está siempre dentro de la carpeta build antes de hacer 
 cmake.
 
+---
+
+## Ejecucion del programa
+
+Para ejecutar el programa hay que tener instalada **todas** las dependencias y 
+haber **buildeado** el proyecto.
+
+Dentro de la carpeta `build` abrir dos terminales:
+
+En una de ellas ejecutar:
+```shell
+./Server 8080 #puede ser cualquier puerto válido
+```
+
+En la otra
+```shell
+./Client localhost 8080 #el puerto debe coincidir con el del server
+```
+
+Tambien puede usarse tiburoncin para ver los bytes que se envian entre ellos 
+a través de sockets. 
+
+Para ello se debe abrir una terminal mas en la **carpeta principal del proyecto**.
+
+Luego:
+```shell
+#en una terminal en build
+./Server 8082
+
+#en la terminal de la carpeta principal
+tiburoncin -f client0 -A :8081 -B :8082
+
+#en la otra terminal en build
+./Client 8081
+```
+Se debe respetar el orden. Los puertos pueden ser distintos, pero debe 
+coincidir el A de tiburoncin con el del Cliente y el B con el del Server.
+
+
+---
+
 ## Pruebas
 
-Todavía no está bien armado y es medio complicado. Las pruebas están en el 
-directorio *build/tests*. Actualmente se llaman 'resolver_test' y para 
-ejecutarlas hay que hacer `./resolver_test`
+Para ejecutar las pruebas hay que tener **todas** las 
+dependencias y haber **buildeado** el proyecto.
 
-La complicación es que para añadir mas pruebas hay que agregar al ejecutable 
-los .cpp de los tests y los .cpp de todos los archivos que necesiten para 
-ejecutarse.
+Dentro del directorio `build` ejecutar:
+
+```shell
+ctest
+```
+
+Para una prueba en particular hay que moverse al directorio `tests`dentro de 
+`build` y correr el ejecutable:
+
+```shell
+cd tests
+./nombre_test
+```
+
 
 ## Pre-commits
 
@@ -65,62 +191,15 @@ deshabilitar borrando el hook.
 
 Convencion: https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines
 
+---
+
 ## Librerias utilizadas:
 
 - SDL2pp: https://github.com/libSDL2pp/libSDL2pp
 - yaml-cpp: https://github.com/jbeder/yaml-cpp
 - thread.h, queue.h: https://github.com/eldipa/hands-on-threads/tree/master/libs
 - GTest: https://github.com/google/googletest.git
-- 
-## Protocolo
 
-### Propuesta 1: inputs directos
+---
 
-El cliente envía los inputs directamente, que son ints, al servidor.
-Entonces el servidor transforma esos inputs en acciones y hace algo.
 
-#### Ventajas: 
-
-- fácil de hacer porque no hay que parsear nada desde el cliente.
-- lógica mínima de parte del cliente.
-
-#### Desventajas: 
-
-- el server debe conocer qué significan los ints.
-- el usuario no puede configurar sus controles o bien el server debe conocer la configuración de cada usuario.
-
-### Propuesta 2: acciones parseadas
-
-El cliente parsea los inputs a acciones. El servidor interpreta estas
-acciones y hace algo.
-
-#### Ventajas:
-
-- quizá mas intuitivo.
-- el cliente puede tener su propia configuración de teclado y mouse
-
-#### Desventajas:
-
-- mayor lógica en el cliente.
-- implementar mas objetos en el cliente.
-- el server debe parsear la acción de todas formas.
-
-## Estructura del proyecto (reveer)
-
-Es posible que haga falta una reestructuración.
-
-En Common están los archivos utilizados para compilar tanto Server como Client.
-Se dividen en src/ (donde están los .cpp) e include/ (donde están los .h).
-
-En Server están los archivos para compilar Server y en Client lo mismo.
-Internamente tienen la misma división que Common. Se pueden agregar carpetas
-con información específica que requiere cada uno.
-
-Las pruebas están en una carpeta a parte y su estructura está por verse.
-
-Las librerías tambien tienen su propio directorio.
-
-Los recursos (por ahora) tienen su propio directorio.
-
-Hay archivos con el mismo nombre para Server y Client (pero el código es
-distinto) por lo que las pruebas podría tener conflictos.

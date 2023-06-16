@@ -26,7 +26,12 @@ void ActorDrawer::updateInfo(const ElementStateDTO &actor_state) {
     }
     this->type = actor_state.type;
     this->animation = actor_state.action;
-    this->direction = actor_state.direction;
+    int8_t direction_i = actor_state.direction;
+    if (direction_i == -1) {
+        this->direction = 1;
+    } else {
+        this->direction = 0;
+    }
     sprite_destination.SetX(actor_state.position_x);
     sprite_destination.SetY(actor_state.position_y);
 }

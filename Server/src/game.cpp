@@ -51,7 +51,7 @@ void Game::run() {
 
     while (is_running && players_amount > 0) {
 
-        sleep_for(milliseconds(50));
+        sleep_for(milliseconds(5));
         std::unique_lock<std::mutex> lck(mtx);
 
         std::shared_ptr<InGameCommand> command (nullptr);

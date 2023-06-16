@@ -202,12 +202,12 @@ uint32_t Soldier::getId(void) {
     return soldier_id;
 }
 
-uint8_t Soldier::getAction(void) { //esto probablemente sea mejor mandarlo como está y traducir alla
-    if (shooting) return SOLDIER_1_SHOOT_1;
-    if (moving) return SOLDIER_1_RUN;
+uint8_t Soldier::getAction(void) {
+    if (shooting) return ACTION_SHOOT;
+    if (moving) return ACTION_MOVE;
     if (reloading) return ACTION_RELOAD;
     if (throwing) return ACTION_THROW;
-    return SOLDIER_1_IDLE;
+    return ACTION_IDLE;
 }
 
 int8_t Soldier::getDir(void) {

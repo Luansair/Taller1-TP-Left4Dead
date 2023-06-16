@@ -24,14 +24,10 @@ void ActorDrawer::updateInfo(const ElementStateDTO &actor_state) {
     if (this->animation != actor_state.action) {
         sprite_index = 0;
     }
-    this->type = actor_state.type;
-    this->animation = actor_state.action;
-    int8_t direction_i = actor_state.direction;
-    if (direction_i == -1) {
-        this->direction = 1;
-    } else {
-        this->direction = 0;
-    }
+    // se congela la animación, si le mando directamente desde server sin traducir anda bien.
+    setActorType(actor_state.type);
+    setActorAnimation(actor_state.action);
+    setActorDirection(actor_state.direction);
     sprite_destination.SetX(actor_state.position_x);
     sprite_destination.SetY(actor_state.position_y);
 }
@@ -45,3 +41,53 @@ void ActorDrawer::draw(unsigned int frame_ticks) {
                            sprite_destination);
 }
 
+void ActorDrawer::setActorType(uint8_t actor_type) {
+    switch (actor_type)
+    {
+    case 1:
+        this->type = SOLDIER_1;
+        break;
+    
+    case 2:
+        this->type = SOLDIER_2;
+        break;
+
+    case 3:
+        this->type = SOLDIER_3;
+        break;
+    }
+}
+
+void ActorDrawer::setActorAnimation(uint8_t actor_action) {
+    switch (actor_action)
+    {
+    case ACTION_MOVE:
+        this->animation = SOLDIER_1_RUN;
+        break;
+    
+    case ACTION_RELOAD:
+        this->animation = SOLDIER_1_RECHARGE;
+        break;
+
+    case ACTION_SHOOT:
+        this->animation = SOLDIER_1_SHOOT_1;
+        break;
+
+    case ACTION_IDLE:
+        this->animation = SOLDIER_1_IDLE;
+        break;
+    }
+}
+
+void ActorDrawer::setActorDirection(int8_t actor_direction) {
+    switch (actor_direction)
+    {
+    case RIGHT:
+        this->direction = DRAW_RIGHT;
+        break;
+    
+    case LEFT:
+        this->direction = DRAW_LEFT;
+        break;
+    }
+}

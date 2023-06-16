@@ -81,7 +81,7 @@ enum MoveDirection : std::int8_t {
     RIGHT = 1
 };
 
-enum DrawDirection : std::int8_t {
+enum DrawDirection : std::uint8_t {
     DRAW_RIGHT,
     DRAW_LEFT
 };

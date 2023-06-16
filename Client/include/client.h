@@ -17,6 +17,8 @@ class Client {
     Receiver receiver;
 
     void processEvent(std::uint32_t event_type, int key_code, bool* quit);
+    void lobbyProcess();
+    void gameProcess();
 public:
     Client(const char* hostname, const char* servname);
 

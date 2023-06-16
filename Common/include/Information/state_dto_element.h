@@ -15,7 +15,7 @@ struct ElementStateDTO {
     const int position_y;
 
     ElementStateDTO(ElementStateDTO&&) = default;
-    ElementStateDTO& operator=(ElementStateDTO&&) = default;
+    ElementStateDTO& operator=(ElementStateDTO&&) = delete;
 
     ElementStateDTO(const ElementStateDTO&) = delete;
     ElementStateDTO& operator=(const ElementStateDTO&) = delete;

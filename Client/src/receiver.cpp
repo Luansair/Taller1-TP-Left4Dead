@@ -18,7 +18,7 @@ void Receiver::run() {
 
     try {
     while (keep_receiving) {
-        feedback_received.push(std::move(protocol.recvFeedback()));
+        feedback_received.push(protocol.recvFeedback());
     }
     } catch (const ClosedSocket& err) {
         cerr << "In Receiver thread: " << err.what() << endl;
@@ -36,6 +36,7 @@ void Receiver::run() {
 
 void Receiver::stop() {
     keep_receiving = false;
+    feedback_received.close();
     socket._shutdown(SHUT_RDWR);
     socket._close();
 }

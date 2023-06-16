@@ -27,14 +27,14 @@ std::vector<int8_t> GameStateFeedback::serialize() const {
     result.push_back(InformationID::FEEDBACK_GAME_STATE);
 
     // Push amount of actors/elements
-    serializeNumber<uint32_t>(result, elements.size());
+    serializeNumber<uint16_t>(result, static_cast<uint16_t>(elements.size()));
 
     // Push information about element. Id and struct fields.
     for (const auto& element : elements) {
         const ElementStateDTO& dto = element.second;
         uint16_t actor_id = element.first;
 
-        serializeNumber(result, actor_id);
+        serializeNumber<uint16_t>(result, actor_id);
         result.push_back(static_cast<int8_t>(dto.type));
         result.push_back(static_cast<int8_t>(dto.action));
         result.push_back(static_cast<int8_t>(dto.direction));

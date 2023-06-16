@@ -18,12 +18,10 @@ Game::addAdmin(std::uint8_t player_id) {
 }
 */
 
-bool Game::join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, const std::shared_ptr<Queue<std::shared_ptr<Information>>> &player_queue,
+void Game::join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, const std::shared_ptr<Queue<std::shared_ptr<Information>>> &player_queue,
                 std::uint8_t* player_id) {
     std::unique_lock<std::mutex> lck(mtx);
-    if (started) {
-        return false;
-    }
+
     game_queue = &this->commands_recv;
 
     player_queues.push_back(player_queue);
@@ -34,10 +32,9 @@ bool Game::join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, const std::s
     match.join(*player_id, 1);
 
     // Game starts when max_players is reached.
-    if (players_amount == max_players) {
+    if (isFull()) {
         started = true;
     }
-    return true;
 }
 
 bool Game::isEmpty() const {
@@ -56,7 +53,8 @@ void Game::run() {
         // Use trypop, do not block the Game thread ever...
         std::shared_ptr<InGameCommand> command (nullptr);
 
-        if (commands_recv.try_pop(std::ref(command))) command->execute(std::ref(match));
+        if (commands_recv.try_pop(std::ref(command)))
+            command->execute(std::ref(match));
         match.simulateStep();
         std::vector<std::pair<short unsigned int, ElementStateDTO>>state =
                 match.getElementStates();
@@ -83,6 +81,10 @@ void Game::run() {
         }
         //sleep_for(milliseconds(5));
     }
+}
+
+bool Game::isFull() const {
+    return players_amount >= max_players;
 }
 
 Game::~Game() = default;

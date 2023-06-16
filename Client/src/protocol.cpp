@@ -17,14 +17,15 @@ std::shared_ptr<Information> Protocol::builtCreateGameFeedback() {
 std::shared_ptr<Information> Protocol::builtGameStateFeedback() {
     using std::uint8_t;
     using std::uint16_t;
+    using std::uint32_t;
     using std::size_t;
     using std::vector;
     using std::pair;
     using std::make_shared;
 
-    size_t bigendian_actors_amount = 0;
+    uint16_t bigendian_actors_amount = 0;
     RECV_DATA(bigendian_actors_amount);
-    size_t actors_amount = ntohs(bigendian_actors_amount);
+    uint16_t actors_amount = ntohs(bigendian_actors_amount);
 
     vector<pair<uint16_t, ElementStateDTO>> actors;
     actors.reserve(actors_amount * sizeof(pair<uint16_t, ElementStateDTO>));
@@ -34,7 +35,7 @@ std::shared_ptr<Information> Protocol::builtGameStateFeedback() {
         RECV_DATA(bigendian_actor_id);
         uint16_t actor_id = ntohs(bigendian_actor_id);
 
-        ElementStateDTO actor_state = recvActorState();
+        ElementStateDTO&& actor_state = recvActorState();
 
         actors.emplace_back(actor_id, std::move(actor_state));
     }

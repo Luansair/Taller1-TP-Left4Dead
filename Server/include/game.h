@@ -31,8 +31,9 @@ public:
     explicit Game(std::uint8_t max_players);
 
     // bool addAdmin(std::uint8_t player_id);
+    [[nodiscard]] bool isFull() const;
 
-    bool join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, const std::shared_ptr<Queue<std::shared_ptr<Information>>> &player_queue,
+    void join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, const std::shared_ptr<Queue<std::shared_ptr<Information>>> &player_queue,
               std::uint8_t* player_id);
 
     void stop();

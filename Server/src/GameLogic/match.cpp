@@ -1,6 +1,6 @@
 #include "../../include/GameLogic/match.h"
 
-Match::Match(int32_t x_dimension, int32_t y_dimension) :
+Match::Match(double x_dimension, double y_dimension) :
     soldiers(),
     zombies(),
     x_dim(x_dimension),

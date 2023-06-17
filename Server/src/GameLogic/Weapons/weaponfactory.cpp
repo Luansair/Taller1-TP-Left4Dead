@@ -10,33 +10,33 @@ std::unique_ptr<Weapon> WeaponFactory::create(uint8_t weapon_type) {
     const auto p90w_ammo =
         p90w_config["ammo"].as<std::uint8_t>();
     const auto p90w_damage =
-        p90w_config["damage"].as<std::uint8_t>();
+        p90w_config["damage"].as<double>();
     const auto p90w_scope =
-        p90w_config["scope"].as<std::uint8_t>();
+        p90w_config["scope"].as<double>();
     const auto p90w_reduction =
-        p90w_config["damage_reduction_coef"].as<float>();
+        p90w_config["damage_reduction_coef"].as<double>();
 
     Node scoutw_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["scoutweapon"];
 
     const auto scoutw_ammo =
         scoutw_config["ammo"].as<std::uint8_t>();
     const auto scoutw_damage =
-        scoutw_config["damage"].as<std::uint8_t>();
+        scoutw_config["damage"].as<double>();
     const auto scoutw_scope =
-        scoutw_config["scope"].as<std::uint8_t>();
+        scoutw_config["scope"].as<double>();
     const auto scoutw_reduction =
-        scoutw_config["damage_reduction_coef"].as<float>();   
+        scoutw_config["damage_reduction_coef"].as<double>();   
 
     Node idfw_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["idfweapon"];
 
     const auto idfw_ammo =
         idfw_config["ammo"].as<std::uint8_t>();
     const auto idfw_damage =
-        idfw_config["damage"].as<std::uint8_t>();
+        idfw_config["damage"].as<double>();
     const auto idfw_scope =
-        idfw_config["scope"].as<std::uint8_t>();
+        idfw_config["scope"].as<double>();
     const auto idfw_reduction =
-        idfw_config["damage_reduction_coef"].as<float>();
+        idfw_config["damage_reduction_coef"].as<double>();
 
     switch(weapon_type) {
         case SOLDIER_2: {

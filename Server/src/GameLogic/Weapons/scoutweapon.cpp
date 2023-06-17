@@ -4,7 +4,7 @@
 
 #include <queue>
 
-ScoutWeapon::ScoutWeapon(uint8_t ammo, uint8_t damage, uint8_t scope, float reduction) :
+ScoutWeapon::ScoutWeapon(uint8_t ammo, double damage, double scope, double reduction) :
     ammo(ammo),
     actual_ammo(ammo),
     damage(damage),
@@ -15,17 +15,17 @@ ScoutWeapon::ScoutWeapon(uint8_t ammo, uint8_t damage, uint8_t scope, float redu
 bool ScoutWeapon::shoot(
     Position& from,
     int8_t dir,
-    int32_t dim_x,
-    uint16_t time,
+    double dim_x,
+    double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies) {
     if (actual_ammo == 0) return false;
     Hitbox hitbox;
 
     // calculo a donde llega el disparo
-    int16_t next_x = from.getXPos() + (dir * time);
+    double next_x = from.getXPos() + (dir * time);
     if (dir == RIGHT) {
-        hitbox.setValues(from.getXPos(), next_x, from.getYPos() - scope / 2, from.getYPos() + scope / 2);
+        hitbox.setValues(from.getXPos(), next_x, from.getYPos() - scope * 0.5, from.getYPos() + scope * 0.5);
         std::priority_queue<std::shared_ptr<Soldier>, std::vector<std::shared_ptr<Soldier>>, Distance_from_left_is_minor> victims_queue;
 
         for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
@@ -38,15 +38,16 @@ bool ScoutWeapon::shoot(
         // como tengo que ir atravesando victimas voy desencolando de la cola de prioridad
         // por cercanía y voy sacandole daño al disparo.
 
-        uint8_t actual_damage = damage;
+        double actual_damage = damage;
         while(!victims_queue.empty()) {
             const std::shared_ptr<Soldier> &victim = victims_queue.top();
             victim->recvDamage(actual_damage);
             victims_queue.pop();
             actual_damage = actual_damage * damage_reduction_coef;
         }
+
     } else if (dir == LEFT) {
-        hitbox.setValues(next_x, from.getXPos(), from.getYPos() - scope / 2, from.getYPos() + scope / 2);
+        hitbox.setValues(next_x, from.getXPos(), from.getYPos() - scope * 0.5, from.getYPos() + scope * 0.5);
         std::priority_queue<std::shared_ptr<Soldier>, std::vector<std::shared_ptr<Soldier>>, Distance_from_right_is_minor> victims_queue;
 
         for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
@@ -59,7 +60,7 @@ bool ScoutWeapon::shoot(
         // como tengo que ir atravesando victimas voy desencolando de la cola de prioridad
         // por cercanía y voy sacandole daño al disparo.
 
-        uint8_t actual_damage = damage;
+        double actual_damage = damage;
         while(!victims_queue.empty()) {
             const std::shared_ptr<Soldier> &victim = victims_queue.top();
             victim->recvDamage(actual_damage);

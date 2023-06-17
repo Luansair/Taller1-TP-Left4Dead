@@ -5,15 +5,13 @@
 
 Soldier::Soldier(
     uint32_t soldier_id,
-    int8_t dir,
-    int8_t width,
-    int8_t height,
-    int8_t speed,
-    int16_t health,
+    double width,
+    double height,
+    double speed,
+    double health,
     std::unique_ptr<Weapon>&& weapon,
     std::unique_ptr<Grenade>&& grenade) :
     soldier_id(soldier_id),
-    dir(dir),
     speed(speed),
     health(health),
     width(width),
@@ -92,7 +90,7 @@ void Soldier::idle(uint8_t state) {
     }
 }
 
-void Soldier::recvDamage(int8_t damage) {
+void Soldier::recvDamage(double damage) {
     if (damage < health) {
         health -= damage; 
         return;
@@ -102,18 +100,18 @@ void Soldier::recvDamage(int8_t damage) {
 
 /* SIMULADORES */
 
-void Soldier::simulate(uint16_t time,
+void Soldier::simulate(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y) {
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
     if (moving) simulateMove(time, soldiers, zombies, dim_x, dim_y);
     if (reloading) simulateReload(time);
     if (shooting) simulateShoot(time, soldiers, zombies, dim_x);
     if (throwing) simulateThrow(time);
 }
 
-void Soldier::simulateMove(uint16_t time,
+void Soldier::simulateMove(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y) {
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
 
     int16_t next_x;
     int16_t next_y;
@@ -155,17 +153,17 @@ void Soldier::simulateMove(uint16_t time,
     position = next_pos;
 }
 
-void Soldier::simulateShoot(uint16_t time, 
+void Soldier::simulateShoot(double time, 
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x) {
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x) {
     if (!(weapon->shoot(getPosition(), dir, dim_x, time, std::ref(soldiers), std::ref(zombies)))) reload(ON);
 }
 
-void Soldier::simulateReload(uint16_t time) {
+void Soldier::simulateReload(double time) {
     (weapon->reload());
 }
 
-void Soldier::simulateThrow(uint16_t time) {}
+void Soldier::simulateThrow(double time) {}
 
 
 
@@ -191,10 +189,10 @@ bool Distance_from_right_is_minor::operator()(std::shared_ptr<Soldier> below, st
 
 /* GETTERS */
 
-uint8_t Soldier::getWidth(void) {
+double Soldier::getWidth(void) {
     return width;
 }
-uint8_t Soldier::getHeight(void) {
+double Soldier::getHeight(void) {
     return height;
 }
 
@@ -210,7 +208,7 @@ int8_t Soldier::getDirX(void) {
     return dir_x;
 }
 
-int8_t Soldier::getHealth(void) {
+double Soldier::getHealth(void) {
     return health;
 }
 
@@ -230,7 +228,7 @@ void Soldier::setPosition(Position&& new_pos) {
 
 void Soldier::setRandomPosition(
         const std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
-        const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, int32_t dim_x, int32_t dim_y) {
+        const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, double dim_x, double dim_y) {
     using std::random_device;
     using std::mt19937;
     using std::uniform_int_distribution;

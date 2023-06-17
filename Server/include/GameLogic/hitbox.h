@@ -10,22 +10,22 @@
 
 class Hitbox {
 public:
-    int16_t x_min;
-    int16_t x_max;
-    int16_t y_min;
-    int16_t y_max;
+    double x_min;
+    double x_max;
+    double y_min;
+    double y_max;
 
     Hitbox() {}
 
-    explicit Hitbox(int16_t x_min, int16_t x_max, int16_t y_min, int16_t y_max);
-    void setValues(int16_t x_min, int16_t x_max, int16_t y_min, int16_t y_max);
+    explicit Hitbox(double x_min, double x_max, double y_min, double y_max);
+    void setValues(double x_min, double x_max, double y_min, double y_max);
 
     bool shoot_hits(const Position &victim_position);
 
-    int16_t getXMax(void);
-    int16_t getXMin(void);
-    int16_t getYMax(void);
-    int16_t getYMin(void);
+    double getXMax(void);
+    double getXMin(void);
+    double getYMax(void);
+    double getYMin(void);
 
 };
 

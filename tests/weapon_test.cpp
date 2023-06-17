@@ -11,39 +11,39 @@ using YAML::Node;
 Node p90_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["p90soldier"];
 
 const auto p90_width =
-    p90_config["width"].as<std::int8_t>();
+    p90_config["width"].as<double>();
 const auto p90_height =
-    p90_config["height"].as<std::int8_t>();
+    p90_config["height"].as<double>();
 const auto p90_speed =
-    p90_config["speed"].as<std::int8_t>();
+    p90_config["speed"].as<double>();
 const auto p90_health =
-    p90_config["health"].as<std::int16_t>();
+    p90_config["health"].as<double>();
 const auto p90_grenade =
     p90_config["grenade_type"].as<std::uint8_t>();
 
 Node scout_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["scoutsoldier"];
 
 const auto scout_width =
-    scout_config["width"].as<std::int8_t>();
+    scout_config["width"].as<double>();
 const auto scout_height =
-    scout_config["height"].as<std::int8_t>();
+    scout_config["height"].as<double>();
 const auto scout_speed =
-    scout_config["speed"].as<std::int8_t>();
+    scout_config["speed"].as<double>();
 const auto scout_health =
-    scout_config["health"].as<std::int16_t>();
+    scout_config["health"].as<double>();
 const auto scout_grenade =
     scout_config["grenade_type"].as<std::uint8_t>();
 
 Node idf_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["idfsoldier"];
 
 const auto idf_width =
-    idf_config["width"].as<std::int8_t>();
+    idf_config["width"].as<double>();
 const auto idf_height =
-    idf_config["height"].as<std::int8_t>();
+    idf_config["height"].as<double>();
 const auto idf_speed =
-    idf_config["speed"].as<std::int8_t>();
+    idf_config["speed"].as<double>();
 const auto idf_health =
-    idf_config["health"].as<std::int16_t>();
+    idf_config["health"].as<double>();
 const auto idf_grenade =
     idf_config["grenade_type"].as<std::uint8_t>();
 
@@ -52,33 +52,33 @@ Node p90w_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["p90weapon"];
 const auto p90w_ammo =
     p90w_config["ammo"].as<std::uint8_t>();
 const auto p90w_damage =
-    p90w_config["damage"].as<std::uint8_t>();
+    p90w_config["damage"].as<double>();
 const auto p90w_scope =
-    p90w_config["scope"].as<std::uint8_t>();
+    p90w_config["scope"].as<double>();
 const auto p90w_reduction =
-    p90w_config["damage_reduction_coef"].as<float>();
+    p90w_config["damage_reduction_coef"].as<double>();
 
 Node scoutw_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["scoutweapon"];
 
 const auto scoutw_ammo =
     scoutw_config["ammo"].as<std::uint8_t>();
 const auto scoutw_damage =
-    scoutw_config["damage"].as<std::uint8_t>();
+    scoutw_config["damage"].as<double>();
 const auto scoutw_scope =
-    scoutw_config["scope"].as<std::uint8_t>();
+    scoutw_config["scope"].as<double>();
 const auto scoutw_reduction =
-    scoutw_config["damage_reduction_coef"].as<float>();   
+    scoutw_config["damage_reduction_coef"].as<double>();   
 
 Node idfw_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["idfweapon"];
 
 const auto idfw_ammo =
     idfw_config["ammo"].as<std::uint8_t>();
 const auto idfw_damage =
-    idfw_config["damage"].as<std::uint8_t>();
+    idfw_config["damage"].as<double>();
 const auto idfw_scope =
-    idfw_config["scope"].as<std::uint8_t>();
+    idfw_config["scope"].as<double>();
 const auto idfw_reduction =
-    idfw_config["damage_reduction_coef"].as<float>();
+    idfw_config["damage_reduction_coef"].as<double>();
 
 TEST(weapon_test, Test00CreateWeapon) {
     WeaponFactory wfactory;
@@ -102,7 +102,7 @@ TEST(weapon_test, Test01ShootP90) {
     uint16_t time = 1000;
     soldier->simulateShoot(time, std::ref(soldiers), std::ref(zombies), 100);
     std::shared_ptr<Soldier> &victim = soldiers.at(2);
-    ASSERT_NEAR(victim->getHealth(), p90_health - p90w_damage * (1 - ((100 - 85) / 100)), 0.5);
+    ASSERT_NEAR(victim->getHealth(), p90_health - p90w_damage * (1.0 - ((100.0 - 85.0) / 100.0)), 0.5);
 
 }
 
@@ -126,7 +126,7 @@ TEST(weapon_test, Test02ShootP90ToTwoSoldiersInTheSameRow) {
     soldier->simulateShoot(time, std::ref(soldiers), std::ref(zombies), 100);
     std::shared_ptr<Soldier> &victim2 = soldiers.at(2);
     std::shared_ptr<Soldier> &victim3 = soldiers.at(3);
-    ASSERT_NEAR(victim2->getHealth(), p90_health - p90w_damage * (1 - ((100 - 5) / 100)), 0.5);
+    ASSERT_NEAR(victim2->getHealth(), p90_health - p90w_damage * (1.0 - ((100.0 - 5.0) / 100.0)), 0.5);
     ASSERT_NEAR(victim3->getHealth(), p90_health, 0.5);
 
 }

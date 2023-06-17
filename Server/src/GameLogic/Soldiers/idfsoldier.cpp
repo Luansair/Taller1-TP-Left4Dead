@@ -13,5 +13,13 @@ IdfSoldier::IdfSoldier(
 }
 
 uint8_t IdfSoldier::getSoldierType(void) {
-    return SOLDIER_3;
+    return SOLDIER_1;
+}
+
+uint8_t IdfSoldier::getAction(void) {
+    if (shooting) return SOLDIER_1_SHOOT_1;
+    if (moving) return SOLDIER_1_RUN;
+    if (reloading) return SOLDIER_1_RECHARGE;
+    if (throwing) return SOLDIER_1_GRENADE_EXPLOSION;
+    return SOLDIER_1_IDLE;
 }

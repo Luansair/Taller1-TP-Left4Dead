@@ -39,13 +39,13 @@ std::unique_ptr<Weapon> WeaponFactory::create(uint8_t weapon_type) {
         idfw_config["damage_reduction_coef"].as<float>();
 
     switch(weapon_type) {
-        case P90WEAPON: {
+        case SOLDIER_2: {
             return std::unique_ptr<Weapon> (new P90Weapon(p90w_ammo, p90w_damage, p90w_scope, p90w_reduction));
         }
-        case SCOUTWEAPON: {
+        case SOLDIER_3: {
             return std::unique_ptr<Weapon> (new ScoutWeapon(scoutw_ammo, scoutw_damage, scoutw_scope, scoutw_reduction));
         }
-        case IDFWEAPON: {
+        case SOLDIER_1: {
             return std::unique_ptr<Weapon> (new IdfWeapon(idfw_ammo, idfw_damage, idfw_scope, idfw_reduction));
         }
     }

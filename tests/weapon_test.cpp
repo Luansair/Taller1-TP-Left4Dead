@@ -18,8 +18,6 @@ const auto p90_speed =
     p90_config["speed"].as<std::int8_t>();
 const auto p90_health =
     p90_config["health"].as<std::int16_t>();
-const auto p90_type =
-    p90_config["type"].as<std::uint8_t>();
 const auto p90_grenade =
     p90_config["grenade_type"].as<std::uint8_t>();
 
@@ -33,8 +31,6 @@ const auto scout_speed =
     scout_config["speed"].as<std::int8_t>();
 const auto scout_health =
     scout_config["health"].as<std::int16_t>();
-const auto scout_type =
-    scout_config["type"].as<std::uint8_t>();
 const auto scout_grenade =
     scout_config["grenade_type"].as<std::uint8_t>();
 
@@ -48,8 +44,6 @@ const auto idf_speed =
     idf_config["speed"].as<std::int8_t>();
 const auto idf_health =
     idf_config["health"].as<std::int16_t>();
-const auto idf_type =
-    idf_config["type"].as<std::uint8_t>();
 const auto idf_grenade =
     idf_config["grenade_type"].as<std::uint8_t>();
 
@@ -88,17 +82,17 @@ const auto idfw_reduction =
 
 TEST(weapon_test, Test00CreateWeapon) {
     WeaponFactory wfactory;
-    ASSERT_NO_FATAL_FAILURE(wfactory.create(p90_type));
-    ASSERT_NO_FATAL_FAILURE(wfactory.create(scout_type));
-    ASSERT_NO_FATAL_FAILURE(wfactory.create(idf_type));
+    ASSERT_NO_FATAL_FAILURE(wfactory.create(SOLDIER_2));
+    ASSERT_NO_FATAL_FAILURE(wfactory.create(SOLDIER_3));
+    ASSERT_NO_FATAL_FAILURE(wfactory.create(SOLDIER_1));
 }
 
 TEST(weapon_test, Test01ShootP90) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(1, P90SOLDIER);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_2);
+    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, SOLDIER_2);
     Position pos(10, 10, soldier->getWidth(), soldier->getHeight(),100,100);
     Position pos2(95, 10, soldier2->getWidth(), soldier2->getHeight(),100,100);
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
@@ -116,9 +110,9 @@ TEST(weapon_test, Test02ShootP90ToTwoSoldiersInTheSameRow) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(1, P90SOLDIER);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, P90SOLDIER);
-    std::shared_ptr<Soldier> soldier3 = sfactory.create(3, P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_2);
+    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, SOLDIER_2);
+    std::shared_ptr<Soldier> soldier3 = sfactory.create(3, SOLDIER_2);
     Position pos(10, 10, soldier->getWidth(), soldier->getHeight(),100,100);
     Position pos2(15, 10, soldier2->getWidth(), soldier2->getHeight(),100,100);
     Position pos3(20, 10, soldier3->getWidth(), soldier3->getHeight(),100,100);
@@ -141,8 +135,8 @@ TEST(weapon_test, Test03ShootP90AndMiss) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(1, P90SOLDIER);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_2);
+    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, SOLDIER_2);
     Position pos(100, 10, soldier->getWidth(), soldier->getHeight(),100,100);
     Position pos2(500, 100, soldier2->getWidth(), soldier2->getHeight(),100,100);
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
@@ -160,8 +154,8 @@ TEST(weapon_test, Test04ShootScout) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(1, SCOUTSOLDIER);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_3);
+    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, SOLDIER_2);
     Position pos(10, 10, soldier->getWidth(), soldier->getHeight(),100,100);
     Position pos2(15, 10, soldier2->getWidth(), soldier2->getHeight(),100,100);
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
@@ -179,9 +173,9 @@ TEST(weapon_test, Test05ShootScoutToTwoSoldiersInTheSameRowRight) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(1, SCOUTSOLDIER);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, P90SOLDIER);
-    std::shared_ptr<Soldier> soldier3 = sfactory.create(3, P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_3);
+    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, SOLDIER_2);
+    std::shared_ptr<Soldier> soldier3 = sfactory.create(3, SOLDIER_2);
     Position pos(10, 10, soldier->getWidth(), soldier->getHeight(),100,100);
     Position pos2(15, 10, soldier2->getWidth(), soldier2->getHeight(),100,100);
     Position pos3(20, 10, soldier3->getWidth(), soldier3->getHeight(),100,100);
@@ -204,9 +198,9 @@ TEST(weapon_test, Test06ShootScoutToTwoSoldiersInTheSameRowLeft) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(1, SCOUTSOLDIER);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, P90SOLDIER);
-    std::shared_ptr<Soldier> soldier3 = sfactory.create(3, P90SOLDIER);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_3);
+    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, SOLDIER_2);
+    std::shared_ptr<Soldier> soldier3 = sfactory.create(3, SOLDIER_2);
     Position pos(20, 10, soldier->getWidth(), soldier->getHeight(),100,100);
     Position pos2(15, 10, soldier2->getWidth(), soldier2->getHeight(),100,100);
     Position pos3(10, 10, soldier3->getWidth(), soldier3->getHeight(),100,100);

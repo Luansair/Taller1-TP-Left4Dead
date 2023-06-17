@@ -7,10 +7,7 @@
 #include "../Soldiers/idfsoldier.h"
 #include "../Weapons/weaponfactory.h"
 #include "../Grenades/grenadefactory.h"
-
-#define P90SOLDIER 1
-#define SCOUTSOLDIER 2
-#define IDFSOLDIER 3
+#include "../../../../Common/include/Information/information_code.h"
 
 class SoldierFactory {
 public:

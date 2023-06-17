@@ -202,14 +202,6 @@ uint32_t Soldier::getId(void) {
     return soldier_id;
 }
 
-uint8_t Soldier::getAction(void) {
-    if (shooting) return ACTION_SHOOT;
-    if (moving) return ACTION_MOVE;
-    if (reloading) return ACTION_RELOAD;
-    if (throwing) return ACTION_THROW;
-    return ACTION_IDLE;
-}
-
 int8_t Soldier::getDir(void) {
     return dir;
 }

@@ -18,8 +18,6 @@ std::shared_ptr<Soldier> SoldierFactory::create(uint32_t soldier_id, uint8_t sol
         p90_config["speed"].as<std::int8_t>();
     const auto p90_health =
         p90_config["health"].as<std::int16_t>();
-    const auto p90_type =
-        p90_config["type"].as<std::uint8_t>();
     const auto p90_grenade =
         p90_config["grenade_type"].as<std::uint8_t>();
 
@@ -33,8 +31,6 @@ std::shared_ptr<Soldier> SoldierFactory::create(uint32_t soldier_id, uint8_t sol
         scout_config["speed"].as<std::int8_t>();
     const auto scout_health =
         scout_config["health"].as<std::int16_t>();
-    const auto scout_type =
-        scout_config["type"].as<std::uint8_t>();
     const auto scout_grenade =
         scout_config["grenade_type"].as<std::uint8_t>();
 
@@ -48,20 +44,18 @@ std::shared_ptr<Soldier> SoldierFactory::create(uint32_t soldier_id, uint8_t sol
         idf_config["speed"].as<std::int8_t>();
     const auto idf_health =
         idf_config["health"].as<std::int16_t>();
-    const auto idf_type =
-        idf_config["type"].as<std::uint8_t>();
     const auto idf_grenade =
         idf_config["grenade_type"].as<std::uint8_t>();
 
     switch(soldier_type) {
-        case P90SOLDIER: {
-            return std::shared_ptr<Soldier> (new P90Soldier(soldier_id, RIGHT, p90_width, p90_height, p90_speed, p90_health, wpfactory.create(p90_type), gfactory.create(p90_grenade)));
+        case SOLDIER_2: {
+            return std::shared_ptr<Soldier> (new P90Soldier(soldier_id, RIGHT, p90_width, p90_height, p90_speed, p90_health, wpfactory.create(SOLDIER_2), gfactory.create(p90_grenade)));
         }
-        case SCOUTSOLDIER: {
-            return std::shared_ptr<Soldier> (new ScoutSoldier(soldier_id, RIGHT, scout_width, scout_height, scout_speed, scout_health, wpfactory.create(scout_type), gfactory.create(scout_grenade)));
+        case SOLDIER_3: {
+            return std::shared_ptr<Soldier> (new ScoutSoldier(soldier_id, RIGHT, scout_width, scout_height, scout_speed, scout_health, wpfactory.create(SOLDIER_3), gfactory.create(scout_grenade)));
         }
-        case IDFSOLDIER: {
-            return std::shared_ptr<Soldier> (new IdfSoldier(soldier_id, RIGHT, idf_width, idf_height, idf_speed, idf_health, wpfactory.create(idf_type), gfactory.create(idf_grenade)));
+        case SOLDIER_1: {
+            return std::shared_ptr<Soldier> (new IdfSoldier(soldier_id, RIGHT, idf_width, idf_height, idf_speed, idf_health, wpfactory.create(SOLDIER_1), gfactory.create(idf_grenade)));
         }
     }
     return {nullptr};

@@ -29,8 +29,10 @@ void Game::join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, const std::s
     // Also a random function could be used for the ids.
     *player_id = ++players_amount;
 
-    match.join(*player_id, 1);
-    match.setZombie(292, 1);
+    match.join(*player_id, SOLDIER_1);
+    match.setZombie(292, ZOMBIE);
+    match.setZombie(222, ZOMBIE);
+    match.setZombie(242, ZOMBIE);
 
     // Game starts when max_players is reached.
     if (isFull()) {

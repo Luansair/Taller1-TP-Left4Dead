@@ -13,5 +13,14 @@ P90Soldier::P90Soldier(
 }
 
 uint8_t P90Soldier::getSoldierType(void) {
-    return SOLDIER_1;
+    return SOLDIER_2;
+}
+
+// cambiar a soldier_2
+uint8_t P90Soldier::getAction(void) {
+    if (shooting) return SOLDIER_1_SHOOT_1;
+    if (moving) return SOLDIER_1_RUN;
+    if (reloading) return SOLDIER_1_RECHARGE;
+    if (throwing) return SOLDIER_1_GRENADE_EXPLOSION;
+    return SOLDIER_1_IDLE;
 }

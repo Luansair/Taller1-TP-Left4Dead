@@ -1,9 +1,9 @@
-#include "../../../include/GameLogic/Zombies/infected.h"
+#include "../../../include/GameLogic/Zombies/witch.h"
 #include <random>
 
 /* CONSTRUCTOR */
 
-Infected::Infected(
+Witch::Witch(
     uint32_t zombie_id,
     int8_t dir,
     int8_t width,
@@ -13,6 +13,6 @@ Infected::Infected(
     Zombie(zombie_id, dir, width, height, speed, health) {
 }
 
-uint8_t Infected::getZombieType(void) {
+uint8_t Witch::getZombieType(void) {
     return ZOMBIE;
 }

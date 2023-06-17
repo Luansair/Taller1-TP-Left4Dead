@@ -1,9 +1,9 @@
-#include "../../../include/GameLogic/Zombies/infected.h"
+#include "../../../include/GameLogic/Zombies/venom.h"
 #include <random>
 
 /* CONSTRUCTOR */
 
-Infected::Infected(
+Venom::Venom(
     uint32_t zombie_id,
     int8_t dir,
     int8_t width,
@@ -13,6 +13,6 @@ Infected::Infected(
     Zombie(zombie_id, dir, width, height, speed, health) {
 }
 
-uint8_t Infected::getZombieType(void) {
-    return ZOMBIE;
+uint8_t Venom::getZombieType(void) {
+    return VENOM;
 }

@@ -28,8 +28,8 @@ public:
     void draw(unsigned int frame_ticks);
 
 private:
-    void setActorType(uint8_t actor_type);
-    void setActorAnimation(uint8_t actor_action);
+    // void setActorType(uint8_t actor_type);
+    // void setActorAnimation(uint8_t actor_action);
     void setActorDirection(int8_t actor_direction);
 };
 

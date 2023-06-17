@@ -5,13 +5,9 @@
 #include "../Zombies/infected.h"
 #include "../Zombies/jumper.h"
 #include "../Zombies/spear.h"
+#include "../Zombies/witch.h"
 #include "../Zombies/venom.h"
-
-#define INFECTED 1
-#define JUMPER 2
-#define SPEAR 3
-#define VENOM 4
-#define WITCH 5
+#include "../../../../Common/include/Information/information_code.h"
 
 class ZombieFactory {
 public:

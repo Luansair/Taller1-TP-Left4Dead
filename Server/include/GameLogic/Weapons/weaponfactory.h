@@ -5,12 +5,9 @@
 #include "scoutweapon.h"
 #include "p90weapon.h"
 #include "idfweapon.h"
+#include "../../../../Common/include/Information/information_code.h"
 
 #include <memory>
-
-#define P90WEAPON 1
-#define SCOUTWEAPON 2
-#define IDFWEAPON 3
 
 class WeaponFactory {
 public:

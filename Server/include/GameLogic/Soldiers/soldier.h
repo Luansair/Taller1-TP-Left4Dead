@@ -86,7 +86,7 @@ public:
     uint8_t getHeight();
     uint32_t getId();
     virtual uint8_t getSoldierType() = 0;
-    uint8_t getAction();
+    virtual uint8_t getAction() = 0;
     Position& getPosition();
     [[nodiscard]] const Position& seePosition() const;
 

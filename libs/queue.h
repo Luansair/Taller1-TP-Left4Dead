@@ -38,7 +38,7 @@ class Queue {
 	explicit Queue(const unsigned int max_size) : max_size(max_size), closed(false) {}
 
 
-        bool try_push(T&& val) {
+        bool try_push(const T& val) {
             std::unique_lock<std::mutex> lck(mtx);
 
             if (closed) {
@@ -53,7 +53,7 @@ class Queue {
                 is_not_empty.notify_all();
             }
 
-            q.push(std::move(val));
+            q.push(val);
             return true;
         }
 

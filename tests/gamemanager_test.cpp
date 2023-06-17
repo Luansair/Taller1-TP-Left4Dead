@@ -1,6 +1,9 @@
 #include <gtest/gtest.h>
+#include <chrono>
+#include <limits>
 #include "game_manager.h"
 #include "Command/command_ingame_startshoot.h"
+#include "Command/command_ingame_startmove.h"
 
 enum PlayerNum : std::uint8_t {
     PLAYER_1,
@@ -298,6 +301,57 @@ TEST(gamemanager_test,
 
     ASSERT_NE(cmd_queues[PLAYER_2], cmd_queues[PLAYER_4]);
 
+}
+
+TEST(gamemanager_test,
+     Commands00PushingStartMoveRightCommandShouldChangePlayerPosition) {
+    using std::shared_ptr;
+    using std::make_shared;
+
+    using std::uint8_t;
+    using std::uint32_t;
+
+    using std::chrono::steady_clock;
+    using std::chrono::seconds;
+    using std::chrono::milliseconds;
+    using std::this_thread::sleep_for;
+
+    using std::numeric_limits;
+
+    GameManager manager = GameManager();
+
+    Queue<shared_ptr<InGameCommand>>* game_q = nullptr;
+    shared_ptr<Queue<shared_ptr<Information>>> player_q =
+            make_shared<Queue<shared_ptr<Information>>>(10000);
+
+    uint8_t player_id = 0;
+
+    manager.createGame(game_q, player_q, &player_id);
+    game_q->push(make_shared<StartMoveCommand>(player_id, X, RIGHT, NORMAL));
+
+    shared_ptr<Information> feed;
+
+    int old_x = numeric_limits<int>::max();
+    int new_x = 0;
+
+    const auto start_time = steady_clock::now();
+
+    while (steady_clock::now() - start_time < seconds(5)) {
+        if (player_q->try_pop(feed)) {
+            if (feed->serialize().at(0) != FEEDBACK_GAME_STATE)
+                continue;
+
+            new_x = dynamic_cast<GameStateFeedback&>(*feed).elements.at(0).second
+                    .position_x;
+        }
+
+        if (new_x > old_x) {
+            break;
+        }
+        old_x = new_x;
+    }
+
+    EXPECT_GT(new_x, old_x);
 }
 
 int main(int argc, char** argv) {

@@ -37,8 +37,7 @@ add_executable(information_test information_test.cpp
 add_executable(gamemanager_test gamemanager_test.cpp
         ../Server/src/game_manager.cpp
         ../Server/src/game.cpp
-        ../Server/src/Command/command_ingame_startshoot.cpp
-        ../Server/src/Command/command_ingame.cpp
+        ${COMMAND_SOURCES}
         ${INFORMATION_SOURCES}
         ${GAMELOGIC_SOURCES})
 

@@ -63,7 +63,7 @@ void Game::run() {
         std::vector<std::pair<short unsigned int, ElementStateDTO>>state =
                 match.getElementStates();
 
-        std::shared_ptr<Information> feedback_ptr =
+        const std::shared_ptr<Information>& feedback_ptr =
                 std::make_shared<GameStateFeedback>(std::move(state));
         for (
                 auto player_queue = player_queues.begin();
@@ -73,7 +73,7 @@ void Game::run() {
                     player_queue = player_queues.erase(player_queue);
                     continue;
                 }
-                if (!(*player_queue)->try_push(std::move(feedback_ptr))) {
+                if (!(*player_queue)->try_push(feedback_ptr)) {
                     player_queue = player_queues.erase(player_queue);
                     continue;
                 }

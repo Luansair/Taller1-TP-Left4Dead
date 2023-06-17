@@ -3,28 +3,31 @@
 //
 #include "../../../include/Animations/Actor/animation_zombie.h"
 
+constexpr int zombie_width = 96;
+constexpr int zombie_height = 96;
+
 ZombieAnimation::ZombieAnimation(SDL2pp::Renderer &renderer) :
     animations{
-             ActionAnimation(renderer, RESOURCES_PATH "/Zombie/Attack_1.png",
-                             loopable),
+            ActionAnimation(renderer, RESOURCES_PATH "/Zombie/Attack_1.png",
+                            loopable, zombie_width, zombie_height),
              ActionAnimation(renderer, RESOURCES_PATH "/Zombie/Attack_2.png",
-                             loopable),
+                             loopable, zombie_width, zombie_height),
              ActionAnimation(renderer, RESOURCES_PATH "/Zombie/Attack_3.png",
-                             loopable),
+                             loopable, zombie_width, zombie_height),
              ActionAnimation(renderer, RESOURCES_PATH "/Zombie/Bite.png",
-                             loopable),
+                             loopable, zombie_width, zombie_height),
              ActionAnimation(renderer, RESOURCES_PATH "/Zombie/Dead.png",
-                             no_loopable),
+                             no_loopable, zombie_width, zombie_height),
              ActionAnimation(renderer, RESOURCES_PATH "/Zombie/Hurt.png",
-                             loopable),
+                             loopable, zombie_width, zombie_height),
              ActionAnimation(renderer, RESOURCES_PATH "/Zombie/Idle.png",
-                             loopable),
+                             loopable, zombie_width, zombie_height),
              ActionAnimation(renderer, RESOURCES_PATH "/Zombie/Jump.png",
-                             loopable),
+                             loopable, zombie_width, zombie_height),
              ActionAnimation(renderer, RESOURCES_PATH "/Zombie/Run.png",
-                             loopable),
+                             loopable, zombie_width, zombie_height),
              ActionAnimation(renderer, RESOURCES_PATH "/Zombie/Walk.png",
-                             loopable) }{
+                             loopable, zombie_width, zombie_height)}{
 }
 
 void

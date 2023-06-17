@@ -17,7 +17,8 @@ class ActionAnimation {
 public:
     ActionAnimation(SDL2pp::Renderer &renderer,
                     const std::string &texture_filepath,
-                    const LoopType& loop_type);
+                    const LoopType &loop_type, int width,
+                    int height);
 
     void draw(std::uint8_t *sprite_index,
                       std::uint8_t direction,

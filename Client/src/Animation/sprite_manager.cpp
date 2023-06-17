@@ -6,13 +6,14 @@
 #include "../../../Common/include/Information/information_code.h"
 
 SpriteManager::SpriteManager(const SDL2pp::Texture &texture,
-                             const LoopType& loop_type,
-                             SDL2pp::Renderer& renderer) :
+                             const LoopType &loop_type,
+                             SDL2pp::Renderer &renderer,
+                             int sprite_width,
+                             int sprite_height) :
     sprites(),
     loop_type(loop_type),
     renderer(renderer) {
-    int sprite_width = 128;
-    int sprite_height = 128;
+
     int texture_width = texture.GetWidth();
 
     for (int sprite = 0; sprite * sprite_width < texture_width; sprite++) {

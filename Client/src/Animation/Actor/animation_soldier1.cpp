@@ -8,28 +8,28 @@
 // Would like to choose the position to put the animation in the array.
 SoldierOneAnimation::SoldierOneAnimation(SDL2pp::Renderer &renderer) :
     animations{
-     ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Attack.png",
-                     loopable),
+            ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Attack.png",
+                            loopable, 128, 128),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Dead.png",
-                     no_loopable),
+                     no_loopable, 128, 128),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Explosion.png",
-                     no_loopable),
+                     no_loopable, 128, 128),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Grenade.png",
-                     loopable),
+                     loopable, 128, 128),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Hurt.png",
-                     loopable),
+                     loopable, 128, 128),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Idle.png",
-                     loopable),
+                     loopable, 128, 128),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Recharge.png",
-                     no_loopable),
+                     no_loopable, 128, 128),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Run.png",
-                     loopable),
+                     loopable, 128, 128),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Shot_1.png",
-                     loopable),
+                     loopable, 128, 128),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Shot_2.png",
-                     loopable),
+                     loopable, 128, 128),
      ActionAnimation(renderer, RESOURCES_PATH "/Soldier_1/Walk.png",
-                     loopable)} {
+                     loopable, 128, 128)} {
 }
 
 void SoldierOneAnimation::draw(std::uint8_t animation_index,

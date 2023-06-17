@@ -130,6 +130,7 @@ void Client::lobbyProcess() {
         {
             std::uint32_t game_code;
             std::cin >> game_code;
+
             actions_to_send.push(
                     make_shared<JoinGameAction>(game_code));
             const auto& feed = feedback_received.pop();

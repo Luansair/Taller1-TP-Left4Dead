@@ -22,9 +22,10 @@ class SpriteManager {
                std::uint8_t sprite_index, std::uint8_t sprite_flip,
                const SDL2pp::Rect& sprite_destination);
 public:
-    SpriteManager(const SDL2pp::Texture& texture,
-                           const LoopType& loop_type,
-                           SDL2pp::Renderer& renderer);
+    SpriteManager(const SDL2pp::Texture &texture,
+                  const LoopType &loop_type,
+                  SDL2pp::Renderer &renderer, int sprite_width,
+                  int sprite_height);
 
     void draw(SDL2pp::Texture& texture, std::uint8_t *sprite_index,
               std::uint8_t direction,

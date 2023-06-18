@@ -9,7 +9,6 @@
 
 Client::Client(const char *hostname, const char *servname) :
     socket(hostname, servname) ,
-    protocol(socket),
     actions_to_send(5000),
     feedback_received(10000),
     sender(actions_to_send, socket),

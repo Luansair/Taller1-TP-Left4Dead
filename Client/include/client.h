@@ -11,7 +11,6 @@
 
 class Client {
     GameSocket socket;
-    Protocol protocol;
     Queue<std::shared_ptr<Information>> actions_to_send;
     Queue<std::shared_ptr<Information>> feedback_received;
     Sender sender;

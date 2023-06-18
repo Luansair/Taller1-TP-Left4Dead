@@ -36,6 +36,6 @@ void ClientGame::launch() {
 
         game_visual.present();
 
-        SDL_Delay(1);
+        SDL_Delay(5);
     }
 }

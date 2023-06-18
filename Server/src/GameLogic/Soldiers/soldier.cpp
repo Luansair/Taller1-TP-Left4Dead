@@ -165,28 +165,6 @@ void Soldier::simulateReload(double time) {
 
 void Soldier::simulateThrow(double time) {}
 
-
-
-/* COMPARADORES PARA LA COLA DE PRIORIDAD DE SCOUT */
-
-bool Distance_from_left_is_minor::operator()(std::shared_ptr<Soldier> below, std::shared_ptr<Soldier> above)
-    {
-        if (below->seePosition().getXPos() > above->seePosition().getXPos()) {
-            return true;
-        }
- 
-        return false;
-    }
-
-bool Distance_from_right_is_minor::operator()(std::shared_ptr<Soldier> below, std::shared_ptr<Soldier> above)
-    {
-        if (below->seePosition().getXPos() < above->seePosition().getXPos()) {
-            return true;
-        }
- 
-        return false;
-    }
-
 /* GETTERS */
 
 double Soldier::getWidth(void) {

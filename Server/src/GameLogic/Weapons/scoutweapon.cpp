@@ -23,12 +23,11 @@ bool ScoutWeapon::shoot(
     Hitbox hitbox;
 
     // calculo a donde llega el disparo
-    double next_x = from.getXPos() + (dir * time);
     if (dir == RIGHT) {
-        hitbox.setValues(from.getXPos(), next_x, from.getYPos() - scope * 0.5, from.getYPos() + scope * 0.5);
-        std::priority_queue<std::shared_ptr<Soldier>, std::vector<std::shared_ptr<Soldier>>, Distance_from_left_is_minor> victims_queue;
+        hitbox.setValues(from.getXPos(), dim_x, from.getYPos() - scope * 0.5, from.getYPos() + scope * 0.5);
+        std::priority_queue<std::shared_ptr<Zombie>, std::vector<std::shared_ptr<Zombie>>, Distance_from_left_is_minor> victims_queue;
 
-        for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
+        for (auto i = zombies.begin(); i != zombies.end(); i++) {
             Position victim_pos = i->second->getPosition();
             if (hitbox.shoot_hits(victim_pos)) {
                 victims_queue.push(i->second);
@@ -40,17 +39,17 @@ bool ScoutWeapon::shoot(
 
         double actual_damage = damage;
         while(!victims_queue.empty()) {
-            const std::shared_ptr<Soldier> &victim = victims_queue.top();
+            const std::shared_ptr<Zombie> &victim = victims_queue.top();
             victim->recvDamage(actual_damage);
             victims_queue.pop();
             actual_damage = actual_damage * damage_reduction_coef;
         }
 
     } else if (dir == LEFT) {
-        hitbox.setValues(next_x, from.getXPos(), from.getYPos() - scope * 0.5, from.getYPos() + scope * 0.5);
-        std::priority_queue<std::shared_ptr<Soldier>, std::vector<std::shared_ptr<Soldier>>, Distance_from_right_is_minor> victims_queue;
+        hitbox.setValues(0, from.getXPos(), from.getYPos() - scope * 0.5, from.getYPos() + scope * 0.5);
+        std::priority_queue<std::shared_ptr<Zombie>, std::vector<std::shared_ptr<Zombie>>, Distance_from_right_is_minor> victims_queue;
 
-        for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
+        for (auto i = zombies.begin(); i != zombies.end(); i++) {
             Position victim_pos = i->second->getPosition();
             if (hitbox.shoot_hits(victim_pos)) {
                 victims_queue.push(i->second);
@@ -62,7 +61,7 @@ bool ScoutWeapon::shoot(
 
         double actual_damage = damage;
         while(!victims_queue.empty()) {
-            const std::shared_ptr<Soldier> &victim = victims_queue.top();
+            const std::shared_ptr<Zombie> &victim = victims_queue.top();
             victim->recvDamage(actual_damage);
             victims_queue.pop();
             actual_damage = actual_damage * damage_reduction_coef;

@@ -76,6 +76,7 @@ void Zombie::recvDamage(double damage) {
 void Zombie::simulate(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
+    if (!alive) return;
     simulateMove(time, soldiers, zombies, dim_x, dim_y);
     if (attacking) simulateAttack(time, soldiers, zombies, dim_x);
 }
@@ -85,7 +86,7 @@ void Zombie::simulateMove(double time,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
 
     // calculo la zona de visión del zombie.
-    Position sight_zone(position.getXPos(), position.getYPos(), sight, sight, dim_x, dim_y);
+    RadialHitbox sight_zone(position.getXPos(), position.getYPos(), sight);
 
     // verifico las colisiones.
     double distance = std::sqrt(std::pow(dim_x, 2) + std::pow(dim_y, 2)); // distancia maxima
@@ -96,12 +97,12 @@ void Zombie::simulateMove(double time,
     bool collision = false;
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
         Position other_pos = i->second->getPosition();
-        if (sight_zone.collides(other_pos)) {
-            new_distance = std::sqrt(std::pow(std::abs(sight_zone.getXPos() - other_pos.getXPos()), 2) + std::pow(std::abs(sight_zone.getYPos() - other_pos.getYPos()), 2));
+        if (sight_zone.hits(other_pos)) {
+            new_distance = std::sqrt(std::pow(std::abs(position.getXPos() - other_pos.getXPos()), 2) + std::pow(std::abs(position.getYPos() - other_pos.getYPos()), 2));
             if (distance > new_distance) {
                 distance = new_distance;
-                m = (sight_zone.getYPos() - other_pos.getYPos()) / (sight_zone.getXPos() - other_pos.getXPos());
-                b = sight_zone.getYPos() - m * sight_zone.getXPos();
+                m = (position.getYPos() - other_pos.getYPos()) / (position.getXPos() - other_pos.getXPos());
+                b = position.getYPos() - m * position.getXPos();
                 // me tengo que quedar con el más cercano
                 next_x = other_pos.getXPos();
             }
@@ -110,12 +111,13 @@ void Zombie::simulateMove(double time,
     }
 
     if (collision) {
-        if (sight_zone.getXPos() > next_x) {
-            position.setXPos(sight_zone.getXPos() - ((sight_zone.getXPos() - next_x) * 0.006));
+        if (position.getXPos() > next_x) {
+            // aca el desplazamiento en X en realidad debería depender del tiempo.
+            position.setXPos(position.getXPos() - ((position.getXPos() - next_x) * 0.006));
             dir = LEFT;
             dir_x = LEFT;
         } else {
-            position.setXPos(sight_zone.getXPos() + ((next_x - sight_zone.getXPos()) * 0.006));
+            position.setXPos(position.getXPos() + ((next_x - position.getXPos()) * 0.006));
             dir = RIGHT;
             dir_x = RIGHT;
         }
@@ -146,6 +148,7 @@ uint32_t Zombie::getId(void) {
 }
 
 uint8_t Zombie::getAction(void) {
+    if (!alive) return ZOMBIE_DEAD;
     if (moving) return ZOMBIE_RUN;
     // if (attacking) return ACTION_ATTACK;
     return ZOMBIE_IDLE;
@@ -169,6 +172,22 @@ Position& Zombie::getPosition(void) {
 
 const Position& Zombie::seePosition(void) const {
     return std::ref(position);
+}
+
+bool Distance_from_left_is_minor::operator()(std::shared_ptr<Zombie> below, std::shared_ptr<Zombie> above) {
+        if (below->seePosition().getXPos() > above->seePosition().getXPos()) {
+            return true;
+        }
+ 
+        return false;
+}
+
+bool Distance_from_right_is_minor::operator()(std::shared_ptr<Zombie> below, std::shared_ptr<Zombie> above) {
+        if (below->seePosition().getXPos() < above->seePosition().getXPos()) {
+            return true;
+        }
+ 
+        return false;
 }
 
 /* SETTERS */

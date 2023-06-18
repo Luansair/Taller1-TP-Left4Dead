@@ -97,16 +97,4 @@ public:
             const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, double dim_x, double dim_y);
 };
 
-/* COMPARADORES PARA LA COLA DE PRIORIDAD DE SCOUT */
-
-class Distance_from_left_is_minor {
-public:
-    bool operator()(std::shared_ptr<Soldier> below, std::shared_ptr<Soldier> above);
-};
-
-class Distance_from_right_is_minor {
-public:
-    bool operator()(std::shared_ptr<Soldier> below, std::shared_ptr<Soldier> above);
-};
-
 #endif  // SOLDIER_H_

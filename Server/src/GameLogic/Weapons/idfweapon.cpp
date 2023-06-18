@@ -21,11 +21,10 @@ bool IdfWeapon::shoot(
     Hitbox hitbox;
 
     // calculo a donde llega el disparo
-    double next_x = from.getXPos() + (dir * time);
     if (dir == RIGHT) {
-        hitbox.setValues(from.getXPos(), next_x, from.getYPos() - scope * 0.5, from.getYPos() + scope * 0.5);
+        hitbox.setValues(from.getXPos(), dim_x, from.getYPos() - scope * 0.5, from.getYPos() + scope * 0.5);
     } else if (dir == LEFT) {
-        hitbox.setValues(next_x, from.getXPos(), from.getYPos() - scope * 0.5, from.getYPos() + scope * 0.5);
+        hitbox.setValues(0, from.getXPos(), from.getYPos() - scope * 0.5, from.getYPos() + scope * 0.5);
     }
 
     double distance = dim_x; // distancia maxima
@@ -34,7 +33,7 @@ bool IdfWeapon::shoot(
     bool collision = false;
 
     // verifico las colisiones.
-    for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
+    for (auto i = zombies.begin(); i != zombies.end(); i++) {
         Position victim_pos = i->second->getPosition();
         if (hitbox.shoot_hits(victim_pos)) {
             if (dir == RIGHT) {
@@ -53,7 +52,7 @@ bool IdfWeapon::shoot(
 
     if (collision) {
         double actual_damage = damage * ((dim_x - distance) / dim_x);
-        (soldiers.at(victim_id))->recvDamage(actual_damage);
+        (zombies.at(victim_id))->recvDamage(actual_damage);
     }
     // resto balas/rafagas
     actual_ammo -= 1;

@@ -3,6 +3,7 @@
 
 #include "../position.h"
 #include "../hitbox.h"
+#include "../radialhitbox.h"
 #include "../../../../Common/include/Information/information_code.h"
 #include "../../../include/GameLogic/Soldiers/soldier.h"
 
@@ -80,6 +81,18 @@ public:
             const std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
             const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, double dim_x, double dim_y);
 
+};
+
+/* COMPARADORES PARA LA COLA DE PRIORIDAD DE SCOUT */
+
+class Distance_from_left_is_minor {
+public:
+    bool operator()(std::shared_ptr<Zombie> below, std::shared_ptr<Zombie> above);
+};
+
+class Distance_from_right_is_minor {
+public:
+    bool operator()(std::shared_ptr<Zombie> below, std::shared_ptr<Zombie> above);
 };
 
 #endif  // ZOMBIE_H_

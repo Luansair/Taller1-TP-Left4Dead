@@ -103,6 +103,7 @@ void Soldier::recvDamage(double damage) {
 void Soldier::simulate(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
+    if (!alive) return;
     if (moving) simulateMove(time, soldiers, zombies, dim_x, dim_y);
     if (reloading) simulateReload(time);
     if (shooting) simulateShoot(time, soldiers, zombies, dim_x);

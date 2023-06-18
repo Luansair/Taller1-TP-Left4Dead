@@ -15,25 +15,22 @@ Zombie::Zombie(
     health(health),
     width(width),
     height(height),
-    position(0,0,width,height,0,0) {
+    position(0,0,width,height,0,0),
+    att_vic(nullptr) {
 }
 
 /* COMANDOS */
 
 void Zombie::move(
     uint8_t state,
-    uint8_t moveAxis,
-    int8_t moveDirection,
-    uint8_t moveForce) {
+    int8_t moveDirection) {
 
     switch(state) {
         case ON:
             moving = true;
             attacking = false;
-            axis = moveAxis;
             dir = moveDirection;
-            speed = moveForce;
-            if (moveAxis == X) dir_x = moveDirection;
+            dir_x = moveDirection;
             break;
         case OFF:
             moving = false;
@@ -41,14 +38,16 @@ void Zombie::move(
     }
 }
 
-void Zombie::attack(uint8_t state) {
+void Zombie::attack(uint8_t state, std::shared_ptr<Soldier> *victim) {
     switch(state) {
         case ON:
             attacking = true;
+            att_vic = victim;
             moving = false;
             break;
         case OFF:
             attacking = false;
+            att_vic = victim;
             break;
     }
 }
@@ -93,7 +92,7 @@ void Zombie::simulateMove(double time,
     double new_distance;
     double m;
     double b;
-    double next_x;
+    uint32_t victim_id;
     bool collision = false;
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
         Position other_pos = i->second->getPosition();
@@ -104,27 +103,38 @@ void Zombie::simulateMove(double time,
                 m = (position.getYPos() - other_pos.getYPos()) / (position.getXPos() - other_pos.getXPos());
                 b = position.getYPos() - m * position.getXPos();
                 // me tengo que quedar con el más cercano
-                next_x = other_pos.getXPos();
+                victim_id = i->first;
             }
             collision = true;
         }
     }
-
     if (collision) {
-        if (position.getXPos() > next_x) {
+        std::shared_ptr<Soldier> &victim = soldiers.at(victim_id);
+        double next_x;
+        double next_y;
+        int8_t direction;
+        if (position.getXPos() > victim->getPosition().getXPos()) {
             // aca el desplazamiento en X en realidad debería depender del tiempo.
-            position.setXPos(position.getXPos() - ((position.getXPos() - next_x) * 0.006));
-            dir = LEFT;
-            dir_x = LEFT;
+            next_x = position.getXPos() - ((position.getXPos() - victim->getPosition().getXPos()) * 0.006);
+            direction = LEFT;
         } else {
-            position.setXPos(position.getXPos() + ((next_x - position.getXPos()) * 0.006));
-            dir = RIGHT;
-            dir_x = RIGHT;
+            next_x = position.getXPos() + ((victim->getPosition().getXPos() - position.getXPos()) * 0.006);
+            direction = RIGHT;
         }
-        position.setYPos(position.getXPos() * m + b);
-        moving = true;
+        next_y = next_x * m + b;
+        Position next_pos(next_x, next_y, getWidth(), getHeight(), dim_x, dim_y);
+        if (next_pos.collides(victim->getPosition())) {
+            move(OFF, getDir());
+            attack(ON, &victim);
+            return;
+        } else {
+            move(ON, direction);
+            attack(OFF, nullptr);
+            position = next_pos;
+        }
     } else {
-        moving = false;
+        move(OFF, getDir());
+        attack(OFF, nullptr);
     }
 
 }
@@ -132,7 +142,10 @@ void Zombie::simulateMove(double time,
 void Zombie::simulateAttack(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
-    double dim_x) {}
+    double dim_x) {
+        std::shared_ptr<Soldier> victim = *att_vic;
+        victim->recvDamage(40.0);
+    }
 
 /* GETTERS */
 
@@ -150,7 +163,7 @@ uint32_t Zombie::getId(void) {
 uint8_t Zombie::getAction(void) {
     if (!alive) return ZOMBIE_DEAD;
     if (moving) return ZOMBIE_RUN;
-    // if (attacking) return ACTION_ATTACK;
+    if (attacking) return ZOMBIE_ATTACK_1;
     return ZOMBIE_IDLE;
 }
 

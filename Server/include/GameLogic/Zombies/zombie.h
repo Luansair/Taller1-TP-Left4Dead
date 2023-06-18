@@ -27,6 +27,7 @@ public:
     bool moving = false;
     bool attacking = false;
     bool alive = true;
+    std::shared_ptr<Soldier> *att_vic;
 
     virtual ~Zombie() {}
 
@@ -41,10 +42,8 @@ public:
 
     virtual void move(
     uint8_t state,
-    uint8_t moveAxis,
-    int8_t moveDirection,
-    uint8_t moveForce);
-    virtual void attack(uint8_t state);
+    int8_t moveDirection);
+    virtual void attack(uint8_t state, std::shared_ptr<Soldier> *victim);
     virtual void idle(uint8_t state);
     virtual void recvDamage(double damage);
 

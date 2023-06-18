@@ -272,12 +272,12 @@ TEST(soldier_test, Test13SetPositionOnMaxXLimitToSoldier) {
     Position& pos1 = soldier->getPosition();
     ASSERT_EQ(pos1.getXPos(), 100.0);
     ASSERT_EQ(pos1.getYPos(), 10.0);
-    std::tuple<double, double, bool> tuple {1.0, 99.0, false};
+    std::tuple<double, double, bool> tuple {0.0, 99.0, false};
     ASSERT_EQ(pos1.getXArea(), tuple);
 
 }
 
-TEST(soldier_test, Test14SetPositionOnMinYLimitToSoldier) {
+TEST(soldier_test, Test14SetPositionOnMinXLimitToSoldier) {
     SoldierFactory sfactory;
     std::shared_ptr<Soldier> soldier = sfactory.create(1,SOLDIER_2);
     Position pos(0.0, 10.0, soldier->getWidth(), soldier->getHeight(), 100.0, 100.0);
@@ -285,7 +285,7 @@ TEST(soldier_test, Test14SetPositionOnMinYLimitToSoldier) {
     Position& pos1 = soldier->getPosition();
     ASSERT_EQ(pos1.getXPos(), 0.0);
     ASSERT_EQ(pos1.getYPos(), 10.0);
-    std::tuple<double, double, bool> tuple {1.0, 99.0, false};
+    std::tuple<double, double, bool> tuple {1.0, 100.0, false};
     ASSERT_EQ(pos1.getXArea(), tuple);
 
 }
@@ -298,7 +298,7 @@ TEST(soldier_test, Test15SetPositionOnMinYLimitToSoldier) {
     Position& pos1 = soldier->getPosition();
     ASSERT_EQ(pos1.getXPos(), 20.0);
     ASSERT_EQ(pos1.getYPos(), 0.0);
-    std::tuple<double, double, bool> tuple {3.0, 97.0, false};
+    std::tuple<double, double, bool> tuple {3.0, 98.0, false};
     ASSERT_EQ(pos1.getYArea(), tuple);
 
 }
@@ -311,7 +311,7 @@ TEST(soldier_test, Test16SetPositionOnMaxYLimitToSoldier) {
     Position& pos1 = soldier->getPosition();
     ASSERT_EQ(pos1.getXPos(), 20.0);
     ASSERT_EQ(pos1.getYPos(), 100.0);
-    std::tuple<double, double, bool> tuple {3.0, 97.0, false};
+    std::tuple<double, double, bool> tuple {2.0, 97.0, false};
     ASSERT_EQ(pos1.getYArea(), tuple);
 
 }
@@ -348,7 +348,7 @@ TEST(soldier_test, Test18MoveWithCollisionOnLeftWithComplementPosition) {
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
     std::shared_ptr<Soldier> soldier = sfactory.create(1,SOLDIER_2);
     std::shared_ptr<Soldier> soldier2 = sfactory.create(2,SOLDIER_2);
-    double initial_x = 3.0;
+    double initial_x = 2.0;
     double initial_y = 10.0;
     double initial_x_2 = 100.0;
     double initial_y_2 = 10.0;
@@ -361,9 +361,9 @@ TEST(soldier_test, Test18MoveWithCollisionOnLeftWithComplementPosition) {
     double time = 1.0;
     soldier->simulateMove(time, std::ref(soldiers), std::ref(zombies), 100.0, 100.0);
     Position& pos1 = soldier->getPosition();
-    ASSERT_EQ(pos1.getXPos(), 3.0);
+    ASSERT_EQ(pos1.getXPos(), 2.0);
     ASSERT_EQ(pos1.getYPos(), initial_y);
-    std::tuple<double, double, bool> tuple {2.0, 4.0, true};
+    std::tuple<double, double, bool> tuple {1.0, 3.0, true};
     ASSERT_EQ(pos1.getXArea(), tuple);
 
 }
@@ -420,6 +420,52 @@ TEST(soldier_test, Test20MoveWithNoCollisionOnRight) {
 
 }
 
+
+TEST(soldier_test, Test21MoveOnLimit) {
+    SoldierFactory sfactory;
+    std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
+    std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,SOLDIER_2);
+    double initial_x = 0.0;
+    double initial_y = 10.0;
+    Position pos(initial_x, initial_y, soldier->getWidth(), soldier->getHeight(), 100.0, 100.0);
+    ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
+    soldier->move(ON, X, LEFT, NORMAL);
+    double time = 1.0;
+    soldier->simulateMove(time, std::ref(soldiers), std::ref(zombies), 100.0, 100.0);
+    Position& pos1 = soldier->getPosition();
+    ASSERT_EQ(pos1.getXPos(), 100.0);
+    ASSERT_EQ(pos1.getYPos(), initial_y);
+    std::tuple<double, double, bool> tuple {0.0, 99.0, false};
+    ASSERT_EQ(pos1.getXArea(), tuple);
+
+}
+
+TEST(soldier_test, Test22MoveWithNoCollisionOnLimit) {
+    SoldierFactory sfactory;
+    std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
+    std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
+    std::shared_ptr<Soldier> soldier = sfactory.create(1,SOLDIER_2);
+    std::shared_ptr<Soldier> soldier2 = sfactory.create(2,SOLDIER_2);
+    double initial_x = 0.0;
+    double initial_y = 10.0;
+    double initial_x_2 = 50.0;
+    double initial_y_2 = 10.0;
+    Position pos(initial_x, initial_y, soldier->getWidth(), soldier->getHeight(), 100.0, 100.0);
+    Position pos2(initial_x_2, initial_y_2, soldier2->getWidth(), soldier2->getHeight(), 100.0, 100.0);
+    ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
+    ASSERT_NO_THROW(soldier2->setPosition(std::move(pos2)));
+    soldiers.emplace(2, std::move(soldier2));
+    soldier->move(ON, X, LEFT, NORMAL);
+    double time = 1.0;
+    soldier->simulateMove(time, std::ref(soldiers), std::ref(zombies), 100.0, 100.0);
+    Position& pos1 = soldier->getPosition();
+    ASSERT_EQ(pos1.getXPos(), 100.0);
+    ASSERT_EQ(pos1.getYPos(), initial_y);
+    std::tuple<double, double, bool> tuple {0.0, 99.0, false};
+    ASSERT_EQ(pos1.getXArea(), tuple);
+
+}
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);

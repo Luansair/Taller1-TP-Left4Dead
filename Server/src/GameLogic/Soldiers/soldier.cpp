@@ -121,14 +121,14 @@ void Soldier::simulateMove(double time,
         case X:
             next_x = position.getXPos() + (dir * speed * time);
             next_y = position.getYPos();
-            if (next_x < 0) next_x = dim_x + next_x;
-            if (next_x > dim_x) next_x = next_x - dim_x;
+            if (next_x < 0) next_x = dim_x + next_x + 1.0;
+            if (next_x > dim_x) next_x = next_x - dim_x - 1.0;
             break;
         case Y:
             next_y = position.getYPos() + (dir * speed * time);
             next_x = position.getXPos();
-            if (next_y < 0) next_y = dim_y + next_y;
-            if (next_y > dim_y) next_y = next_y - dim_y;
+            if (next_y < 0) next_y = dim_y + next_y + 1.0;
+            if (next_y > dim_y) next_y = next_y - dim_y - 1.0;
             break;
     }
     Position next_pos(next_x, next_y, position.getWidth(), position.getHeight(), dim_x, dim_y);

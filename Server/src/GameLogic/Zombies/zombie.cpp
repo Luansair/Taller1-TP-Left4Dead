@@ -86,7 +86,6 @@ void Zombie::simulateMove(double time,
 
     // calculo la zona de visión del zombie.
     Position sight_zone(position.getXPos(), position.getYPos(), sight, sight, dim_x, dim_y);
-    Position next_pos(position.getXPos(), position.getYPos(), position.getWidth(), position.getHeight(), dim_x, dim_y);
 
     // verifico las colisiones.
     double distance = std::sqrt(std::pow(dim_x, 2) + std::pow(dim_y, 2)); // distancia maxima
@@ -111,13 +110,14 @@ void Zombie::simulateMove(double time,
     }
 
     if (collision) {
-
         if (sight_zone.getXPos() > next_x) {
             position.setXPos(sight_zone.getXPos() - ((sight_zone.getXPos() - next_x) * 0.006));
-            dir = RIGHT;
+            dir = LEFT;
+            dir_x = LEFT;
         } else {
             position.setXPos(sight_zone.getXPos() + ((next_x - sight_zone.getXPos()) * 0.006));
-            dir = LEFT;
+            dir = RIGHT;
+            dir_x = RIGHT;
         }
         position.setYPos(position.getXPos() * m + b);
         moving = true;
@@ -146,7 +146,7 @@ uint32_t Zombie::getId(void) {
 }
 
 uint8_t Zombie::getAction(void) {
-    if (moving) return ACTION_MOVE;
+    if (moving) return ZOMBIE_RUN;
     // if (attacking) return ACTION_ATTACK;
     return ZOMBIE_IDLE;
 }

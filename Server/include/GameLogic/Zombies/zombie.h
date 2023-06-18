@@ -14,12 +14,13 @@
 class Zombie {
 public:
     uint32_t zombie_id;
-    int8_t dir;
+    int8_t dir = RIGHT;
     uint8_t axis = 0;
-    int8_t speed;
-    int16_t health;
-    int8_t width;
-    int8_t height;
+    double speed;
+    double health;
+    double width;
+    double height;
+    double sight = 200.0;
     Position position;
     int8_t dir_x = RIGHT;
     bool moving = false;
@@ -30,11 +31,10 @@ public:
 
     explicit Zombie(
     uint32_t zombie_id,
-    int8_t dir,
-    int8_t width,
-    int8_t height,
-    int8_t speed,
-    int16_t health);
+    double width,
+    double height,
+    double speed,
+    double health);
 
     /* COMANDOS */
 
@@ -45,28 +45,28 @@ public:
     uint8_t moveForce);
     virtual void attack(uint8_t state);
     virtual void idle(uint8_t state);
-    virtual void recvDamage(int8_t damage);
+    virtual void recvDamage(double damage);
 
     /* SIMULADORES */
 
-    virtual void simulate(uint16_t time,
+    virtual void simulate(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y);
-    virtual void simulateMove(uint16_t time,
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
+    virtual void simulateMove(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y);
-    virtual void simulateAttack(uint16_t time,
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
+    virtual void simulateAttack(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
-    int32_t dim_x);
+    double dim_x);
 
     /* GETTERS */
 
     int8_t getDir(void);
     int8_t getDirX(void);
-    int8_t getHealth(void);
-    uint8_t getWidth(void);
-    uint8_t getHeight(void);
+    double getHealth(void);
+    double getWidth(void);
+    double getHeight(void);
     uint32_t getId(void);
     virtual uint8_t getZombieType(void) = 0;
     uint8_t getAction(void);
@@ -78,7 +78,7 @@ public:
     void setPosition(Position&& new_pos);
     void setRandomPosition(
             const std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
-            const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, int32_t dim_x, int32_t dim_y);
+            const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, double dim_x, double dim_y);
 
 };
 

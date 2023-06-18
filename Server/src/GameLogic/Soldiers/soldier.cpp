@@ -113,8 +113,8 @@ void Soldier::simulateMove(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
 
-    int16_t next_x;
-    int16_t next_y;
+    double next_x;
+    double next_y;
 
     // calculo proxima coordenada.
     switch(axis) {

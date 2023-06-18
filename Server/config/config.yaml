@@ -36,3 +36,9 @@ idfweapon:
   ammo: 50
   scope: 2
   damage_reduction_coef: 0.8
+
+zombie:
+  health: 100
+  width: 2
+  height: 6
+  speed: 1

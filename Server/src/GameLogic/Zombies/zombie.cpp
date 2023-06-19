@@ -242,7 +242,7 @@ void Zombie::setRandomPosition(
 
     random_device rd;
     mt19937 mt(rd());
-    uniform_int_distribution<int32_t> distx(0, dim_x);
+    uniform_int_distribution<int32_t> distx(dim_x * 0.5, dim_x);
     uniform_int_distribution<int32_t> disty(0, dim_y);
     int32_t x_pos;
     int32_t y_pos;

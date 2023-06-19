@@ -7,6 +7,8 @@
 
 class Lobby {
 
+public:
+    void launch();
 };
 
 #endif //TP_LOBBY_H

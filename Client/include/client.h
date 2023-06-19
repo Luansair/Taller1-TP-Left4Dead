@@ -7,18 +7,18 @@
 #include "visual_game.h"
 #include "sender.h"
 #include "receiver.h"
+#include "game.h"
 
 class Client {
     GameSocket socket;
-    Protocol protocol;
     Queue<std::shared_ptr<Information>> actions_to_send;
     Queue<std::shared_ptr<Information>> feedback_received;
     Sender sender;
     Receiver receiver;
+    ClientGame client_game;
 
-    void processEvent(std::uint32_t event_type, int key_code, bool* quit);
     void lobbyProcess();
-    void gameProcess();
+
 public:
     Client(const char* hostname, const char* servname);
 

@@ -18,7 +18,12 @@ void Receiver::run() {
 
     try {
     while (keep_receiving) {
-        feedback_received.push(protocol.recvFeedback());
+        const std::shared_ptr<Information>& feed = protocol.recvFeedback();
+        if (feed == nullptr) {
+            throw std::runtime_error("Receiver::run. Feedback received is null. Probably cause it is invalid.\n");
+        }
+
+        feedback_received.push(feed);
     }
     } catch (const ClosedSocket& err) {
         cerr << "In Receiver thread: " << err.what() << endl;

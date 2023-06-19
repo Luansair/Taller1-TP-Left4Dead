@@ -125,7 +125,7 @@ void Client::lobbyProcess() {
     while (!joined)
     {
         std::string action;
-        std::cin >> action;
+        std::cin >> action; //Recibe de stdin
         if (action == "join")
         {
             std::uint32_t game_code;
@@ -137,14 +137,16 @@ void Client::lobbyProcess() {
             if (feed == nullptr) {
                 throw std::runtime_error("Client::lobbyProcess. "
                                          "Feedback for join is null.\n");
-            }
+            } //Es raro este caso porque si popeas algo de la cola significa que
+            //es algo que debería ser útil (acción, un EOF), no un nullptr.
+            //Revisa mi comentario en el protocol, línea 100
             const auto& join_feed = dynamic_cast<JoinGameFeedback&>(*feed);
             if (join_feed.joined == 0) {
                 cout << "Joined failed for code: " << game_code << endl;
             } else if (join_feed.joined == 1) {
                 cout << "Joined game with code: " << game_code << endl;
                 joined = true;
-            }
+            } //Estas 20 líneas de código podrían modularizarse en una función
         }
         else if (action == "create")
         {
@@ -161,7 +163,8 @@ void Client::lobbyProcess() {
             dynamic_cast<CreateGameFeedback *>(create_feed.get())->game_code
                       << std::endl;
             joined = true;
-        }
+         //También podrían modularizarse en una función
+    }
     }
 }
 
@@ -204,7 +207,11 @@ void Client::gameProcess() {
             game_visual.updateInfo(dynamic_cast<GameStateFeedback&>
                                    (*information_ptr));
         }
-
+        //Por lo que veo, si information_ptr dejara de ser null, pero después
+        //en el try_pop no se cambia el information_ptr pq la cola está vacía,
+        //igualmente se realiza la acción previa. Para solucionarlo habría
+        //que setear un information_ptr = nullptr justo después de haber procesado
+        //la información.
         game_visual.draw(frame_ticks);
 
         game_visual.present();

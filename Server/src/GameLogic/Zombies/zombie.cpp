@@ -38,7 +38,7 @@ void Zombie::move(
     }
 }
 
-void Zombie::attack(uint8_t state, std::shared_ptr<Soldier> *victim) {
+void Zombie::attack(uint8_t state, std::shared_ptr<Soldier> victim) {
     switch(state) {
         case ON:
             attacking = true;
@@ -48,6 +48,19 @@ void Zombie::attack(uint8_t state, std::shared_ptr<Soldier> *victim) {
         case OFF:
             attacking = false;
             att_vic = victim;
+            break;
+    }
+}
+
+void Zombie::die(uint8_t state) {
+    switch(state) {
+        case ON:
+            counter = 10;
+            attacking = moving = false;
+            dying = true;
+            break;
+        case OFF:
+            dying = false;
             break;
     }
 }
@@ -63,11 +76,12 @@ void Zombie::idle(uint8_t state) {
 }
 
 void Zombie::recvDamage(double damage) {
+    if (dying) return;
     if (damage < health) {
         health -= damage; 
         return;
     }
-    alive = false;
+    die(ON);
 }
 
 /* SIMULADORES */
@@ -75,9 +89,15 @@ void Zombie::recvDamage(double damage) {
 void Zombie::simulate(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
-    if (!alive) return;
-    simulateMove(time, soldiers, zombies, dim_x, dim_y);
+    if (dying && (counter < 0)) simulateDie();
+    counter = counter - 1;
+    if (dying) return;
     if (attacking) simulateAttack(time, soldiers, zombies, dim_x);
+    simulateMove(time, soldiers, zombies, dim_x, dim_y);
+}
+
+void Zombie::simulateDie(void) {
+    alive = false;
 }
 
 void Zombie::simulateMove(double time,
@@ -125,7 +145,7 @@ void Zombie::simulateMove(double time,
         Position next_pos(next_x, next_y, getWidth(), getHeight(), dim_x, dim_y);
         if (next_pos.collides(victim->getPosition())) {
             move(OFF, getDir());
-            attack(ON, &victim);
+            attack(ON, victim);
             return;
         } else {
             move(ON, direction);
@@ -143,11 +163,14 @@ void Zombie::simulateAttack(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
     double dim_x) {
-        std::shared_ptr<Soldier> victim = *att_vic;
-        victim->recvDamage(40.0);
+        att_vic->recvDamage(40.0);
     }
 
 /* GETTERS */
+
+bool Zombie::isDead(void) {
+    return (!alive);
+}
 
 double Zombie::getWidth(void) {
     return width;
@@ -161,7 +184,7 @@ uint32_t Zombie::getId(void) {
 }
 
 uint8_t Zombie::getAction(void) {
-    if (!alive) return ZOMBIE_DEAD;
+    if (dying) return ZOMBIE_DEAD;
     if (moving) return ZOMBIE_RUN;
     if (attacking) return ZOMBIE_ATTACK_1;
     return ZOMBIE_IDLE;

@@ -19,6 +19,8 @@ public:
 
     virtual uint8_t getAction(void) override;
 
+    virtual ~IdfSoldier() override = default;
+
 };
 
 #endif  // IDFSOLDIER_H_

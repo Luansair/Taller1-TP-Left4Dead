@@ -25,6 +25,8 @@ public:
     std::unique_ptr<Weapon> weapon;
     std::unique_ptr<Grenade> grenade;
     int8_t dir_x = RIGHT;
+    double counter = 10;
+    bool dying = false;
     bool moving = false;
     bool shooting = false;
     bool reloading = false;
@@ -60,6 +62,7 @@ public:
     virtual void throwGrenade(uint8_t state);
     virtual void idle(uint8_t state);
     virtual void recvDamage(double damage);
+    virtual void die(uint8_t state);
 
     /* SIMULADORES */
 
@@ -75,6 +78,7 @@ public:
     double dim_x);
     virtual void simulateReload(double time);
     virtual void simulateThrow(double time);
+    virtual void simulateDie(void);
 
     /* GETTERS */
 
@@ -88,6 +92,7 @@ public:
     virtual uint8_t getAction() = 0;
     Position& getPosition();
     [[nodiscard]] const Position& seePosition() const;
+    bool isDead(void);
 
     /* SETTERS */
 

@@ -18,6 +18,8 @@ public:
     virtual uint8_t getSoldierType(void) override;
 
     virtual uint8_t getAction(void) override;
+
+    virtual ~ScoutSoldier() override = default;
 };
 
 #endif  // SCOUTSOLDIER_H_

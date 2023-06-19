@@ -24,10 +24,12 @@ public:
     double sight = 200.0;
     Position position;
     int8_t dir_x = RIGHT;
+    double counter = 10;
     bool moving = false;
     bool attacking = false;
+    bool dying = false;
     bool alive = true;
-    std::shared_ptr<Soldier> *att_vic;
+    std::shared_ptr<Soldier> att_vic;
 
     virtual ~Zombie() {}
 
@@ -43,9 +45,10 @@ public:
     virtual void move(
     uint8_t state,
     int8_t moveDirection);
-    virtual void attack(uint8_t state, std::shared_ptr<Soldier> *victim);
+    virtual void attack(uint8_t state, std::shared_ptr<Soldier> victim);
     virtual void idle(uint8_t state);
     virtual void recvDamage(double damage);
+    virtual void die(uint8_t state);
 
     /* SIMULADORES */
 
@@ -59,6 +62,7 @@ public:
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
     double dim_x);
+    virtual void simulateDie(void);
 
     /* GETTERS */
 
@@ -72,6 +76,7 @@ public:
     uint8_t getAction(void);
     Position& getPosition(void);
     const Position& seePosition(void) const;
+    bool isDead(void);
 
     /* SETTERS */
 

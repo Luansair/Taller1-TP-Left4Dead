@@ -42,6 +42,10 @@ public:
 
     /* Elimina Soldier del Match, parámetros: id del soldado */
     void delete_soldier(uint32_t soldier_id);
+    void delete_zombie(uint32_t zombie_id);
+
+    void delete_dead_soldiers(void);
+    void delete_dead_zombies(void);
 
     /* Agrega Soldier al Match, parámetros: id del soldado, tipo de soldado */
     void join(uint32_t soldier_id, uint8_t soldier_type);

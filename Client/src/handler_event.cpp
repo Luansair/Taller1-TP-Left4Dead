@@ -13,6 +13,8 @@
 #include "../../Common/include/Information/Actions/moving_left_stop.h"
 #include "../../Common/include/Information/Actions/moving_down_stop.h"
 #include "../../Common/include/Information/Actions/moving_up_stop.h"
+#include "../../Common/include/Information/Actions/revive_start.h"
+#include "../../Common/include/Information/Actions/revive_stop.h"
 
 #define SEND_ACTION(action) actions_to_send.push(make_shared<action>())
 
@@ -26,17 +28,19 @@ EventHandler::EventHandler(
         keyup({nullptr}) {
 
     using std::make_shared;
-    keydown.at(SDLK_z) = make_shared<StartShootAction>();
+    keydown.at(SDL_GetScancodeFromKey(SDLK_z)) = make_shared<StartShootAction>();
+    keydown.at(SDL_GetScancodeFromKey(SDLK_x)) = make_shared<StartReviveAction>();
     keydown.at(SDL_GetScancodeFromKey(SDLK_RIGHT)) = make_shared<StartMovingRightAction>();
     keydown.at(SDL_GetScancodeFromKey(SDLK_LEFT)) = make_shared<StartMovingLeftAction>();
-    keydown.at(SDL_GetScancodeFromKey(SDLK_UP)) = make_shared<StartMovingUpAction>();
-    keydown.at(SDL_GetScancodeFromKey(SDLK_DOWN)) = make_shared<StartMovingDownAction>();
+    keydown.at(SDL_GetScancodeFromKey(SDLK_UP)) = make_shared<StartMovingDownAction>();
+    keydown.at(SDL_GetScancodeFromKey(SDLK_DOWN)) = make_shared<StartMovingUpAction>();
 
     keyup.at(SDLK_z) = make_shared<StopShootAction>();
+    keyup.at(SDL_GetScancodeFromKey(SDLK_x)) = make_shared<StopReviveAction>();
     keyup.at(SDL_GetScancodeFromKey(SDLK_RIGHT)) = make_shared<StopMovingRightAction>();
     keyup.at(SDL_GetScancodeFromKey(SDLK_LEFT)) = make_shared<StopMovingLeftAction>();
-    keyup.at(SDL_GetScancodeFromKey(SDLK_UP)) = make_shared<StopMovingUpAction>();
-    keyup.at(SDL_GetScancodeFromKey(SDLK_DOWN)) = make_shared<StopMovingDownAction>();
+    keyup.at(SDL_GetScancodeFromKey(SDLK_UP)) = make_shared<StopMovingDownAction>();
+    keyup.at(SDL_GetScancodeFromKey(SDLK_DOWN)) = make_shared<StopMovingUpAction>();
 
 }
 

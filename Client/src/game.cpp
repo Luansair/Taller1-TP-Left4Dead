@@ -25,7 +25,7 @@ void ClientGame::launch() {
 
         game_visual.clear();
 
-        feedback_received.try_pop(information_ptr);
+        while(feedback_received.try_pop(information_ptr));
 
         if (information_ptr != nullptr) {
             game_visual.updateInfo(dynamic_cast<GameStateFeedback&>
@@ -35,7 +35,5 @@ void ClientGame::launch() {
         game_visual.draw(frame_ticks);
 
         game_visual.present();
-
-        SDL_Delay(5);
     }
 }

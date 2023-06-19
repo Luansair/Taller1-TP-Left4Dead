@@ -81,6 +81,7 @@ void EventHandler::processEvent() const {
     }
 }
 
+/*
 void EventHandler::processKeyDown() const {
     using std::make_shared;
 
@@ -119,6 +120,7 @@ void EventHandler::processKeyDown() const {
     }
 }
 
+
 void EventHandler::processKeyUp() const{
     using std::make_shared;
 
@@ -153,4 +155,4 @@ void EventHandler::processKeyUp() const{
             break;
     }
 }
-
+*/

@@ -3,6 +3,8 @@
 //
 #include "../include/game.h"
 
+constexpr uint32_t MS_PER_FRAME = 16;
+
 ClientGame::ClientGame(
         Queue<std::shared_ptr<Information>>& actions_to_send,
         Queue<std::shared_ptr<Information>>& feedback_received) :
@@ -14,12 +16,15 @@ ClientGame::ClientGame(
 }
 
 void ClientGame::launch() {
+    using std::shared_ptr;
+    using std::uint32_t;
 
     std::shared_ptr<Information> information_ptr = nullptr;
 
     while (!quit)
     {
-        unsigned int frame_ticks = SDL_GetTicks();
+        uint32_t start_milliseconds = SDL_GetTicks();
+        
 
         event_handler.start();
 
@@ -31,13 +36,16 @@ void ClientGame::launch() {
             game_visual.updateInfo(dynamic_cast<GameStateFeedback&>
                                    (*information_ptr));
         }
-
-        game_visual.draw(frame_ticks);
+        game_visual.draw(start_milliseconds);
 
         game_visual.present();
 
         information_ptr = nullptr;
 
-        SDL_Delay(10);
+        uint32_t end_milliseconds = SDL_GetTicks();
+        
+        if (end_milliseconds - start_milliseconds < MS_PER_FRAME) {
+            SDL_Delay(MS_PER_FRAME - end_milliseconds + start_milliseconds);
+        }
     }
 }

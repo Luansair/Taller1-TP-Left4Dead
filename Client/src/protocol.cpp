@@ -95,5 +95,9 @@ void Protocol::sendAction(const Information &action) {
     } else if (feedback_type == InformationID::FEEDBACK_GAME_STATE) {
         return builtGameStateFeedback();
     }
-    return nullptr;
+    return nullptr; //El tema con que regreses nullptr acá y lo pushees de todas formas es que después tendrás
+    //que manejar esa posibilidad en el otro lado de la cola (en la línea 140 del client.cpp)
+    //Y es medio tedioso siempre tener q verificar que algo no es null. Una posibilidad es que
+    //revises lo que retornas directamente en el receiver, y que no pushees algo que es null.
+    //Otra es lanzar una excepción acá.
 }

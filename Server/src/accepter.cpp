@@ -16,7 +16,8 @@ void Accepter::run() {
     try {
     while (true) {
         GameSocket peer = skt.acceptClient();
-        auto* receiver = new Receiver(std::move(peer), game_manager);
+        auto* receiver = new Receiver(std::move(peer), game_manager); //Raro que se llame receiver
+        //Podría ser puntero inteligente
         clients.push_back(receiver);
         receiver->start();
         reapDead();

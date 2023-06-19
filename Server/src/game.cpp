@@ -31,15 +31,10 @@ void Game::join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, const std::s
 
     match.join(*player_id, actor++);
     if (actor == 3) actor = 0;
-    match.setZombie(292, ZOMBIE);
-    match.setZombie(222, ZOMBIE);
-    // match.setZombie(242, ZOMBIE);
-    // match.setZombie(492, ZOMBIE);
-    // match.setZombie(522, ZOMBIE);
-    // match.setZombie(642, ZOMBIE);
-    // match.setZombie(272, ZOMBIE);
-    // match.setZombie(252, ZOMBIE);
-    // match.setZombie(2242, ZOMBIE);
+
+    if(!zombies) {
+        setMatch(5); //seteo 5 zombies
+    }
 
     // Game starts when max_players is reached.
     if (isFull()) {
@@ -94,6 +89,14 @@ void Game::run() {
             player_queue++;
         }
     }
+}
+
+void Game::setMatch(int cant_zombies) {
+    //le pongo 40 porque no hay todavia 40 soldados
+    for(int i = 40; i < 40 + cant_zombies; i++) {
+       match.setZombie(i,ZOMBIE); 
+    }
+    zombies = true;
 }
 
 bool Game::isFull() const {

@@ -1,5 +1,5 @@
 //
-// Created by luan on 06/06/23.
+// Created by luan & pedro on 06/06/23.
 //
 #ifndef TP_ANIMATION_MANAGER_H
 #define TP_ANIMATION_MANAGER_H
@@ -12,10 +12,14 @@
 
 #include "Actor/animation_actor.h"
 #include "Actor/animation_soldier1.h"
+#include "Actor/animation_soldier2.h"
+#include "Actor/animation_soldier3.h"
 #include "Actor/animation_zombie.h"
 
 class AnimationManager {
     SoldierOneAnimation soldier_1_animation;
+    SoldierTwoAnimation soldier_2_animation;
+    SoldierThreeAnimation soldier_3_animation;
     ZombieAnimation zombie_animation;
     // Other actor animations...
 

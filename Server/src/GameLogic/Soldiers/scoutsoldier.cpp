@@ -17,10 +17,10 @@ uint8_t ScoutSoldier::getSoldierType(void) {
 
 // cambiar a soldier_3
 uint8_t ScoutSoldier::getAction(void) {
-    if (dying) return SOLDIER_1_DEAD;
-    if (shooting) return SOLDIER_1_SHOOT_1;
-    if (moving) return SOLDIER_1_RUN;
-    if (reloading) return SOLDIER_1_RECHARGE;
-    if (throwing) return SOLDIER_1_GRENADE_EXPLOSION;
-    return SOLDIER_1_IDLE;
+    if (dying) return SOLDIER_3_DEAD;
+    if (shooting) return SOLDIER_3_SHOOT_1;
+    if (moving) return SOLDIER_3_RUN;
+    if (reloading) return SOLDIER_3_RECHARGE;
+    if (throwing) return SOLDIER_3_GRENADE;
+    return SOLDIER_3_IDLE;
 }

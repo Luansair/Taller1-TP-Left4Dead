@@ -15,6 +15,7 @@ class Game : public Thread {
     std::atomic<std::uint8_t> players_amount;
     std::atomic<bool> is_running;
     std::atomic<bool> started;
+    uint8_t actor = 0;
 
     Queue<std::shared_ptr<InGameCommand>> commands_recv;
     std::vector<

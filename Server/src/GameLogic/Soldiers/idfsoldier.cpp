@@ -20,6 +20,6 @@ uint8_t IdfSoldier::getAction(void) {
     if (shooting) return SOLDIER_1_SHOOT_1;
     if (moving) return SOLDIER_1_RUN;
     if (reloading) return SOLDIER_1_RECHARGE;
-    if (throwing) return SOLDIER_1_GRENADE_EXPLOSION;
+    if (throwing) return SOLDIER_1_GRENADE;
     return SOLDIER_1_IDLE;
 }

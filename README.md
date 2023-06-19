@@ -25,6 +25,21 @@ sudo apt-get install cmake
 
 Necesario para las animaciones
 
+Primero hay que instalar SDL2:
+
+Se descarga el siguiente archivo:
+- https://github.com/libsdl-org/SDL/releases/tag/release-2.26.5
+
+Se descomprime y dentro de la carpeta se ejecuta:
+```shell
+mkdir build 
+cd build 
+cmake .. 
+make -j4
+sudo make install
+```
+
+
 Se descargan los siguientes archivos:
 - libsdl2-image 2.6.3 https://github.com/libsdl-org/SDL_image/releases/tag/release-2.6.3
 - libsdl2-mixer 2.6.3 https://github.com/libsdl-org/SDL_mixer/releases/tag/release-2.6.3
@@ -80,6 +95,13 @@ cmake --build .
 
 Se puede remover el directorio `build` luego de instalarlo
 
+Si hay problemas se puede usar la version 0.6.3
+
+Tambien se puede instalar con:
+
+```shell
+sudo apt-get install libyaml-cpp-dev
+```
 -------------------------
 
 ## Build

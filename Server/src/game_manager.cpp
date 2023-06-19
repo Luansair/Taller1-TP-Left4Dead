@@ -127,9 +127,11 @@ bool GameManager::joinGame(Queue<std::shared_ptr<InGameCommand>> *&game_queue,
     unique_lock<mutex> lck(mtx);
 
     auto game = games.find(game_code);
-    if (game == games.end())
+    if (game == games.end()) {
+        player_queue->push(make_shared<JoinGameFeedback>(NOT_JOINED));
         return false;
-
+    }
+    
     if (game->second->isFull()) {
         player_queue->push(make_shared<JoinGameFeedback>(NOT_JOINED));
         return false;

@@ -1,40 +1,36 @@
 #include "../../../include/GameLogic/Zombies/zombie.h"
 #include <random>
+#include<cmath>
 
 /* CONSTRUCTOR */
 
 Zombie::Zombie(
     uint32_t zombie_id,
-    int8_t dir,
-    int8_t width,
-    int8_t height,
-    int8_t speed,
-    int16_t health) :
+    double width,
+    double height,
+    double speed,
+    double health) :
     zombie_id(zombie_id),
-    dir(dir),
     speed(speed),
     health(health),
     width(width),
     height(height),
-    position(0,0,width,height,0,0) {
+    position(0,0,width,height,0,0),
+    att_vic(nullptr) {
 }
 
 /* COMANDOS */
 
 void Zombie::move(
     uint8_t state,
-    uint8_t moveAxis,
-    int8_t moveDirection,
-    uint8_t moveForce) {
+    int8_t moveDirection) {
 
     switch(state) {
         case ON:
             moving = true;
             attacking = false;
-            axis = moveAxis;
             dir = moveDirection;
-            speed = moveForce;
-            if (moveAxis == X) dir_x = moveDirection;
+            dir_x = moveDirection;
             break;
         case OFF:
             moving = false;
@@ -42,14 +38,29 @@ void Zombie::move(
     }
 }
 
-void Zombie::attack(uint8_t state) {
+void Zombie::attack(uint8_t state, std::shared_ptr<Soldier> victim) {
     switch(state) {
         case ON:
             attacking = true;
+            att_vic = victim;
             moving = false;
             break;
         case OFF:
             attacking = false;
+            att_vic = victim;
+            break;
+    }
+}
+
+void Zombie::die(uint8_t state) {
+    switch(state) {
+        case ON:
+            counter = 10;
+            attacking = moving = false;
+            dying = true;
+            break;
+        case OFF:
+            dying = false;
             break;
     }
 }
@@ -64,77 +75,107 @@ void Zombie::idle(uint8_t state) {
     }
 }
 
-void Zombie::recvDamage(int8_t damage) {
+void Zombie::recvDamage(double damage) {
+    if (dying) return;
     if (damage < health) {
         health -= damage; 
         return;
     }
-    alive = false;
+    die(ON);
 }
 
 /* SIMULADORES */
 
-void Zombie::simulate(uint16_t time,
+void Zombie::simulate(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y) {
-    if (moving) simulateMove(time, soldiers, zombies, dim_x, dim_y);
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
+    if (dying && (counter < 0)) simulateDie();
+    counter = counter - 1;
+    if (dying) return;
     if (attacking) simulateAttack(time, soldiers, zombies, dim_x);
+    simulateMove(time, soldiers, zombies, dim_x, dim_y);
 }
 
-void Zombie::simulateMove(uint16_t time,
+void Zombie::simulateDie(void) {
+    alive = false;
+}
+
+void Zombie::simulateMove(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y) {
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
 
-    int16_t next_x;
-    int16_t next_y;
-
-    // calculo proxima coordenada.
-    switch(axis) {
-        case X:
-            next_x = position.getXPos() + (dir * speed * time);
-            next_y = position.getYPos();
-            if (next_x < 0) next_x = dim_x + next_x;
-            if (next_x > dim_x) next_x = next_x - dim_x;
-            break;
-        case Y:
-            next_y = position.getYPos() + (dir * speed * time);
-            next_x = position.getXPos();
-            if (next_y < 0) next_y = dim_y + next_y;
-            if (next_y > dim_y) next_y = next_y - dim_y;
-            break;
-    }
-    Position next_pos(next_x, next_y, position.getWidth(), position.getHeight(), dim_x, dim_y);
+    // calculo la zona de visión del zombie.
+    RadialHitbox sight_zone(position.getXPos(), position.getYPos(), sight);
 
     // verifico las colisiones.
+    double distance = std::sqrt(std::pow(dim_x, 2) + std::pow(dim_y, 2)); // distancia maxima
+    double new_distance;
+    double m;
+    double b;
+    uint32_t victim_id;
+    bool collision = false;
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
         Position other_pos = i->second->getPosition();
-        if (next_pos.collides(other_pos)) {
-            return;
+        if (sight_zone.hits(other_pos) && !(i->second->dying)) {
+            new_distance = std::sqrt(std::pow(std::abs(position.getXPos() - other_pos.getXPos()), 2) + std::pow(std::abs(position.getYPos() - other_pos.getYPos()), 2));
+            if (distance > new_distance) {
+                distance = new_distance;
+                m = (position.getYPos() - other_pos.getYPos()) / (position.getXPos() - other_pos.getXPos());
+                b = position.getYPos() - m * position.getXPos();
+                // me tengo que quedar con el más cercano
+                victim_id = i->first;
+            }
+            collision = true;
         }
     }
-    // lo mismo con los zombies
-    for (auto i = zombies.begin(); i != zombies.end(); i++) {
-        Position other_pos = i->second->getPosition();
-        if (i->second->getId() == zombie_id) continue;
-        if (next_pos.collides(other_pos)) {
-            return;
+    if (collision) {
+        std::shared_ptr<Soldier> &victim = soldiers.at(victim_id);
+        double next_x;
+        double next_y;
+        int8_t direction;
+        if (position.getXPos() > victim->getPosition().getXPos()) {
+            // aca el desplazamiento en X en realidad debería depender del tiempo.
+            next_x = position.getXPos() - ((position.getXPos() - victim->getPosition().getXPos()) * 0.006);
+            direction = LEFT;
+        } else {
+            next_x = position.getXPos() + ((victim->getPosition().getXPos() - position.getXPos()) * 0.006);
+            direction = RIGHT;
         }
+        next_y = next_x * m + b;
+        Position next_pos(next_x, next_y, getWidth(), getHeight(), dim_x, dim_y);
+        if (next_pos.collides(victim->getPosition())) {
+            move(OFF, getDir());
+            attack(ON, victim);
+            return;
+        } else {
+            move(ON, direction);
+            attack(OFF, nullptr);
+            position = next_pos;
+        }
+    } else {
+        move(OFF, getDir());
+        attack(OFF, nullptr);
     }
-    // si no colisiono cambio de pos
-    position = next_pos;
+
 }
 
-void Zombie::simulateAttack(uint16_t time,
+void Zombie::simulateAttack(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
-    int32_t dim_x) {}
+    double dim_x) {
+        att_vic->recvDamage(0.1);
+    }
 
 /* GETTERS */
 
-uint8_t Zombie::getWidth(void) {
+bool Zombie::isDead(void) {
+    return (!alive);
+}
+
+double Zombie::getWidth(void) {
     return width;
 }
-uint8_t Zombie::getHeight(void) {
+double Zombie::getHeight(void) {
     return height;
 }
 
@@ -143,8 +184,9 @@ uint32_t Zombie::getId(void) {
 }
 
 uint8_t Zombie::getAction(void) {
-    if (moving) return ACTION_MOVE;
-    // if (attacking) return ACTION_ATTACK;
+    if (dying) return ZOMBIE_DEAD;
+    if (moving) return ZOMBIE_RUN;
+    if (attacking) return ZOMBIE_ATTACK_1;
     return ZOMBIE_IDLE;
 }
 
@@ -156,7 +198,7 @@ int8_t Zombie::getDirX(void) {
     return dir_x;
 }
 
-int8_t Zombie::getHealth(void) {
+double Zombie::getHealth(void) {
     return health;
 }
 
@@ -168,6 +210,22 @@ const Position& Zombie::seePosition(void) const {
     return std::ref(position);
 }
 
+bool Distance_from_left_is_minor::operator()(std::shared_ptr<Zombie> below, std::shared_ptr<Zombie> above) {
+        if (below->seePosition().getXPos() > above->seePosition().getXPos()) {
+            return true;
+        }
+ 
+        return false;
+}
+
+bool Distance_from_right_is_minor::operator()(std::shared_ptr<Zombie> below, std::shared_ptr<Zombie> above) {
+        if (below->seePosition().getXPos() < above->seePosition().getXPos()) {
+            return true;
+        }
+ 
+        return false;
+}
+
 /* SETTERS */
 
 void Zombie::setPosition(Position&& new_pos) {
@@ -176,7 +234,7 @@ void Zombie::setPosition(Position&& new_pos) {
 
 void Zombie::setRandomPosition(
         const std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
-        const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, int32_t dim_x, int32_t dim_y) {
+        const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, double dim_x, double dim_y) {
     using std::random_device;
     using std::mt19937;
     using std::uniform_int_distribution;

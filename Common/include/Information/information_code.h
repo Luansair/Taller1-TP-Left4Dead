@@ -9,6 +9,7 @@ enum InformationID : std::uint8_t {
     ACTION_MOVE,
     ACTION_RELOAD,
     ACTION_THROW,
+    ACTION_REVIVE,
     REQUEST_CREATE_GAME,
     REQUEST_JOIN_GAME,
     FEEDBACK_CREATE_GAME,
@@ -43,6 +44,33 @@ enum SoldierOneActionID : std::uint8_t {
     SOLDIER_1_SHOOT_1,
     SOLDIER_1_SHOOT_2,
     SOLDIER_1_WALK,
+};
+
+enum SoldierTwoActionID : std::uint8_t {
+    SOLDIER_2_ATTACK,
+    SOLDIER_2_DEAD,
+    SOLDIER_2_GRENADE,
+    SOLDIER_2_HURT,
+    SOLDIER_2_IDLE,
+    SOLDIER_2_RECHARGE,
+    SOLDIER_2_RUN,
+    SOLDIER_2_SHOOT_1,
+    SOLDIER_2_SHOOT_2,
+    SOLDIER_2_WALK,
+};
+
+enum SoldierThreeActionID : std::uint8_t {
+    SOLDIER_3_ATTACK,
+    SOLDIER_3_DEAD,
+    SOLDIER_3_GRENADE,
+    SOLDIER_3_HURT,
+    SOLDIER_3_IDLE,
+    SOLDIER_3_RECHARGE,
+    SOLDIER_3_RUN,
+    SOLDIER_3_SHOOT_1,
+    SOLDIER_3_SHOOT_2,
+    SOLDIER_3_SMOKE,
+    SOLDIER_3_WALK,
 };
 
 enum ZombieActionID : std::uint8_t {

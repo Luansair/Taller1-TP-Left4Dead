@@ -2,7 +2,7 @@
 #include "../../../include/GameLogic/Soldiers/soldier.h"
 #include "../../../include/GameLogic/Zombies/zombie.h"
 
-IdfWeapon::IdfWeapon(uint8_t ammo, uint8_t damage, uint8_t scope, float reduction) :
+IdfWeapon::IdfWeapon(uint8_t ammo, double damage, double scope, double reduction) :
     ammo(ammo),
     actual_ammo(ammo),
     damage(damage),
@@ -13,28 +13,27 @@ IdfWeapon::IdfWeapon(uint8_t ammo, uint8_t damage, uint8_t scope, float reductio
 bool IdfWeapon::shoot(
     Position& from,
     int8_t dir,
-    int32_t dim_x,
-    uint16_t time,
+    double dim_x,
+    double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies) {
     if (actual_ammo == 0) return false;
     Hitbox hitbox;
 
     // calculo a donde llega el disparo
-    int16_t next_x = from.getXPos() + (dir * time);
     if (dir == RIGHT) {
-        hitbox.setValues(from.getXPos(), next_x, from.getYPos() - scope / 2, from.getYPos() + scope / 2);
+        hitbox.setValues(from.getXPos(), dim_x, from.getYPos() - scope * 0.5, from.getYPos() + scope * 0.5);
     } else if (dir == LEFT) {
-        hitbox.setValues(next_x, from.getXPos(), from.getYPos() - scope / 2, from.getYPos() + scope / 2);
+        hitbox.setValues(0, from.getXPos(), from.getYPos() - scope * 0.5, from.getYPos() + scope * 0.5);
     }
 
-    int32_t distance = dim_x; // distancia maxima
-    int32_t new_distance;
+    double distance = dim_x; // distancia maxima
+    double new_distance;
     uint32_t victim_id;
     bool collision = false;
 
     // verifico las colisiones.
-    for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
+    for (auto i = zombies.begin(); i != zombies.end(); i++) {
         Position victim_pos = i->second->getPosition();
         if (hitbox.shoot_hits(victim_pos)) {
             if (dir == RIGHT) {
@@ -52,8 +51,8 @@ bool IdfWeapon::shoot(
     }
 
     if (collision) {
-        int8_t actual_damage = damage * ((dim_x - distance) / dim_x);
-        (soldiers.at(victim_id))->recvDamage(actual_damage);
+        double actual_damage = damage * ((dim_x - distance) / dim_x);
+        (zombies.at(victim_id))->recvDamage(actual_damage);
     }
     // resto balas/rafagas
     actual_ammo -= 1;

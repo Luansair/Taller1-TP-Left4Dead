@@ -1,6 +1,6 @@
 #include "../../include/GameLogic/match.h"
 
-Match::Match(int32_t x_dimension, int32_t y_dimension) :
+Match::Match(double x_dimension, double y_dimension) :
     soldiers(),
     zombies(),
     x_dim(x_dimension),
@@ -33,6 +33,13 @@ void Match::shoot(uint32_t soldier_id, uint8_t state) {
     if (soldiers.count(soldier_id)>0) {
         std::shared_ptr<Soldier> &soldier = soldiers.at(soldier_id);
         soldier->shoot(state);
+    }
+}
+
+void Match::revive(uint32_t soldier_id, uint8_t state) {
+    if (soldiers.count(soldier_id)>0) {
+        std::shared_ptr<Soldier> &soldier = soldiers.at(soldier_id);
+        soldier->revive(state);
     }
 }
 
@@ -70,12 +77,34 @@ void Match::idle(uint32_t soldier_id, uint8_t state) {
 }
 
 void Match::simulateStep(void) {
-    for (auto & soldier : soldiers) {
-        soldier.second->simulate(TIME, std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
-    }
     for (auto & zombie : zombies) {
         zombie.second->simulate(TIME, std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
     }
+    delete_dead_zombies();
+    for (auto & soldier : soldiers) {
+        soldier.second->simulate(TIME, std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
+    }
+    delete_dead_soldiers();
+}
+
+void Match::delete_dead_soldiers(void) {
+    for (auto soldier = soldiers.begin(); soldier != soldiers.end(); ) {
+        if (soldier->second->isDead()) {
+            soldier = soldiers.erase(soldier);
+        } else {
+            ++soldier;
+        }
+    }
+}
+
+void Match::delete_dead_zombies(void) {
+    for (auto zombie = zombies.begin(); zombie != zombies.end(); ) {
+        if (zombie->second->isDead()) {
+            zombie = zombies.erase(zombie);
+        } else {
+            ++zombie;
+        }
+    }   
 }
 
 std::vector<std::pair<uint16_t, ElementStateDTO >> Match::getElementStates() {

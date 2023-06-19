@@ -8,7 +8,7 @@ Game::Game(std::uint8_t max_players) :
         started(false),
         commands_recv(10000),
         player_queues(),
-        match(1000, 1000) { // por ahora se crea un match de 10x10
+        match(1000.0, 1000.0) { // por ahora se crea un match de 10x10
     player_queues.reserve(max_players);
 }
 
@@ -29,10 +29,17 @@ void Game::join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, const std::s
     // Also a random function could be used for the ids.
     *player_id = ++players_amount;
 
-    match.join(*player_id, SOLDIER_1);
+    match.join(*player_id, actor++);
+    if (actor == 3) actor = 0;
     match.setZombie(292, ZOMBIE);
     match.setZombie(222, ZOMBIE);
-    match.setZombie(242, ZOMBIE);
+    // match.setZombie(242, ZOMBIE);
+    // match.setZombie(492, ZOMBIE);
+    // match.setZombie(522, ZOMBIE);
+    // match.setZombie(642, ZOMBIE);
+    // match.setZombie(272, ZOMBIE);
+    // match.setZombie(252, ZOMBIE);
+    // match.setZombie(2242, ZOMBIE);
 
     // Game starts when max_players is reached.
     if (isFull()) {

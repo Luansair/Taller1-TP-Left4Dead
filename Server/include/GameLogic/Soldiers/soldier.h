@@ -6,6 +6,7 @@
 #include "../Zombies/zombie.h"
 #include "../position.h"
 #include "../hitbox.h"
+#include "../radialhitbox.h"
 #include "../../../../Common/include/Information/information_code.h"
 
 #include <map>
@@ -15,29 +16,32 @@ class Soldier {
 
 public:
     uint32_t soldier_id;
-    int8_t dir;
-    uint8_t axis = 0;
-    int8_t speed;
-    int16_t health;
-    int8_t width;
-    int8_t height;
+    int8_t dir = RIGHT;
+    uint8_t axis = X;
+    double speed;
+    double health;
+    double width;
+    double height;
     Position position;
     std::unique_ptr<Weapon> weapon;
     std::unique_ptr<Grenade> grenade;
     int8_t dir_x = RIGHT;
+    double counter = 10000;
+    double revive_radius = 100.0;
+    bool dying = false;
     bool moving = false;
     bool shooting = false;
     bool reloading = false;
     bool throwing = false;
+    bool reviving = false;
     bool alive = true;
 
     explicit Soldier(
     uint32_t soldier_id,
-    int8_t dir,
-    int8_t width,
-    int8_t height,
-    int8_t speed,
-    int16_t health,
+    double width,
+    double height,
+    double speed,
+    double health,
     std::unique_ptr<Weapon>&& weapon,
     std::unique_ptr<Grenade>&& grenade);
 
@@ -60,54 +64,49 @@ public:
     virtual void reload(uint8_t state);
     virtual void throwGrenade(uint8_t state);
     virtual void idle(uint8_t state);
-    virtual void recvDamage(int8_t damage);
+    virtual void recvDamage(double damage);
+    virtual void die(uint8_t state);
+    virtual void revive(uint8_t state);
+    virtual void be_revived(void);
 
     /* SIMULADORES */
 
-    virtual void simulate(uint16_t time,
+    virtual void simulate(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y);
-    virtual void simulateMove(uint16_t time,
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
+    virtual void simulateMove(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, int32_t dim_x, int32_t dim_y);
-    virtual void simulateShoot(uint16_t time,
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
+    virtual void simulateShoot(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
-    int32_t dim_x);
-    virtual void simulateReload(uint16_t time);
-    virtual void simulateThrow(uint16_t time);
+    double dim_x);
+    virtual void simulateReload(double time);
+    virtual void simulateThrow(double time);
+    virtual void simulateDie(void);
+    virtual void simulateRevive(double time,
+    std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers);
 
     /* GETTERS */
 
     int8_t getDir();
     int8_t getDirX();
-    int8_t getHealth();
-    uint8_t getWidth();
-    uint8_t getHeight();
+    double getHealth();
+    double getWidth();
+    double getHeight();
     uint32_t getId();
     virtual uint8_t getSoldierType() = 0;
     virtual uint8_t getAction() = 0;
     Position& getPosition();
     [[nodiscard]] const Position& seePosition() const;
+    bool isDead(void);
 
     /* SETTERS */
 
     void setPosition(Position&& new_pos);
     void setRandomPosition(
             const std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
-            const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, int32_t dim_x, int32_t dim_y);
-};
-
-/* COMPARADORES PARA LA COLA DE PRIORIDAD DE SCOUT */
-
-class Distance_from_left_is_minor {
-public:
-    bool operator()(std::shared_ptr<Soldier> below, std::shared_ptr<Soldier> above);
-};
-
-class Distance_from_right_is_minor {
-public:
-    bool operator()(std::shared_ptr<Soldier> below, std::shared_ptr<Soldier> above);
+            const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, double dim_x, double dim_y);
 };
 
 #endif  // SOLDIER_H_

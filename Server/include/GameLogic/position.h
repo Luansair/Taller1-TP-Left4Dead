@@ -9,28 +9,28 @@
 
 class Position {
 public:
-    int16_t x;
-    int16_t y;
-    uint8_t width;
-    uint8_t height;
-    int16_t dim_x;
-    int16_t dim_y;
+    double x;
+    double y;
+    double width;
+    double height;
+    double dim_x;
+    double dim_y;
 
     ~Position() = default;
 
-    explicit Position(int16_t x, int16_t y, uint8_t width, uint8_t height, int16_t dim_x, int16_t dim_y);
+    explicit Position(double x, double y, double width, double height, double dim_x, double dim_y);
 
     [[nodiscard]] bool collides(const Position &other) const;
 
-    [[nodiscard]] int16_t getXPos() const;
-    [[nodiscard]] int16_t getYPos() const;
-    [[nodiscard]] uint8_t getWidth() const;
-    [[nodiscard]] uint8_t getHeight() const;
-    void setXPos(int16_t new_x);
-    void setYPos(int16_t new_y);
+    [[nodiscard]] double getXPos() const;
+    [[nodiscard]] double getYPos() const;
+    [[nodiscard]] double getWidth() const;
+    [[nodiscard]] double getHeight() const;
+    void setXPos(double new_x);
+    void setYPos(double new_y);
 
-    [[nodiscard]] std::tuple<int16_t, int16_t, bool> getXArea() const;
-    [[nodiscard]] std::tuple<int16_t, int16_t, bool> getYArea() const;
+    [[nodiscard]] std::tuple<double, double, bool> getXArea() const;
+    [[nodiscard]] std::tuple<double, double, bool> getYArea() const;
 
     bool operator==(const Position &other) const;
 

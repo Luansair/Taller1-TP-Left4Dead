@@ -14,6 +14,7 @@ Client::Client(const char *hostname, const char *servname) :
     sender(actions_to_send, socket),
     receiver(feedback_received, socket),
     client_game(actions_to_send, feedback_received) {
+
 }
 
 void Client::lobbyProcess() {

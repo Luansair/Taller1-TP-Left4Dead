@@ -3,47 +3,59 @@
 #include "GameLogic/Zombies/zombie.h"
 #include "GameLogic/Soldiers/soldierfactory.h"
 #include "GameLogic/Weapons/weaponfactory.h"
+#include "GameLogic/Zombies/zombiefactory.h"
 #include "GameLogic/position.h"
 #include "yaml-cpp/yaml.h"
 
 using YAML::LoadFile;
 using YAML::Node;
+Node zombie_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["zombie"];
+
+const auto zombie_width =
+    zombie_config["width"].as<double>();
+const auto zombie_height =
+    zombie_config["height"].as<double>();
+const auto zombie_speed =
+    zombie_config["speed"].as<double>();
+const auto zombie_health =
+    zombie_config["health"].as<double>();
+
 Node p90_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["p90soldier"];
 
 const auto p90_width =
-    p90_config["width"].as<std::int8_t>();
+    p90_config["width"].as<double>();
 const auto p90_height =
-    p90_config["height"].as<std::int8_t>();
+    p90_config["height"].as<double>();
 const auto p90_speed =
-    p90_config["speed"].as<std::int8_t>();
+    p90_config["speed"].as<double>();
 const auto p90_health =
-    p90_config["health"].as<std::int16_t>();
+    p90_config["health"].as<double>();
 const auto p90_grenade =
     p90_config["grenade_type"].as<std::uint8_t>();
 
 Node scout_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["scoutsoldier"];
 
 const auto scout_width =
-    scout_config["width"].as<std::int8_t>();
+    scout_config["width"].as<double>();
 const auto scout_height =
-    scout_config["height"].as<std::int8_t>();
+    scout_config["height"].as<double>();
 const auto scout_speed =
-    scout_config["speed"].as<std::int8_t>();
+    scout_config["speed"].as<double>();
 const auto scout_health =
-    scout_config["health"].as<std::int16_t>();
+    scout_config["health"].as<double>();
 const auto scout_grenade =
     scout_config["grenade_type"].as<std::uint8_t>();
 
 Node idf_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["idfsoldier"];
 
 const auto idf_width =
-    idf_config["width"].as<std::int8_t>();
+    idf_config["width"].as<double>();
 const auto idf_height =
-    idf_config["height"].as<std::int8_t>();
+    idf_config["height"].as<double>();
 const auto idf_speed =
-    idf_config["speed"].as<std::int8_t>();
+    idf_config["speed"].as<double>();
 const auto idf_health =
-    idf_config["health"].as<std::int16_t>();
+    idf_config["health"].as<double>();
 const auto idf_grenade =
     idf_config["grenade_type"].as<std::uint8_t>();
 
@@ -52,33 +64,33 @@ Node p90w_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["p90weapon"];
 const auto p90w_ammo =
     p90w_config["ammo"].as<std::uint8_t>();
 const auto p90w_damage =
-    p90w_config["damage"].as<std::uint8_t>();
+    p90w_config["damage"].as<double>();
 const auto p90w_scope =
-    p90w_config["scope"].as<std::uint8_t>();
+    p90w_config["scope"].as<double>();
 const auto p90w_reduction =
-    p90w_config["damage_reduction_coef"].as<float>();
+    p90w_config["damage_reduction_coef"].as<double>();
 
 Node scoutw_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["scoutweapon"];
 
 const auto scoutw_ammo =
     scoutw_config["ammo"].as<std::uint8_t>();
 const auto scoutw_damage =
-    scoutw_config["damage"].as<std::uint8_t>();
+    scoutw_config["damage"].as<double>();
 const auto scoutw_scope =
-    scoutw_config["scope"].as<std::uint8_t>();
+    scoutw_config["scope"].as<double>();
 const auto scoutw_reduction =
-    scoutw_config["damage_reduction_coef"].as<float>();   
+    scoutw_config["damage_reduction_coef"].as<double>();   
 
 Node idfw_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["idfweapon"];
 
 const auto idfw_ammo =
     idfw_config["ammo"].as<std::uint8_t>();
 const auto idfw_damage =
-    idfw_config["damage"].as<std::uint8_t>();
+    idfw_config["damage"].as<double>();
 const auto idfw_scope =
-    idfw_config["scope"].as<std::uint8_t>();
+    idfw_config["scope"].as<double>();
 const auto idfw_reduction =
-    idfw_config["damage_reduction_coef"].as<float>();
+    idfw_config["damage_reduction_coef"].as<double>();
 
 TEST(weapon_test, Test00CreateWeapon) {
     WeaponFactory wfactory;
@@ -88,136 +100,142 @@ TEST(weapon_test, Test00CreateWeapon) {
 }
 
 TEST(weapon_test, Test01ShootP90) {
+    ZombieFactory zfactory;
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
     std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_2);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, SOLDIER_2);
+    std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
     Position pos(10, 10, soldier->getWidth(), soldier->getHeight(),100,100);
-    Position pos2(95, 10, soldier2->getWidth(), soldier2->getHeight(),100,100);
+    Position pos2(95, 10, zombie->getWidth(), zombie->getHeight(),100,100);
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
-    ASSERT_NO_THROW(soldier2->setPosition(std::move(pos2)));
-    soldiers.emplace(2, std::move(soldier2));
+    ASSERT_NO_THROW(zombie->setPosition(std::move(pos2)));
+    zombies.emplace(2, std::move(zombie));
     soldier->shoot(ON);
-    uint16_t time = 1000;
+    double time = 1000;
     soldier->simulateShoot(time, std::ref(soldiers), std::ref(zombies), 100);
-    std::shared_ptr<Soldier> &victim = soldiers.at(2);
-    ASSERT_NEAR(victim->getHealth(), p90_health - p90w_damage * (1 - ((100 - 85) / 100)), 0.5);
+    std::shared_ptr<Zombie> &victim = zombies.at(2);
+    ASSERT_NEAR(victim->getHealth(), zombie_health - p90w_damage * (1.0 - ((100.0 - 85.0) / 100.0)), 0.5);
 
 }
 
-TEST(weapon_test, Test02ShootP90ToTwoSoldiersInTheSameRow) {
+TEST(weapon_test, Test02ShootP90ToTwoZombiesInTheSameRow) {
     SoldierFactory sfactory;
+    ZombieFactory zfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
     std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_2);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, SOLDIER_2);
-    std::shared_ptr<Soldier> soldier3 = sfactory.create(3, SOLDIER_2);
+    std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
+    std::shared_ptr<Zombie> zombie2 = zfactory.create(3, ZOMBIE);
     Position pos(10, 10, soldier->getWidth(), soldier->getHeight(),100,100);
-    Position pos2(15, 10, soldier2->getWidth(), soldier2->getHeight(),100,100);
-    Position pos3(20, 10, soldier3->getWidth(), soldier3->getHeight(),100,100);
+    Position pos2(15, 10, zombie->getWidth(), zombie->getHeight(),100,100);
+    Position pos3(20, 10, zombie2->getWidth(), zombie2->getHeight(),100,100);
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
-    ASSERT_NO_THROW(soldier2->setPosition(std::move(pos2)));
-    ASSERT_NO_THROW(soldier3->setPosition(std::move(pos3)));
-    soldiers.emplace(2, std::move(soldier2));
-    soldiers.emplace(3, std::move(soldier3));
+    ASSERT_NO_THROW(zombie->setPosition(std::move(pos2)));
+    ASSERT_NO_THROW(zombie2->setPosition(std::move(pos3)));
+    zombies.emplace(2, std::move(zombie));
+    zombies.emplace(3, std::move(zombie2));
     soldier->shoot(ON);
-    uint16_t time = 20;
+    double time = 20;
     soldier->simulateShoot(time, std::ref(soldiers), std::ref(zombies), 100);
-    std::shared_ptr<Soldier> &victim2 = soldiers.at(2);
-    std::shared_ptr<Soldier> &victim3 = soldiers.at(3);
-    ASSERT_NEAR(victim2->getHealth(), p90_health - p90w_damage * (1 - ((100 - 5) / 100)), 0.5);
-    ASSERT_NEAR(victim3->getHealth(), p90_health, 0.5);
+    std::shared_ptr<Zombie> &victim2 = zombies.at(2);
+    std::shared_ptr<Zombie> &victim3 = zombies.at(3);
+    ASSERT_NEAR(victim2->getHealth(), zombie_health - p90w_damage * (1.0 - ((100.0 - 5.0) / 100.0)), 0.5);
+    ASSERT_NEAR(victim3->getHealth(), zombie_health, 0.5);
 
 }
 
 TEST(weapon_test, Test03ShootP90AndMiss) {
     SoldierFactory sfactory;
+    ZombieFactory zfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
     std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_2);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, SOLDIER_2);
+    std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
     Position pos(100, 10, soldier->getWidth(), soldier->getHeight(),100,100);
-    Position pos2(500, 100, soldier2->getWidth(), soldier2->getHeight(),100,100);
+    Position pos2(500, 100, zombie->getWidth(), zombie->getHeight(),100,100);
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
-    ASSERT_NO_THROW(soldier2->setPosition(std::move(pos2)));
-    soldiers.emplace(2, std::move(soldier2));
+    ASSERT_NO_THROW(zombie->setPosition(std::move(pos2)));
+    zombies.emplace(2, std::move(zombie));
     soldier->shoot(ON);
-    uint16_t time = 10;
+    double time = 10;
     soldier->simulateShoot(time, std::ref(soldiers), std::ref(zombies), 100);
-    std::shared_ptr<Soldier> &victim = soldiers.at(2);
-    ASSERT_NEAR(victim->getHealth(), p90_health, 0.5);
+    std::shared_ptr<Zombie> &victim = zombies.at(2);
+    ASSERT_NEAR(victim->getHealth(), zombie_health, 0.5);
 
 }
 
 TEST(weapon_test, Test04ShootScout) {
     SoldierFactory sfactory;
+    ZombieFactory zfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
     std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_3);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, SOLDIER_2);
+    std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
     Position pos(10, 10, soldier->getWidth(), soldier->getHeight(),100,100);
-    Position pos2(15, 10, soldier2->getWidth(), soldier2->getHeight(),100,100);
+    Position pos2(15, 10, zombie->getWidth(), zombie->getHeight(),100,100);
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
-    ASSERT_NO_THROW(soldier2->setPosition(std::move(pos2)));
-    soldiers.emplace(2, std::move(soldier2));
+    ASSERT_NO_THROW(zombie->setPosition(std::move(pos2)));
+    zombies.emplace(2, std::move(zombie));
     soldier->shoot(ON);
-    uint16_t time = 10;
+    double time = 10;
     soldier->simulateShoot(time, std::ref(soldiers), std::ref(zombies), 100);
-    std::shared_ptr<Soldier> &victim = soldiers.at(2);
-    ASSERT_NEAR(victim->getHealth(), p90_health - scoutw_damage, 0.5);
+    std::shared_ptr<Zombie> &victim = zombies.at(2);
+    ASSERT_NEAR(victim->getHealth(), zombie_health - scoutw_damage, 0.5);
 
 }
 
 TEST(weapon_test, Test05ShootScoutToTwoSoldiersInTheSameRowRight) {
     SoldierFactory sfactory;
+    ZombieFactory zfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
     std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_3);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, SOLDIER_2);
-    std::shared_ptr<Soldier> soldier3 = sfactory.create(3, SOLDIER_2);
+    std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
+    std::shared_ptr<Zombie> zombie2 = zfactory.create(3, ZOMBIE);
     Position pos(10, 10, soldier->getWidth(), soldier->getHeight(),100,100);
-    Position pos2(15, 10, soldier2->getWidth(), soldier2->getHeight(),100,100);
-    Position pos3(20, 10, soldier3->getWidth(), soldier3->getHeight(),100,100);
+    Position pos2(15, 10, zombie->getWidth(), zombie->getHeight(),100,100);
+    Position pos3(20, 10, zombie2->getWidth(), zombie2->getHeight(),100,100);
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
-    ASSERT_NO_THROW(soldier2->setPosition(std::move(pos2)));
-    ASSERT_NO_THROW(soldier3->setPosition(std::move(pos3)));
-    soldiers.emplace(2, std::move(soldier2));
-    soldiers.emplace(3, std::move(soldier3));
+    ASSERT_NO_THROW(zombie->setPosition(std::move(pos2)));
+    ASSERT_NO_THROW(zombie2->setPosition(std::move(pos3)));
+    zombies.emplace(2, std::move(zombie));
+    zombies.emplace(3, std::move(zombie2));
     soldier->shoot(ON);
-    uint16_t time = 30;
+    double time = 30;
     soldier->simulateShoot(time, std::ref(soldiers), std::ref(zombies), 100);
-    std::shared_ptr<Soldier> &victim2 = soldiers.at(2);
-    std::shared_ptr<Soldier> &victim3 = soldiers.at(3);
-    ASSERT_NEAR(victim2->getHealth(), p90_health - scoutw_damage , 0.5);
-    ASSERT_NEAR(victim3->getHealth(), p90_health - scoutw_damage * scoutw_reduction , 0.5);
+    std::shared_ptr<Zombie> &victim2 = zombies.at(2);
+    std::shared_ptr<Zombie> &victim3 = zombies.at(3);
+    ASSERT_NEAR(victim2->getHealth(), zombie_health - scoutw_damage , 0.5);
+    ASSERT_NEAR(victim3->getHealth(), zombie_health - scoutw_damage * scoutw_reduction , 0.5);
 
 }
 
 TEST(weapon_test, Test06ShootScoutToTwoSoldiersInTheSameRowLeft) {
     SoldierFactory sfactory;
+    ZombieFactory zfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
     std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_3);
-    std::shared_ptr<Soldier> soldier2 = sfactory.create(2, SOLDIER_2);
-    std::shared_ptr<Soldier> soldier3 = sfactory.create(3, SOLDIER_2);
+    std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
+    std::shared_ptr<Zombie> zombie2 = zfactory.create(3, ZOMBIE);
     Position pos(20, 10, soldier->getWidth(), soldier->getHeight(),100,100);
-    Position pos2(15, 10, soldier2->getWidth(), soldier2->getHeight(),100,100);
-    Position pos3(10, 10, soldier3->getWidth(), soldier3->getHeight(),100,100);
+    Position pos2(15, 10, zombie->getWidth(), zombie->getHeight(),100,100);
+    Position pos3(10, 10, zombie2->getWidth(), zombie2->getHeight(),100,100);
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
-    ASSERT_NO_THROW(soldier2->setPosition(std::move(pos2)));
-    ASSERT_NO_THROW(soldier3->setPosition(std::move(pos3)));
-    soldiers.emplace(2, std::move(soldier2));
-    soldiers.emplace(3, std::move(soldier3));
+    ASSERT_NO_THROW(zombie->setPosition(std::move(pos2)));
+    ASSERT_NO_THROW(zombie2->setPosition(std::move(pos3)));
+    zombies.emplace(2, std::move(zombie));
+    zombies.emplace(3, std::move(zombie2));
     soldier->move(ON, X, LEFT, NORMAL);
     soldier->shoot(ON);
-    uint16_t time = 30;
+    double time = 30;
     soldier->simulateMove(1, std::ref(soldiers), std::ref(zombies),100,100);
     soldier->simulateShoot(time, std::ref(soldiers), std::ref(zombies), 100);
-    std::shared_ptr<Soldier> &victim2 = soldiers.at(2);
-    std::shared_ptr<Soldier> &victim3 = soldiers.at(3);
-    ASSERT_NEAR(victim2->getHealth(), p90_health - scoutw_damage , 0.5);
-    ASSERT_NEAR(victim3->getHealth(), p90_health - scoutw_damage * scoutw_reduction , 0.5);
+    std::shared_ptr<Zombie> &victim2 = zombies.at(2);
+    std::shared_ptr<Zombie> &victim3 = zombies.at(3);
+    ASSERT_NEAR(victim2->getHealth(), zombie_health - scoutw_damage , 0.5);
+    ASSERT_NEAR(victim3->getHealth(), zombie_health - scoutw_damage * scoutw_reduction , 0.5);
 
 }
 

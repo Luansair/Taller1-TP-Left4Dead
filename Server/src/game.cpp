@@ -67,6 +67,7 @@ void Game::run() {
 
         const std::shared_ptr<Information>& feedback_ptr =
                 std::make_shared<GameStateFeedback>(std::move(state));
+        //Las siguientes 20 líneas podrían estar encapsuladas en un método privado
         for (
                 auto player_queue = player_queues.begin();
                 player_queue !=player_queues.end(); ) {

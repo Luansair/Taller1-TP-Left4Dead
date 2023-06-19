@@ -35,5 +35,9 @@ void ClientGame::launch() {
         game_visual.draw(frame_ticks);
 
         game_visual.present();
+
+        information_ptr = nullptr;
+
+        SDL_Delay(10);
     }
 }

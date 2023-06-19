@@ -6,6 +6,7 @@
 #include "../Zombies/zombie.h"
 #include "../position.h"
 #include "../hitbox.h"
+#include "../radialhitbox.h"
 #include "../../../../Common/include/Information/information_code.h"
 
 #include <map>
@@ -25,12 +26,14 @@ public:
     std::unique_ptr<Weapon> weapon;
     std::unique_ptr<Grenade> grenade;
     int8_t dir_x = RIGHT;
-    double counter = 10;
+    double counter = 10000;
+    double revive_radius = 100.0;
     bool dying = false;
     bool moving = false;
     bool shooting = false;
     bool reloading = false;
     bool throwing = false;
+    bool reviving = false;
     bool alive = true;
 
     explicit Soldier(
@@ -63,6 +66,8 @@ public:
     virtual void idle(uint8_t state);
     virtual void recvDamage(double damage);
     virtual void die(uint8_t state);
+    virtual void revive(uint8_t state);
+    virtual void be_revived(void);
 
     /* SIMULADORES */
 
@@ -79,6 +84,8 @@ public:
     virtual void simulateReload(double time);
     virtual void simulateThrow(double time);
     virtual void simulateDie(void);
+    virtual void simulateRevive(double time,
+    std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers);
 
     /* GETTERS */
 

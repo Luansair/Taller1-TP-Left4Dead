@@ -36,6 +36,13 @@ void Match::shoot(uint32_t soldier_id, uint8_t state) {
     }
 }
 
+void Match::revive(uint32_t soldier_id, uint8_t state) {
+    if (soldiers.count(soldier_id)>0) {
+        std::shared_ptr<Soldier> &soldier = soldiers.at(soldier_id);
+        soldier->revive(state);
+    }
+}
+
 void Match::reload(uint32_t soldier_id, uint8_t state) {
     if (soldiers.count(soldier_id)>0) {
         std::shared_ptr<Soldier> &soldier = soldiers.at(soldier_id);

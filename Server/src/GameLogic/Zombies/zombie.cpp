@@ -116,7 +116,7 @@ void Zombie::simulateMove(double time,
     bool collision = false;
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
         Position other_pos = i->second->getPosition();
-        if (sight_zone.hits(other_pos)) {
+        if (sight_zone.hits(other_pos) && !(i->second->dying)) {
             new_distance = std::sqrt(std::pow(std::abs(position.getXPos() - other_pos.getXPos()), 2) + std::pow(std::abs(position.getYPos() - other_pos.getYPos()), 2));
             if (distance > new_distance) {
                 distance = new_distance;
@@ -163,7 +163,7 @@ void Zombie::simulateAttack(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
     double dim_x) {
-        att_vic->recvDamage(40.0);
+        att_vic->recvDamage(0.1);
     }
 
 /* GETTERS */

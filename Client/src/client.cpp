@@ -4,6 +4,8 @@
 #include "../include/client.h"
 #include "../../Common/include/Information/Actions/shoot_start.h"
 #include "../../Common/include/Information/Actions/shoot_stop.h"
+#include "../../Common/include/Information/Actions/revive_start.h"
+#include "../../Common/include/Information/Actions/revive_stop.h"
 #include "../../Common/include/Information/Actions/game_join.h"
 #include "../../Common/include/Information/Actions/game_create.h"
 #include "../../Common/include/Information/information_code.h"
@@ -52,6 +54,11 @@ void Client::processEvent(std::uint32_t event_type, int key_code, bool *quit)
                     make_shared<StartShootAction>());
             break;
 
+        case SDLK_x:
+            actions_to_send.push(
+                    make_shared<StartReviveAction>());
+            break;
+
         case SDLK_RIGHT:
             actions_to_send.push(
                     make_shared<StartMovingRightAction>());
@@ -83,6 +90,11 @@ void Client::processEvent(std::uint32_t event_type, int key_code, bool *quit)
         case SDLK_z:
             actions_to_send.push(
                     make_shared<StopShootAction>());
+            break;
+
+        case SDLK_x:
+            actions_to_send.push(
+                    make_shared<StopReviveAction>());
             break;
 
         case SDLK_RIGHT:

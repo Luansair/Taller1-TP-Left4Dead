@@ -10,4 +10,3 @@ StartShootCommand::StartShootCommand(std::uint8_t player_id) :
 void StartShootCommand::execute(Match &match) const {
     match.shoot(player_id, ActionState::ON);
 }
-

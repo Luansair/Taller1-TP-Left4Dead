@@ -95,6 +95,7 @@
     "any": "cpp",
     "set": "cpp",
     "optional": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "valarray": "cpp"
   }
 }

@@ -102,7 +102,7 @@ void Soldier::recvDamage(double damage) {
 void Soldier::die(uint8_t state) {
     switch(state) {
         case ON:
-            counter = 10;
+            counter = 10000;
             shooting = moving = throwing = false;
             dying = true;
             break;
@@ -110,6 +110,23 @@ void Soldier::die(uint8_t state) {
             dying = false;
             break;
     }
+}
+
+void Soldier::revive(uint8_t state) {
+    switch(state) {
+        case ON:
+            shooting = moving = throwing = false;
+            reviving = true;
+            break;
+        case OFF:
+            reviving = false;
+            break;
+    }
+}
+
+void Soldier::be_revived(void) {
+    dying = false;
+    health = 100;
 }
 
 /* SIMULADORES */
@@ -124,6 +141,22 @@ void Soldier::simulate(double time,
     if (reloading) simulateReload(time);
     if (shooting) simulateShoot(time, soldiers, zombies, dim_x);
     if (throwing) simulateThrow(time);
+    if (reviving) simulateRevive(time, soldiers);
+}
+
+void Soldier::simulateRevive(double time, std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers) {
+        // verifico las colisiones.
+    
+    RadialHitbox revive_zone(position.getXPos(), position.getYPos(), revive_radius);
+    for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
+        Position other_pos = i->second->getPosition();
+        if (i->second->getId() == soldier_id) continue;
+        if (revive_zone.hits(other_pos)) {
+            if (i->second->dying) {
+                i->second->be_revived();
+            }
+        }
+    }
 }
 
 void Soldier::simulateDie(void) {

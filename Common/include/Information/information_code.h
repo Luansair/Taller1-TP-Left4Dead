@@ -9,6 +9,7 @@ enum InformationID : std::uint8_t {
     ACTION_MOVE,
     ACTION_RELOAD,
     ACTION_THROW,
+    ACTION_REVIVE,
     REQUEST_CREATE_GAME,
     REQUEST_JOIN_GAME,
     FEEDBACK_CREATE_GAME,

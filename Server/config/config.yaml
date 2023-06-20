@@ -22,19 +22,19 @@ idfsoldier:
 p90weapon:
   damage: 50
   ammo: 30
-  scope: 2
+  scope: 30
   damage_reduction_coef: 0.8
 
 scoutweapon:
   damage: 60
   ammo: 20
-  scope: 2
+  scope: 30
   damage_reduction_coef: 0.8
 
 idfweapon:
   damage: 80
   ammo: 50
-  scope: 2
+  scope: 30
   damage_reduction_coef: 0.8
 
 zombie:

@@ -16,12 +16,13 @@ class Zombie {
 public:
     uint32_t zombie_id;
     int8_t dir = RIGHT;
-    uint8_t axis = 0;
+    uint8_t axis = X;
     double speed;
     double health;
     double width;
     double height;
     double sight = 200.0;
+    double damage_recv = 0.0;
     Position position;
     int8_t dir_x = RIGHT;
     double counter = 10;
@@ -29,6 +30,7 @@ public:
     bool attacking = false;
     bool dying = false;
     bool alive = true;
+    bool being_hurt = false;
     std::shared_ptr<Soldier> att_vic;
 
     virtual ~Zombie() {}
@@ -47,7 +49,7 @@ public:
     int8_t moveDirection);
     virtual void attack(uint8_t state, std::shared_ptr<Soldier> victim);
     virtual void idle(uint8_t state);
-    virtual void recvDamage(double damage);
+    virtual void recvDamage(uint8_t state, double damage);
     virtual void die(uint8_t state);
 
     /* SIMULADORES */
@@ -63,6 +65,7 @@ public:
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
     double dim_x);
     virtual void simulateDie(void);
+    virtual void simulateRecvDamage(double time);
 
     /* GETTERS */
 

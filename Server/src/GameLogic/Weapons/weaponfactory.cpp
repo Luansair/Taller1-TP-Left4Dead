@@ -8,7 +8,7 @@ std::unique_ptr<Weapon> WeaponFactory::create(uint8_t weapon_type) {
     Node p90w_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["p90weapon"];
 
     const auto p90w_ammo =
-        p90w_config["ammo"].as<std::uint8_t>();
+        p90w_config["ammo"].as<std::uint16_t>();
     const auto p90w_damage =
         p90w_config["damage"].as<double>();
     const auto p90w_scope =
@@ -19,7 +19,7 @@ std::unique_ptr<Weapon> WeaponFactory::create(uint8_t weapon_type) {
     Node scoutw_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["scoutweapon"];
 
     const auto scoutw_ammo =
-        scoutw_config["ammo"].as<std::uint8_t>();
+        scoutw_config["ammo"].as<std::uint16_t>();
     const auto scoutw_damage =
         scoutw_config["damage"].as<double>();
     const auto scoutw_scope =
@@ -30,7 +30,7 @@ std::unique_ptr<Weapon> WeaponFactory::create(uint8_t weapon_type) {
     Node idfw_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["idfweapon"];
 
     const auto idfw_ammo =
-        idfw_config["ammo"].as<std::uint8_t>();
+        idfw_config["ammo"].as<std::uint16_t>();
     const auto idfw_damage =
         idfw_config["damage"].as<double>();
     const auto idfw_scope =

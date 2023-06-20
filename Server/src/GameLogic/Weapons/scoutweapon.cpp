@@ -4,7 +4,7 @@
 
 #include <queue>
 
-ScoutWeapon::ScoutWeapon(uint8_t ammo, double damage, double scope, double reduction) :
+ScoutWeapon::ScoutWeapon(uint16_t ammo, double damage, double scope, double reduction) :
     ammo(ammo),
     actual_ammo(ammo),
     damage(damage),
@@ -29,7 +29,7 @@ bool ScoutWeapon::shoot(
 
         for (auto i = zombies.begin(); i != zombies.end(); i++) {
             Position victim_pos = i->second->getPosition();
-            if (hitbox.shoot_hits(victim_pos)) {
+            if (hitbox.shoot_hits(victim_pos) && !(i->second->dying)) {
                 victims_queue.push(i->second);
             }
         }
@@ -40,7 +40,7 @@ bool ScoutWeapon::shoot(
         double actual_damage = damage;
         while(!victims_queue.empty()) {
             const std::shared_ptr<Zombie> &victim = victims_queue.top();
-            victim->recvDamage(actual_damage);
+            victim->recvDamage(ON, actual_damage);
             victims_queue.pop();
             actual_damage = actual_damage * damage_reduction_coef;
         }
@@ -51,7 +51,7 @@ bool ScoutWeapon::shoot(
 
         for (auto i = zombies.begin(); i != zombies.end(); i++) {
             Position victim_pos = i->second->getPosition();
-            if (hitbox.shoot_hits(victim_pos)) {
+            if (hitbox.shoot_hits(victim_pos) && !(i->second->dying)) {
                 victims_queue.push(i->second);
             }
         }
@@ -62,7 +62,7 @@ bool ScoutWeapon::shoot(
         double actual_damage = damage;
         while(!victims_queue.empty()) {
             const std::shared_ptr<Zombie> &victim = victims_queue.top();
-            victim->recvDamage(actual_damage);
+            victim->recvDamage(ON, actual_damage);
             victims_queue.pop();
             actual_damage = actual_damage * damage_reduction_coef;
         }

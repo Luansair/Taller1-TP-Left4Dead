@@ -2,7 +2,7 @@
 #include "../../../include/GameLogic/Soldiers/soldier.h"
 #include "../../../include/GameLogic/Zombies/zombie.h"
 
-P90Weapon::P90Weapon(uint8_t ammo, double damage, double scope, double reduction) :
+P90Weapon::P90Weapon(uint16_t ammo, double damage, double scope, double reduction) :
     ammo(ammo),
     actual_ammo(ammo),
     damage(damage),
@@ -35,7 +35,7 @@ bool P90Weapon::shoot(
     // verifico las colisiones.
     for (auto i = zombies.begin(); i != zombies.end(); i++) {
         Position victim_pos = i->second->getPosition();
-        if (hitbox.shoot_hits(victim_pos)) {
+        if (hitbox.shoot_hits(victim_pos) && !(i->second->dying)) {
             if (dir == RIGHT) {
                 new_distance = victim_pos.getXPos() - hitbox.getXMin();
             } else if (dir == LEFT) {
@@ -52,7 +52,7 @@ bool P90Weapon::shoot(
 
     if (collision) {
         double actual_damage = damage * (1.0 - ((dim_x - distance) / dim_x));
-        (zombies.at(victim_id))->recvDamage(actual_damage);
+        (zombies.at(victim_id))->recvDamage(ON, actual_damage);
     }
     // resto balas/rafagas
     actual_ammo -= 1;

@@ -62,7 +62,7 @@ const auto idf_grenade =
 Node p90w_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["p90weapon"];
 
 const auto p90w_ammo =
-    p90w_config["ammo"].as<std::uint8_t>();
+    p90w_config["ammo"].as<std::uint16_t>();
 const auto p90w_damage =
     p90w_config["damage"].as<double>();
 const auto p90w_scope =
@@ -73,7 +73,7 @@ const auto p90w_reduction =
 Node scoutw_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["scoutweapon"];
 
 const auto scoutw_ammo =
-    scoutw_config["ammo"].as<std::uint8_t>();
+    scoutw_config["ammo"].as<std::uint16_t>();
 const auto scoutw_damage =
     scoutw_config["damage"].as<double>();
 const auto scoutw_scope =
@@ -84,7 +84,7 @@ const auto scoutw_reduction =
 Node idfw_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["idfweapon"];
 
 const auto idfw_ammo =
-    idfw_config["ammo"].as<std::uint8_t>();
+    idfw_config["ammo"].as<std::uint16_t>();
 const auto idfw_damage =
     idfw_config["damage"].as<double>();
 const auto idfw_scope =
@@ -113,8 +113,9 @@ TEST(weapon_test, Test01ShootP90) {
     zombies.emplace(2, std::move(zombie));
     soldier->shoot(ON);
     double time = 1000;
-    soldier->simulateShoot(time, std::ref(soldiers), std::ref(zombies), 100);
+    soldier->simulate(time, std::ref(soldiers), std::ref(zombies), 100,100);
     std::shared_ptr<Zombie> &victim = zombies.at(2);
+    victim->simulate(time, soldiers, zombies, 100, 100);
     ASSERT_NEAR(victim->getHealth(), zombie_health - p90w_damage * (1.0 - ((100.0 - 85.0) / 100.0)), 0.5);
 
 }
@@ -137,9 +138,11 @@ TEST(weapon_test, Test02ShootP90ToTwoZombiesInTheSameRow) {
     zombies.emplace(3, std::move(zombie2));
     soldier->shoot(ON);
     double time = 20;
-    soldier->simulateShoot(time, std::ref(soldiers), std::ref(zombies), 100);
+    soldier->simulate(time, std::ref(soldiers), std::ref(zombies), 100, 100);
     std::shared_ptr<Zombie> &victim2 = zombies.at(2);
     std::shared_ptr<Zombie> &victim3 = zombies.at(3);
+    victim2->simulate(time, soldiers, zombies, 100, 100);
+    victim3->simulate(time, soldiers, zombies, 100, 100);
     ASSERT_NEAR(victim2->getHealth(), zombie_health - p90w_damage * (1.0 - ((100.0 - 5.0) / 100.0)), 0.5);
     ASSERT_NEAR(victim3->getHealth(), zombie_health, 0.5);
 
@@ -159,8 +162,9 @@ TEST(weapon_test, Test03ShootP90AndMiss) {
     zombies.emplace(2, std::move(zombie));
     soldier->shoot(ON);
     double time = 10;
-    soldier->simulateShoot(time, std::ref(soldiers), std::ref(zombies), 100);
+    soldier->simulate(time, std::ref(soldiers), std::ref(zombies), 100, 100);
     std::shared_ptr<Zombie> &victim = zombies.at(2);
+    victim->simulate(time, soldiers, zombies, 100, 100);
     ASSERT_NEAR(victim->getHealth(), zombie_health, 0.5);
 
 }
@@ -179,8 +183,9 @@ TEST(weapon_test, Test04ShootScout) {
     zombies.emplace(2, std::move(zombie));
     soldier->shoot(ON);
     double time = 10;
-    soldier->simulateShoot(time, std::ref(soldiers), std::ref(zombies), 100);
+    soldier->simulate(time, std::ref(soldiers), std::ref(zombies), 100, 100);
     std::shared_ptr<Zombie> &victim = zombies.at(2);
+    victim->simulate(time, soldiers, zombies, 100, 100);
     ASSERT_NEAR(victim->getHealth(), zombie_health - scoutw_damage, 0.5);
 
 }
@@ -203,9 +208,11 @@ TEST(weapon_test, Test05ShootScoutToTwoSoldiersInTheSameRowRight) {
     zombies.emplace(3, std::move(zombie2));
     soldier->shoot(ON);
     double time = 30;
-    soldier->simulateShoot(time, std::ref(soldiers), std::ref(zombies), 100);
+    soldier->simulate(time, std::ref(soldiers), std::ref(zombies), 100, 100);
     std::shared_ptr<Zombie> &victim2 = zombies.at(2);
     std::shared_ptr<Zombie> &victim3 = zombies.at(3);
+    victim2->simulate(time, soldiers, zombies, 100, 100);
+    victim3->simulate(time, soldiers, zombies, 100, 100);
     ASSERT_NEAR(victim2->getHealth(), zombie_health - scoutw_damage , 0.5);
     ASSERT_NEAR(victim3->getHealth(), zombie_health - scoutw_damage * scoutw_reduction , 0.5);
 
@@ -227,13 +234,15 @@ TEST(weapon_test, Test06ShootScoutToTwoSoldiersInTheSameRowLeft) {
     ASSERT_NO_THROW(zombie2->setPosition(std::move(pos3)));
     zombies.emplace(2, std::move(zombie));
     zombies.emplace(3, std::move(zombie2));
-    soldier->move(ON, X, LEFT, NORMAL);
-    soldier->shoot(ON);
     double time = 30;
-    soldier->simulateMove(1, std::ref(soldiers), std::ref(zombies),100,100);
-    soldier->simulateShoot(time, std::ref(soldiers), std::ref(zombies), 100);
+    soldier->move(ON, X, LEFT, NORMAL);
+    soldier->simulate(time, std::ref(soldiers), std::ref(zombies), 100, 100);
+    soldier->shoot(ON);
+    soldier->simulate(time, std::ref(soldiers), std::ref(zombies), 100, 100);
     std::shared_ptr<Zombie> &victim2 = zombies.at(2);
     std::shared_ptr<Zombie> &victim3 = zombies.at(3);
+    victim2->simulate(time, soldiers, zombies, 100, 100);
+    victim3->simulate(time, soldiers, zombies, 100, 100);
     ASSERT_NEAR(victim2->getHealth(), zombie_health - scoutw_damage , 0.5);
     ASSERT_NEAR(victim3->getHealth(), zombie_health - scoutw_damage * scoutw_reduction , 0.5);
 

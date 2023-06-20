@@ -20,20 +20,20 @@ idfsoldier:
   grenade_type: 2
 
 p90weapon:
-  damage: 50
-  ammo: 30
+  damage: 1
+  ammo: 300
   scope: 30
   damage_reduction_coef: 0.8
 
 scoutweapon:
-  damage: 60
-  ammo: 20
+  damage: 1
+  ammo: 200
   scope: 30
   damage_reduction_coef: 0.8
 
 idfweapon:
-  damage: 80
-  ammo: 50
+  damage: 1
+  ammo: 500
   scope: 30
   damage_reduction_coef: 0.8
 

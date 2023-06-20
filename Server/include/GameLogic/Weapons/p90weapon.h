@@ -9,14 +9,14 @@ Debe recargar el arma cada 30 rafagas. */
 
 class P90Weapon : public Weapon {
 private:
-    uint8_t ammo;
-    uint8_t actual_ammo;
+    uint16_t ammo;
+    uint16_t actual_ammo;
     double damage;
     double scope;
     double damage_reduction_coef;
 
 public:
-    explicit P90Weapon(uint8_t ammo, double damage, double scope, double reduction);
+    explicit P90Weapon(uint16_t ammo, double damage, double scope, double reduction);
 
     bool shoot(
     Position& from,

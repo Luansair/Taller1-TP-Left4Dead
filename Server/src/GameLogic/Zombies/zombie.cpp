@@ -28,7 +28,7 @@ void Zombie::move(
     switch(state) {
         case ON:
             moving = true;
-            attacking = false;
+            attacking = being_hurt = false;
             dir = moveDirection;
             dir_x = moveDirection;
             break;
@@ -43,7 +43,7 @@ void Zombie::attack(uint8_t state, std::shared_ptr<Soldier> victim) {
         case ON:
             attacking = true;
             att_vic = victim;
-            moving = false;
+            moving = being_hurt = false;
             break;
         case OFF:
             attacking = false;
@@ -55,8 +55,8 @@ void Zombie::attack(uint8_t state, std::shared_ptr<Soldier> victim) {
 void Zombie::die(uint8_t state) {
     switch(state) {
         case ON:
-            counter = 10;
-            attacking = moving = false;
+            counter = 1000;
+            attacking = moving = being_hurt = false;
             dying = true;
             break;
         case OFF:
@@ -68,20 +68,24 @@ void Zombie::die(uint8_t state) {
 void Zombie::idle(uint8_t state) {
     switch(state) {
         case ON:
-            moving = attacking = false;
+            moving = attacking = being_hurt = false;
             break;
         case OFF:
             break;
     }
 }
 
-void Zombie::recvDamage(double damage) {
-    if (dying) return;
-    if (damage < health) {
-        health -= damage; 
-        return;
+void Zombie::recvDamage(uint8_t state, double damage) {
+    switch(state) {
+        case ON:
+            moving = attacking = false;
+            being_hurt = true;
+            damage_recv = damage;
+            break;
+        case OFF:
+            being_hurt = false;
+            break;
     }
-    die(ON);
 }
 
 /* SIMULADORES */
@@ -92,8 +96,18 @@ void Zombie::simulate(double time,
     if (dying && (counter < 0)) simulateDie();
     counter = counter - 1;
     if (dying) return;
+    if (being_hurt) simulateRecvDamage(time);
     if (attacking) simulateAttack(time, soldiers, zombies, dim_x);
     simulateMove(time, soldiers, zombies, dim_x, dim_y);
+}
+
+void Zombie::simulateRecvDamage(double time) {
+    if (damage_recv < health) {
+        health -= damage_recv; 
+        recvDamage(OFF, 0);
+        return;
+    }
+    die(ON);
 }
 
 void Zombie::simulateDie(void) {
@@ -185,6 +199,7 @@ uint32_t Zombie::getId(void) {
 
 uint8_t Zombie::getAction(void) {
     if (dying) return ZOMBIE_DEAD;
+    if (being_hurt) return ZOMBIE_HURT;
     if (moving) return ZOMBIE_RUN;
     if (attacking) return ZOMBIE_ATTACK_1;
     return ZOMBIE_IDLE;

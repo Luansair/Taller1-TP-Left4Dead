@@ -32,7 +32,7 @@ void Soldier::move(
     switch(state) {
         case ON:
             moving = true;
-            shooting = reloading = throwing = false;
+            shooting = reloading = throwing = reviving = false;
             axis = moveAxis;
             dir = moveDirection;
             speed = moveForce;
@@ -48,7 +48,7 @@ void Soldier::shoot(uint8_t state) {
     switch(state) {
         case ON:
             shooting = true;
-            moving = reloading = throwing = false;
+            moving = reloading = throwing = reviving = false;
             break;
         case OFF:
             shooting = false;
@@ -60,7 +60,8 @@ void Soldier::reload(uint8_t state) {
     switch(state) {
         case ON:
             reloading = true;
-            moving = shooting = throwing = false;
+            reload_time = life_time;
+            moving = shooting = throwing = reviving = false;
             break;
         case OFF:
             reloading = false;
@@ -72,7 +73,7 @@ void Soldier::throwGrenade(uint8_t state){
     switch(state) {
         case ON:
             throwing = true;
-            moving = shooting = reloading = false;
+            moving = shooting = reloading = reviving = false;
             break;
         case OFF:
             throwing = false;
@@ -83,7 +84,7 @@ void Soldier::throwGrenade(uint8_t state){
 void Soldier::idle(uint8_t state) {
     switch(state) {
         case ON:
-            reloading = shooting = moving = throwing = false;
+            reloading = shooting = moving = throwing = reviving = false;
             break;
         case OFF:
             break;
@@ -102,7 +103,7 @@ void Soldier::recvDamage(double damage) {
 void Soldier::die(uint8_t state) {
     switch(state) {
         case ON:
-            counter = 10000;
+            death_time = life_time;
             shooting = moving = throwing = false;
             dying = true;
             break;
@@ -134,14 +135,17 @@ void Soldier::be_revived(void) {
 void Soldier::simulate(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
-    if (dying && (counter < 0)) simulateDie();
-    counter = counter - 1;
-    if (dying) return;
+    if (dying && (life_time - death_time > revive_cooldown)) simulateDie();
+    if (reloading && (life_time - reload_time <= reload_cooldown)) {
+        life_time += time;
+        return;
+    }
+    if (reloading && (life_time - reload_time > reload_cooldown)) simulateReload();
     if (moving) simulateMove(time, soldiers, zombies, dim_x, dim_y);
-    if (reloading) simulateReload(time);
     if (shooting) simulateShoot(time, soldiers, zombies, dim_x);
     if (throwing) simulateThrow(time);
     if (reviving) simulateRevive(time, soldiers);
+    life_time += time;
 }
 
 void Soldier::simulateRevive(double time, std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers) {
@@ -213,8 +217,10 @@ void Soldier::simulateShoot(double time,
     if (!(weapon->shoot(getPosition(), dir, dim_x, time, std::ref(soldiers), std::ref(zombies)))) reload(ON);
 }
 
-void Soldier::simulateReload(double time) {
-    (weapon->reload());
+void Soldier::simulateReload(void) {
+    weapon->reload();
+    reload(OFF);
+    shoot(ON);
 }
 
 void Soldier::simulateThrow(double time) {}

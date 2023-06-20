@@ -26,7 +26,11 @@ public:
     std::unique_ptr<Weapon> weapon;
     std::unique_ptr<Grenade> grenade;
     int8_t dir_x = RIGHT;
-    double counter = 10000;
+    double life_time = 0.0;
+    double death_time = 0.0;
+    double revive_cooldown = 1000.0;
+    double reload_cooldown = 15.0;
+    double reload_time = 0.0;
     double revive_radius = 100.0;
     bool dying = false;
     bool moving = false;
@@ -81,7 +85,7 @@ public:
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
     double dim_x);
-    virtual void simulateReload(double time);
+    virtual void simulateReload(void);
     virtual void simulateThrow(double time);
     virtual void simulateDie(void);
     virtual void simulateRevive(double time,

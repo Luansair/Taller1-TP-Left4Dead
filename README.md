@@ -10,7 +10,7 @@ Luan Shair Corrionero - 102439 - lcorrionero@fi.uba.ar
 
 ## Instalacion / Dependencias
 
-Tener en cuenta que esto es para Linux Ubuntu 22.04. Todavía no se probaron
+Tener en cuenta que esto es para Linux Ubuntu 22.04 o 20.04. Todavía no se probaron
 otros SO.
 
 ### CMake
@@ -25,31 +25,17 @@ sudo apt-get install cmake
 
 Necesario para las animaciones
 
-Primero hay que instalar SDL2:
+Se instalan todas las dependencias necesarias con el manager de ubuntu.
 
-Se descarga el siguiente archivo:
-- https://github.com/libsdl-org/SDL/releases/tag/release-2.26.5
-
-Se descomprime y dentro de la carpeta se ejecuta:
 ```shell
-mkdir build 
-cd build 
-cmake .. 
-make -j4
-sudo make install
+sudo apt-get install libjpeg-dev libpng-dev libfreetype-dev libopusfile-dev libflac-dev libxmp-dev libfluidsynth-dev libwavpack-dev cmake libmodplug-dev libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev libsdl2-gfx-dev
 ```
-
 
 Se descargan los siguientes archivos:
 - libsdl2-image 2.6.3 https://github.com/libsdl-org/SDL_image/releases/tag/release-2.6.3
 - libsdl2-mixer 2.6.3 https://github.com/libsdl-org/SDL_mixer/releases/tag/release-2.6.3
 - libsdl2-ttf 2.20.2 https://github.com/libsdl-org/SDL_ttf/releases/tag/release-2.20.2
 
-Se instalan las dependencias
-
-```shell
-sudo apt-get install libjpeg-dev libpng-dev libfreetype-dev libopusfile-dev libflac-dev libxmp-dev libfluidsynth-dev libwavpack-dev cmake libmodplug-dev libsdl2-dev
-```
 
 Descomprimir los archivos descargados anteriormente y repetir estos pasos 
 para cada uno.
@@ -59,7 +45,7 @@ cd carpeta_sdl_x
 mkdir build 
 cd build 
 cmake .. 
-make -j4
+make -j4 #el numero indica la cantidad de hilos / cores. Se puede cambiar
 sudo make install
 ```
 
@@ -80,28 +66,10 @@ sudo make install
 
 Necesario para leer los archivos de configuracion del juego y persistencia.
 
-Se puede seguir el tutorial del repositorio: https://github.com/jbeder/yaml-cpp
-
-Descargar el archivo: https://github.com/jbeder/yaml-cpp/releases/tag/yaml-cpp-0.7.0
-Descomprimirlo
-Dentro de la carpeta ejecutar
-
-```shell
-mkdir build
-cd build
-cmake ..
-cmake --build .
-```
-
-Se puede remover el directorio `build` luego de instalarlo
-
-Si hay problemas se puede usar la version 0.6.3
-
-Tambien se puede instalar con:
-
 ```shell
 sudo apt-get install libyaml-cpp-dev
 ```
+
 -------------------------
 
 ## Build

@@ -33,7 +33,8 @@ void Soldier::move(
     switch(state) {
         case ON:
             moving = true;
-            shooting = reloading = throwing = reviving = being_hurt = false;
+            // si quisiera seguir recargando -> no cancelar reloading
+            reloading = shooting = throwing = reviving = being_hurt = false;
             axis = moveAxis;
             dir = moveDirection;
             speed = moveForce;
@@ -66,6 +67,7 @@ void Soldier::reload(uint8_t state, std::chrono::_V2::steady_clock::time_point r
             if (reloading) return;
             reloading = true;
             reload_time = reload_start_time;
+            // si quisiera moverme al mismo tiempo -> sacar moving
             moving = shooting = throwing = reviving = being_hurt = false;
             break;
         case OFF:
@@ -91,7 +93,7 @@ void Soldier::recvDamage(uint8_t state, double damage, std::chrono::_V2::steady_
     if (dying) return;
     switch(state) {
         case ON:
-            moving = reloading = shooting = throwing = reviving = false;
+            reloading = shooting = throwing = reviving = false;
             being_hurt = true;
             being_hurt_time = recvdmg_start_time;
             damage_recv = damage;
@@ -103,6 +105,18 @@ void Soldier::recvDamage(uint8_t state, double damage, std::chrono::_V2::steady_
 }
 
 void Soldier::idle(uint8_t state) {
+    // si quisiera disparar y moverme al mismo tiempo:
+    // if (reloading && !moving) return;
+    // if (reloading && moving) {
+    //     switch(state) {
+    //         case ON:
+    //             shooting = moving = throwing = reviving = being_hurt = false;
+    //             break;
+    //         case OFF:
+    //             break;
+    //     }
+    //     return;       
+    // }
     if (reloading) return;
     switch(state) {
         case ON:
@@ -154,7 +168,6 @@ void Soldier::simulate(double time, std::chrono::_V2::steady_clock::time_point r
     // calculo el tiempo que lleva muriendo o recargando
     std::chrono::duration<double> time_reloading = real_time - reload_time;
     std::chrono::duration<double> time_dying = real_time - death_time;
-    std::cout << "elapsed time: " << time_dying.count() << "s\n";
 
     // si está muriendo y el tiempo para revivirlo terminó, se muere.
     if (dying && (time_dying.count() > revive_cooldown)) simulateDie(real_time);
@@ -166,6 +179,8 @@ void Soldier::simulate(double time, std::chrono::_V2::steady_clock::time_point r
 
     // si está recargando y el tiempo de recarga no terminó, sigue recargando.
     if (reloading && (time_reloading.count() <= reload_cooldown)) {
+        // si quisiera mover y recargar al mismo tiempo:
+        // if (moving) simulateMove(time, real_time, soldiers, zombies, dim_x, dim_y);
         return;
     }
 
@@ -173,8 +188,8 @@ void Soldier::simulate(double time, std::chrono::_V2::steady_clock::time_point r
     if (reloading && (time_reloading.count() > reload_cooldown)) simulateReload(real_time);
 
     // simulo el resto de las acciones.
-    if (being_hurt) simulateRecvdmg(real_time);
     if (moving) simulateMove(time, real_time, soldiers, zombies, dim_x, dim_y);
+    if (being_hurt) simulateRecvdmg(real_time);
     if (shooting) simulateShoot(time, real_time, soldiers, zombies, dim_x);
     if (throwing) simulateThrow(time, real_time);
     if (reviving) simulateRevive(time, real_time, soldiers);

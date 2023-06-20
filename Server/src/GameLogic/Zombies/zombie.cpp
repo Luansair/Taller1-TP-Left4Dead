@@ -154,6 +154,7 @@ void Zombie::simulateMove(double time, std::chrono::_V2::steady_clock::time_poin
         int8_t direction;
         if (position.getXPos() > victim->getPosition().getXPos()) {
             // aca el desplazamiento en X en realidad debería depender del tiempo.
+            // pero hardcodeo el 0.006
             next_x = position.getXPos() - ((position.getXPos() - victim->getPosition().getXPos()) * 0.006);
             direction = LEFT;
         } else {

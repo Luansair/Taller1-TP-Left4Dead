@@ -11,7 +11,7 @@
 
 class WeaponFactory {
 public:
-    std::unique_ptr<Weapon> create(uint8_t weapon_type);
+    std::unique_ptr<Weapon> create(uint32_t soldier_id, uint8_t weapon_type);
 };
 
 #endif  // WEAPONFACTORY_H_

@@ -159,6 +159,10 @@ void Soldier::be_revived(void) {
     health = 100;
 }
 
+void Soldier::increase_kill_counter(void) {
+    kill_counter += 1;
+}
+
 /* SIMULADORES */
 
 void Soldier::simulate(double time, std::chrono::_V2::steady_clock::time_point real_time,
@@ -168,6 +172,7 @@ void Soldier::simulate(double time, std::chrono::_V2::steady_clock::time_point r
     // calculo el tiempo que lleva muriendo o recargando
     std::chrono::duration<double> time_reloading = real_time - reload_time;
     std::chrono::duration<double> time_dying = real_time - death_time;
+    std::cout << "kills: " << kill_counter << "\n";
 
     // si está muriendo y el tiempo para revivirlo terminó, se muere.
     if (dying && (time_dying.count() > revive_cooldown)) simulateDie(real_time);

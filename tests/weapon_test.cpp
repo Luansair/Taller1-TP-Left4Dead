@@ -94,9 +94,9 @@ const auto idfw_reduction =
 
 TEST(weapon_test, Test00CreateWeapon) {
     WeaponFactory wfactory;
-    ASSERT_NO_FATAL_FAILURE(wfactory.create(SOLDIER_2));
-    ASSERT_NO_FATAL_FAILURE(wfactory.create(SOLDIER_3));
-    ASSERT_NO_FATAL_FAILURE(wfactory.create(SOLDIER_1));
+    ASSERT_NO_FATAL_FAILURE(wfactory.create(1,SOLDIER_2));
+    ASSERT_NO_FATAL_FAILURE(wfactory.create(2,SOLDIER_3));
+    ASSERT_NO_FATAL_FAILURE(wfactory.create(3,SOLDIER_1));
 }
 
 TEST(weapon_test, Test01ShootP90) {

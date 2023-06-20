@@ -26,7 +26,9 @@ public:
     std::shared_ptr<Soldier> att_vic;
     int8_t dir_x = RIGHT;
     double sight = 200.0;
+    double hit_scope = 10.0;
     double damage_recv = 0.0;
+    uint32_t attacker_id = 500; // num cualquiera
 
     /* tiempos */
     std::chrono::_V2::steady_clock::time_point death_time = std::chrono::steady_clock::now();
@@ -56,7 +58,8 @@ public:
     int8_t moveDirection);
     virtual void attack(uint8_t state, std::shared_ptr<Soldier> victim);
     virtual void idle(uint8_t state);
-    virtual void recvDamage(uint8_t state, double damage, std::chrono::_V2::steady_clock::time_point real_time);
+    virtual void recvDamage(uint8_t state, double damage,
+    std::chrono::_V2::steady_clock::time_point real_time, uint32_t attacker);
     virtual void die(uint8_t state, std::chrono::_V2::steady_clock::time_point real_time);
 
     /* SIMULADORES */
@@ -72,7 +75,8 @@ public:
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
     double dim_x);
     virtual void simulateDie(std::chrono::_V2::steady_clock::time_point real_time);
-    virtual void simulateRecvDamage(double time, std::chrono::_V2::steady_clock::time_point real_time);
+    virtual void simulateRecvDamage(double time, std::chrono::_V2::steady_clock::time_point real_time,
+    std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers);
 
     /* GETTERS */
 

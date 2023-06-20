@@ -1,7 +1,7 @@
 #include "../../../include/GameLogic/Weapons/weaponfactory.h"
 #include "yaml-cpp/yaml.h"
 
-std::unique_ptr<Weapon> WeaponFactory::create(uint8_t weapon_type) {
+std::unique_ptr<Weapon> WeaponFactory::create(uint32_t soldier_id, uint8_t weapon_type) {
     using YAML::LoadFile;
     using YAML::Node;
 
@@ -40,13 +40,13 @@ std::unique_ptr<Weapon> WeaponFactory::create(uint8_t weapon_type) {
 
     switch(weapon_type) {
         case SOLDIER_2: {
-            return std::unique_ptr<Weapon> (new P90Weapon(p90w_ammo, p90w_damage, p90w_scope, p90w_reduction));
+            return std::unique_ptr<Weapon> (new P90Weapon(soldier_id ,p90w_ammo, p90w_damage, p90w_scope, p90w_reduction));
         }
         case SOLDIER_3: {
-            return std::unique_ptr<Weapon> (new ScoutWeapon(scoutw_ammo, scoutw_damage, scoutw_scope, scoutw_reduction));
+            return std::unique_ptr<Weapon> (new ScoutWeapon(soldier_id, scoutw_ammo, scoutw_damage, scoutw_scope, scoutw_reduction));
         }
         case SOLDIER_1: {
-            return std::unique_ptr<Weapon> (new IdfWeapon(idfw_ammo, idfw_damage, idfw_scope, idfw_reduction));
+            return std::unique_ptr<Weapon> (new IdfWeapon(soldier_id, idfw_ammo, idfw_damage, idfw_scope, idfw_reduction));
         }
     }
     return {nullptr};

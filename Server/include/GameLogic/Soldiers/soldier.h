@@ -30,6 +30,7 @@ public:
     int8_t dir_x = RIGHT;
     double revive_radius = 100.0;
     double damage_recv = 0.0;
+    uint16_t kill_counter = 0;
 
     /* tiempos */
     std::chrono::_V2::steady_clock::time_point death_time = std::chrono::steady_clock::now();
@@ -80,6 +81,7 @@ public:
     virtual void die(uint8_t state, std::chrono::_V2::steady_clock::time_point death_start_time);
     virtual void revive(uint8_t state);
     virtual void be_revived(void);
+    void increase_kill_counter(void);
 
     /* SIMULADORES */
 

@@ -70,6 +70,14 @@ Necesario para leer los archivos de configuracion del juego y persistencia.
 sudo apt-get install libyaml-cpp-dev
 ```
 
+### GTest
+
+Necesario para los tests
+
+```shell
+sudo apt-get install libgtest-dev
+```
+
 -------------------------
 
 ## Build

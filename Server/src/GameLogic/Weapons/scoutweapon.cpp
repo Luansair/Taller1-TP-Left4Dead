@@ -17,6 +17,7 @@ bool ScoutWeapon::shoot(
     int8_t dir,
     double dim_x,
     double time,
+    std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies) {
     if (actual_ammo == 0) return false;
@@ -40,7 +41,7 @@ bool ScoutWeapon::shoot(
         double actual_damage = damage;
         while(!victims_queue.empty()) {
             const std::shared_ptr<Zombie> &victim = victims_queue.top();
-            victim->recvDamage(ON, actual_damage);
+            victim->recvDamage(ON, actual_damage, real_time);
             victims_queue.pop();
             actual_damage = actual_damage * damage_reduction_coef;
         }
@@ -62,7 +63,7 @@ bool ScoutWeapon::shoot(
         double actual_damage = damage;
         while(!victims_queue.empty()) {
             const std::shared_ptr<Zombie> &victim = victims_queue.top();
-            victim->recvDamage(ON, actual_damage);
+            victim->recvDamage(ON, actual_damage, real_time);
             victims_queue.pop();
             actual_damage = actual_damage * damage_reduction_coef;
         }

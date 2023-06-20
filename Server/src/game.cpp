@@ -50,12 +50,20 @@ void Game::stop() {
     is_running = false;
 }
 
+    // auto start = std::chrono::steady_clock::now();
+    // std::cout << "f(42) = " << fibonacci(42) << '\n';
+    // auto end = std::chrono::steady_clock::now();
+    // std::chrono::duration<double> elapsed_seconds = end-start;
+    // std::cout << "elapsed time: " << elapsed_seconds.count() << "s\n";
+
+
 void Game::run() {
     using std::this_thread::sleep_for;
     using std::chrono::milliseconds;
+    using std::chrono::_V2::steady_clock;
 
     while (is_running && players_amount > 0) {
-
+        std::chrono::_V2::steady_clock::time_point start = std::chrono::steady_clock::now();
         sleep_for(milliseconds(5));
         std::unique_lock<std::mutex> lck(mtx);
 
@@ -63,7 +71,7 @@ void Game::run() {
 
         if (commands_recv.try_pop(std::ref(command)))
             command->execute(std::ref(match));
-        match.simulateStep();
+        match.simulateStep(start);
         std::vector<std::pair<short unsigned int, ElementStateDTO>>state =
                 match.getElementStates();
 

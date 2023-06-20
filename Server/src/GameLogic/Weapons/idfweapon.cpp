@@ -15,6 +15,7 @@ bool IdfWeapon::shoot(
     int8_t dir,
     double dim_x,
     double time,
+    std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies) {
     if (actual_ammo == 0) return false;
@@ -52,7 +53,7 @@ bool IdfWeapon::shoot(
 
     if (collision) {
         double actual_damage = damage * ((dim_x - distance) / dim_x);
-        (zombies.at(victim_id))->recvDamage(ON, actual_damage);
+        (zombies.at(victim_id))->recvDamage(ON, actual_damage, real_time);
     }
     // resto balas/rafagas
     actual_ammo -= 1;

@@ -56,8 +56,8 @@ public:
     /* Ejecuta revive, parámetros: id del soldado que revive, parámetros revive */
     void revive(uint32_t soldier_id, uint8_t state);
 
-    /* Ejecuta reload, parámetros: id del soldado que recarga, parámetros reload */
-    void reload(uint32_t soldier_id, uint8_t state);
+    // /* Ejecuta reload, parámetros: id del soldado que recarga, parámetros reload */
+    // void reload(uint32_t soldier_id, uint8_t state);
 
     /* Ejecuta move, parámetros: id del soldado que se mueve, parámetros move */
     void move(uint32_t soldier_id, 
@@ -74,7 +74,7 @@ public:
 
     std::map<uint32_t, std::shared_ptr<Soldier>>& getSoldiers(void);
 
-    void simulateStep(void);
+    void simulateStep(std::chrono::_V2::steady_clock::time_point real_time);
     
     std::vector<std::pair<uint16_t, ElementStateDTO >> getElementStates();
 

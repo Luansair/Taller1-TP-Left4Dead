@@ -11,6 +11,7 @@
 #include <cstdint>
 #include <map>
 #include <memory>
+#include <chrono>
 
 class Zombie {
 public:
@@ -21,17 +22,23 @@ public:
     double health;
     double width;
     double height;
+    Position position;
+    std::shared_ptr<Soldier> att_vic;
+    int8_t dir_x = RIGHT;
     double sight = 200.0;
     double damage_recv = 0.0;
-    Position position;
-    int8_t dir_x = RIGHT;
-    double counter = 10;
+
+    /* tiempos */
+    std::chrono::_V2::steady_clock::time_point death_time = std::chrono::steady_clock::now();
+    std::chrono::_V2::steady_clock::time_point being_hurt_time = std::chrono::steady_clock::now();
+    double die_cooldown = 10.0;
+
+    /* estados */
     bool moving = false;
     bool attacking = false;
     bool dying = false;
     bool alive = true;
     bool being_hurt = false;
-    std::shared_ptr<Soldier> att_vic;
 
     virtual ~Zombie() {}
 
@@ -49,23 +56,23 @@ public:
     int8_t moveDirection);
     virtual void attack(uint8_t state, std::shared_ptr<Soldier> victim);
     virtual void idle(uint8_t state);
-    virtual void recvDamage(uint8_t state, double damage);
-    virtual void die(uint8_t state);
+    virtual void recvDamage(uint8_t state, double damage, std::chrono::_V2::steady_clock::time_point real_time);
+    virtual void die(uint8_t state, std::chrono::_V2::steady_clock::time_point real_time);
 
     /* SIMULADORES */
 
-    virtual void simulate(double time,
+    virtual void simulate(double time, std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
-    virtual void simulateMove(double time,
+    virtual void simulateMove(double time, std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
-    virtual void simulateAttack(double time,
+    virtual void simulateAttack(double time, std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
     double dim_x);
-    virtual void simulateDie(void);
-    virtual void simulateRecvDamage(double time);
+    virtual void simulateDie(std::chrono::_V2::steady_clock::time_point real_time);
+    virtual void simulateRecvDamage(double time, std::chrono::_V2::steady_clock::time_point real_time);
 
     /* GETTERS */
 

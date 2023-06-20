@@ -52,10 +52,10 @@ void Zombie::attack(uint8_t state, std::shared_ptr<Soldier> victim) {
     }
 }
 
-void Zombie::die(uint8_t state) {
+void Zombie::die(uint8_t state, std::chrono::_V2::steady_clock::time_point death_start_time) {
     switch(state) {
         case ON:
-            counter = 1000;
+            death_time = death_start_time;
             attacking = moving = being_hurt = false;
             dying = true;
             break;
@@ -75,12 +75,13 @@ void Zombie::idle(uint8_t state) {
     }
 }
 
-void Zombie::recvDamage(uint8_t state, double damage) {
+void Zombie::recvDamage(uint8_t state, double damage, std::chrono::_V2::steady_clock::time_point recvdmg_start_time) {
     switch(state) {
         case ON:
             moving = attacking = false;
             being_hurt = true;
             damage_recv = damage;
+            being_hurt_time = recvdmg_start_time;
             break;
         case OFF:
             being_hurt = false;
@@ -90,31 +91,35 @@ void Zombie::recvDamage(uint8_t state, double damage) {
 
 /* SIMULADORES */
 
-void Zombie::simulate(double time,
+// función para pasar de segundos a chrono::duration
+
+void Zombie::simulate(double time, std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
-    if (dying && (counter < 0)) simulateDie();
-    counter = counter - 1;
+
+    // calculo el tiempo que lleva muriendo
+    std::chrono::duration<double> time_dying = real_time - death_time;
+    if (dying && (time_dying.count() > die_cooldown)) simulateDie(real_time);
     if (dying) return;
-    if (being_hurt) simulateRecvDamage(time);
-    if (attacking) simulateAttack(time, soldiers, zombies, dim_x);
-    simulateMove(time, soldiers, zombies, dim_x, dim_y);
+    if (being_hurt) simulateRecvDamage(time, real_time);
+    if (attacking) simulateAttack(time, real_time, soldiers, zombies, dim_x);
+    simulateMove(time, real_time, soldiers, zombies, dim_x, dim_y);
 }
 
-void Zombie::simulateRecvDamage(double time) {
+void Zombie::simulateRecvDamage(double time, std::chrono::_V2::steady_clock::time_point real_time) {
     if (damage_recv < health) {
         health -= damage_recv; 
-        recvDamage(OFF, 0);
+        recvDamage(OFF, 0, real_time);
         return;
     }
-    die(ON);
+    die(ON, real_time);
 }
 
-void Zombie::simulateDie(void) {
+void Zombie::simulateDie(std::chrono::_V2::steady_clock::time_point real_time) {
     alive = false;
 }
 
-void Zombie::simulateMove(double time,
+void Zombie::simulateMove(double time, std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
 
@@ -173,11 +178,11 @@ void Zombie::simulateMove(double time,
 
 }
 
-void Zombie::simulateAttack(double time,
+void Zombie::simulateAttack(double time, std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
     double dim_x) {
-        att_vic->recvDamage(0.1);
+        att_vic->recvDamage(ON, 0.2, real_time);
     }
 
 /* GETTERS */

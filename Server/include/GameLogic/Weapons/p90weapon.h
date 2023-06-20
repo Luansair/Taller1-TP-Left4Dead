@@ -23,6 +23,7 @@ public:
     int8_t dir,
     double dim_x,
     double time,
+    std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies) override;
 

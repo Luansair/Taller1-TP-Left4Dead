@@ -25,7 +25,7 @@ TEST(match_test, Test00CreateMatch) {
 TEST(match_test, Test01InserSoldier) {
 
     Match match(100,100);
-    ASSERT_NO_FATAL_FAILURE(match.join(1,SOLDIER_1));
+    ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     ASSERT_NO_THROW(soldiers.at(1));
 
@@ -34,9 +34,9 @@ TEST(match_test, Test01InserSoldier) {
 TEST(match_test, Test02InsertSomeSoldiers) {
 
     Match match(100,100);
-    ASSERT_NO_FATAL_FAILURE(match.join(1,SOLDIER_1));
-    ASSERT_NO_FATAL_FAILURE(match.join(2,SOLDIER_1));
-    ASSERT_NO_FATAL_FAILURE(match.join(3,SOLDIER_1));
+    ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
+    ASSERT_NO_FATAL_FAILURE(match.join(2, SOLDIER_IDF));
+    ASSERT_NO_FATAL_FAILURE(match.join(3, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     ASSERT_NO_THROW(soldiers.at(1));
     ASSERT_NO_THROW(soldiers.at(2));
@@ -45,22 +45,22 @@ TEST(match_test, Test02InsertSomeSoldiers) {
             .getElementStates();
     int x = soldiers.at(1)->getPosition().getXPos();
     int y = soldiers.at(1)->getPosition().getYPos();
-    ElementStateDTO test1 {SOLDIER_1, SOLDIER_1_IDLE, RIGHT, x, y};
+    ElementStateDTO test1 {SOLDIER_IDF, SOLDIER_1_IDLE, RIGHT, x, y};
     ASSERT_EQ(dtos.at(0).second, test1);
     int x_2 = soldiers.at(2)->getPosition().getXPos();
     int y_2 = soldiers.at(2)->getPosition().getYPos();
-    ElementStateDTO test2 {SOLDIER_1, SOLDIER_1_IDLE, RIGHT, x_2, y_2};
+    ElementStateDTO test2 {SOLDIER_IDF, SOLDIER_1_IDLE, RIGHT, x_2, y_2};
     ASSERT_EQ(dtos.at(1).second, test2);
     int x_3 = soldiers.at(3)->getPosition().getXPos();
     int y_3 = soldiers.at(3)->getPosition().getYPos();
-    ElementStateDTO test3 {SOLDIER_1, SOLDIER_1_IDLE, RIGHT, x_3, y_3};
+    ElementStateDTO test3 {SOLDIER_IDF, SOLDIER_1_IDLE, RIGHT, x_3, y_3};
     ASSERT_EQ(dtos.at(2).second, test3);
 }
 
 TEST(match_test, Test03MoveSoldier) {
 
     Match match(100,100);
-    ASSERT_NO_FATAL_FAILURE(match.join(1,SOLDIER_1));
+    ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, X, RIGHT, NORMAL);
     match.simulateStep(std::chrono::steady_clock::now());
@@ -68,7 +68,7 @@ TEST(match_test, Test03MoveSoldier) {
             .getElementStates();
     int x = soldiers.at(1)->getPosition().getXPos();
     int y = soldiers.at(1)->getPosition().getYPos();
-    ElementStateDTO test1 {SOLDIER_1, SOLDIER_1_RUN, RIGHT, x, y};
+    ElementStateDTO test1 {SOLDIER_IDF, SOLDIER_1_RUN, RIGHT, x, y};
     ASSERT_EQ(dtos.at(0).second, test1);
 
 }
@@ -76,7 +76,7 @@ TEST(match_test, Test03MoveSoldier) {
 TEST(match_test, Test04MoveSoldierLeft) {
 
     Match match(100,100);
-    ASSERT_NO_FATAL_FAILURE(match.join(1,SOLDIER_1));
+    ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, X, LEFT, NORMAL);
     match.simulateStep(std::chrono::steady_clock::now());
@@ -84,7 +84,7 @@ TEST(match_test, Test04MoveSoldierLeft) {
             .getElementStates();
     int x = soldiers.at(1)->getPosition().getXPos();
     int y = soldiers.at(1)->getPosition().getYPos();
-    ElementStateDTO test1 {SOLDIER_1, SOLDIER_1_RUN, LEFT, x, y};
+    ElementStateDTO test1 {SOLDIER_IDF, SOLDIER_1_RUN, LEFT, x, y};
     ASSERT_EQ(dtos.at(0).second, test1);
 
 }
@@ -92,7 +92,7 @@ TEST(match_test, Test04MoveSoldierLeft) {
 TEST(match_test, Test05MoveSoldierDown) {
 
     Match match(100,100);
-    ASSERT_NO_FATAL_FAILURE(match.join(1,SOLDIER_1));
+    ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, Y, DOWN, NORMAL);
     match.simulateStep(std::chrono::steady_clock::now());
@@ -100,7 +100,7 @@ TEST(match_test, Test05MoveSoldierDown) {
             .getElementStates();
     int x = soldiers.at(1)->getPosition().getXPos();
     int y = soldiers.at(1)->getPosition().getYPos();
-    ElementStateDTO test1 {SOLDIER_1, SOLDIER_1_RUN, RIGHT, x, y};
+    ElementStateDTO test1 {SOLDIER_IDF, SOLDIER_1_RUN, RIGHT, x, y};
     ASSERT_EQ(dtos.at(0).second, test1);
 
 }
@@ -108,7 +108,7 @@ TEST(match_test, Test05MoveSoldierDown) {
 TEST(match_test, Test06MoveSoldierUp) {
 
     Match match(100,100);
-    ASSERT_NO_FATAL_FAILURE(match.join(1,SOLDIER_1));
+    ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, Y, UP, NORMAL);
     match.simulateStep(std::chrono::steady_clock::now());
@@ -116,7 +116,7 @@ TEST(match_test, Test06MoveSoldierUp) {
             .getElementStates();
     int x = soldiers.at(1)->getPosition().getXPos();
     int y = soldiers.at(1)->getPosition().getYPos();
-    ElementStateDTO test1 {SOLDIER_1, SOLDIER_1_RUN, RIGHT, x, y};
+    ElementStateDTO test1 {SOLDIER_IDF, SOLDIER_1_RUN, RIGHT, x, y};
     ASSERT_EQ(dtos.at(0).second, test1);
 
 }
@@ -124,7 +124,7 @@ TEST(match_test, Test06MoveSoldierUp) {
 TEST(match_test, Test07MoveAndStop) {
 
     Match match(100,100);
-    ASSERT_NO_FATAL_FAILURE(match.join(1,SOLDIER_1));
+    ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, Y, UP, NORMAL);
     match.simulateStep(std::chrono::steady_clock::now());
@@ -134,7 +134,7 @@ TEST(match_test, Test07MoveAndStop) {
             .getElementStates();
     int x = soldiers.at(1)->getPosition().getXPos();
     int y = soldiers.at(1)->getPosition().getYPos();
-    ElementStateDTO test1 {SOLDIER_1, SOLDIER_1_IDLE, RIGHT, x, y};
+    ElementStateDTO test1 {SOLDIER_IDF, SOLDIER_1_IDLE, RIGHT, x, y};
     ASSERT_EQ(dtos.at(0).second, test1);
 
 }
@@ -142,7 +142,7 @@ TEST(match_test, Test07MoveAndStop) {
 TEST(match_test, Test08Shoot) {
 
     Match match(100,100);
-    ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_1));
+    ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.shoot(1, ON);
     match.simulateStep(std::chrono::steady_clock::now());
@@ -150,7 +150,7 @@ TEST(match_test, Test08Shoot) {
             .getElementStates();
     int x = soldiers.at(1)->getPosition().getXPos();
     int y = soldiers.at(1)->getPosition().getYPos();
-    ElementStateDTO test1 {SOLDIER_1, SOLDIER_1_SHOOT_1, RIGHT, x, y};
+    ElementStateDTO test1 {SOLDIER_IDF, SOLDIER_1_SHOOT_1, RIGHT, x, y};
     ASSERT_EQ(dtos.at(0).second, test1);
 
 }

@@ -8,6 +8,7 @@
 #include "sender.h"
 #include "receiver.h"
 #include "game.h"
+#include "lobby.h"
 
 class Client {
     GameSocket socket;
@@ -15,9 +16,8 @@ class Client {
     Queue<std::shared_ptr<Information>> feedback_received;
     Sender sender;
     Receiver receiver;
+    ClientLobby lobby;
     ClientGame client_game;
-
-    void lobbyProcess();
 
 public:
     Client(const char* hostname, const char* servname);

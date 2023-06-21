@@ -94,9 +94,9 @@ const auto idfw_reduction =
 
 TEST(weapon_test, Test00CreateWeapon) {
     WeaponFactory wfactory;
-    ASSERT_NO_FATAL_FAILURE(wfactory.create(SOLDIER_2));
-    ASSERT_NO_FATAL_FAILURE(wfactory.create(SOLDIER_3));
-    ASSERT_NO_FATAL_FAILURE(wfactory.create(SOLDIER_1));
+    ASSERT_NO_FATAL_FAILURE(wfactory.create(SOLDIER_P90));
+    ASSERT_NO_FATAL_FAILURE(wfactory.create(SOLDIER_SCOUT));
+    ASSERT_NO_FATAL_FAILURE(wfactory.create(SOLDIER_IDF));
 }
 
 TEST(weapon_test, Test01ShootP90) {
@@ -104,7 +104,7 @@ TEST(weapon_test, Test01ShootP90) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_2);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_P90);
     std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
     Position pos(10, 10, soldier->getWidth(), soldier->getHeight(),100,100);
     Position pos2(95, 10, zombie->getWidth(), zombie->getHeight(),100,100);
@@ -125,7 +125,7 @@ TEST(weapon_test, Test02ShootP90ToTwoZombiesInTheSameRow) {
     ZombieFactory zfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_2);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_P90);
     std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
     std::shared_ptr<Zombie> zombie2 = zfactory.create(3, ZOMBIE);
     Position pos(10, 10, soldier->getWidth(), soldier->getHeight(),100,100);
@@ -153,7 +153,7 @@ TEST(weapon_test, Test03ShootP90AndMiss) {
     ZombieFactory zfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_2);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_P90);
     std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
     Position pos(100, 10, soldier->getWidth(), soldier->getHeight(),100,100);
     Position pos2(500, 100, zombie->getWidth(), zombie->getHeight(),100,100);
@@ -174,7 +174,7 @@ TEST(weapon_test, Test04ShootScout) {
     ZombieFactory zfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_3);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_SCOUT);
     std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
     Position pos(10, 10, soldier->getWidth(), soldier->getHeight(),100,100);
     Position pos2(15, 10, zombie->getWidth(), zombie->getHeight(),100,100);
@@ -195,7 +195,7 @@ TEST(weapon_test, Test05ShootScoutToTwoSoldiersInTheSameRowRight) {
     ZombieFactory zfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_3);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_SCOUT);
     std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
     std::shared_ptr<Zombie> zombie2 = zfactory.create(3, ZOMBIE);
     Position pos(10, 10, soldier->getWidth(), soldier->getHeight(),100,100);
@@ -223,7 +223,7 @@ TEST(weapon_test, Test06ShootScoutToTwoSoldiersInTheSameRowLeft) {
     ZombieFactory zfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
-    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_3);
+    std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_SCOUT);
     std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
     std::shared_ptr<Zombie> zombie2 = zfactory.create(3, ZOMBIE);
     Position pos(20, 10, soldier->getWidth(), soldier->getHeight(),100,100);

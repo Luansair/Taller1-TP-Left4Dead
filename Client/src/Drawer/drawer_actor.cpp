@@ -7,7 +7,7 @@
 
 ActorDrawer::ActorDrawer(AnimationManager &animation_manager) :
         animation_manager(animation_manager),
-        type(SOLDIER_1),
+        type(SOLDIER_IDF),
         animation(SOLDIER_1_IDLE),
         direction(DRAW_RIGHT),
         sprite_destination(0,0,128,128),
@@ -47,15 +47,15 @@ void ActorDrawer::draw(unsigned int frame_ticks) {
 //     switch (actor_type)
 //     {
 //     case 0:
-//         this->type = SOLDIER_1;
+//         this->type = SOLDIER_IDF;
 //         break;
     
 //     case 1:
-//         this->type = SOLDIER_2;
+//         this->type = SOLDIER_P90;
 //         break;
 
 //     case 2:
-//         this->type = SOLDIER_3;
+//         this->type = SOLDIER_SCOUT;
 //         break;
 
 //     case 3:

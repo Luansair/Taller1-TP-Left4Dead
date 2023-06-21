@@ -99,11 +99,8 @@ std::tuple<double, double, bool> Position::getYArea() const{
     // como el mapa es circular, indico los limites de la pos
     // y con el booleano si es el area real o el complemento
     double y_max = y + height * 0.5;
-    if (y_max > dim_y) y_max = y_max - dim_y - 1.0;
     double y_min = y - height * 0.5;
-    if (y_min < 0) y_min = y_min + dim_y + 1.0;
 
-    if (y_max < y_min) return std::tuple<double, double, bool>{y_max, y_min, false};
     return std::tuple<double, double, bool>{y_min, y_max, true};
 }
 

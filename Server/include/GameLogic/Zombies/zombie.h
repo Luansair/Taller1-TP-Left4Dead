@@ -58,9 +58,8 @@ public:
     int8_t moveDirection);
     virtual void attack(uint8_t state, std::shared_ptr<Soldier> victim);
     virtual void idle(uint8_t state);
-    virtual void recvDamage(uint8_t state, double damage,
-    std::chrono::_V2::steady_clock::time_point real_time, uint32_t attacker);
-    virtual void die(uint8_t state, std::chrono::_V2::steady_clock::time_point real_time);
+    virtual void recvDamage(uint8_t state, double damage, uint32_t attacker);
+    virtual void die(uint8_t state);
 
     /* SIMULADORES */
 

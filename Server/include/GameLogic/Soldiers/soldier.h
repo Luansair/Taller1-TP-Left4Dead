@@ -74,13 +74,14 @@ public:
     int8_t moveDirection,
     uint8_t moveForce);
     virtual void shoot(uint8_t state);
-    virtual void reload(uint8_t state, std::chrono::_V2::steady_clock::time_point reload_start_time);
+    virtual void reload(uint8_t state);
     virtual void throwGrenade(uint8_t state);
     virtual void idle(uint8_t state);
-    virtual void recvDamage(uint8_t state, double damage, std::chrono::_V2::steady_clock::time_point recvdmg_start_time);
-    virtual void die(uint8_t state, std::chrono::_V2::steady_clock::time_point death_start_time);
+    virtual void recvDamage(uint8_t state, double damage);
+    virtual void start_dying(uint8_t state);
     virtual void revive(uint8_t state);
     virtual void be_revived(void);
+    virtual void keep_reloading(uint8_t state);
     void increase_kill_counter(void);
 
     /* SIMULADORES */

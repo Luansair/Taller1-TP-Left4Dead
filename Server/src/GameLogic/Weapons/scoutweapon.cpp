@@ -42,7 +42,7 @@ bool ScoutWeapon::shoot(
         double actual_damage = damage;
         while(!victims_queue.empty()) {
             const std::shared_ptr<Zombie> &victim = victims_queue.top();
-            victim->recvDamage(ON, actual_damage, real_time, soldier_id);
+            victim->recvDamage(ON, actual_damage, soldier_id);
             victims_queue.pop();
             actual_damage = actual_damage * damage_reduction_coef;
         }
@@ -64,7 +64,7 @@ bool ScoutWeapon::shoot(
         double actual_damage = damage;
         while(!victims_queue.empty()) {
             const std::shared_ptr<Zombie> &victim = victims_queue.top();
-            victim->recvDamage(ON, actual_damage, real_time, soldier_id);
+            victim->recvDamage(ON, actual_damage, soldier_id);
             victims_queue.pop();
             actual_damage = actual_damage * damage_reduction_coef;
         }

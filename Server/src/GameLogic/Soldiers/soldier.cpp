@@ -29,11 +29,10 @@ void Soldier::move(
     int8_t moveDirection,
     uint8_t moveForce) {
     
-    if (dying) return;
+    if (dying) return; //esta linea es para que se quede totalmente quieto cuando está en el suelo.
     switch(state) {
         case ON:
             moving = true;
-            // si quisiera seguir recargando -> no cancelar reloading
             reloading = shooting = throwing = reviving = being_hurt = false;
             axis = moveAxis;
             dir = moveDirection;
@@ -47,7 +46,6 @@ void Soldier::move(
 }
 
 void Soldier::shoot(uint8_t state) {
-    if (dying) return;
     switch(state) {
         case ON:
             if (reloading) return;
@@ -60,14 +58,10 @@ void Soldier::shoot(uint8_t state) {
     }
 }
 
-void Soldier::reload(uint8_t state, std::chrono::_V2::steady_clock::time_point reload_start_time) {
-    if (dying) return;
+void Soldier::reload(uint8_t state) {
     switch(state) {
         case ON:
-            if (reloading) return;
             reloading = true;
-            reload_time = reload_start_time;
-            // si quisiera moverme al mismo tiempo -> sacar moving
             moving = shooting = throwing = reviving = being_hurt = false;
             break;
         case OFF:
@@ -77,7 +71,6 @@ void Soldier::reload(uint8_t state, std::chrono::_V2::steady_clock::time_point r
 }
 
 void Soldier::throwGrenade(uint8_t state){
-    if (dying) return;
     switch(state) {
         case ON:
             throwing = true;
@@ -89,13 +82,11 @@ void Soldier::throwGrenade(uint8_t state){
     }
 }
 
-void Soldier::recvDamage(uint8_t state, double damage, std::chrono::_V2::steady_clock::time_point recvdmg_start_time) {
-    if (dying) return;
+void Soldier::recvDamage(uint8_t state, double damage) {
     switch(state) {
         case ON:
             reloading = shooting = throwing = reviving = false;
             being_hurt = true;
-            being_hurt_time = recvdmg_start_time;
             damage_recv = damage;
             break;
         case OFF:
@@ -104,34 +95,9 @@ void Soldier::recvDamage(uint8_t state, double damage, std::chrono::_V2::steady_
     }
 }
 
-void Soldier::idle(uint8_t state) {
-    // si quisiera disparar y moverme al mismo tiempo:
-    // if (reloading && !moving) return;
-    // if (reloading && moving) {
-    //     switch(state) {
-    //         case ON:
-    //             shooting = moving = throwing = reviving = being_hurt = false;
-    //             break;
-    //         case OFF:
-    //             break;
-    //     }
-    //     return;       
-    // }
-    if (reloading) return;
+void Soldier::start_dying(uint8_t state) {
     switch(state) {
         case ON:
-            reloading = shooting = moving = throwing = reviving = being_hurt = false;
-            break;
-        case OFF:
-            break;
-    }
-}
-
-void Soldier::die(uint8_t state, std::chrono::_V2::steady_clock::time_point death_start_time) {
-    switch(state) {
-        case ON:
-            if (dying) return;
-            death_time = death_start_time;
             shooting = moving = throwing = being_hurt = reloading = reviving = false;
             dying = true;
             break;
@@ -142,7 +108,6 @@ void Soldier::die(uint8_t state, std::chrono::_V2::steady_clock::time_point deat
 }
 
 void Soldier::revive(uint8_t state) {
-    if (dying) return;
     switch(state) {
         case ON:
             shooting = moving = throwing = reloading = being_hurt = false;
@@ -154,8 +119,28 @@ void Soldier::revive(uint8_t state) {
     }
 }
 
+void Soldier::keep_reloading(uint8_t state) {
+    switch(state) {
+        case ON:
+            shooting = moving = throwing = reviving = being_hurt = false;
+            break;
+        case OFF:
+            break;
+    }
+}
+
+void Soldier::idle(uint8_t state) {
+    switch(state) {
+        case ON:
+            reloading = shooting = moving = throwing = reviving = being_hurt = false;
+            break;
+        case OFF:
+            break;
+    }
+}
+
 void Soldier::be_revived(void) {
-    dying = false;
+    start_dying(OFF);
     health = 100;
 }
 
@@ -168,44 +153,25 @@ void Soldier::increase_kill_counter(void) {
 void Soldier::simulate(double time, std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
-    
-    // calculo el tiempo que lleva muriendo o recargando
-    std::chrono::duration<double> time_reloading = real_time - reload_time;
-    std::chrono::duration<double> time_dying = real_time - death_time;
 
-    // si está muriendo y el tiempo para revivirlo terminó, se muere.
-    if (dying && (time_dying.count() > revive_cooldown)) simulateDie(real_time);
-
-    // si está muriendo y el tiempo para revivirlo no terminó, se sigue muriendo.
-    if (dying && (time_dying.count() <= revive_cooldown)) {
-        return;
-    }
-
-    // si está recargando y el tiempo de recarga no terminó, sigue recargando.
-    if (reloading && (time_reloading.count() <= reload_cooldown)) {
-        // si quisiera mover y recargar al mismo tiempo:
-        // if (moving) simulateMove(time, real_time, soldiers, zombies, dim_x, dim_y);
-        return;
-    }
-
-    // si está recargando y ya pasó el tiempo de recarga, termina de recargar.
-    if (reloading && (time_reloading.count() > reload_cooldown)) simulateReload(real_time);
-
-    // simulo el resto de las acciones.
-    if (moving) simulateMove(time, real_time, soldiers, zombies, dim_x, dim_y);
+    if (dying) simulateDie(real_time);
     if (being_hurt) simulateRecvdmg(real_time);
+    if (reloading) simulateReload(real_time);
     if (shooting) simulateShoot(time, real_time, soldiers, zombies, dim_x);
+    if (moving) simulateMove(time, real_time, soldiers, zombies, dim_x, dim_y);
     if (throwing) simulateThrow(time, real_time);
     if (reviving) simulateRevive(time, real_time, soldiers);
 }
 
 void Soldier::simulateRecvdmg(std::chrono::_V2::steady_clock::time_point real_time) {
-    if (dying) return;
     if (damage_recv < health) {
-        health -= damage_recv; 
+        health -= damage_recv;
+        recvDamage(OFF, 0);
         return;
     }
-    die(ON, being_hurt_time);
+    // si muere, le seteo el tiempo de muerte y ejecuto el comando die.
+    death_time = real_time;
+    start_dying(ON);
 }
 
 void Soldier::simulateRevive(double time, std::chrono::_V2::steady_clock::time_point real_time,
@@ -225,7 +191,10 @@ std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers) {
 }
 
 void Soldier::simulateDie(std::chrono::_V2::steady_clock::time_point real_time) {
-    alive = false;
+    std::chrono::duration<double> time_dying = real_time - death_time;
+    // si tiempo para revivirlo terminó, se muere.
+    idle(ON);
+    if (time_dying.count() > revive_cooldown) alive = false;
 }
 
 void Soldier::simulateMove(double time,
@@ -276,12 +245,22 @@ void Soldier::simulateMove(double time,
 void Soldier::simulateShoot(double time, std::chrono::_V2::steady_clock::time_point real_time, 
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x) {
-    if (!(weapon->shoot(getPosition(), dir, dim_x, time, real_time, std::ref(soldiers), std::ref(zombies)))) reload(ON, real_time);
+    if (!(weapon->shoot(
+        getPosition(), dir, dim_x, time, real_time, 
+        std::ref(soldiers), std::ref(zombies)))) {
+            
+            reload_time = real_time;
+            reload(ON);
+    }
 }
 
 void Soldier::simulateReload(std::chrono::_V2::steady_clock::time_point real_time) {
-    weapon->reload();
-    reload(OFF, real_time);
+    std::chrono::duration<double> time_reloading = real_time - reload_time;
+    if (time_reloading.count() > reload_cooldown) {
+        weapon->reload();
+        reload(OFF);
+    }
+    keep_reloading(ON);
 }
 
 void Soldier::simulateThrow(double time, std::chrono::_V2::steady_clock::time_point real_time) {}

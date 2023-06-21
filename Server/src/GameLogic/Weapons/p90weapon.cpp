@@ -54,7 +54,7 @@ bool P90Weapon::shoot(
 
     if (collision) {
         double actual_damage = damage * (1.0 - ((dim_x - distance) / dim_x));
-        (zombies.at(victim_id))->recvDamage(ON, actual_damage, real_time, soldier_id);
+        (zombies.at(victim_id))->recvDamage(ON, actual_damage, soldier_id);
     }
     // resto balas/rafagas
     actual_ammo -= 1;

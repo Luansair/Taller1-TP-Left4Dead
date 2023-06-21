@@ -4,7 +4,8 @@
 
 #include <queue>
 
-ScoutWeapon::ScoutWeapon(uint16_t ammo, double damage, double scope, double reduction) :
+ScoutWeapon::ScoutWeapon(uint32_t soldier_id,uint16_t ammo, double damage, double scope, double reduction) :
+    soldier_id(soldier_id),
     ammo(ammo),
     actual_ammo(ammo),
     damage(damage),
@@ -41,7 +42,7 @@ bool ScoutWeapon::shoot(
         double actual_damage = damage;
         while(!victims_queue.empty()) {
             const std::shared_ptr<Zombie> &victim = victims_queue.top();
-            victim->recvDamage(ON, actual_damage, real_time);
+            victim->recvDamage(ON, actual_damage, soldier_id);
             victims_queue.pop();
             actual_damage = actual_damage * damage_reduction_coef;
         }
@@ -63,7 +64,7 @@ bool ScoutWeapon::shoot(
         double actual_damage = damage;
         while(!victims_queue.empty()) {
             const std::shared_ptr<Zombie> &victim = victims_queue.top();
-            victim->recvDamage(ON, actual_damage, real_time);
+            victim->recvDamage(ON, actual_damage, soldier_id);
             victims_queue.pop();
             actual_damage = actual_damage * damage_reduction_coef;
         }

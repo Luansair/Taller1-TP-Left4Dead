@@ -2,7 +2,8 @@
 #include "../../../include/GameLogic/Soldiers/soldier.h"
 #include "../../../include/GameLogic/Zombies/zombie.h"
 
-IdfWeapon::IdfWeapon(uint16_t ammo, double damage, double scope, double reduction) :
+IdfWeapon::IdfWeapon(uint32_t soldier_id,uint16_t ammo, double damage, double scope, double reduction) :
+    soldier_id(soldier_id),
     ammo(ammo),
     actual_ammo(ammo),
     damage(damage),
@@ -53,7 +54,7 @@ bool IdfWeapon::shoot(
 
     if (collision) {
         double actual_damage = damage * ((dim_x - distance) / dim_x);
-        (zombies.at(victim_id))->recvDamage(ON, actual_damage, real_time);
+        (zombies.at(victim_id))->recvDamage(ON, actual_damage, soldier_id);
     }
     // resto balas/rafagas
     actual_ammo -= 1;

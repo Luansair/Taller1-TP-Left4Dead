@@ -17,6 +17,7 @@ uint8_t IdfSoldier::getSoldierType(void) {
 
 uint8_t IdfSoldier::getAction(void) {
     if (dying) return SOLDIER_1_DEAD;
+    if (being_hurt) return SOLDIER_1_HURT;
     if (shooting) return SOLDIER_1_SHOOT_1;
     if (reloading) return SOLDIER_1_RECHARGE;
     if (moving) return SOLDIER_1_RUN;

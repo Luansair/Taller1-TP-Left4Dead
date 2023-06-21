@@ -48,6 +48,7 @@ std::shared_ptr<Soldier> SoldierFactory::create(uint32_t soldier_id, uint8_t sol
         idf_config["grenade_type"].as<std::uint8_t>();
 
     switch(soldier_type) {
+
         case SOLDIER_P90: {
             return std::shared_ptr<Soldier> (new P90Soldier(soldier_id, p90_width, p90_height, p90_speed, p90_health, wpfactory.create(SOLDIER_P90), gfactory.create(p90_grenade)));
         }

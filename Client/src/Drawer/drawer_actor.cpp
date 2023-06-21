@@ -43,47 +43,6 @@ void ActorDrawer::draw(unsigned int frame_ticks) {
                            sprite_destination);
 }
 
-// void ActorDrawer::setActorType(uint8_t actor_type) {
-//     switch (actor_type)
-//     {
-//     case 0:
-//         this->type = SOLDIER_IDF;
-//         break;
-    
-//     case 1:
-//         this->type = SOLDIER_P90;
-//         break;
-
-//     case 2:
-//         this->type = SOLDIER_SCOUT;
-//         break;
-
-//     case 3:
-//         this->type = ZOMBIE;
-//         break;
-//     }
-// }
-
-// void ActorDrawer::setActorAnimation(uint8_t actor_action) {
-//     switch (actor_action)
-//     {
-//     case ACTION_MOVE:
-//         this->animation = SOLDIER_1_RUN;
-//         break;
-    
-//     case ACTION_RELOAD:
-//         this->animation = SOLDIER_1_RECHARGE;
-//         break;
-
-//     case ACTION_SHOOT:
-//         this->animation = SOLDIER_1_SHOOT_1;
-//         break;
-
-//     case ACTION_IDLE:
-//         this->animation = SOLDIER_1_IDLE;
-//         break;
-//     }
-// }
 
 void ActorDrawer::setActorDirection(int8_t actor_direction) {
     switch (actor_direction)

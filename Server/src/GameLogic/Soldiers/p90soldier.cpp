@@ -18,6 +18,7 @@ uint8_t P90Soldier::getSoldierType(void) {
 // cambiar a soldier_2
 uint8_t P90Soldier::getAction(void) {
     if (dying) return SOLDIER_2_DEAD;
+    if (being_hurt) return SOLDIER_2_HURT;
     if (shooting) return SOLDIER_2_SHOOT_1;
     if (reloading) return SOLDIER_2_RECHARGE;
     if (moving) return SOLDIER_2_RUN;

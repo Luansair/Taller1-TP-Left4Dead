@@ -9,6 +9,7 @@ Debe recargar el arma cada 50 rafagas. */
 
 class IdfWeapon : public Weapon {
 private:
+    uint32_t soldier_id;
     uint16_t ammo;
     uint16_t actual_ammo;
     double damage;
@@ -16,7 +17,7 @@ private:
     double damage_reduction_coef;
 
 public:
-    explicit IdfWeapon(uint16_t ammo, double damage, double scope, double reduction);
+    explicit IdfWeapon(uint32_t soldier_id, uint16_t ammo, double damage, double scope, double reduction);
 
     bool shoot(
     Position& from,

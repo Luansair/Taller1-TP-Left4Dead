@@ -16,6 +16,7 @@ class Game : public Thread {
     std::atomic<bool> is_running;
     std::atomic<bool> started;
     uint8_t actor = 0;
+    //uint8_t zactor = 3;
     bool zombies = false;
 
     Queue<std::shared_ptr<InGameCommand>> commands_recv;

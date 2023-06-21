@@ -13,5 +13,13 @@ Spear::Spear(
 }
 
 uint8_t Spear::getZombieType(void) {
-    return ZOMBIE;
+    return SPEAR;
+}
+
+uint8_t Spear::getAction(void) {
+    if (dying) return SPEAR_DEAD;
+    if (being_hurt) return SPEAR_HURT;
+    if (moving) return SPEAR_RUN;
+    if (attacking) return SPEAR_ATTACK_1;
+    return SPEAR_IDLE;
 }

@@ -1,7 +1,7 @@
 #include "../../../include/GameLogic/Weapons/weaponfactory.h"
 #include "yaml-cpp/yaml.h"
 
-std::unique_ptr<Weapon> WeaponFactory::create(uint8_t weapon_type) {
+std::unique_ptr<Weapon> WeaponFactory::create(uint32_t soldier_id, uint8_t weapon_type) {
     using YAML::LoadFile;
     using YAML::Node;
 
@@ -39,6 +39,7 @@ std::unique_ptr<Weapon> WeaponFactory::create(uint8_t weapon_type) {
         idfw_config["damage_reduction_coef"].as<double>();
 
     switch(weapon_type) {
+
         case SOLDIER_P90: {
             return std::unique_ptr<Weapon> (new P90Weapon(p90w_ammo, p90w_damage, p90w_scope, p90w_reduction));
         }

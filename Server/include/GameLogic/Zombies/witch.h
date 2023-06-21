@@ -17,6 +17,7 @@ public:
     double health);
 
     uint8_t getZombieType(void) override;
+    uint8_t getAction(void) override;
 };
 
 #endif  // WITCH_H_

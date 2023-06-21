@@ -1,6 +1,8 @@
 #ifndef POSITION_H_
 #define POSITION_H_
 
+#include "../../../Common/include/Information/information_code.h"
+
 #include <utility>
 #include <cstdint>
 #include <map>
@@ -26,6 +28,7 @@ public:
     [[nodiscard]] double getYPos() const;
     [[nodiscard]] double getWidth() const;
     [[nodiscard]] double getHeight() const;
+    std::tuple<double, double> calculateNextPos(uint8_t axis, int8_t dir, double speed, double time);
     void setXPos(double new_x);
     void setYPos(double new_y);
 

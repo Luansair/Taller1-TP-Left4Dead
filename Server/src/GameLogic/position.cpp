@@ -13,7 +13,11 @@ Position::Position(
     height(height),
     dim_x(dim_x),
     dim_y(dim_y) {
-}
+            if (x < 0.0) this->x = dim_x + x + 1.0;
+            if (x > dim_x) this->x = x - dim_x - 1.0;
+            if (y <= 0.0) this->y = height * 0.5;
+            if (y >= dim_y) this->y = dim_y - height * 0.5;
+    }
 
 bool Position::collides(const Position &other) const {
     std::tuple<double, double, bool> area_other_x = other.getXArea();
@@ -52,29 +56,8 @@ bool Position::collides(const Position &other) const {
         double x_max = std::get<1>(area_x);
         hits_x = (((x_min <= x_max_other) && (x_max_other <= x_max)) || ((x_min <= x_min_other) && (x_min_other <= x_max)));
     }
-
-    // ambos son complementos quiere decir que ambos ocupan los limites del mapa
-    if (!std::get<2>(area_other_y) && !std::get<2>(area_y)) {
-        hits_y = true;
-
-    // solo area_y es complemento, Tengo que ver si other está fuera.
-    } else if (std::get<2>(area_other_y) && !std::get<2>(area_y)) {
-        double y_min_other = std::get<0>(area_other_y);
-        double y_max_other = std::get<1>(area_other_y);
-        double y_min = std::get<0>(area_y);
-        double y_max = std::get<1>(area_y);
-        hits_y = !(((y_min <= y_max_other) && (y_max_other <= y_max)) || ((y_min <= y_min_other) && (y_min_other <= y_max)));
-
-    // solo area_other_y es complemento, Tengo que ver si area está fuera
-    } else if (!std::get<2>(area_other_y) && std::get<2>(area_y)) {
-        double y_min_other = std::get<0>(area_other_y);
-        double y_max_other = std::get<1>(area_other_y);
-        double y_min = std::get<0>(area_y);
-        double y_max = std::get<1>(area_y);
-        hits_y = (((y_min_other <= y_max) && (y_max <= y_max_other)) || ((y_min_other <= y_min) && (y_min <= y_max_other)));
-
-    // ninguno es complemento, Tengo que comparar normal
-    } else if (std::get<2>(area_other_y) && std::get<2>(area_y)) {
+    // comparo Y. Tengo que comparar normal
+    if (std::get<2>(area_other_y) && std::get<2>(area_y)) {
         double y_min_other = std::get<0>(area_other_y);
         double y_max_other = std::get<1>(area_other_y);
         double y_min = std::get<0>(area_y);
@@ -122,7 +105,28 @@ std::tuple<double, double, bool> Position::getYArea() const{
 
     if (y_max < y_min) return std::tuple<double, double, bool>{y_max, y_min, false};
     return std::tuple<double, double, bool>{y_min, y_max, true};
-} 
+}
+
+std::tuple<double, double> Position::calculateNextPos(uint8_t axis, int8_t dir, double speed, double time) {
+
+    double next_x;
+    double next_y;
+    switch(axis) {
+        case X:
+            next_x = x + (dir * speed * time);
+            next_y = y;
+            if (next_x < 0) next_x = dim_x + next_x + 1.0;
+            if (next_x > dim_x) next_x = next_x - dim_x - 1.0;
+            break;
+        case Y:
+            next_y = y + (dir * speed * time);
+            next_x = x;
+            if (next_y <= 0) next_y = height * 0.5;
+            if (next_y >= dim_y) next_y = dim_y - height * 0.5;
+            break;
+    }
+    return std::tuple<double, double> {next_x, next_y};
+}
 
 void Position::setXPos(double new_x) {
     x = new_x;

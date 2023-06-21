@@ -308,8 +308,8 @@ TEST(soldier_test, Test15SetPositionOnMinYLimitToSoldier) {
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
     Position& pos1 = soldier->getPosition();
     ASSERT_EQ(pos1.getXPos(), 20.0);
-    ASSERT_EQ(pos1.getYPos(), 0.0);
-    std::tuple<double, double, bool> tuple {3.0, 98.0, false};
+    ASSERT_EQ(pos1.getYPos(), 0.0 + soldier->getHeight() * 0.5);
+    std::tuple<double, double, bool> tuple {0.0, 6.00, true};
     ASSERT_EQ(pos1.getYArea(), tuple);
 
 }
@@ -321,8 +321,8 @@ TEST(soldier_test, Test16SetPositionOnMaxYLimitToSoldier) {
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
     Position& pos1 = soldier->getPosition();
     ASSERT_EQ(pos1.getXPos(), 20.0);
-    ASSERT_EQ(pos1.getYPos(), MAP_DIM);
-    std::tuple<double, double, bool> tuple {2.0, 97.0, false};
+    ASSERT_EQ(pos1.getYPos(), MAP_DIM - soldier->getHeight() * 0.5);
+    std::tuple<double, double, bool> tuple {94.0, 100.0, true};
     ASSERT_EQ(pos1.getYArea(), tuple);
 
 }

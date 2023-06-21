@@ -1,5 +1,6 @@
 #include "../../../include/GameLogic/Soldiers/soldier.h"
 #include <random>
+#include <tuple>
 
 /* CONSTRUCTOR */
 
@@ -202,25 +203,9 @@ void Soldier::simulateMove(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
 
-    double next_x;
-    double next_y;
-
     // calculo proxima coordenada.
-    switch(axis) {
-        case X:
-            next_x = position.getXPos() + (dir * speed * time);
-            next_y = position.getYPos();
-            if (next_x < 0) next_x = dim_x + next_x + 1.0;
-            if (next_x > dim_x) next_x = next_x - dim_x - 1.0;
-            break;
-        case Y:
-            next_y = position.getYPos() + (dir * speed * time);
-            next_x = position.getXPos();
-            if (next_y < 0) next_y = dim_y + next_y + 1.0;
-            if (next_y > dim_y) next_y = next_y - dim_y - 1.0;
-            break;
-    }
-    Position next_pos(next_x, next_y, position.getWidth(), position.getHeight(), dim_x, dim_y);
+    std::tuple<double, double> next_coords = position.calculateNextPos(axis, dir, speed, time);
+    Position next_pos(std::get<0>(next_coords), std::get<1>(next_coords), position.getWidth(), position.getHeight(), dim_x, dim_y);
 
     // verifico las colisiones.
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {

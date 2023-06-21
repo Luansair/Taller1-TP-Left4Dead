@@ -16,7 +16,6 @@ bool P90Weapon::shoot(
     int8_t dir,
     double dim_x,
     double time,
-    std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies) {
     if (actual_ammo == 0) return false;
@@ -24,9 +23,13 @@ bool P90Weapon::shoot(
 
     // calculo a donde llega el disparo
     if (dir == RIGHT) {
-        hitbox.setValues(from.getXPos(), dim_x, from.getYPos() - scope * 0.5, from.getYPos() + scope * 0.5);
+        double x_coord = from.getXPos() + time * BULLET_SPEED;
+        if ((x_coord) > dim_x) x_coord = dim_x;
+        hitbox.setValues(from.getXPos(), x_coord, from.getYPos() - scope * 0.5, from.getYPos() + scope * 0.5);
     } else if (dir == LEFT) {
-        hitbox.setValues(0, from.getXPos(), from.getYPos() - scope * 0.5, from.getYPos() + scope * 0.5);
+        double x_coord = from.getXPos() - time * BULLET_SPEED;
+        if ((x_coord) < 0) x_coord = 0;
+        hitbox.setValues(x_coord, from.getXPos(), from.getYPos() - scope * 0.5, from.getYPos() + scope * 0.5);
     }
 
     double distance = dim_x; // distancia maxima

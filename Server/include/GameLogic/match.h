@@ -20,8 +20,6 @@
 #include <vector>
 #include <memory>
 
-#define TIME 1.0
-
 /* Class Match para representar una partida del juego.
 Tiene un map de soldier_id y punteros a esos Soldier.
 Se le pasa el soldier_id y le delega realizar la acción */

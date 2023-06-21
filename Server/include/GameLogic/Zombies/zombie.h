@@ -31,6 +31,7 @@ public:
     uint32_t attacker_id = 500; // num cualquiera
 
     /* tiempos */
+    std::chrono::_V2::steady_clock::time_point last_step_time = std::chrono::steady_clock::now();
     std::chrono::_V2::steady_clock::time_point death_time = std::chrono::steady_clock::now();
     std::chrono::_V2::steady_clock::time_point being_hurt_time = std::chrono::steady_clock::now();
     double die_cooldown = 10.0;
@@ -63,18 +64,18 @@ public:
 
     /* SIMULADORES */
 
-    virtual void simulate(double time, std::chrono::_V2::steady_clock::time_point real_time,
+    virtual void simulate(std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
-    virtual void simulateMove(double time, std::chrono::_V2::steady_clock::time_point real_time,
+    virtual void simulateMove(std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
-    virtual void simulateAttack(double time, std::chrono::_V2::steady_clock::time_point real_time,
+    virtual void simulateAttack(std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
     double dim_x);
     virtual void simulateDie(std::chrono::_V2::steady_clock::time_point real_time);
-    virtual void simulateRecvDamage(double time, std::chrono::_V2::steady_clock::time_point real_time,
+    virtual void simulateRecvDamage(std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers);
 
     /* GETTERS */

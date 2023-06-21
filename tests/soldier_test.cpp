@@ -57,12 +57,12 @@ TEST(soldier_test, Test03MoveSoldierOnXRigth) {
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
     soldier->move(ON, X, RIGHT, NORMAL);
     double time = 1.0;
-    soldier->simulateMove(time, std::chrono::steady_clock::now(), std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
+    soldier->simulateMove(time / p90_speed, std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
     Position& pos1 = soldier->getPosition();
-    ASSERT_NEAR(pos1.getXPos(), x0 + time * p90_speed, HALF);
+    ASSERT_NEAR(pos1.getXPos(), x0 + time, HALF);
     ASSERT_NEAR(pos1.getYPos(), y0, HALF);
-    std::tuple<double, double, bool> tuple {x0 + time * p90_speed - p90_width * HALF,
-    x0 + time * p90_speed + p90_width * HALF, true};
+    std::tuple<double, double, bool> tuple {x0 + time - p90_width * HALF,
+    x0 + time + p90_width * HALF, true};
     ASSERT_EQ(pos1.getXArea(), tuple);
 
 }
@@ -78,12 +78,12 @@ TEST(soldier_test, Test04MoveSoldierAWhileOnXRight) {
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
     soldier->move(ON, X, RIGHT, NORMAL);
     double time = 10.0;
-    soldier->simulateMove(time, std::chrono::steady_clock::now(), std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
+    soldier->simulateMove(time / p90_speed, std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
     Position& pos1 = soldier->getPosition();
-    ASSERT_NEAR(pos1.getXPos(), x0 + time * p90_speed, HALF);
+    ASSERT_NEAR(pos1.getXPos(), x0 + time, HALF);
     ASSERT_NEAR(pos1.getYPos(), y0, HALF);
-    std::tuple<double, double, bool> tuple {x0 + time * p90_speed - p90_width * HALF,
-    x0 + time * p90_speed + p90_width * HALF, true};
+    std::tuple<double, double, bool> tuple {x0 + time - p90_width * HALF,
+    x0 + time + p90_width * HALF, true};
     ASSERT_EQ(pos1.getXArea(), tuple);
 
 }
@@ -99,12 +99,12 @@ TEST(soldier_test, Test05MoveSoldierOnXLeft) {
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
     soldier->move(ON, X, LEFT, NORMAL);
     double time = 1.0;
-    soldier->simulateMove(time, std::chrono::steady_clock::now(), std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
+    soldier->simulateMove(time / p90_speed, std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
     Position& pos1 = soldier->getPosition();
-    ASSERT_NEAR(pos1.getXPos(), x0 - time * p90_speed, HALF);
+    ASSERT_NEAR(pos1.getXPos(), x0 - time, HALF);
     ASSERT_NEAR(pos1.getYPos(), y0, HALF);
-    std::tuple<double, double, bool> tuple {x0 - time * p90_speed - p90_width * HALF,
-    x0 - time * p90_speed + p90_width * HALF, true};
+    std::tuple<double, double, bool> tuple {x0 - time - p90_width * HALF,
+    x0 - time + p90_width * HALF, true};
     ASSERT_EQ(pos1.getXArea(), tuple);
 
 }
@@ -120,12 +120,12 @@ TEST(soldier_test, Test06MoveSoldierAWhileOnXleft) {
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
     soldier->move(ON, X, LEFT, NORMAL);
     double time = 15.0;
-    soldier->simulateMove(time, std::chrono::steady_clock::now(), std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
+    soldier->simulateMove(time / p90_speed, std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
     Position& pos1 = soldier->getPosition();
-    ASSERT_NEAR(pos1.getXPos(), x0 - time * p90_speed, HALF);
+    ASSERT_NEAR(pos1.getXPos(), x0 - time, HALF);
     ASSERT_NEAR(pos1.getYPos(), y0, HALF);
-    std::tuple<double, double, bool> tuple {x0 - time * p90_speed - p90_width * HALF,
-    x0 - time * p90_speed + p90_width * HALF, true};
+    std::tuple<double, double, bool> tuple {x0 - time - p90_width * HALF,
+    x0 - time + p90_width * HALF, true};
     ASSERT_EQ(pos1.getXArea(), tuple);
 
 }
@@ -141,12 +141,12 @@ TEST(soldier_test, Test07MoveSoldierOnYUp) {
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
     soldier->move(ON, Y, UP, NORMAL);
     double time = 1.0;
-    soldier->simulateMove(time, std::chrono::steady_clock::now(), std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
+    soldier->simulateMove(time / p90_speed, std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
     Position& pos1 = soldier->getPosition();
     ASSERT_NEAR(pos1.getXPos(), x0, HALF);
-    ASSERT_NEAR(pos1.getYPos(), y0 + time * p90_speed, HALF);
-    std::tuple<double, double, bool> tuple {y0 + time * p90_speed - p90_height * HALF,
-    y0 + time * p90_speed + p90_height * HALF, true};
+    ASSERT_NEAR(pos1.getYPos(), y0 + time, HALF);
+    std::tuple<double, double, bool> tuple {y0 + time - p90_height * HALF,
+    y0 + time + p90_height * HALF, true};
     ASSERT_EQ(pos1.getYArea(), tuple);
 
 }
@@ -162,12 +162,12 @@ TEST(soldier_test, Test08MoveSoldierOnYDown) {
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
     soldier->move(ON, Y, DOWN, NORMAL);
     double time = 1.0;
-    soldier->simulateMove(time, std::chrono::steady_clock::now(), std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
+    soldier->simulateMove(time / p90_speed, std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
     Position& pos1 = soldier->getPosition();
     ASSERT_NEAR(pos1.getXPos(), x0, HALF);
-    ASSERT_NEAR(pos1.getYPos(), y0 - time * p90_speed, HALF);
-    std::tuple<double, double, bool> tuple {y0 - time * p90_speed - p90_height * HALF,
-    y0 - time * p90_speed + p90_height * HALF, true};
+    ASSERT_NEAR(pos1.getYPos(), y0 - time, HALF);
+    std::tuple<double, double, bool> tuple {y0 - time - p90_height * HALF,
+    y0 - time + p90_height * HALF, true};
     ASSERT_EQ(pos1.getYArea(), tuple);
 
 }
@@ -189,7 +189,7 @@ TEST(soldier_test, Test09MoveWithCollisionOnRight) {
     soldiers.emplace(2, std::move(soldier2));
     soldier->move(ON, X, RIGHT, NORMAL);
     double time = 1.0;
-    soldier->simulateMove(time, std::chrono::steady_clock::now(), std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
+    soldier->simulateMove(time / p90_speed, std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
     Position& pos1 = soldier->getPosition();
     ASSERT_EQ(pos1.getXPos(), x0);
     ASSERT_EQ(pos1.getYPos(), y0);
@@ -215,7 +215,7 @@ TEST(soldier_test, Test10MoveWithCollisionOnLeft) {
     soldiers.emplace(2, std::move(soldier2));
     soldier->move(ON, X, LEFT, NORMAL);
     double time = 1.0;
-    soldier->simulateMove(time, std::chrono::steady_clock::now(), std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
+    soldier->simulateMove(time / p90_speed, std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
     Position& pos1 = soldier->getPosition();
     ASSERT_EQ(pos1.getXPos(), x0);
     ASSERT_EQ(pos1.getYPos(), y0);
@@ -240,7 +240,7 @@ TEST(soldier_test, Test11MoveWithCollisionGoingDown) {
     soldiers.emplace(2, std::move(soldier2));
     soldier->move(ON, Y, DOWN, NORMAL);
     double time = 1.0;
-    soldier->simulateMove(time, std::chrono::steady_clock::now(), std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
+    soldier->simulateMove(time / p90_speed, std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
     Position& pos1 = soldier->getPosition();
     ASSERT_EQ(pos1.getYPos(), y0);
     ASSERT_EQ(pos1.getXPos(), x0);
@@ -266,7 +266,7 @@ TEST(soldier_test, Test12MoveWithCollisionGoingUp) {
     soldiers.emplace(2, std::move(soldier2));
     soldier->move(ON, Y, UP, NORMAL);
     double time = 1.0;
-    soldier->simulateMove(time, std::chrono::steady_clock::now(), std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
+    soldier->simulateMove(time / p90_speed, std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
     Position& pos1 = soldier->getPosition();
     ASSERT_EQ(pos1.getYPos(), 13.0);
     ASSERT_EQ(pos1.getXPos(), x0);
@@ -344,7 +344,7 @@ TEST(soldier_test, Test17MoveWithCollisionOnRightWithComplementPosition) {
     soldiers.emplace(2, std::move(soldier2));
     soldier->move(ON, X, RIGHT, NORMAL);
     double time = 1.0;
-    soldier->simulateMove(time, std::chrono::steady_clock::now(), std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
+    soldier->simulateMove(time / p90_speed, std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
     Position& pos1 = soldier->getPosition();
     ASSERT_EQ(pos1.getXPos(), 97.0);
     ASSERT_EQ(pos1.getYPos(), y0);
@@ -370,7 +370,7 @@ TEST(soldier_test, Test18MoveWithCollisionOnLeftWithComplementPosition) {
     soldiers.emplace(2, std::move(soldier2));
     soldier->move(ON, X, LEFT, NORMAL);
     double time = 1.0;
-    soldier->simulateMove(time, std::chrono::steady_clock::now(), std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
+    soldier->simulateMove(time / p90_speed, std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
     Position& pos1 = soldier->getPosition();
     ASSERT_EQ(pos1.getXPos(), 2.0);
     ASSERT_EQ(pos1.getYPos(), y0);
@@ -396,7 +396,7 @@ TEST(soldier_test, Test19MoveWithNoCollisionOnRight) {
     soldiers.emplace(2, std::move(soldier2));
     soldier->move(ON, X, RIGHT, NORMAL);
     double time = 10.0;
-    soldier->simulateMove(time, std::chrono::steady_clock::now(), std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
+    soldier->simulateMove(time / p90_speed, std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
     Position& pos1 = soldier->getPosition();
     ASSERT_EQ(pos1.getXPos(), 17.0);
     ASSERT_EQ(pos1.getYPos(), y0);
@@ -422,7 +422,7 @@ TEST(soldier_test, Test20MoveWithNoCollisionOnRight) {
     soldiers.emplace(2, std::move(soldier2));
     soldier->move(ON, X, RIGHT, NORMAL);
     double time = 1.0;
-    soldier->simulateMove(time, std::chrono::steady_clock::now(), std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
+    soldier->simulateMove(time / p90_speed, std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
     Position& pos1 = soldier->getPosition();
     ASSERT_EQ(pos1.getXPos(), 8.0);
     ASSERT_EQ(pos1.getYPos(), y0);
@@ -443,7 +443,7 @@ TEST(soldier_test, Test21MoveOnLimit) {
     ASSERT_NO_THROW(soldier->setPosition(std::move(pos)));
     soldier->move(ON, X, LEFT, NORMAL);
     double time = 1.0;
-    soldier->simulateMove(time, std::chrono::steady_clock::now(), std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
+    soldier->simulateMove(time / p90_speed, std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
     Position& pos1 = soldier->getPosition();
     ASSERT_EQ(pos1.getXPos(), MAP_DIM);
     ASSERT_EQ(pos1.getYPos(), y0);
@@ -469,7 +469,7 @@ TEST(soldier_test, Test22MoveWithNoCollisionOnLimit) {
     soldiers.emplace(2, std::move(soldier2));
     soldier->move(ON, X, LEFT, NORMAL);
     double time = 1.0;
-    soldier->simulateMove(time, std::chrono::steady_clock::now(), std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
+    soldier->simulateMove(time / p90_speed, std::ref(soldiers), std::ref(zombies), MAP_DIM, MAP_DIM);
     Position& pos1 = soldier->getPosition();
     ASSERT_EQ(pos1.getXPos(), MAP_DIM);
     ASSERT_EQ(pos1.getYPos(), y0);

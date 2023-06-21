@@ -92,16 +92,17 @@ void Zombie::recvDamage(uint8_t state, double damage, uint32_t attacker) {
 
 // función para pasar de segundos a chrono::duration
 
-void Zombie::simulate(double time, std::chrono::_V2::steady_clock::time_point real_time,
+void Zombie::simulate(std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
     if (dying) simulateDie(real_time);
-    if (being_hurt) simulateRecvDamage(time, real_time, soldiers);
-    if (attacking) simulateAttack(time, real_time, soldiers, zombies, dim_x);
-    if (!dying) simulateMove(time, real_time, soldiers, zombies, dim_x, dim_y);
+    if (being_hurt) simulateRecvDamage(real_time, soldiers);
+    if (attacking) simulateAttack(real_time, soldiers, zombies, dim_x);
+    if (!dying) simulateMove(real_time, soldiers, zombies, dim_x, dim_y);
+    last_step_time = real_time;
 }
 
-void Zombie::simulateRecvDamage(double time, 
+void Zombie::simulateRecvDamage(
     std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers) {
     if (damage_recv < health) {
@@ -120,18 +121,16 @@ void Zombie::simulateDie(std::chrono::_V2::steady_clock::time_point real_time) {
     idle(ON);
 }
 
-void Zombie::simulateMove(double time, std::chrono::_V2::steady_clock::time_point real_time,
+void Zombie::simulateMove(std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
-
+    std::chrono::duration<double> time = real_time - last_step_time;
     // calculo la zona de visión del zombie.
     RadialHitbox sight_zone(position.getXPos(), position.getYPos(), sight);
 
     // verifico las colisiones.
     double distance = std::sqrt(std::pow(dim_x, 2) + std::pow(dim_y, 2)); // distancia maxima
     double new_distance;
-    double m;
-    double b;
     uint32_t victim_id;
     bool collision = false;
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
@@ -140,8 +139,6 @@ void Zombie::simulateMove(double time, std::chrono::_V2::steady_clock::time_poin
             new_distance = std::sqrt(std::pow(std::abs(position.getXPos() - other_pos.getXPos()), 2) + std::pow(std::abs(position.getYPos() - other_pos.getYPos()), 2));
             if (distance > new_distance) {
                 distance = new_distance;
-                m = (position.getYPos() - other_pos.getYPos()) / (position.getXPos() - other_pos.getXPos());
-                b = position.getYPos() - m * position.getXPos();
                 // me tengo que quedar con el más cercano
                 victim_id = i->first;
             }
@@ -150,20 +147,20 @@ void Zombie::simulateMove(double time, std::chrono::_V2::steady_clock::time_poin
     }
     if (collision) {
         std::shared_ptr<Soldier> &victim = soldiers.at(victim_id);
-        double next_x;
-        double next_y;
+        double target_x = victim->getPosition().getXPos();
+        double target_y = victim->getPosition().getYPos();
+        double x = getPosition().getXPos();
+        double y = getPosition().getYPos();
+        double norma = std::sqrt(std::pow(std::abs(target_x - x), 2) + std::pow(std::abs(target_y - y), 2));
+        double next_x = ((target_x - x) / norma) * time.count() * speed + x;
+        double next_y = ((target_y - y) / norma) * time.count() * speed + y;
         int8_t direction;
-        if (position.getXPos() > victim->getPosition().getXPos()) {
-            // aca el desplazamiento en X en realidad debería depender del tiempo.
-            // pero hardcodeo el 0.006
-            next_x = position.getXPos() - ((position.getXPos() - victim->getPosition().getXPos()) * 0.006);
+        if (target_x - x < 0) {
             direction = LEFT;
         } else {
-            next_x = position.getXPos() + ((victim->getPosition().getXPos() - position.getXPos()) * 0.006);
             direction = RIGHT;
         }
-        next_y = next_x * m + b;
-        Position next_pos(next_x, next_y, getWidth() + hit_scope, getHeight() + hit_scope, dim_x, dim_y);
+        Position next_pos(next_x, next_y, getWidth() + 20, getHeight() + 20, dim_x, dim_y);
         if (next_pos.collides(victim->getPosition())) {
             move(OFF, getDir());
             attack(ON, victim);
@@ -180,7 +177,7 @@ void Zombie::simulateMove(double time, std::chrono::_V2::steady_clock::time_poin
 
 }
 
-void Zombie::simulateAttack(double time, std::chrono::_V2::steady_clock::time_point real_time,
+void Zombie::simulateAttack(std::chrono::_V2::steady_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
     double dim_x) {

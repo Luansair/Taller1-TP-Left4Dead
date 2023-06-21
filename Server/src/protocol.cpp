@@ -7,6 +7,7 @@
 #include "../include/Command/command_ingame_startmove.h"
 #include "../include/Command/command_ingame_startidle.h"
 #include "../include/Command/command_ingame_startrevive.h"
+#include "../include/Command/command_ingame_pick_soldier.h"
 
 Protocol::Protocol(GameSocket &socket) : socket(socket) {}
 
@@ -63,6 +64,12 @@ InGameCommand* Protocol::recvInGameCommand(std::uint8_t player_id) {
         } else if (action_state == OFF) {
             return new StartIdleCommand(player_id);
         }  
+    } else if (action_id == REQUEST_PICK_P90_SOLDIER) {
+        return new PickSoldierCommand(player_id, SOLDIER_P90);
+    } else if (action_id == REQUEST_PICK_IDF_SOLDIER) {
+        return new PickSoldierCommand(player_id, SOLDIER_IDF);
+    } else if (action_id == REQUEST_PICK_SCOUT_SOLDIER) {
+        return new PickSoldierCommand(player_id, SOLDIER_SCOUT);
     }
     return nullptr;
 }

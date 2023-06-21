@@ -20,3 +20,26 @@ El background depende del mapa por lo que esa info se brinda al server (backgrou
 Adaptar el protocolo a las nuevas modificaciones. 
 
 El suelo es en el server.
+
+-----
+
+Para desacoplar el protocolo del Server se puede crear un RequestDTO, un InGameCommandFactory y un Request Code donde
+las request ingame vayan del 0 en adelante (mismo puede pasar para las pre game).
+
+El Factory tiene un array con objetos Builder.
+Cada builder sabe 'buildCommand' pero devuelve un comando distinto.
+Factory solo obtiene el player_id y el DTO.
+
+Es bastante trabajo dado que hay que crear un RequestDTO y un Builder para cada comando.
+Despues hacer un dynamic cast del RequestDTO para obtener los datos del mismo.
+
+De esta manera el protocolo no necestaria recibir playerID
+
+En el cliente para serializar protocolo puede tener como atributo un Serializer para
+serializar numeros de 2 y 4 bytes.
+
+-------
+
+Modularizar protocolo servidor.
+
+Protocolo servidor deberia devolver un puntero inteligente.

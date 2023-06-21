@@ -12,7 +12,7 @@ IdfSoldier::IdfSoldier(
 }
 
 uint8_t IdfSoldier::getSoldierType(void) {
-    return SOLDIER_1;
+    return SOLDIER_IDF;
 }
 
 uint8_t IdfSoldier::getAction(void) {

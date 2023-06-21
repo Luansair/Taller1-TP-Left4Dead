@@ -5,10 +5,27 @@
 #ifndef TP_LOBBY_H
 #define TP_LOBBY_H
 
-class Lobby {
+#include <memory>
+#include "../../Common/include/Information/information.h"
+#include "../../libs/queue.h"
 
+class ClientLobby {
+    Queue<std::shared_ptr<Information>>& actions_to_send;
+    Queue<std::shared_ptr<Information>>& feedback_received;
+    bool soldier_picked;
+    bool joined;
+
+    void joinGame();
+    void pickSoldier();
 public:
+    ClientLobby(Queue<std::shared_ptr<Information>>& actions_to_send,
+                Queue<std::shared_ptr<Information>>& feedback_received);
     void launch();
+
+    ClientLobby(const ClientLobby&) = delete;
+    ClientLobby& operator=(const ClientLobby&) = delete;
+
+    ~ClientLobby() = default;
 };
 
 #endif //TP_LOBBY_H

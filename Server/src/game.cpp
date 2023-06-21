@@ -29,8 +29,8 @@ void Game::join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, const std::s
     // Also a random function could be used for the ids.
     *player_id = ++players_amount;
 
-    match.join(*player_id, actor++);
-    if (actor == 3) actor = 0;
+    //match.join(*player_id, actor++);
+    //if (actor == 3) actor = 0;
 
     if(!zombies) {
         match.setZombie(234, SPEAR);

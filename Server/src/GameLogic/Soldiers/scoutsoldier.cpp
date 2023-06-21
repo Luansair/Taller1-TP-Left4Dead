@@ -12,7 +12,7 @@ ScoutSoldier::ScoutSoldier(
 }
 
 uint8_t ScoutSoldier::getSoldierType(void) {
-    return SOLDIER_3;
+    return SOLDIER_SCOUT;
 }
 
 // cambiar a soldier_3

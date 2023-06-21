@@ -12,7 +12,7 @@ P90Soldier::P90Soldier(
 }
 
 uint8_t P90Soldier::getSoldierType(void) {
-    return SOLDIER_2;
+    return SOLDIER_P90;
 }
 
 // cambiar a soldier_2

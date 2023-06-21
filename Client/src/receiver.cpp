@@ -22,7 +22,6 @@ void Receiver::run() {
         if (feed == nullptr) {
             throw std::runtime_error("Receiver::run. Feedback received is null. Probably cause it is invalid.\n");
         }
-
         feedback_received.push(feed);
     }
     } catch (const ClosedSocket& err) {

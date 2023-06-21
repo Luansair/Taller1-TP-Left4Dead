@@ -103,7 +103,7 @@ TEST(information_test,
 
     vector<pair<uint16_t, ElementStateDTO>> actors;
     uint16_t actor_id = 0x1234;
-    ElementStateDTO actor_state = {SOLDIER_1, SOLDIER_1_ATTACK, DRAW_RIGHT,
+    ElementStateDTO actor_state = {SOLDIER_IDF, SOLDIER_1_ATTACK, DRAW_RIGHT,
                                    0x12345678, 0x11223344};
     actors.emplace_back(actor_id, std::move(actor_state));
     GameStateFeedback game_state = GameStateFeedback(std::move(actors));
@@ -115,7 +115,7 @@ TEST(information_test,
     EXPECT_EQ(serialized_game_state.at(2), 0x01);
     EXPECT_EQ(serialized_game_state.at(3), 0x12);
     EXPECT_EQ(serialized_game_state.at(4), 0x34);
-    EXPECT_EQ(serialized_game_state.at(5), SOLDIER_1);
+    EXPECT_EQ(serialized_game_state.at(5), SOLDIER_IDF);
     EXPECT_EQ(serialized_game_state.at(6), SOLDIER_1_ATTACK);
     EXPECT_EQ(serialized_game_state.at(7), DRAW_RIGHT);
     EXPECT_EQ(serialized_game_state.at(8), 0x12);

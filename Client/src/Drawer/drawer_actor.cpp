@@ -7,7 +7,7 @@
 
 ActorDrawer::ActorDrawer(AnimationManager &animation_manager) :
         animation_manager(animation_manager),
-        type(SOLDIER_1),
+        type(SOLDIER_IDF),
         animation(SOLDIER_1_IDLE),
         direction(DRAW_RIGHT),
         sprite_destination(0,0,128,128),
@@ -42,6 +42,7 @@ void ActorDrawer::draw(unsigned int frame_ticks) {
     animation_manager.draw(type, animation, &sprite_index, direction,
                            sprite_destination);
 }
+
 
 void ActorDrawer::setActorDirection(int8_t actor_direction) {
     switch (actor_direction)

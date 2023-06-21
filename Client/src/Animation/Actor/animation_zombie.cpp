@@ -37,4 +37,3 @@ ZombieAnimation::draw(std::uint8_t animation_index, std::uint8_t *sprite_index,
     ActionAnimation& animation_to_draw = animations.at(animation_index);
     animation_to_draw.draw(sprite_index, direction, sprite_destination);
 }
-

@@ -210,14 +210,6 @@ uint32_t Zombie::getId(void) {
     return zombie_id;
 }
 
-uint8_t Zombie::getAction(void) {
-    if (dying) return ZOMBIE_DEAD;
-    if (being_hurt) return ZOMBIE_HURT;
-    if (moving) return ZOMBIE_RUN;
-    if (attacking) return ZOMBIE_ATTACK_1;
-    return ZOMBIE_IDLE;
-}
-
 int8_t Zombie::getDir(void) {
     return dir;
 }

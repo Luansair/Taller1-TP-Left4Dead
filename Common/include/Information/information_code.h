@@ -86,6 +86,57 @@ enum ZombieActionID : std::uint8_t {
     ZOMBIE_WALK,
 };
 
+enum WitchActionID : std::uint8_t {
+    WITCH_ATTACK_1,
+    WITCH_ATTACK_2,
+    WITCH_ATTACK_3,
+    WITCH_DEAD,
+    WITCH_HURT,
+    WITCH_IDLE,
+    WITCH_JUMP,
+    WITCH_RUN,
+    WITCH_SCREAM,
+    WITCH_WALK,
+};
+
+enum JumperActionID : std::uint8_t {
+    JUMPER_ATTACK_1,
+    JUMPER_ATTACK_2,
+    JUMPER_ATTACK_3,
+    JUMPER_DEAD,
+    JUMPER_EATING,
+    JUMPER_HURT,
+    JUMPER_IDLE,
+    JUMPER_JUMP,
+    JUMPER_RUN,
+    JUMPER_WALK,
+};
+
+enum VenomActionID : std::uint8_t {
+    VENOM_ATTACK_1,
+    VENOM_ATTACK_1A,
+    VENOM_ATTACK_2,
+    VENOM_DEAD,
+    VENOM_HURT,
+    VENOM_IDLE,
+    VENOM_JUMP,
+    VENOM_RUN,
+    VENOM_WALK,
+};
+
+enum SpearActionID : std::uint8_t {
+    SPEAR_ATTACK_1,
+    SPEAR_ATTACK_2,
+    SPEAR_DEAD,
+    SPEAR_FALL,
+    SPEAR_HURT,
+    SPEAR_IDLE,
+    SPEAR_PROTECT,
+    SPEAR_RUN,
+    SPEAR_RUN_ATTACK,
+    SPEAR_WALK,
+};
+
 enum SoldierOneGrenadeStatus : std::uint8_t {
     SOLDIER_1_GRENADE_IDLE,
     SOLDIER_1_GRENADE_EXPLOSION

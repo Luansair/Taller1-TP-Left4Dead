@@ -9,15 +9,19 @@ AnimationManager::AnimationManager(SDL2pp::Renderer& renderer) :
     soldier_2_animation(renderer),
     soldier_3_animation(renderer),
     zombie_animation(renderer),
+    witch_animation(renderer),
+    spear_animation(renderer),
+    jumper_animation(renderer),
+    venom_animation(renderer),
     actors{
              &soldier_1_animation,
              &soldier_2_animation,
              &soldier_3_animation,
              &zombie_animation,
-             nullptr,
-             nullptr,
-             nullptr,
-             nullptr
+             &spear_animation,
+             &jumper_animation,
+             &witch_animation,
+             &venom_animation
     }
 {
 }

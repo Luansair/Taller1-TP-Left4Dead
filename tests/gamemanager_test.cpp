@@ -3,6 +3,7 @@
 #include <limits>
 #include "game_manager.h"
 #include "Command/command_ingame_startshoot.h"
+#include "Command/command_ingame_startrevive.h"
 #include "Command/command_ingame_startmove.h"
 
 enum PlayerNum : std::uint8_t {

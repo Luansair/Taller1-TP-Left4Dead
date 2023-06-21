@@ -15,12 +15,20 @@
 #include "Actor/animation_soldier2.h"
 #include "Actor/animation_soldier3.h"
 #include "Actor/animation_zombie.h"
+#include "Actor/animation_witch.h"
+#include "Actor/animation_spear.h"
+#include "Actor/animation_jumper.h"
+#include "Actor/animation_venom.h"
 
 class AnimationManager {
     SoldierOneAnimation soldier_1_animation;
     SoldierTwoAnimation soldier_2_animation;
     SoldierThreeAnimation soldier_3_animation;
     ZombieAnimation zombie_animation;
+    WitchAnimation witch_animation;
+    SpearAnimation spear_animation;
+    JumperAnimation jumper_animation;
+    VenomAnimation venom_animation;
     // Other actor animations...
 
     std::array<ActorAnimation*, 8> actors;

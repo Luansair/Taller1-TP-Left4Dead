@@ -87,7 +87,7 @@ public:
     double getHeight(void);
     uint32_t getId(void);
     virtual uint8_t getZombieType(void) = 0;
-    uint8_t getAction(void);
+    virtual uint8_t getAction(void) = 0;
     Position& getPosition(void);
     const Position& seePosition(void) const;
     bool isDead(void);

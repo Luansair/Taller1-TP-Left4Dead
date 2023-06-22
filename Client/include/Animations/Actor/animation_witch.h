@@ -13,7 +13,7 @@ public:
     void draw(std::uint8_t animation_index,
               std::uint8_t *sprite_index,
               std::uint8_t direction,
-              const SDL2pp::Rect& sprite_destination) override;
+              const SDL2pp::Point &sprite_destination) override;
 
     // Should not move because it can affect performance!
     WitchAnimation(WitchAnimation&&) = delete;

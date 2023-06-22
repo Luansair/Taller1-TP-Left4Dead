@@ -21,8 +21,8 @@ public:
                     int height);
 
     void draw(std::uint8_t *sprite_index,
-                      std::uint8_t direction,
-                      const SDL2pp::Rect& sprite_destination);
+              std::uint8_t direction,
+              const SDL2pp::Point &sprite_destination);
 
     ActionAnimation(ActionAnimation&&) = default;
     ActionAnimation& operator=(ActionAnimation&&) = delete;

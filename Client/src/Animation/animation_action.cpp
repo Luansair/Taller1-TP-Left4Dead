@@ -17,7 +17,7 @@ ActionAnimation::ActionAnimation(SDL2pp::Renderer &renderer,
 
 //----------------------PUBLIC METHODS--------------------------------------//
 void ActionAnimation::draw(std::uint8_t *sprite_index, std::uint8_t direction,
-                           const SDL2pp::Rect &sprite_destination) {
+                           const SDL2pp::Point &sprite_destination) {
     sprite_manager.draw(texture, sprite_index, direction, sprite_destination);
 }
 

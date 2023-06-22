@@ -16,7 +16,7 @@ class DrawerManager {
 public:
     explicit DrawerManager(SDL2pp::Renderer& renderer);
 
-    void draw(unsigned int frame_ticks);
+    void draw(std::uint32_t frame_ticks, std::int32_t window_x_pos, std::int32_t window_width);
 
     void updateInfo(std::uint16_t actor_id, const ElementStateDTO &actor_state);
 };

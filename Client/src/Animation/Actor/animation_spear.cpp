@@ -29,8 +29,8 @@ SpearAnimation::SpearAnimation(SDL2pp::Renderer &renderer) :
 
 void
 SpearAnimation::draw(std::uint8_t animation_index, std::uint8_t *sprite_index,
-                      std::uint8_t direction,
-                      const SDL2pp::Rect &sprite_destination) {
+                     std::uint8_t direction,
+                     const SDL2pp::Point &sprite_destination) {
     ActionAnimation& animation_to_draw = animations.at(animation_index);
     animation_to_draw.draw(sprite_index, direction, sprite_destination);
 }

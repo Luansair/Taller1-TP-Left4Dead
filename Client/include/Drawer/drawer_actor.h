@@ -15,7 +15,9 @@ class ActorDrawer {
     std::uint8_t type;
     std::uint8_t animation;
     std::uint8_t direction;
-    SDL2pp::Rect sprite_destination;
+    std::int32_t position_x;
+    std::int32_t position_y;
+    SDL2pp::Point sprite_destination;
 
     std::uint8_t sprite_index;
     unsigned int previous_frame_ticks;
@@ -25,7 +27,7 @@ public:
 
     // Necesito saber la cantidad de sprites para mandar un indice válido!
     void updateInfo(const ElementStateDTO& actor_state);
-    void draw(unsigned int frame_ticks);
+    void draw(std::uint32_t frame_ticks, std::int32_t window_x_pos, std::int32_t window_width);
 
 private:
     // void setActorType(uint8_t actor_type);

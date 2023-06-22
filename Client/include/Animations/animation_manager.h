@@ -40,7 +40,7 @@ public:
               std::uint8_t animation_index,
               std::uint8_t *sprite_index,
               std::uint8_t direction,
-              const SDL2pp::Rect& sprite_destination);
+              const SDL2pp::Point &sprite_destination);
 
     // Moving have a cost in performance due to array of arrays being moved.
     AnimationManager(AnimationManager&&) = delete;

@@ -17,6 +17,7 @@ class GameVisual {
     SDL2pp::Window window;
     SDL2pp::Renderer renderer;
     DrawerManager drawer_manager;  // (id, drawer)
+    std::int32_t window_x_position;
 
 public:
     GameVisual(std::uint16_t window_width, std::uint16_t window_height);

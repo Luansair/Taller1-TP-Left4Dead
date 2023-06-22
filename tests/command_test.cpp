@@ -14,7 +14,7 @@ TEST(command_test,
             std::make_shared<Queue<std::shared_ptr<Information>>>(10000);
     std::uint8_t player_id = 0;
     GameManager manager = GameManager();
-    CreateGameCommand create_game_cmd{REQUEST_SURVIVAL};
+    CreateGameCommand create_game_cmd{REQUEST_SURVIVAL, REQUEST_EASY};
 
     bool joined = create_game_cmd.execute(manager, game_q, player_q,
                                           &player_id);
@@ -29,7 +29,7 @@ TEST(command_test,
             std::make_shared<Queue<std::shared_ptr<Information>>>(10000);
     std::uint8_t player_id = 0;
     GameManager manager = GameManager();
-    CreateGameCommand create_game_cmd{REQUEST_SURVIVAL};
+    CreateGameCommand create_game_cmd{REQUEST_SURVIVAL, REQUEST_EASY};
 
     create_game_cmd.execute(manager, game_q, player_q,
                                           &player_id);
@@ -44,7 +44,7 @@ TEST(command_test,
             std::make_shared<Queue<std::shared_ptr<Information>>>(10000);
     std::uint8_t player_id = 0;
     GameManager manager = GameManager();
-    CreateGameCommand create_game_cmd{REQUEST_SURVIVAL};
+    CreateGameCommand create_game_cmd{REQUEST_SURVIVAL, REQUEST_EASY};
 
     create_game_cmd.execute(manager, game_q, player_q,
                             &player_id);
@@ -59,7 +59,7 @@ TEST(command_test,
             std::make_shared<Queue<std::shared_ptr<Information>>>(10000);
     std::uint8_t player_id = 0;
     GameManager manager = GameManager();
-    CreateGameCommand create_game_cmd{REQUEST_SURVIVAL};
+    CreateGameCommand create_game_cmd{REQUEST_SURVIVAL, REQUEST_EASY};
 
     create_game_cmd.execute(manager, game_q, player_q,
                             &player_id);

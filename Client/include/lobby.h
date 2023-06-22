@@ -18,6 +18,7 @@ class ClientLobby {
     void joinGame();
     void pickSoldier();
     uint8_t pickGameMode();
+    uint8_t pickGameDifficulty();
 public:
     ClientLobby(Queue<std::shared_ptr<Information>>& actions_to_send,
                 Queue<std::shared_ptr<Information>>& feedback_received);

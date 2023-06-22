@@ -58,7 +58,7 @@ std::uint8_t ClientLobby::pickGameMode() {
     using std::string;
     using std::cin;
 
-    cout << "Pick a GameMode: \n"
+    cout << "Select GameMode: \n"
             "> survival\n"
             "> clearzone"
             << endl;
@@ -73,7 +73,44 @@ std::uint8_t ClientLobby::pickGameMode() {
             return REQUEST_CLEAR_THE_ZONE;
         } else {
             cout << "Invalid mode type. "
-                    "Pick a GameMode: \n> survival\n> clearzone" << endl;
+                    "Select GameMode: \n> survival\n> clearzone" << endl;
+        }
+    }
+}
+
+std::uint8_t ClientLobby::pickGameDifficulty() {
+    using std::make_shared;
+    using std::cout;
+    using std::endl;
+    using std::string;
+    using std::cin;
+
+    cout << "Select Difficulty: \n"
+            "> easy\n"
+            "> normal\n"
+            "> hard\n"
+            "> insane"
+            << endl;
+
+    while (true) {
+
+        string mode_type_string;
+        cin >> mode_type_string;
+        if (mode_type_string == "easy") {
+            return REQUEST_EASY;
+        } else if (mode_type_string == "normal") {
+            return REQUEST_NORMAL;
+        } else if (mode_type_string == "hard") {
+            return REQUEST_HARD;
+        } else if (mode_type_string == "insane") {
+            return REQUEST_INSANE;
+        } else {
+                cout << "Select Difficulty: \n"
+                        "> easy\n"
+                        "> normal\n"
+                        "> hard\n"
+                        "> insane"
+                        << endl;
         }
     }
 }
@@ -118,7 +155,8 @@ void ClientLobby::joinGame() {
         else if (action == "create")
         {
             std::uint8_t gamemode = pickGameMode();
-            actions_to_send.push(make_shared<CreateGameAction>(gamemode));
+            std::uint8_t gamedifficulty = pickGameDifficulty();
+            actions_to_send.push(make_shared<CreateGameAction>(gamemode, gamedifficulty));
             const shared_ptr<Information>& create_feed =
                     feedback_received.pop();
 

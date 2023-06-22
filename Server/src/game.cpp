@@ -1,7 +1,7 @@
 #include <chrono>
 #include "../include/game.h"
 
-Game::Game(std::uint8_t max_players, uint8_t gameMode) :
+Game::Game(std::uint8_t max_players, uint8_t gameMode, uint8_t gameDifficulty) :
         max_players(max_players),
         players_amount(0),
         is_running(true),
@@ -9,7 +9,7 @@ Game::Game(std::uint8_t max_players, uint8_t gameMode) :
         commands_recv(10000),
         player_queues(),
         match(nullptr) {
-    selectMode(gameMode);
+    selectMode(gameMode, gameDifficulty);
     player_queues.reserve(max_players);
 }
 
@@ -36,15 +36,15 @@ void Game::join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, const std::s
     }
 }
 
-void Game::selectMode(uint8_t gameMode) {
+void Game::selectMode(uint8_t gameMode, uint8_t gameDifficulty) {
     switch (gameMode)
     {
     case SURVIVAL:
-        match = std::shared_ptr<Match>(new Survival(1000.0, 1000.0, DEASY));
+        match = std::shared_ptr<Match>(new Survival(1000.0, 1000.0, gameDifficulty));
         break;
     
     case CLEAR_THE_ZONE:
-        match = std::shared_ptr<Match>(new ClearTheZone(1000.0, 1000.0, DEASY));
+        match = std::shared_ptr<Match>(new ClearTheZone(1000.0, 1000.0, gameDifficulty));
         break;
     }
 }

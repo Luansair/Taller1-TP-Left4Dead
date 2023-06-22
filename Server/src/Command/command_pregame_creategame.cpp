@@ -4,8 +4,9 @@
 #include "../../include/Command/command_pregame_creategame.h"
 #include "../../../Common/include/Information/feedback_server_creategame.h"
 
-CreateGameCommand::CreateGameCommand(uint8_t gameMode) :
-    gameMode(gameMode) {
+CreateGameCommand::CreateGameCommand(uint8_t gameMode, std::uint8_t gameDifficulty) :
+    gameMode(gameMode),
+    gameDifficulty(gameDifficulty) {
 }
 
 bool CreateGameCommand::execute(GameManager &game_manager,
@@ -16,6 +17,7 @@ bool CreateGameCommand::execute(GameManager &game_manager,
     game_manager.createGame(game_queue,
                             player_queue,
                             player_id,
-                            gameMode);
+                            gameMode,
+                            gameDifficulty);
     return true;
 }

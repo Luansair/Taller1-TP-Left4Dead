@@ -23,11 +23,19 @@ PreGameCommand *Protocol::recvPreGameCommand() {
 
     } else if (action_id == InformationID::REQUEST_CREATE_GAME) {
         uint8_t gamemode;
+        uint8_t gamedif;
         socket.recvData(&gamemode, 1);
+        socket.recvData(&gamedif, 1);
         if (gamemode == InformationID::REQUEST_SURVIVAL) {
-            return new CreateGameCommand(SURVIVAL);
+            if (gamedif == REQUEST_EASY) return new CreateGameCommand(SURVIVAL, DEASY);
+            if (gamedif == REQUEST_NORMAL) return new CreateGameCommand(SURVIVAL, DNORMAL);
+            if (gamedif == REQUEST_HARD) return new CreateGameCommand(SURVIVAL, DHARD);
+            if (gamedif == REQUEST_INSANE) return new CreateGameCommand(SURVIVAL, DINSANE);
         } else if (gamemode == REQUEST_CLEAR_THE_ZONE) {
-            return new CreateGameCommand(CLEAR_THE_ZONE);
+            if (gamedif == REQUEST_EASY) return new CreateGameCommand(CLEAR_THE_ZONE, DEASY);
+            if (gamedif == REQUEST_NORMAL) return new CreateGameCommand(CLEAR_THE_ZONE, DNORMAL);
+            if (gamedif == REQUEST_HARD) return new CreateGameCommand(CLEAR_THE_ZONE, DHARD);
+            if (gamedif == REQUEST_INSANE) return new CreateGameCommand(CLEAR_THE_ZONE, DINSANE);
         }
     }
     return nullptr;

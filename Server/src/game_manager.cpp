@@ -64,7 +64,7 @@ GameManager::GameManager() :
 
 std::uint32_t GameManager::createGame(Queue<std::shared_ptr<InGameCommand>> *&game_queue,
                                       const std::shared_ptr<Queue<std::shared_ptr<Information>>> &player_queue,
-                                      std::uint8_t *player_id, uint8_t gameMode) {
+                                      std::uint8_t *player_id, uint8_t gameMode, uint8_t gameDifficulty) {
     using std::uint32_t;
     using std::runtime_error;
     using std::pair;
@@ -93,7 +93,7 @@ std::uint32_t GameManager::createGame(Queue<std::shared_ptr<InGameCommand>> *&ga
 
     std::uint32_t game_code = generateGameCode();
     // Game could receive game_code to inform the player when it asks for it.
-    Game* game = new Game(MAX_PLAYERS, gameMode);
+    Game* game = new Game(MAX_PLAYERS, gameMode, gameDifficulty);
 
     // Creates the smart pointer for RAII
     shared_ptr<CreateGameFeedback> create_feed =

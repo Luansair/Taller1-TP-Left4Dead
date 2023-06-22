@@ -10,8 +10,9 @@
 
 class CreateGameCommand : public PreGameCommand {
     std::uint8_t gameMode;
+    std::uint8_t gameDifficulty;
 public:
-    explicit CreateGameCommand(std::uint8_t gameMode);
+    explicit CreateGameCommand(std::uint8_t gameMode, std::uint8_t gameDifficulty);
 
     virtual bool execute(GameManager& game_manager,
                          Queue<std::shared_ptr<InGameCommand>> *&game_queue,

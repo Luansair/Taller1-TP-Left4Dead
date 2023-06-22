@@ -50,7 +50,7 @@ clear_easy:
   jumper: 1
   venom: 1
 
-clear_medium:
+clear_normal:
   infected: 2
   spear: 2
   witch: 1
@@ -78,7 +78,7 @@ survival_easy:
   jumper: 1
   venom: 1
 
-survival_medium:
+survival_normal:
   infected: 2
   spear: 2
   witch: 1

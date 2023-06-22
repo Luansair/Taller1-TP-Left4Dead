@@ -26,7 +26,7 @@ public:
     std::shared_ptr<Soldier> att_vic;
     int8_t dir_x = RIGHT;
     double sight = 200.0;
-    double hit_scope = 10.0;
+    double hit_scope = 30.0;
     double damage_recv = 0.0;
     uint32_t attacker_id = 500; // num cualquiera
 

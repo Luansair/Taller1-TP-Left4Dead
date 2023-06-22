@@ -160,16 +160,17 @@ void Zombie::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
         } else {
             direction = RIGHT;
         }
-        Position next_pos(next_x, next_y, getWidth() + 20, getHeight() + 20, dim_x, dim_y);
-        if (next_pos.collides(victim->getPosition())) {
-            move(OFF, getDir());
+
+        RadialHitbox hit_zone(position.getXPos(), position.getYPos(), hit_scope);
+        if (hit_zone.hits(victim->getPosition())) {
+            move(OFF, direction);
             attack(ON, victim);
             return;
-        } else {
-            move(ON, direction);
-            attack(OFF, nullptr);
-            position = next_pos;
         }
+        Position next_pos(next_x, next_y, getWidth(), getHeight(), dim_x, dim_y);
+        attack(OFF, nullptr);
+        move(ON, direction);
+        position = next_pos;
     } else {
         move(OFF, getDir());
         attack(OFF, nullptr);

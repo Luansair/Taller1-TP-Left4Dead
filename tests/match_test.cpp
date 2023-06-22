@@ -64,7 +64,7 @@ TEST(match_test, Test03MoveSoldier) {
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, X, RIGHT, NORMAL);
-    match.simulateStep(std::chrono::steady_clock::now());
+    match.simulateStep(std::chrono::system_clock::now());
     std::vector<std::pair<uint16_t, ElementStateDTO>> dtos = match
             .getElementStates();
     int x = soldiers.at(1)->getPosition().getXPos();
@@ -80,7 +80,7 @@ TEST(match_test, Test04MoveSoldierLeft) {
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, X, LEFT, NORMAL);
-    match.simulateStep(std::chrono::steady_clock::now());
+    match.simulateStep(std::chrono::system_clock::now());
     std::vector<std::pair<uint16_t, ElementStateDTO>> dtos = match
             .getElementStates();
     int x = soldiers.at(1)->getPosition().getXPos();
@@ -96,7 +96,7 @@ TEST(match_test, Test05MoveSoldierDown) {
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, Y, DOWN, NORMAL);
-    match.simulateStep(std::chrono::steady_clock::now());
+    match.simulateStep(std::chrono::system_clock::now());
     std::vector<std::pair<uint16_t, ElementStateDTO>> dtos = match
             .getElementStates();
     int x = soldiers.at(1)->getPosition().getXPos();
@@ -112,7 +112,7 @@ TEST(match_test, Test06MoveSoldierUp) {
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, Y, UP, NORMAL);
-    match.simulateStep(std::chrono::steady_clock::now());
+    match.simulateStep(std::chrono::system_clock::now());
     std::vector<std::pair<uint16_t, ElementStateDTO>> dtos = match
             .getElementStates();
     int x = soldiers.at(1)->getPosition().getXPos();
@@ -128,9 +128,9 @@ TEST(match_test, Test07MoveAndStop) {
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, Y, UP, NORMAL);
-    match.simulateStep(std::chrono::steady_clock::now());
+    match.simulateStep(std::chrono::system_clock::now());
     match.idle(1, ON);
-    match.simulateStep(std::chrono::steady_clock::now());
+    match.simulateStep(std::chrono::system_clock::now());
     std::vector<std::pair<uint16_t, ElementStateDTO>> dtos = match
             .getElementStates();
     int x = soldiers.at(1)->getPosition().getXPos();
@@ -146,7 +146,7 @@ TEST(match_test, Test08Shoot) {
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.shoot(1, ON);
-    match.simulateStep(std::chrono::steady_clock::now());
+    match.simulateStep(std::chrono::system_clock::now());
     std::vector<std::pair<uint16_t, ElementStateDTO>> dtos = match
             .getElementStates();
     int x = soldiers.at(1)->getPosition().getXPos();

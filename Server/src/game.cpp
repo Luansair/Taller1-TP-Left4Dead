@@ -60,10 +60,10 @@ void Game::stop() {
 void Game::run() {
     using std::this_thread::sleep_for;
     using std::chrono::milliseconds;
-    using std::chrono::_V2::steady_clock;
+    using std::chrono::_V2::system_clock;
 
     while (is_running && players_amount > 0) {
-        std::chrono::_V2::steady_clock::time_point start = std::chrono::steady_clock::now();
+        std::chrono::_V2::system_clock::time_point start = std::chrono::system_clock::now();
         sleep_for(milliseconds(5));
         std::unique_lock<std::mutex> lck(mtx);
 

@@ -16,9 +16,10 @@ public:
     explicit Survival(double x_dimension, double y_dimension, uint8_t difficulty, uint32_t code);
     void configurate(uint8_t difficulty);
 
-    void simulateStep(std::chrono::_V2::steady_clock::time_point real_time) override;
+    void simulateStep(std::chrono::_V2::system_clock::time_point real_time) override;
+    void add_zombies(void);
     void loseMatch(void);
-
+    std::chrono::_V2::system_clock::time_point actual_time = create_time;
 };
 
 #endif  // SURVIVAL_H_

@@ -92,7 +92,7 @@ void Zombie::recvDamage(uint8_t state, double damage, uint32_t attacker) {
 
 // función para pasar de segundos a chrono::duration
 
-void Zombie::simulate(std::chrono::_V2::steady_clock::time_point real_time,
+void Zombie::simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
     if (dying) simulateDie(real_time);
@@ -103,7 +103,7 @@ void Zombie::simulate(std::chrono::_V2::steady_clock::time_point real_time,
 }
 
 void Zombie::simulateRecvDamage(
-    std::chrono::_V2::steady_clock::time_point real_time,
+    std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers) {
     if (damage_recv < health) {
         health -= damage_recv; 
@@ -115,13 +115,13 @@ void Zombie::simulateRecvDamage(
     soldiers.at(attacker_id)->increase_kill_counter();
 }
 
-void Zombie::simulateDie(std::chrono::_V2::steady_clock::time_point real_time) {
+void Zombie::simulateDie(std::chrono::_V2::system_clock::time_point real_time) {
     std::chrono::duration<double> time_dying = real_time - death_time;
     if (time_dying.count() > die_cooldown) alive = false;
     idle(ON);
 }
 
-void Zombie::simulateMove(std::chrono::_V2::steady_clock::time_point real_time,
+void Zombie::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
     std::chrono::duration<double> time = real_time - last_step_time;
@@ -177,7 +177,7 @@ void Zombie::simulateMove(std::chrono::_V2::steady_clock::time_point real_time,
 
 }
 
-void Zombie::simulateAttack(std::chrono::_V2::steady_clock::time_point real_time,
+void Zombie::simulateAttack(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
     double dim_x) {

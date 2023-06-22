@@ -6,7 +6,8 @@ Match::Match(double x_dimension, double y_dimension, uint32_t code) :
     zombies(),
     x_dim(x_dimension),
     y_dim(y_dimension),
-    code(code) {
+    code(code),
+    configurator() {
 }
 
 void Match::delete_soldier(uint32_t soldier_id) {

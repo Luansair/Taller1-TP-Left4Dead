@@ -150,7 +150,7 @@ void Soldier::increase_kill_counter(void) {
 
 /* SIMULADORES */
 
-void Soldier::simulate(std::chrono::_V2::steady_clock::time_point real_time,
+void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
 
@@ -166,7 +166,7 @@ void Soldier::simulate(std::chrono::_V2::steady_clock::time_point real_time,
     last_step_time = real_time;
 }
 
-void Soldier::simulateRecvdmg(std::chrono::_V2::steady_clock::time_point real_time) {
+void Soldier::simulateRecvdmg(std::chrono::_V2::system_clock::time_point real_time) {
     if (damage_recv < health) {
         health -= damage_recv;
         recvDamage(OFF, 0);
@@ -177,7 +177,7 @@ void Soldier::simulateRecvdmg(std::chrono::_V2::steady_clock::time_point real_ti
     start_dying(ON);
 }
 
-void Soldier::simulateRevive(std::chrono::_V2::steady_clock::time_point real_time,
+void Soldier::simulateRevive(std::chrono::_V2::system_clock::time_point real_time,
 std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers) {
 
     // verifico las colisiones. 
@@ -193,7 +193,7 @@ std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers) {
     }
 }
 
-void Soldier::simulateDie(std::chrono::_V2::steady_clock::time_point real_time) {
+void Soldier::simulateDie(std::chrono::_V2::system_clock::time_point real_time) {
     std::chrono::duration<double> time_dying = real_time - death_time;
     // si tiempo para revivirlo terminó, se muere.
     idle(ON);
@@ -228,7 +228,7 @@ void Soldier::simulateMove(
     position = next_pos;
 }
 
-void Soldier::simulateShoot(std::chrono::_V2::steady_clock::time_point real_time, double time,
+void Soldier::simulateShoot(std::chrono::_V2::system_clock::time_point real_time, double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x) {
     if (!(weapon->shoot(
@@ -240,7 +240,7 @@ void Soldier::simulateShoot(std::chrono::_V2::steady_clock::time_point real_time
     }
 }
 
-void Soldier::simulateReload(std::chrono::_V2::steady_clock::time_point real_time) {
+void Soldier::simulateReload(std::chrono::_V2::system_clock::time_point real_time) {
     std::chrono::duration<double> time_reloading = real_time - reload_time;
     if (time_reloading.count() > reload_cooldown) {
         weapon->reload();
@@ -249,7 +249,7 @@ void Soldier::simulateReload(std::chrono::_V2::steady_clock::time_point real_tim
     keep_reloading(ON);
 }
 
-void Soldier::simulateThrow(std::chrono::_V2::steady_clock::time_point real_time) {}
+void Soldier::simulateThrow(std::chrono::_V2::system_clock::time_point real_time) {}
 
 /* GETTERS */
 

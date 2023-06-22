@@ -38,6 +38,7 @@ public:
     uint8_t soldier_counter = 0;
     uint8_t zombie_counter = 0;
     std::chrono::_V2::system_clock::time_point create_time = std::chrono::system_clock::now();
+    MatchConfigurator configurator;
 
     /* Constructor de Match, parámetros: dimensiones del mapa */
     explicit Match(double x_dimension, double y_dimension, uint32_t code);
@@ -78,7 +79,7 @@ public:
 
     std::map<uint32_t, std::shared_ptr<Soldier>>& getSoldiers(void);
 
-    virtual void simulateStep(std::chrono::_V2::steady_clock::time_point real_time) = 0;
+    virtual void simulateStep(std::chrono::_V2::system_clock::time_point real_time) = 0;
     
     std::vector<std::pair<uint16_t, ElementStateDTO >> getElementStates();
 

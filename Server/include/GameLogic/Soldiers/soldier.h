@@ -33,11 +33,11 @@ public:
     uint16_t kill_counter = 0;
 
     /* tiempos */
-    std::chrono::_V2::steady_clock::time_point last_step_time = std::chrono::steady_clock::now();
-    std::chrono::_V2::steady_clock::time_point born_time = std::chrono::steady_clock::now();
-    std::chrono::_V2::steady_clock::time_point death_time = std::chrono::steady_clock::now();
-    std::chrono::_V2::steady_clock::time_point reload_time = std::chrono::steady_clock::now();
-    std::chrono::_V2::steady_clock::time_point being_hurt_time = std::chrono::steady_clock::now();
+    std::chrono::_V2::system_clock::time_point last_step_time = std::chrono::system_clock::now();
+    std::chrono::_V2::system_clock::time_point born_time = std::chrono::system_clock::now();
+    std::chrono::_V2::system_clock::time_point death_time = std::chrono::system_clock::now();
+    std::chrono::_V2::system_clock::time_point reload_time = std::chrono::system_clock::now();
+    std::chrono::_V2::system_clock::time_point being_hurt_time = std::chrono::system_clock::now();
     double revive_cooldown = 30.0;
     double reload_cooldown = 1.5;
 
@@ -88,22 +88,22 @@ public:
 
     /* SIMULADORES */
 
-    virtual void simulate(std::chrono::_V2::steady_clock::time_point real_time,
+    virtual void simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
     virtual void simulateMove(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
-    virtual void simulateShoot(std::chrono::_V2::steady_clock::time_point real_time, double time,
+    virtual void simulateShoot(std::chrono::_V2::system_clock::time_point real_time, double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
     double dim_x);
-    virtual void simulateReload(std::chrono::_V2::steady_clock::time_point real_time);
-    virtual void simulateThrow(std::chrono::_V2::steady_clock::time_point real_time);
-    virtual void simulateDie(std::chrono::_V2::steady_clock::time_point real_time);
-    virtual void simulateRevive(std::chrono::_V2::steady_clock::time_point real_time,
+    virtual void simulateReload(std::chrono::_V2::system_clock::time_point real_time);
+    virtual void simulateThrow(std::chrono::_V2::system_clock::time_point real_time);
+    virtual void simulateDie(std::chrono::_V2::system_clock::time_point real_time);
+    virtual void simulateRevive(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers);
-    virtual void simulateRecvdmg(std::chrono::_V2::steady_clock::time_point real_time);
+    virtual void simulateRecvdmg(std::chrono::_V2::system_clock::time_point real_time);
 
     /* GETTERS */
 

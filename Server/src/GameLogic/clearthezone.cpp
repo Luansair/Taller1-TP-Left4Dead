@@ -5,7 +5,7 @@ ClearTheZone::ClearTheZone(double x_dimension, double y_dimension, uint8_t diffi
         configurate(difficulty);
 }
 
-void ClearTheZone::simulateStep(std::chrono::_V2::steady_clock::time_point real_time) {
+void ClearTheZone::simulateStep(std::chrono::_V2::system_clock::time_point real_time) {
     for (auto & zombie : zombies) {
         zombie.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
     }

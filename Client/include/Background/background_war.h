@@ -14,7 +14,7 @@ class WarBackground {
 public:
     explicit WarBackground() = default;
 
-    virtual void draw(std::uint8_t layer_type, const SDL2pp::Point& position) = 0;
+    virtual void draw(std::uint8_t layer_type, const SDL2pp::Rect& destination) = 0;
 
     WarBackground(WarBackground&&) = delete;
     WarBackground& operator=(WarBackground&&) = delete;

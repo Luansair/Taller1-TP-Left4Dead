@@ -14,10 +14,12 @@ class BackgroundManager {
     //War3Background war3_background;
     //War4Background war4_background;
 
-    std::array<WarBackground, BACKGROUND_TYPE_LAST> backgrounds;
+    std::array<WarBackground*, BACKGROUND_TYPE_LAST> backgrounds;
 public:
     explicit BackgroundManager(SDL2pp::Renderer& renderer);
-    void drawLayer(std::uint8_t background_type, std::uint8_t layer_type, const SDL2pp::Point& position);
+
+    // Necesito el rectangulo con un alto y ancho calculado previamente segun el windows size.
+    void drawLayer(std::uint8_t background_type, std::uint8_t layer_type, const SDL2pp::Rect& destination);
     void drawElement();
 };
 

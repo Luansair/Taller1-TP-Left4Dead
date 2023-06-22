@@ -8,10 +8,10 @@
 ActionAnimation::ActionAnimation(SDL2pp::Renderer &renderer,
                                  const std::string &texture_filepath,
                                  const LoopType &loop_type,
-                                 int width,
-                                 int height) :
+                                 int sprite_width,
+                                 int sprite_height) :
         texture(renderer,texture_filepath),
-        sprite_manager(texture, loop_type, renderer, width, height) {
+        sprite_manager(texture, loop_type, renderer, sprite_width, sprite_height) {
 }
 
 

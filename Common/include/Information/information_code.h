@@ -38,7 +38,7 @@ enum GameDifficulty : std::uint8_t {
     DINSANE
 };
 
-enum ElementType : std::uint8_t {
+enum ActorType : std::uint8_t {
     SOLDIER_IDF,
     SOLDIER_P90,
     SOLDIER_SCOUT,
@@ -49,6 +49,25 @@ enum ElementType : std::uint8_t {
     VENOM
 };
 
+enum BackgroundType : std::uint8_t {
+    BACKGROUND_WAR1,
+    BACKGROUND_WAR2,
+    BACKGROUND_WAR3,
+    BACKGROUND_WAR4,
+    BACKGROUND_TYPE_LAST
+};
+
+enum War1LayerType : std::uint8_t {
+    WAR_1_LAYER_FENCE,
+    WAR_1_LAYER_HOUSE_1,
+    WAR_1_LAYER_HOUSE_2,
+    WAR_1_LAYER_HOUSE_3,
+    WAR_1_LAYER_ROAD,
+    WAR_1_LAYER_RUINS,
+    WAR_1_LAYER_SKY,
+    WAR_1_LAYER_SUN,
+    WAR_1_LAYER_LAST
+};
 // Don't change or animations will break!
 // Se puede agregar una señal para eliminar, id - update/erase - lo demas...
 // Se puede separar la info del server de la del user y despues con un

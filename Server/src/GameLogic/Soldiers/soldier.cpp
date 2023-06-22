@@ -288,6 +288,15 @@ const Position& Soldier::seePosition(void) const {
     return std::ref(position);
 }
 
+uint16_t Soldier::getKills(void) {
+    return kill_counter;
+}
+
+double Soldier::secondsAlive(void) {
+    std::chrono::duration<double> time_alive = last_step_time - born_time;
+    return time_alive.count();
+}
+
 /* SETTERS */
 
 void Soldier::setPosition(Position&& new_pos) {

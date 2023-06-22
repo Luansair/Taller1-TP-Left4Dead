@@ -1,0 +1,9 @@
+7770600:
+  time: "Thu Jun 22 17:00:47 2023\n"
+  players:
+    - 1:
+        seconds_alive: 39.373791351000001
+        kills: 2
+    - 2:
+        seconds_alive: 38.208497643999998
+        kills: 1

@@ -33,7 +33,7 @@ protected:
     virtual void run() override;
 
 public:
-    explicit Game(std::uint8_t max_players, uint8_t gameMode, uint8_t gameDifficulty);
+    explicit Game(std::uint8_t max_players, uint8_t gameMode, uint8_t gameDifficulty, uint32_t game_code);
 
     // bool addAdmin(std::uint8_t player_id);
     [[nodiscard]] bool isFull() const;
@@ -41,7 +41,7 @@ public:
     void join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, const std::shared_ptr<Queue<std::shared_ptr<Information>>> &player_queue,
               std::uint8_t* player_id);
     
-    void selectMode(uint8_t gameMode, uint8_t gameDifficulty);
+    void selectMode(uint8_t gameMode, uint8_t gameDifficulty, uint32_t game_mode);
 
     void stop();
 

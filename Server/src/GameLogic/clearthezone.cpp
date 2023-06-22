@@ -1,7 +1,7 @@
 #include "../../include/GameLogic/clearthezone.h"
 
-ClearTheZone::ClearTheZone(double x_dimension, double y_dimension, uint8_t difficulty) :
-    Match(x_dimension, y_dimension) {
+ClearTheZone::ClearTheZone(double x_dimension, double y_dimension, uint8_t difficulty, uint32_t code) :
+    Match(x_dimension, y_dimension, code) {
         configurate(difficulty);
 }
 

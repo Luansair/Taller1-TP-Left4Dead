@@ -20,6 +20,9 @@
 #include <map>
 #include <vector>
 #include <memory>
+#include <chrono>
+#include <ctime>
+#include <fstream>
 
 /* Class Match para representar una partida del juego.
 Tiene un map de soldier_id y punteros a esos Soldier.
@@ -31,11 +34,13 @@ public:
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
     double x_dim;
     double y_dim;
+    uint32_t code;
     uint8_t soldier_counter = 0;
     uint8_t zombie_counter = 0;
+    std::chrono::_V2::system_clock::time_point create_time = std::chrono::system_clock::now();
 
     /* Constructor de Match, parámetros: dimensiones del mapa */
-    explicit Match(double x_dimension, double y_dimension);
+    explicit Match(double x_dimension, double y_dimension, uint32_t code);
 
     /* Elimina Soldier del Match, parámetros: id del soldado */
     void delete_soldier(uint32_t soldier_id);
@@ -43,6 +48,8 @@ public:
 
     void delete_dead_soldiers(void);
     void delete_dead_zombies(void);
+
+    void updateScore(uint32_t id, std::shared_ptr<Soldier>& soldier);
 
     /* Agrega Soldier al Match, parámetros: id del soldado, tipo de soldado */
     void join(uint32_t soldier_id, uint8_t soldier_type);

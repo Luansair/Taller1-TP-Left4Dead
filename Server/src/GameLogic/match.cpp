@@ -1,11 +1,12 @@
 #include "../../include/GameLogic/match.h"
 #include "yaml-cpp/yaml.h"
 
-Match::Match(double x_dimension, double y_dimension) :
+Match::Match(double x_dimension, double y_dimension, uint32_t code) :
     soldiers(),
     zombies(),
     x_dim(x_dimension),
-    y_dim(y_dimension) {
+    y_dim(y_dimension),
+    code(code) {
 }
 
 void Match::delete_soldier(uint32_t soldier_id) {
@@ -80,11 +81,31 @@ void Match::idle(uint32_t soldier_id, uint8_t state) {
 void Match::delete_dead_soldiers(void) {
     for (auto soldier = soldiers.begin(); soldier != soldiers.end(); ) {
         if (soldier->second->isDead()) {
+            updateScore(soldier->first, std::ref(soldier->second));
             soldier = soldiers.erase(soldier);
         } else {
             ++soldier;
         }
     }
+}
+
+void Match::updateScore(uint32_t id, std::shared_ptr<Soldier>& soldier) {
+    using YAML::LoadFile;
+    using YAML::Node;
+    Node score = LoadFile(SERVER_CONFIG_PATH "/score.yaml");
+    const std::string id_string = std::to_string(id);
+    const std::time_t rp = std::chrono::system_clock::to_time_t(create_time);
+    std::string h(ctime(&rp)); //converting to c++ string
+    if (!score[code]) {
+        score[code]["time"] = h;
+    }
+    Node player;
+    player[id_string] = YAML::Null; 
+    player[id_string]["seconds_alive"] = soldier->secondsAlive();
+    player[id_string]["kills"] = soldier->getKills();
+    score[code]["players"].push_back(player);
+    std::ofstream fout(SERVER_CONFIG_PATH "/score.yaml"); 
+    fout << score; 
 }
 
 void Match::delete_dead_zombies(void) {

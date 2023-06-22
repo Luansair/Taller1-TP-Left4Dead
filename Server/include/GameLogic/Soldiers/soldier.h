@@ -34,6 +34,7 @@ public:
 
     /* tiempos */
     std::chrono::_V2::steady_clock::time_point last_step_time = std::chrono::steady_clock::now();
+    std::chrono::_V2::steady_clock::time_point born_time = std::chrono::steady_clock::now();
     std::chrono::_V2::steady_clock::time_point death_time = std::chrono::steady_clock::now();
     std::chrono::_V2::steady_clock::time_point reload_time = std::chrono::steady_clock::now();
     std::chrono::_V2::steady_clock::time_point being_hurt_time = std::chrono::steady_clock::now();
@@ -117,6 +118,8 @@ public:
     Position& getPosition();
     [[nodiscard]] const Position& seePosition() const;
     bool isDead(void);
+    uint16_t getKills(void);
+    double secondsAlive(void);
 
     /* SETTERS */
 

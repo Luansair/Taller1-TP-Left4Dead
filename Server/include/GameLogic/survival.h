@@ -13,7 +13,7 @@ ranking han quedado (hay 3 rankings, uno por cada una de las estadísticas). */
 
 class Survival : public Match {
 public:
-    explicit Survival(double x_dimension, double y_dimension, uint8_t difficulty);
+    explicit Survival(double x_dimension, double y_dimension, uint8_t difficulty, uint32_t code);
     void configurate(uint8_t difficulty);
 
     void simulateStep(std::chrono::_V2::steady_clock::time_point real_time) override;

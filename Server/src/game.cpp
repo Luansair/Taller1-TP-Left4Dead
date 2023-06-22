@@ -1,7 +1,7 @@
 #include <chrono>
 #include "../include/game.h"
 
-Game::Game(std::uint8_t max_players, uint8_t gameMode, uint8_t gameDifficulty) :
+Game::Game(std::uint8_t max_players, uint8_t gameMode, uint8_t gameDifficulty, uint32_t game_code) :
         max_players(max_players),
         players_amount(0),
         is_running(true),
@@ -9,7 +9,7 @@ Game::Game(std::uint8_t max_players, uint8_t gameMode, uint8_t gameDifficulty) :
         commands_recv(10000),
         player_queues(),
         match(nullptr) {
-    selectMode(gameMode, gameDifficulty);
+    selectMode(gameMode, gameDifficulty, game_code);
     player_queues.reserve(max_players);
 }
 
@@ -36,15 +36,15 @@ void Game::join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, const std::s
     }
 }
 
-void Game::selectMode(uint8_t gameMode, uint8_t gameDifficulty) {
+void Game::selectMode(uint8_t gameMode, uint8_t gameDifficulty, uint32_t game_code) {
     switch (gameMode)
     {
     case SURVIVAL:
-        match = std::shared_ptr<Match>(new Survival(1000.0, 1000.0, gameDifficulty));
+        match = std::shared_ptr<Match>(new Survival(1000.0, 1000.0, gameDifficulty, game_code));
         break;
     
     case CLEAR_THE_ZONE:
-        match = std::shared_ptr<Match>(new ClearTheZone(1000.0, 1000.0, gameDifficulty));
+        match = std::shared_ptr<Match>(new ClearTheZone(1000.0, 1000.0, gameDifficulty, game_code));
         break;
     }
 }

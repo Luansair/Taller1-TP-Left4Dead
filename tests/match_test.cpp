@@ -17,15 +17,15 @@ bool operator==(const ElementStateDTO& lhs, const ElementStateDTO& rhs) {
 }
 
 TEST(match_test, Test00CreateMatch) {
-    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(0.0,0.0, DEASY));
-    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(10.0,10.0, DEASY));
-    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(100.0,100.0, DEASY));
-    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(1000.0,100000.0, DEASY));
+    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(0.0,0.0, DEASY, 1));
+    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(10.0,10.0, DEASY, 1));
+    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(100.0,100.0, DEASY, 1));
+    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(1000.0,100000.0, DEASY, 1));
 }
 
 TEST(match_test, Test01InserSoldier) {
 
-    ClearTheZone match(100,100, DEASY);
+    ClearTheZone match(100,100, DEASY, 1);
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     ASSERT_NO_THROW(soldiers.at(1));
@@ -34,7 +34,7 @@ TEST(match_test, Test01InserSoldier) {
 
 TEST(match_test, Test02InsertSomeSoldiers) {
 
-    ClearTheZone match(100,100, DEASY);
+    ClearTheZone match(100,100, DEASY, 1);
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     ASSERT_NO_FATAL_FAILURE(match.join(2, SOLDIER_IDF));
     ASSERT_NO_FATAL_FAILURE(match.join(3, SOLDIER_IDF));
@@ -60,7 +60,7 @@ TEST(match_test, Test02InsertSomeSoldiers) {
 
 TEST(match_test, Test03MoveSoldier) {
 
-    ClearTheZone match(100,100, DEASY);
+    ClearTheZone match(100,100, DEASY, 1);
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, X, RIGHT, NORMAL);
@@ -76,7 +76,7 @@ TEST(match_test, Test03MoveSoldier) {
 
 TEST(match_test, Test04MoveSoldierLeft) {
 
-    ClearTheZone match(100,100, DEASY);
+    ClearTheZone match(100,100, DEASY, 1);
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, X, LEFT, NORMAL);
@@ -92,7 +92,7 @@ TEST(match_test, Test04MoveSoldierLeft) {
 
 TEST(match_test, Test05MoveSoldierDown) {
 
-    ClearTheZone match(100,100, DEASY);
+    ClearTheZone match(100,100, DEASY, 1);
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, Y, DOWN, NORMAL);
@@ -108,7 +108,7 @@ TEST(match_test, Test05MoveSoldierDown) {
 
 TEST(match_test, Test06MoveSoldierUp) {
 
-    ClearTheZone match(100,100, DEASY);
+    ClearTheZone match(100,100, DEASY, 1);
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, Y, UP, NORMAL);
@@ -124,7 +124,7 @@ TEST(match_test, Test06MoveSoldierUp) {
 
 TEST(match_test, Test07MoveAndStop) {
 
-    ClearTheZone match(100,100, DEASY);
+    ClearTheZone match(100,100, DEASY, 1);
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, Y, UP, NORMAL);
@@ -142,7 +142,7 @@ TEST(match_test, Test07MoveAndStop) {
 
 TEST(match_test, Test08Shoot) {
 
-    ClearTheZone match(100,100, DEASY);
+    ClearTheZone match(100,100, DEASY, 1);
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.shoot(1, ON);

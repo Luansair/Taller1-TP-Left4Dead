@@ -8,7 +8,7 @@ eliminan a todos ellos. */
 
 class ClearTheZone : public Match {
 public:
-    explicit ClearTheZone(double x_dimension, double y_dimension, uint8_t difficulty);
+    explicit ClearTheZone(double x_dimension, double y_dimension, uint8_t difficulty, uint32_t code);
     void configurate(uint8_t difficulty);
 
     void simulateStep(std::chrono::_V2::steady_clock::time_point real_time) override;

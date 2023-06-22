@@ -7,6 +7,6 @@ StartMoveCommand::StartMoveCommand(uint8_t player_id, uint8_t moveAxis, int8_t m
     moveForce(moveForce) {
 }
 
-void StartMoveCommand::execute(Match &match) const {
-    match.move(player_id, ActionState::ON, moveAxis, moveDirection, moveForce);
+void StartMoveCommand::execute(std::shared_ptr<Match> &match) const {
+    match->move(player_id, ActionState::ON, moveAxis, moveDirection, moveForce);
 }

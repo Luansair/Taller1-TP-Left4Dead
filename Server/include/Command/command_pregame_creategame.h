@@ -6,10 +6,12 @@
 #define TP_COMMAND_PREGAME_CREATEGAME_H
 
 #include "command_pregame.h"
+#include <cstdint>
 
 class CreateGameCommand : public PreGameCommand {
+    std::uint8_t gameMode;
 public:
-    CreateGameCommand() = default;
+    explicit CreateGameCommand(std::uint8_t gameMode);
 
     virtual bool execute(GameManager& game_manager,
                          Queue<std::shared_ptr<InGameCommand>> *&game_queue,

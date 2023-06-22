@@ -21,7 +21,7 @@ public:
 
     std::uint32_t createGame(Queue<std::shared_ptr<InGameCommand>> *&game_queue,
                              const std::shared_ptr<Queue<std::shared_ptr<Information>>> &player_queue,
-                             std::uint8_t* player_id);
+                             std::uint8_t* player_id, uint8_t gameMode);
 
     bool joinGame(Queue<std::shared_ptr<InGameCommand>> *&game_queue,
                   const std::shared_ptr<Queue<std::shared_ptr<Information>>> &player_queue,

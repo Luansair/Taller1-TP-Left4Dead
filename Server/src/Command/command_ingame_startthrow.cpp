@@ -4,6 +4,6 @@ StartThrowCommand::StartThrowCommand(std::uint8_t player_id) :
     InGameCommand(player_id) {
 }
 
-void StartThrowCommand::execute(Match &match) const {
-    match.throwGrenade(player_id, ActionState::ON);
+void StartThrowCommand::execute(std::shared_ptr<Match> &match) const {
+    match->throwGrenade(player_id, ActionState::ON);
 }

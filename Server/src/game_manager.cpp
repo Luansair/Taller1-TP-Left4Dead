@@ -2,6 +2,7 @@
 #include "../include/game_manager.h"
 #include "../../Common/include/Information/feedback_server_creategame.h"
 #include "../../Common/include/Information/feedback_server_joingame.h"
+#include "../../Common/include/Information/information_code.h"
 
 /*
  * MAX_SIZE is defined so the chances for the generator to generate a game_code
@@ -63,7 +64,7 @@ GameManager::GameManager() :
 
 std::uint32_t GameManager::createGame(Queue<std::shared_ptr<InGameCommand>> *&game_queue,
                                       const std::shared_ptr<Queue<std::shared_ptr<Information>>> &player_queue,
-                                      std::uint8_t *player_id) {
+                                      std::uint8_t *player_id, uint8_t gameMode) {
     using std::uint32_t;
     using std::runtime_error;
     using std::pair;
@@ -92,7 +93,7 @@ std::uint32_t GameManager::createGame(Queue<std::shared_ptr<InGameCommand>> *&ga
 
     std::uint32_t game_code = generateGameCode();
     // Game could receive game_code to inform the player when it asks for it.
-    Game* game = new Game(MAX_PLAYERS);
+    Game* game = new Game(MAX_PLAYERS, gameMode);
 
     // Creates the smart pointer for RAII
     shared_ptr<CreateGameFeedback> create_feed =
@@ -101,7 +102,7 @@ std::uint32_t GameManager::createGame(Queue<std::shared_ptr<InGameCommand>> *&ga
     // Push feedback for the player before joining
     player_queue->push(create_feed);
 
-    // Join the playe
+    // Join the player
     game->join(game_queue, player_queue, player_id);
 
     pair<uint32_t, Game*> hash(game_code, game);

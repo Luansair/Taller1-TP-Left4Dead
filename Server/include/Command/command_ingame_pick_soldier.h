@@ -12,7 +12,7 @@ class PickSoldierCommand : public InGameCommand {
 public:
     explicit PickSoldierCommand(std::uint8_t player_id, std::uint8_t soldier_type);
 
-    void execute(Match& match) const override;
+    void execute(std::shared_ptr<Match> &match) const override;
 
     ~PickSoldierCommand() override = default;
 };

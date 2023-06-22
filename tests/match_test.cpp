@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "GameLogic/match.h"
+#include "GameLogic/clearthezone.h"
 #include "GameLogic/Soldiers/soldierfactory.h"
 #include "GameLogic/Soldiers/soldier.h"
 #include "../Common/include/Information/state_dto_element.h"
@@ -16,15 +17,15 @@ bool operator==(const ElementStateDTO& lhs, const ElementStateDTO& rhs) {
 }
 
 TEST(match_test, Test00CreateMatch) {
-    ASSERT_NO_FATAL_FAILURE(Match match(0.0,0.0));
-    ASSERT_NO_FATAL_FAILURE(Match match(10.0,10.0));
-    ASSERT_NO_FATAL_FAILURE(Match match(100.0,100.0));
-    ASSERT_NO_FATAL_FAILURE(Match match(1000.0,100000.0));
+    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(0.0,0.0, DEASY));
+    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(10.0,10.0, DEASY));
+    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(100.0,100.0, DEASY));
+    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(1000.0,100000.0, DEASY));
 }
 
 TEST(match_test, Test01InserSoldier) {
 
-    Match match(100,100);
+    ClearTheZone match(100,100, DEASY);
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     ASSERT_NO_THROW(soldiers.at(1));
@@ -33,7 +34,7 @@ TEST(match_test, Test01InserSoldier) {
 
 TEST(match_test, Test02InsertSomeSoldiers) {
 
-    Match match(100,100);
+    ClearTheZone match(100,100, DEASY);
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     ASSERT_NO_FATAL_FAILURE(match.join(2, SOLDIER_IDF));
     ASSERT_NO_FATAL_FAILURE(match.join(3, SOLDIER_IDF));
@@ -59,7 +60,7 @@ TEST(match_test, Test02InsertSomeSoldiers) {
 
 TEST(match_test, Test03MoveSoldier) {
 
-    Match match(100,100);
+    ClearTheZone match(100,100, DEASY);
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, X, RIGHT, NORMAL);
@@ -75,7 +76,7 @@ TEST(match_test, Test03MoveSoldier) {
 
 TEST(match_test, Test04MoveSoldierLeft) {
 
-    Match match(100,100);
+    ClearTheZone match(100,100, DEASY);
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, X, LEFT, NORMAL);
@@ -91,7 +92,7 @@ TEST(match_test, Test04MoveSoldierLeft) {
 
 TEST(match_test, Test05MoveSoldierDown) {
 
-    Match match(100,100);
+    ClearTheZone match(100,100, DEASY);
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, Y, DOWN, NORMAL);
@@ -107,7 +108,7 @@ TEST(match_test, Test05MoveSoldierDown) {
 
 TEST(match_test, Test06MoveSoldierUp) {
 
-    Match match(100,100);
+    ClearTheZone match(100,100, DEASY);
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, Y, UP, NORMAL);
@@ -123,7 +124,7 @@ TEST(match_test, Test06MoveSoldierUp) {
 
 TEST(match_test, Test07MoveAndStop) {
 
-    Match match(100,100);
+    ClearTheZone match(100,100, DEASY);
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.move(1, ON, Y, UP, NORMAL);
@@ -141,7 +142,7 @@ TEST(match_test, Test07MoveAndStop) {
 
 TEST(match_test, Test08Shoot) {
 
-    Match match(100,100);
+    ClearTheZone match(100,100, DEASY);
     ASSERT_NO_FATAL_FAILURE(match.join(1, SOLDIER_IDF));
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers = match.getSoldiers();
     match.shoot(1, ON);

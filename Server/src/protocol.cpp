@@ -1,6 +1,5 @@
 #include <netinet/in.h>
 #include "../include/protocol.h"
-#include "../../Common/include/Information/information_code.h"
 #include "../include/Command/command_pregame_joingame.h"
 #include "../include/Command/command_pregame_creategame.h"
 #include "../include/Command/command_ingame_startshoot.h"
@@ -23,7 +22,13 @@ PreGameCommand *Protocol::recvPreGameCommand() {
         return new JoinGameCommand(game_code);
 
     } else if (action_id == InformationID::REQUEST_CREATE_GAME) {
-        return new CreateGameCommand();
+        uint8_t gamemode;
+        socket.recvData(&gamemode, 1);
+        if (gamemode == InformationID::REQUEST_SURVIVAL) {
+            return new CreateGameCommand(SURVIVAL);
+        } else if (gamemode == REQUEST_CLEAR_THE_ZONE) {
+            return new CreateGameCommand(CLEAR_THE_ZONE);
+        }
     }
     return nullptr;
 }

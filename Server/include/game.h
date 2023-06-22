@@ -6,6 +6,8 @@
 #include "../../libs/queue.h"
 #include "../../libs/thread.h"
 #include "GameLogic/match.h"
+#include "GameLogic/survival.h"
+#include "GameLogic/clearthezone.h"
 #include "Command/command_ingame.h"
 #include "../../Common/include/Information/information.h"
 
@@ -24,22 +26,22 @@ class Game : public Thread {
       std::shared_ptr<
         Queue<std::shared_ptr<Information>>>> player_queues;
 
-    Match match;
+    std::shared_ptr<Match> match;
 
     std::mutex mtx;
 protected:
     virtual void run() override;
 
 public:
-    explicit Game(std::uint8_t max_players);
-
-    void setMatch(int cant_zombies);
+    explicit Game(std::uint8_t max_players, uint8_t gameMode);
 
     // bool addAdmin(std::uint8_t player_id);
     [[nodiscard]] bool isFull() const;
 
     void join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, const std::shared_ptr<Queue<std::shared_ptr<Information>>> &player_queue,
               std::uint8_t* player_id);
+    
+    void selectMode(uint8_t gameMode);
 
     void stop();
 

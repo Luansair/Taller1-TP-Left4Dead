@@ -9,6 +9,7 @@
 #include "../../../libs/queue.h"
 #include "../../../Common/include/Information/information.h"
 #include "../game_manager.h"
+#include <cstdint>
 
 class PreGameCommand {
 

@@ -8,7 +8,7 @@ PickSoldierCommand::PickSoldierCommand(std::uint8_t player_id, std::uint8_t sold
         soldier_type(soldier_type) {
 }
 
-void PickSoldierCommand::execute(Match &match) const {
-    match.join(player_id, soldier_type);
+void PickSoldierCommand::execute(std::shared_ptr<Match> &match) const {
+    match->join(player_id, soldier_type);
 }
 

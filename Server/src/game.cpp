@@ -1,14 +1,15 @@
 #include <chrono>
 #include "../include/game.h"
 
-Game::Game(std::uint8_t max_players) :
+Game::Game(std::uint8_t max_players, uint8_t gameMode) :
         max_players(max_players),
         players_amount(0),
         is_running(true),
         started(false),
         commands_recv(10000),
         player_queues(),
-        match(1000.0, 1000.0) { // por ahora se crea un match de 10x10
+        match(nullptr) {
+    selectMode(gameMode);
     player_queues.reserve(max_players);
 }
 
@@ -29,21 +30,22 @@ void Game::join(Queue<std::shared_ptr<InGameCommand>> *&game_queue, const std::s
     // Also a random function could be used for the ids.
     *player_id = ++players_amount;
 
-    //match.join(*player_id, actor++);
-    //if (actor == 3) actor = 0;
-
-    if(!zombies) {
-        match.setZombie(234, SPEAR);
-        match.setZombie(322, ZOMBIE);
-        match.setZombie(3232, VENOM);
-        match.setZombie(3242, WITCH);
-        match.setZombie(222, JUMPER);
-        //setMatch(5); //seteo 5 zombies
-    }
-
     // Game starts when max_players is reached.
     if (isFull()) {
         started = true;
+    }
+}
+
+void Game::selectMode(uint8_t gameMode) {
+    switch (gameMode)
+    {
+    case SURVIVAL:
+        match = std::shared_ptr<Match>(new Survival(1000.0, 1000.0, DEASY));
+        break;
+    
+    case CLEAR_THE_ZONE:
+        match = std::shared_ptr<Match>(new ClearTheZone(1000.0, 1000.0, DEASY));
+        break;
     }
 }
 
@@ -54,13 +56,6 @@ bool Game::isEmpty() const {
 void Game::stop() {
     is_running = false;
 }
-
-    // auto start = std::chrono::steady_clock::now();
-    // std::cout << "f(42) = " << fibonacci(42) << '\n';
-    // auto end = std::chrono::steady_clock::now();
-    // std::chrono::duration<double> elapsed_seconds = end-start;
-    // std::cout << "elapsed time: " << elapsed_seconds.count() << "s\n";
-
 
 void Game::run() {
     using std::this_thread::sleep_for;
@@ -75,10 +70,10 @@ void Game::run() {
         std::shared_ptr<InGameCommand> command (nullptr);
 
         if (commands_recv.try_pop(std::ref(command)))
-            command->execute(std::ref(match));
-        match.simulateStep(start);
+            command->execute(match);
+        match->simulateStep(start);
         std::vector<std::pair<short unsigned int, ElementStateDTO>>state =
-                match.getElementStates();
+                match->getElementStates();
 
         const std::shared_ptr<Information>& feedback_ptr =
                 std::make_shared<GameStateFeedback>(std::move(state));
@@ -102,15 +97,6 @@ void Game::run() {
             player_queue++;
         }
     }
-}
-
-void Game::setMatch(int cant_zombies) {
-    //le pongo 40 porque no hay todavia 40 soldados
-    for(int i = 40; i < 40 + cant_zombies; i++) {
-       match.setZombie(i, SPEAR);
-       //f (zactor == 8) actor = 3;
-    }
-    zombies = true;
 }
 
 bool Game::isFull() const {

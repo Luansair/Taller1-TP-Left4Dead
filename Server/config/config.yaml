@@ -42,3 +42,60 @@ zombie:
   width: 2
   height: 6
   speed: 150
+
+clear_easy:
+  infected: 1
+  spear: 1
+  witch: 1
+  jumper: 1
+  venom: 1
+
+clear_medium:
+  infected: 2
+  spear: 2
+  witch: 1
+  jumper: 2
+  venom: 1
+
+clear_hard:
+  infected: 4
+  spear: 1
+  witch: 2
+  jumper: 3
+  venom: 1
+
+clear_insane:
+  infected: 4
+  spear: 4
+  witch: 4
+  jumper: 4
+  venom: 4
+
+survival_easy:
+  infected: 1
+  spear: 1
+  witch: 1
+  jumper: 1
+  venom: 1
+
+survival_medium:
+  infected: 2
+  spear: 2
+  witch: 1
+  jumper: 2
+  venom: 1
+
+survival_hard:
+  infected: 4
+  spear: 1
+  witch: 2
+  jumper: 3
+  venom: 1
+
+survival_insane:
+  infected: 4
+  spear: 4
+  witch: 4
+  jumper: 4
+  venom: 4
+

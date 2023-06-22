@@ -15,9 +15,23 @@ enum InformationID : std::uint8_t {
     REQUEST_PICK_IDF_SOLDIER,
     REQUEST_PICK_P90_SOLDIER,
     REQUEST_PICK_SCOUT_SOLDIER,
+    REQUEST_SURVIVAL,
+    REQUEST_CLEAR_THE_ZONE,
     FEEDBACK_CREATE_GAME,
     FEEDBACK_JOIN_GAME,
     FEEDBACK_GAME_STATE
+};
+
+enum GameMode : std::uint8_t {
+    CLEAR_THE_ZONE,
+    SURVIVAL
+};
+
+enum GameDifficulty : std::uint8_t {
+    DEASY,
+    DNORMAL,
+    DHARD,
+    DINSANE
 };
 
 enum ElementType : std::uint8_t {

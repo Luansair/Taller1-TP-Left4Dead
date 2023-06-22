@@ -7,7 +7,7 @@ class StartIdleCommand : public InGameCommand {
 public:
     explicit StartIdleCommand(std::uint8_t player_id);
 
-    virtual void execute(Match& match) const override;
+    virtual void execute(std::shared_ptr<Match> &match) const override;
 
     StartIdleCommand(const StartIdleCommand&) = delete;
     StartIdleCommand& operator=(const StartIdleCommand&) = delete;

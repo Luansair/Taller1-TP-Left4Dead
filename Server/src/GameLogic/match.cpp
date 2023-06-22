@@ -1,4 +1,5 @@
 #include "../../include/GameLogic/match.h"
+#include "yaml-cpp/yaml.h"
 
 Match::Match(double x_dimension, double y_dimension) :
     soldiers(),
@@ -74,17 +75,6 @@ void Match::idle(uint32_t soldier_id, uint8_t state) {
         std::shared_ptr<Soldier> &soldier = soldiers.at(soldier_id);
         soldier->idle(state);
     }
-}
-
-void Match::simulateStep(std::chrono::_V2::steady_clock::time_point real_time) {
-    for (auto & zombie : zombies) {
-        zombie.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
-    }
-    delete_dead_zombies();
-    for (auto & soldier : soldiers) {
-        soldier.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
-    }
-    delete_dead_soldiers();
 }
 
 void Match::delete_dead_soldiers(void) {

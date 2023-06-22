@@ -7,7 +7,7 @@ class StartReviveCommand : public InGameCommand {
 public:
     explicit StartReviveCommand(std::uint8_t player_id);
 
-    virtual void execute(Match& match) const override;
+    virtual void execute(std::shared_ptr<Match> &match) const override;
 
     ~StartReviveCommand() = default;
 };

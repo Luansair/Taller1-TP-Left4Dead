@@ -7,7 +7,7 @@ class StartThrowCommand : public InGameCommand {
 public:
     explicit StartThrowCommand(std::uint8_t player_id);
 
-    virtual void execute(Match& match) const override;
+    virtual void execute(std::shared_ptr<Match> &match) const override;
 
     ~StartThrowCommand() = default;
 };

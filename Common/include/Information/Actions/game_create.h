@@ -6,7 +6,8 @@
 class CreateGameAction : public Information {
 
 public:
-    CreateGameAction() = default;
+    uint8_t gameMode;
+    explicit CreateGameAction(uint8_t mode);
 
     [[nodiscard]] std::vector<int8_t> serialize() const override;
 

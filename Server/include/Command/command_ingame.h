@@ -15,7 +15,7 @@ protected:
 public:
     explicit InGameCommand(std::uint8_t player_id);
 
-    virtual void execute(Match& match) const = 0;
+    virtual void execute(std::shared_ptr<Match> &match) const = 0;
 
     InGameCommand(InGameCommand&&) = default;
     InGameCommand& operator=(InGameCommand&&) = default;

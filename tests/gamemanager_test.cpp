@@ -27,7 +27,7 @@ TEST(gamemanager_test, CreateTest00CreateGameShouldChangeGameQueuePointer) {
     std::uint8_t player_id;
     GameManager manager = GameManager();
 
-    manager.createGame(game_q, player_q, &player_id);
+    manager.createGame(game_q, player_q, &player_id, SURVIVAL);
     ASSERT_NE(game_q, nullptr);
 }
 
@@ -39,7 +39,7 @@ TEST(gamemanager_test,
     std::uint8_t player_id;
     GameManager manager = GameManager();
 
-    manager.createGame(game_q, player_q, &player_id);
+    manager.createGame(game_q, player_q, &player_id, SURVIVAL);
     std::shared_ptr<InGameCommand> shoot_cmd(new StartShootCommand(player_id));
     ASSERT_NO_FATAL_FAILURE(game_q->push(std::move(shoot_cmd)));
 }
@@ -51,7 +51,7 @@ TEST(gamemanager_test, CreateTest02CreateGameUpdatesPlayerID) {
     std::uint8_t player_id = 0;
     GameManager manager = GameManager();
 
-    manager.createGame(game_q, player_q, &player_id);
+    manager.createGame(game_q, player_q, &player_id, SURVIVAL);
     ASSERT_NE(player_id, 0);
 }
 
@@ -64,7 +64,7 @@ TEST(gamemanager_test,
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code1 = manager.createGame(game_q1, player_q1,
-                                                  &player_id1);
+                                                  &player_id1, SURVIVAL);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
     std::shared_ptr<Queue<std::shared_ptr<Information>>> player_q2 =
@@ -72,7 +72,7 @@ TEST(gamemanager_test,
     std::uint8_t player_id2 = 0;
 
     std::uint32_t game_code2 = manager.createGame(game_q2, player_q2,
-                                                  &player_id2);
+                                                  &player_id2, SURVIVAL);
 
     ASSERT_NE(game_code1, game_code2);
 }
@@ -86,7 +86,7 @@ TEST(gamemanager_test,
     std::uint8_t player_id1 = 0;
 
     manager.createGame(game_q1, player_q1,
-                       &player_id1);
+                       &player_id1, SURVIVAL);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
     std::shared_ptr<Queue<std::shared_ptr<Information>>> player_q2 =
@@ -94,7 +94,7 @@ TEST(gamemanager_test,
     std::uint8_t player_id2 = 0;
 
     manager.createGame(game_q2, player_q2,
-                       &player_id2);
+                       &player_id2, SURVIVAL);
 
     ASSERT_NE(game_q1, game_q2);
 }
@@ -113,7 +113,7 @@ TEST(gamemanager_test, JoinTest00JoiningValidGameShouldReturnTrue) {
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
-                                                &player_id1);
+                                                &player_id1, SURVIVAL);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
     std::shared_ptr<Queue<std::shared_ptr<Information>>> player_q2 =
@@ -133,7 +133,7 @@ TEST(gamemanager_test, JoinTest01JoiningInvalidGameShouldReturnFalse) {
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
-                                                 &player_id1);
+                                                 &player_id1, SURVIVAL);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
     std::shared_ptr<Queue<std::shared_ptr<Information>>> player_q2 =
@@ -154,7 +154,7 @@ TEST(gamemanager_test, JoinTest02JoiningValidGameShouldUpdateGameQueuePointer) {
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
-                                                 &player_id1);
+                                                 &player_id1, SURVIVAL);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
     std::shared_ptr<Queue<std::shared_ptr<Information>>> player_q2 =
@@ -176,7 +176,7 @@ TEST(gamemanager_test,
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
-                                                 &player_id1);
+                                                 &player_id1, SURVIVAL);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
     std::shared_ptr<Queue<std::shared_ptr<Information>>> player_q2 =
@@ -197,7 +197,7 @@ TEST(gamemanager_test, JoinTest04JoiningValidGameShouldUpdatePlayer2ID) {
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
-                                                 &player_id1);
+                                                 &player_id1, SURVIVAL);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
     std::shared_ptr<Queue<std::shared_ptr<Information>>> player_q2 =
@@ -219,7 +219,7 @@ TEST(gamemanager_test,
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
-                                                 &player_id1);
+                                                 &player_id1, SURVIVAL);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
     std::shared_ptr<Queue<std::shared_ptr<Information>>> player_q2 =
@@ -241,7 +241,7 @@ TEST(gamemanager_test,
     std::uint8_t player_id1 = 0;
 
     std::uint32_t game_code = manager.createGame(game_q1, player_q1,
-                                                 &player_id1);
+                                                 &player_id1, SURVIVAL);
 
     Queue<std::shared_ptr<InGameCommand>>* game_q2 = nullptr;
     std::shared_ptr<Queue<std::shared_ptr<Information>>> player_q2 =
@@ -285,12 +285,12 @@ TEST(gamemanager_test,
     // Player 1 creates first game
     game_codes[GAME_1] = manager.createGame(cmd_queues[PLAYER_1],
                                        player_queues[PLAYER_1],
-                                       &player_ids[PLAYER_1]);
+                                       &player_ids[PLAYER_1], SURVIVAL);
 
     // Player 3 creates second game
     game_codes[GAME_2] = manager.createGame(cmd_queues[PLAYER_3],
                                             player_queues[PLAYER_3],
-                                            &player_ids[PLAYER_3]);
+                                            &player_ids[PLAYER_3], SURVIVAL);
 
     // Player 2 joins first game
     manager.joinGame(cmd_queues[PLAYER_2], player_queues[PLAYER_2],
@@ -327,7 +327,7 @@ TEST(gamemanager_test,
 
     uint8_t player_id = 0;
 
-    manager.createGame(game_q, player_q, &player_id);
+    manager.createGame(game_q, player_q, &player_id, SURVIVAL);
     game_q->push(make_shared<StartMoveCommand>(player_id, X, RIGHT, NORMAL));
 
     shared_ptr<Information> feed;

@@ -6,6 +6,7 @@
 #include "Zombies/zombie.h"
 #include "Zombies/zombiefactory.h"
 #include "position.h"
+#include "match_configurator.h"
 #include "../../../Common/include/Information/information_code.h"
 #include "../../../Common/include/Information/state_dto_element.h"
 #include "../../../Common/include/Information/feedback_server_gamestate.h"
@@ -25,15 +26,13 @@ Tiene un map de soldier_id y punteros a esos Soldier.
 Se le pasa el soldier_id y le delega realizar la acción */
 
 class Match {
-private:
-    // Como no se puede tener un map con una clase abstracta, le pongo punteros.
+public:
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
     double x_dim;
     double y_dim;
     uint8_t soldier_counter = 0;
     uint8_t zombie_counter = 0;
-public:
 
     /* Constructor de Match, parámetros: dimensiones del mapa */
     explicit Match(double x_dimension, double y_dimension);
@@ -72,7 +71,7 @@ public:
 
     std::map<uint32_t, std::shared_ptr<Soldier>>& getSoldiers(void);
 
-    void simulateStep(std::chrono::_V2::steady_clock::time_point real_time);
+    virtual void simulateStep(std::chrono::_V2::steady_clock::time_point real_time) = 0;
     
     std::vector<std::pair<uint16_t, ElementStateDTO >> getElementStates();
 

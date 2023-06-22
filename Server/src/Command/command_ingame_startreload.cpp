@@ -4,6 +4,6 @@
 //     InGameCommand(player_id) {
 // }
 
-// void StartReloadCommand::execute(Match &match) const {
-//     match.reload(player_id, ActionState::ON);
+// void StartReloadCommand::execute(std::shared_ptr<Match> match) const {
+//     match->reload(player_id, ActionState::ON);
 // }

@@ -26,8 +26,10 @@ public:
     std::shared_ptr<Soldier> att_vic;
     int8_t dir_x = RIGHT;
     double sight = 200.0;
+    double listening_range = 500.0;
     double hit_scope = 30.0;
     double damage_recv = 0.0;
+    double damage = 0.2;
     uint32_t attacker_id = 500; // num cualquiera
 
     /* tiempos */
@@ -42,6 +44,7 @@ public:
     bool dying = false;
     bool alive = true;
     bool being_hurt = false;
+    bool screaming = false; // solo la witch debería.
 
     virtual ~Zombie() {}
 
@@ -70,13 +73,20 @@ public:
     virtual void simulateMove(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
-    virtual void simulateAttack(std::chrono::_V2::system_clock::time_point real_time,
-    std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
-    double dim_x);
+    virtual void simulateAttack(void);
     virtual void simulateDie(std::chrono::_V2::system_clock::time_point real_time);
     virtual void simulateRecvDamage(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers);
+    virtual void detect_victim(bool *detected, uint32_t *victim, std::map<uint32_t,
+    std::shared_ptr<Soldier>>& soldiers, double dim_x, double dim_y);
+    virtual void detect_screaming_witch(bool *detected, uint32_t *witch_id, std::map<uint32_t, 
+    std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
+    virtual void CalculateNextPos_by_victim(double *next_x, double *next_y, 
+    int8_t *direction, uint32_t victim_id, std::map<uint32_t, 
+    std::shared_ptr<Soldier>>& soldiers, double time);
+    virtual void CalculateNextPos_by_witch(double *next_x, double *next_y, 
+    int8_t *direction, uint32_t witch_id, std::map<uint32_t, 
+    std::shared_ptr<Zombie>>& zombies, double time);
 
     /* GETTERS */
 

@@ -46,7 +46,7 @@ zombie:
 clear_easy:
   infected: 1
   spear: 1
-  witch: 1
+  witch: 4
   jumper: 1
   venom: 1
 

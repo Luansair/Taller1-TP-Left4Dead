@@ -33,6 +33,7 @@ void Zombie::move(
             dir_x = moveDirection;
             break;
         case OFF:
+            dir_x = moveDirection;
             moving = false;
             break;
     }
@@ -88,17 +89,16 @@ void Zombie::recvDamage(uint8_t state, double damage, uint32_t attacker) {
     }
 }
 
-/* SIMULADORES */
 
-// función para pasar de segundos a chrono::duration
+/* SIMULADORES */
 
 void Zombie::simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
-    if (dying) simulateDie(real_time);
+    if (dying) { simulateDie(real_time); return; }
     if (being_hurt) simulateRecvDamage(real_time, soldiers);
-    if (attacking) simulateAttack(real_time, soldiers, zombies, dim_x);
-    if (!dying) simulateMove(real_time, soldiers, zombies, dim_x, dim_y);
+    if (attacking) simulateAttack();
+    simulateMove(real_time, soldiers, zombies, dim_x, dim_y);
     last_step_time = real_time;
 }
 
@@ -121,18 +121,19 @@ void Zombie::simulateDie(std::chrono::_V2::system_clock::time_point real_time) {
     idle(ON);
 }
 
-void Zombie::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
-    std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
-    std::chrono::duration<double> time = real_time - last_step_time;
-    // calculo la zona de visión del zombie.
+void Zombie::detect_victim(
+    bool *detected, 
+    uint32_t *victim,
+    std::map<uint32_t, 
+    std::shared_ptr<Soldier>>& soldiers, 
+    double dim_x, 
+    double dim_y) {
+
     RadialHitbox sight_zone(position.getXPos(), position.getYPos(), sight);
 
     // verifico las colisiones.
     double distance = std::sqrt(std::pow(dim_x, 2) + std::pow(dim_y, 2)); // distancia maxima
     double new_distance;
-    uint32_t victim_id;
-    bool collision = false;
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
         Position other_pos = i->second->getPosition();
         if (sight_zone.hits(other_pos) && !(i->second->dying)) {
@@ -140,51 +141,134 @@ void Zombie::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
             if (distance > new_distance) {
                 distance = new_distance;
                 // me tengo que quedar con el más cercano
-                victim_id = i->first;
+                *victim = i->first;
             }
-            collision = true;
+            *detected = true;
         }
     }
-    if (collision) {
-        std::shared_ptr<Soldier> &victim = soldiers.at(victim_id);
-        double target_x = victim->getPosition().getXPos();
-        double target_y = victim->getPosition().getYPos();
-        double x = getPosition().getXPos();
-        double y = getPosition().getYPos();
-        double norma = std::sqrt(std::pow(std::abs(target_x - x), 2) + std::pow(std::abs(target_y - y), 2));
-        double next_x = ((target_x - x) / norma) * time.count() * speed + x;
-        double next_y = ((target_y - y) / norma) * time.count() * speed + y;
-        int8_t direction;
-        if (target_x - x < 0) {
-            direction = LEFT;
-        } else {
-            direction = RIGHT;
-        }
+}
 
+void Zombie::detect_screaming_witch(
+    bool *detected, 
+    uint32_t *witch_id,
+    std::map<uint32_t, 
+    std::shared_ptr<Zombie>>& zombies, 
+    double dim_x, 
+    double dim_y) {
+
+    RadialHitbox listening_zone(position.getXPos(), position.getYPos(), listening_range);
+
+    // verifico las colisiones.
+    double distance = std::sqrt(std::pow(dim_x, 2) + std::pow(dim_y, 2)); // distancia maxima
+    double new_distance;
+    for (auto i = zombies.begin(); i != zombies.end(); i++) {
+        Position other_pos = i->second->getPosition();
+        if (listening_zone.hits(other_pos) && (i->second->screaming)) {
+            new_distance = std::sqrt(std::pow(std::abs(position.getXPos() - other_pos.getXPos()), 2) + std::pow(std::abs(position.getYPos() - other_pos.getYPos()), 2));
+            if (distance > new_distance) {
+                distance = new_distance;
+                // me tengo que quedar con el más cercano
+                *witch_id = i->first;
+            }
+            *detected = true;
+        }
+    }
+}
+
+void Zombie::CalculateNextPos_by_victim(double *next_x, double *next_y, 
+    int8_t *direction, uint32_t victim_id, std::map<uint32_t, 
+    std::shared_ptr<Soldier>>& soldiers, double time) {
+
+    std::shared_ptr<Soldier> &victim = soldiers.at(victim_id);
+    double target_x = victim->getPosition().getXPos();
+    double target_y = victim->getPosition().getYPos();
+    double x = position.getXPos();
+    double y = position.getYPos();
+    double norma = std::sqrt(std::pow(std::abs(target_x - x), 2) + std::pow(std::abs(target_y - y), 2));
+    *next_x = ((target_x - x) / norma) * time * speed + x;
+    *next_y = ((target_y - y) / norma) * time * speed + y;
+    if (target_x - x < 0) {
+        *direction = LEFT;
+    } else {
+        *direction = RIGHT;
+    }
+}
+
+void Zombie::CalculateNextPos_by_witch(double *next_x, double *next_y, 
+    int8_t *direction, uint32_t witch_id, std::map<uint32_t, 
+    std::shared_ptr<Zombie>>& zombies, double time) {
+
+    std::shared_ptr<Zombie> &witch = zombies.at(witch_id);
+    double target_x = witch->getPosition().getXPos();
+    double target_y = witch->getPosition().getYPos();
+    double x = position.getXPos();
+    double y = position.getYPos();
+    double norma = std::sqrt(std::pow(std::abs(target_x - x), 2) + std::pow(std::abs(target_y - y), 2));
+    *next_x = ((target_x - x) / norma) * time * speed + x;
+    *next_y = ((target_y - y) / norma) * time * speed + y;
+    if (target_x - x < 0) {
+        *direction = LEFT;
+    } else {
+        *direction = RIGHT;
+    }
+}
+
+void Zombie::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
+    std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
+    std::chrono::duration<double> time = real_time - last_step_time;
+
+    bool detected = false;
+    uint32_t id;
+    detect_screaming_witch(&detected, &id, std::ref(zombies), dim_x, dim_y);
+
+    if (detected) {
+        double next_x, next_y;
+        int8_t direction;
+        CalculateNextPos_by_witch(&next_x, &next_y, &direction, id, zombies, time.count());
+
+        std::shared_ptr<Zombie> &witch = zombies.at(id);
+        RadialHitbox hit_zone(position.getXPos(), position.getYPos(), hit_scope);
+        if (hit_zone.hits(witch->getPosition())) {
+            move(OFF, direction);
+            return;
+        }
+        Position next_pos(next_x, next_y, width, height, dim_x, dim_y);
+        move(ON, direction);
+
+        // debería chequear si colisiona con otros soldados
+        position = next_pos;
+        return;
+    }
+    
+    detect_victim(&detected, &id, std::ref(soldiers), dim_x, dim_y);
+    
+    if (detected) {
+        double next_x, next_y;
+        int8_t direction;
+        CalculateNextPos_by_victim(&next_x, &next_y, &direction, id, soldiers, time.count());
+
+        std::shared_ptr<Soldier> &victim = soldiers.at(id);
         RadialHitbox hit_zone(position.getXPos(), position.getYPos(), hit_scope);
         if (hit_zone.hits(victim->getPosition())) {
             move(OFF, direction);
             attack(ON, victim);
             return;
         }
-        Position next_pos(next_x, next_y, getWidth(), getHeight(), dim_x, dim_y);
+        Position next_pos(next_x, next_y, width, height, dim_x, dim_y);
         attack(OFF, nullptr);
         move(ON, direction);
         position = next_pos;
-    } else {
-        move(OFF, getDir());
-        attack(OFF, nullptr);
+        return;
     }
 
+    move(OFF, dir_x);
+    attack(OFF, nullptr);
 }
 
-void Zombie::simulateAttack(std::chrono::_V2::system_clock::time_point real_time,
-    std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
-    double dim_x) {
-        att_vic->recvDamage(ON, 0.2);
-        
-    }
+void Zombie::simulateAttack(void) {
+    att_vic->recvDamage(ON, damage);
+}
 
 /* GETTERS */
 

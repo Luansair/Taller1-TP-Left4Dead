@@ -12,7 +12,7 @@ void ClearTheZone::simulateStep(std::chrono::_V2::system_clock::time_point real_
     delete_dead_zombies();
 
     for (auto & throwable : throwables) {
-        throwable.second->simulateThrow(real_time, x_dim, y_dim);
+        throwable.second->simulateThrow(real_time, std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
     }
     delete_inactive_throwables();
     for (auto & soldier : soldiers) {

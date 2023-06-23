@@ -31,7 +31,7 @@ std::map<uint32_t, std::shared_ptr<Throwable>>& throwables) {
         std::chrono::duration<double> time = real_time - throw_time;
         if (time.count() > throw_duration + DELAY) { last_throw_time = real_time; start_throw(OFF); }
         if (time.count() > throw_duration) { 
-            std::shared_ptr<Throwable> poison(new Poison(counter++, getPosition().getXPos() + dir_x * 10, getPosition().getYPos() + 15, 200, 30, 1.7, dir_x, dim_x, dim_y));
+            std::shared_ptr<Throwable> poison(new Poison(counter++, getPosition().getXPos() + dir_x * 10, getPosition().getYPos() + 15, 200, 30, 1.7, dir_x, dim_x, dim_y, 0.1));
             throwables.emplace(400, std::move(poison)); 
             return;
         };
@@ -108,7 +108,7 @@ uint8_t Venom::getAction(void) {
     if (dying) return VENOM_DEAD;
     if (being_hurt) return VENOM_HURT;
     if (moving) return VENOM_RUN;
-    if (attacking) return VENOM_ATTACK_1;
+    if (attacking) return VENOM_ATTACK_2;
     if (throwing) return VENOM_ATTACK_1;
     return VENOM_IDLE;
 }

@@ -4,7 +4,6 @@
 #include "../position.h"
 #include "../hitbox.h"
 #include "../radialhitbox.h"
-#include "../Throwables/throwable.h"
 #include "../../../../Common/include/Information/information_code.h"
 #include "../../../include/GameLogic/Soldiers/soldier.h"
 
@@ -13,6 +12,8 @@
 #include <map>
 #include <memory>
 #include <chrono>
+
+class Throwable;
 
 class Zombie {
 public:

@@ -20,7 +20,7 @@ public:
 
     // Necesito el rectangulo con un alto y ancho calculado previamente segun el windows size.
     void drawLayer(std::uint8_t background_type, std::uint8_t layer_type, const SDL2pp::Rect& destination);
-    void drawElement();
+    // void drawElement();
 };
 
 #endif //TP_BACKGROUND_MANAGER_H

@@ -11,12 +11,14 @@
 #include "../../Common/include/Information/information.h"
 #include "../../Common/include/Information/feedback_server_gamestate.h"
 #include "Drawer/drawer_manager.h"
+#include "Drawer/drawer_background.h"
 
 class GameVisual {
     SDL2pp::SDL sdl;
     SDL2pp::Window window;
     SDL2pp::Renderer renderer;
     DrawerManager drawer_manager;  // (id, drawer)
+    BackgroundDrawer background_drawer;
     std::int32_t window_x_position;
 
 public:

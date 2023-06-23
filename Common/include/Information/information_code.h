@@ -57,6 +57,8 @@ enum BackgroundType : std::uint8_t {
     BACKGROUND_TYPE_LAST
 };
 
+#define WAR_1_BEHIND_COUNT 7
+#define WAR_1_FRONT_COUNT 1
 // Don't change the order. 
 enum War1LayerType : std::uint8_t {
     WAR_1_LAYER_FENCE,

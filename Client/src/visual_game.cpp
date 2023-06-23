@@ -10,10 +10,12 @@ GameVisual::GameVisual(std::uint16_t window_width, std::uint16_t window_height) 
            window_width, window_height, SDL_WINDOW_RESIZABLE),
     renderer(window, -1, SDL_RENDERER_ACCELERATED),
     drawer_manager(renderer),
+    background_drawer(renderer, BACKGROUND_WAR1, window_width, window_height),
     window_x_position(0) {
 }
 
 void GameVisual::draw(unsigned int frameticks) {
+    background_drawer.drawBehindLayers();
     drawer_manager.draw(frameticks, window_x_position, window.GetWidth());
 }
 
@@ -34,6 +36,7 @@ void GameVisual::updateInfo(const GameStateFeedback &feed) {
     if (player_count > 0) {
         window_x_position = (players_pos_x_sum / player_count) - window.GetWidth() / 2;
     }
+    background_drawer.updateInfo(window_x_position, window.GetWidth(), window.GetHeight());
 }
 
 void GameVisual::clear() {

@@ -12,3 +12,8 @@ BackgroundManager::BackgroundManager(SDL2pp::Renderer &renderer) :
     // backgrounds.at(BACKGROUND_WAR4) = &war4_background;
 }
 
+void
+BackgroundManager::drawLayer(std::uint8_t background_type, std::uint8_t layer_type, const SDL2pp::Rect &destination) {
+    backgrounds.at(background_type)->draw(layer_type, destination);
+}
+

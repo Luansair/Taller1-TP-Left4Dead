@@ -28,7 +28,7 @@ void Zombie::move(
     switch(state) {
         case ON:
             moving = true;
-            attacking = being_hurt = false;
+            attacking = being_hurt = screaming = false;
             dir = moveDirection;
             dir_x = moveDirection;
             break;
@@ -44,7 +44,7 @@ void Zombie::attack(uint8_t state, std::shared_ptr<Soldier> victim) {
         case ON:
             attacking = true;
             att_vic = victim;
-            moving = being_hurt = false;
+            moving = being_hurt = screaming = false;
             break;
         case OFF:
             attacking = false;
@@ -56,7 +56,7 @@ void Zombie::attack(uint8_t state, std::shared_ptr<Soldier> victim) {
 void Zombie::die(uint8_t state) {
     switch(state) {
         case ON:
-            attacking = moving = being_hurt = false;
+            attacking = moving = being_hurt = screaming = false;
             dying = true;
             break;
         case OFF:
@@ -68,7 +68,7 @@ void Zombie::die(uint8_t state) {
 void Zombie::idle(uint8_t state) {
     switch(state) {
         case ON:
-            moving = attacking = being_hurt = false;
+            moving = attacking = being_hurt = screaming = false;
             break;
         case OFF:
             break;
@@ -78,7 +78,7 @@ void Zombie::idle(uint8_t state) {
 void Zombie::recvDamage(uint8_t state, double damage, uint32_t attacker) {
     switch(state) {
         case ON:
-            moving = attacking = false;
+            moving = attacking = screaming = false;
             being_hurt = true;
             damage_recv = damage;
             attacker_id = attacker;

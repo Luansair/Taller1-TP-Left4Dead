@@ -36,7 +36,8 @@ void Witch::simulateScream(std::chrono::_V2::system_clock::time_point real_time)
 
 void Witch::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
+    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y) {
     std::chrono::duration<double> time = real_time - last_step_time;
 
     simulateScream(real_time);

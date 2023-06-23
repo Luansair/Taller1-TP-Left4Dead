@@ -105,6 +105,7 @@ TEST(weapon_test, Test01ShootP90) {
     SoldierFactory sfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
+    std::map<uint32_t, std::shared_ptr<Throwable>> throwables;
     std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_P90);
     std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
     Position pos(10, 10, soldier->getWidth(), soldier->getHeight(),100,100);
@@ -116,7 +117,7 @@ TEST(weapon_test, Test01ShootP90) {
     // double time = 1000;
     soldier->simulate(std::chrono::system_clock::now(), std::ref(soldiers), std::ref(zombies), 100,100);
     std::shared_ptr<Zombie> &victim = zombies.at(2);
-    victim->simulate(std::chrono::system_clock::now(), soldiers, zombies, 100, 100);
+    victim->simulate(std::chrono::system_clock::now(), soldiers, zombies, throwables, 100, 100);
     ASSERT_NEAR(victim->getHealth(), zombie_health - p90w_damage * (1.0 - ((100.0 - 85.0) / 100.0)), 0.5);
 
 }
@@ -126,6 +127,7 @@ TEST(weapon_test, Test02ShootP90ToTwoZombiesInTheSameRow) {
     ZombieFactory zfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
+    std::map<uint32_t, std::shared_ptr<Throwable>> throwables;
     std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_P90);
     std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
     std::shared_ptr<Zombie> zombie2 = zfactory.create(3, ZOMBIE);
@@ -142,8 +144,8 @@ TEST(weapon_test, Test02ShootP90ToTwoZombiesInTheSameRow) {
     soldier->simulate(std::chrono::system_clock::now(), std::ref(soldiers), std::ref(zombies), 100, 100);
     std::shared_ptr<Zombie> &victim2 = zombies.at(2);
     std::shared_ptr<Zombie> &victim3 = zombies.at(3);
-    victim2->simulate(std::chrono::system_clock::now(), soldiers, zombies, 100, 100);
-    victim3->simulate(std::chrono::system_clock::now(), soldiers, zombies, 100, 100);
+    victim2->simulate(std::chrono::system_clock::now(), soldiers, zombies, throwables, 100, 100);
+    victim3->simulate(std::chrono::system_clock::now(), soldiers, zombies, throwables, 100, 100);
     ASSERT_NEAR(victim2->getHealth(), zombie_health - p90w_damage * (1.0 - ((100.0 - 5.0) / 100.0)), 0.5);
     ASSERT_NEAR(victim3->getHealth(), zombie_health, 0.5);
 
@@ -154,6 +156,7 @@ TEST(weapon_test, Test03ShootP90AndMiss) {
     ZombieFactory zfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
+    std::map<uint32_t, std::shared_ptr<Throwable>> throwables;
     std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_P90);
     std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
     Position pos(100, 10, soldier->getWidth(), soldier->getHeight(),100,100);
@@ -165,7 +168,7 @@ TEST(weapon_test, Test03ShootP90AndMiss) {
     // double time = 10;
     soldier->simulate(std::chrono::system_clock::now(), std::ref(soldiers), std::ref(zombies), 100, 100);
     std::shared_ptr<Zombie> &victim = zombies.at(2);
-    victim->simulate(std::chrono::system_clock::now(), soldiers, zombies, 100, 100);
+    victim->simulate(std::chrono::system_clock::now(), soldiers, zombies, throwables, 100, 100);
     ASSERT_NEAR(victim->getHealth(), zombie_health, 0.5);
 
 }
@@ -175,6 +178,7 @@ TEST(weapon_test, Test04ShootScout) {
     ZombieFactory zfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
+    std::map<uint32_t, std::shared_ptr<Throwable>> throwables;
     std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_SCOUT);
     std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
     Position pos(10, 10, soldier->getWidth(), soldier->getHeight(),100,100);
@@ -186,7 +190,7 @@ TEST(weapon_test, Test04ShootScout) {
     // double time = 10;
     soldier->simulate(std::chrono::system_clock::now(), std::ref(soldiers), std::ref(zombies), 100, 100);
     std::shared_ptr<Zombie> &victim = zombies.at(2);
-    victim->simulate(std::chrono::system_clock::now(), soldiers, zombies, 100, 100);
+    victim->simulate(std::chrono::system_clock::now(), soldiers, zombies, throwables, 100, 100);
     ASSERT_NEAR(victim->getHealth(), zombie_health - scoutw_damage, 0.5);
 
 }
@@ -196,6 +200,7 @@ TEST(weapon_test, Test05ShootScoutToTwoSoldiersInTheSameRowRight) {
     ZombieFactory zfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
+    std::map<uint32_t, std::shared_ptr<Throwable>> throwables;
     std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_SCOUT);
     std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
     std::shared_ptr<Zombie> zombie2 = zfactory.create(3, ZOMBIE);
@@ -212,8 +217,8 @@ TEST(weapon_test, Test05ShootScoutToTwoSoldiersInTheSameRowRight) {
     soldier->simulate(std::chrono::system_clock::now(), std::ref(soldiers), std::ref(zombies), 100, 100);
     std::shared_ptr<Zombie> &victim2 = zombies.at(2);
     std::shared_ptr<Zombie> &victim3 = zombies.at(3);
-    victim2->simulate(std::chrono::system_clock::now(), soldiers, zombies, 100, 100);
-    victim3->simulate(std::chrono::system_clock::now(), soldiers, zombies, 100, 100);
+    victim2->simulate(std::chrono::system_clock::now(), soldiers, zombies, throwables, 100, 100);
+    victim3->simulate(std::chrono::system_clock::now(), soldiers, zombies, throwables, 100, 100);
     ASSERT_NEAR(victim2->getHealth(), zombie_health - scoutw_damage , 0.5);
     ASSERT_NEAR(victim3->getHealth(), zombie_health - scoutw_damage * scoutw_reduction , 0.5);
 
@@ -224,6 +229,7 @@ TEST(weapon_test, Test06ShootScoutToTwoSoldiersInTheSameRowLeft) {
     ZombieFactory zfactory;
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
+    std::map<uint32_t, std::shared_ptr<Throwable>> throwables;
     std::shared_ptr<Soldier> soldier = sfactory.create(1, SOLDIER_SCOUT);
     std::shared_ptr<Zombie> zombie = zfactory.create(2, ZOMBIE);
     std::shared_ptr<Zombie> zombie2 = zfactory.create(3, ZOMBIE);
@@ -242,8 +248,8 @@ TEST(weapon_test, Test06ShootScoutToTwoSoldiersInTheSameRowLeft) {
     soldier->simulateShoot(std::chrono::system_clock::now(), time ,std::ref(soldiers), std::ref(zombies), 100);
     std::shared_ptr<Zombie> &victim2 = zombies.at(2);
     std::shared_ptr<Zombie> &victim3 = zombies.at(3);
-    victim2->simulate(std::chrono::system_clock::now(), soldiers, zombies, 100, 100);
-    victim3->simulate(std::chrono::system_clock::now(), soldiers, zombies, 100, 100);
+    victim2->simulate(std::chrono::system_clock::now(), soldiers, zombies, throwables, 100, 100);
+    victim3->simulate(std::chrono::system_clock::now(), soldiers, zombies, throwables, 100, 100);
     ASSERT_NEAR(victim2->getHealth(), zombie_health - scoutw_damage , 0.5);
     ASSERT_NEAR(victim3->getHealth(), zombie_health - scoutw_damage * scoutw_reduction , 0.5);
 

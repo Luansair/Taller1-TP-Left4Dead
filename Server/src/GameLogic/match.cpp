@@ -119,8 +119,29 @@ void Match::delete_dead_zombies(void) {
     }   
 }
 
+void Match::delete_inactive_throwables(void) {
+        for (auto throwable = throwables.begin(); throwable != throwables.end(); ) {
+        if (throwable->second->isInactive()) {
+            throwable = throwables.erase(throwable);
+        } else {
+            ++throwable;
+        }
+    }   
+}
+
 std::vector<std::pair<uint16_t, ElementStateDTO >> Match::getElementStates() {
     std::vector<std::pair<uint16_t, ElementStateDTO>> elementStates;
+
+    for (const auto & throwable : throwables) {
+        int id = throwable.second->getId();
+        uint8_t actor_type = throwable.second->getThrowerType();
+        uint8_t actor_action = throwable.second->getAction();
+        int8_t actor_direction = throwable.second->getDirX();
+        int position_x = throwable.second->getPosition().getXPos();
+        int position_y = throwable.second->getPosition().getYPos();
+        ElementStateDTO dto {actor_type, actor_action, actor_direction, position_x, position_y};
+        elementStates.emplace_back(id, std::move(dto));
+    }
     for (const auto & soldier : soldiers) {
         int id = soldier.second->getId();
         uint8_t actor_type = soldier.second->getSoldierType();

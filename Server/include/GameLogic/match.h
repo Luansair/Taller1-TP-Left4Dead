@@ -5,6 +5,8 @@
 #include "Soldiers/soldierfactory.h"
 #include "Zombies/zombie.h"
 #include "Zombies/zombiefactory.h"
+#include "Throwables/throwable.h"
+#include "Throwables/poison.h"
 #include "position.h"
 #include "match_configurator.h"
 #include "../../../Common/include/Information/information_code.h"
@@ -32,6 +34,7 @@ class Match {
 public:
     std::map<uint32_t, std::shared_ptr<Soldier>> soldiers;
     std::map<uint32_t, std::shared_ptr<Zombie>> zombies;
+    std::map<uint32_t, std::shared_ptr<Throwable>> throwables;
     double x_dim;
     double y_dim;
     uint32_t code;
@@ -49,6 +52,7 @@ public:
 
     void delete_dead_soldiers(void);
     void delete_dead_zombies(void);
+    void delete_inactive_throwables(void);
 
     void updateScore(uint32_t id, std::shared_ptr<Soldier>& soldier);
 
@@ -86,6 +90,7 @@ public:
     GameStateFeedback getMatchState(void);
 
     void setZombie(uint32_t zombie_id, uint8_t zombie_type);
+    void setThrowable(std::shared_ptr<Throwable> &&throwable);
 
     Match(const Match&) = delete;
     Match& operator=(const Match&) = delete;

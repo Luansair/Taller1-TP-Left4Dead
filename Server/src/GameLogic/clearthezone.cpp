@@ -6,8 +6,12 @@ ClearTheZone::ClearTheZone(double x_dimension, double y_dimension, uint8_t diffi
 }
 
 void ClearTheZone::simulateStep(std::chrono::_V2::system_clock::time_point real_time) {
+    for (auto & throwable : throwables) {
+        throwable.second->simulateThrow(real_time, x_dim, y_dim);
+    }
+    delete_inactive_throwables();
     for (auto & zombie : zombies) {
-        zombie.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
+        zombie.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), std::ref(throwables), x_dim, y_dim);
     }
     delete_dead_zombies();
     for (auto & soldier : soldiers) {

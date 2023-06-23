@@ -44,10 +44,10 @@ zombie:
   speed: 150
 
 clear_easy:
-  infected: 1
-  spear: 1
-  witch: 4
-  jumper: 1
+  infected: 0
+  spear: 0
+  witch: 0
+  jumper: 0
   venom: 1
 
 clear_normal:

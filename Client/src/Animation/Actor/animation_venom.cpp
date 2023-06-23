@@ -10,7 +10,7 @@ VenomAnimation::VenomAnimation(SDL2pp::Renderer &renderer) :
             ActionAnimation(renderer, RESOURCES_PATH "/Venom/Attack1a.png",
                             loopable, zombie_width, zombie_height),
              ActionAnimation(renderer, RESOURCES_PATH "/Venom/Attack2.png",
-                             loopable, zombie_width, zombie_height),
+                            loopable, zombie_width, zombie_height),
              ActionAnimation(renderer, RESOURCES_PATH "/Venom/Dead.png",
                              no_loopable, zombie_width, zombie_height),
              ActionAnimation(renderer, RESOURCES_PATH "/Venom/Hurt.png",

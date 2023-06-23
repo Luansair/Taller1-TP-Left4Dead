@@ -4,6 +4,7 @@
 #include "../position.h"
 #include "../hitbox.h"
 #include "../radialhitbox.h"
+#include "../Throwables/throwable.h"
 #include "../../../../Common/include/Information/information_code.h"
 #include "../../../include/GameLogic/Soldiers/soldier.h"
 
@@ -16,7 +17,7 @@
 class Zombie {
 public:
     uint32_t zombie_id;
-    int8_t dir = RIGHT;
+    int8_t dir = LEFT;
     uint8_t axis = X;
     double speed;
     double health;
@@ -24,7 +25,7 @@ public:
     double height;
     Position position;
     std::shared_ptr<Soldier> att_vic;
-    int8_t dir_x = RIGHT;
+    int8_t dir_x = LEFT;
     double sight = 200.0;
     double listening_range = 500.0;
     double hit_scope = 30.0;
@@ -69,10 +70,12 @@ public:
 
     virtual void simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
+    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y);
     virtual void simulateMove(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
+    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y);
     virtual void simulateAttack(void);
     virtual void simulateDie(std::chrono::_V2::system_clock::time_point real_time);
     virtual void simulateRecvDamage(std::chrono::_V2::system_clock::time_point real_time,

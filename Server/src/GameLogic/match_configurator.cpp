@@ -1,6 +1,6 @@
 #include "../../include/GameLogic/match_configurator.h"
 #include "yaml-cpp/yaml.h"
-#define SOLDIERS_MAX 10
+#define SOLDIERS_MAX 100
 MatchConfigurator::MatchConfigurator(void) {
 }
 

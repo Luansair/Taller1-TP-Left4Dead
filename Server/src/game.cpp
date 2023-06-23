@@ -40,11 +40,11 @@ void Game::selectMode(uint8_t gameMode, uint8_t gameDifficulty) {
     switch (gameMode)
     {
     case SURVIVAL:
-        match = std::shared_ptr<Match>(new Survival(1000.0, 1000.0, gameDifficulty));
+        match = std::shared_ptr<Match>(new Survival(100000.0, 850.0, gameDifficulty));
         break;
     
     case CLEAR_THE_ZONE:
-        match = std::shared_ptr<Match>(new ClearTheZone(1000.0, 1000.0, gameDifficulty));
+        match = std::shared_ptr<Match>(new ClearTheZone(100000.0, 850.0, gameDifficulty));
         break;
     }
 }

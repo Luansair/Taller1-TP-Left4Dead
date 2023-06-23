@@ -28,7 +28,7 @@ void LayerDrawer::updateInfo(std::int32_t window_x_pos, std::int32_t window_widt
     width = window_width;
     height = window_height;
     std::int32_t traveled_distance = window_x_pos - last_windows_x_pos;
-    if (traveled_distance > window_width) {
+    if (traveled_distance > window_width || traveled_distance < -window_width) {
         last_windows_x_pos = window_x_pos;
         return;
     }

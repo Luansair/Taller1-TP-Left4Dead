@@ -13,9 +13,12 @@ class Venom : public Zombie {
 
 public:
 
-    double throw_cooldown = 5.0;
+    double throw_cooldown = 10.0;
     double throw_distance = 500.0;
+    double throw_duration = 0.5;
+    bool throwing = false;
     uint32_t counter = 500;
+    std::chrono::_V2::system_clock::time_point throw_time = std::chrono::system_clock::now();
     std::chrono::_V2::system_clock::time_point last_throw_time = std::chrono::system_clock::now();
 
     explicit Venom(
@@ -24,6 +27,8 @@ public:
     double height,
     double speed,
     double health);
+
+    void start_throw(uint8_t state);
 
     void simulateMove(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,

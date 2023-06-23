@@ -6,9 +6,9 @@ constexpr int zombie_height = 128;
 VenomAnimation::VenomAnimation(SDL2pp::Renderer &renderer) :
     animations{
             ActionAnimation(renderer, RESOURCES_PATH "/Venom/Attack1.png",
-                            loopable, zombie_width, zombie_height),
+                            no_loopable, zombie_width, zombie_height),
             ActionAnimation(renderer, RESOURCES_PATH "/Venom/Attack1a.png",
-                            loopable, zombie_width, zombie_height),
+                            no_loopable, 64, 64),
              ActionAnimation(renderer, RESOURCES_PATH "/Venom/Attack2.png",
                             loopable, zombie_width, zombie_height),
              ActionAnimation(renderer, RESOURCES_PATH "/Venom/Dead.png",

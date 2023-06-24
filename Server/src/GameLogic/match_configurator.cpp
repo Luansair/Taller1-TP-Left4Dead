@@ -1,5 +1,8 @@
 #include "../../include/GameLogic/match_configurator.h"
 #include "yaml-cpp/yaml.h"
+
+
+
 MatchConfigurator::MatchConfigurator(void) {
 }
 
@@ -99,7 +102,7 @@ void MatchConfigurator::add_zombies(int amount,
     double dim_x, double dim_y) {
 
     ZombieFactory factory;
-    int begin = total;
+    begin = total;
     int end = begin + amount;
     for (int i = begin; i < end; i++) {
         std::shared_ptr<Zombie> zombie = factory.create(i, ZOMBIE);

@@ -5,12 +5,14 @@
 #include "../../include/Animations/animation_code.h"
 #include "../../../Common/include/Information/information_code.h"
 
+constexpr std::int16_t TOLERANCE = 200;
+
 ActorDrawer::ActorDrawer(AnimationManager &animation_manager) :
         animation_manager(animation_manager),
         type(SOLDIER_IDF),
         animation(SOLDIER_1_IDLE),
         direction(DRAW_RIGHT),
-        sprite_destination(0,0,128,128),
+        sprite_destination(0,0),
         sprite_index(0),
         previous_frame_ticks(0) {
 
@@ -30,17 +32,25 @@ void ActorDrawer::updateInfo(const ElementStateDTO &actor_state) {
     this->animation = actor_state.action;
     //setActorAnimation(actor_state.action);
     setActorDirection(actor_state.direction);
-    sprite_destination.SetX(actor_state.position_x);
-    sprite_destination.SetY(actor_state.position_y);
+    this->position_x = actor_state.position_x;
+    this->position_y = actor_state.position_y;
 }
 
-void ActorDrawer::draw(unsigned int frame_ticks) {
+void ActorDrawer::draw(std::uint32_t frame_ticks, std::int32_t window_x_pos, std::int32_t window_width) {
     if (frame_ticks - previous_frame_ticks > 100) {
         sprite_index += 1;
         previous_frame_ticks = frame_ticks;
     }
+
+    std::int32_t actor_x_pos = position_x;
+    std::int32_t relative_x_pos_to_window = actor_x_pos - window_x_pos;
+
+    if (relative_x_pos_to_window < -TOLERANCE || relative_x_pos_to_window > window_width + TOLERANCE) {
+        return;
+    }
+
     animation_manager.draw(type, animation, &sprite_index, direction,
-                           sprite_destination);
+                           {relative_x_pos_to_window, position_y});
 }
 
 

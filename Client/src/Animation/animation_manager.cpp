@@ -29,7 +29,7 @@ AnimationManager::AnimationManager(SDL2pp::Renderer& renderer) :
 void
 AnimationManager::draw(std::uint8_t actor_index, std::uint8_t animation_index,
                        std::uint8_t *sprite_index, std::uint8_t direction,
-                       const SDL2pp::Rect &sprite_destination) {
+                       const SDL2pp::Point &sprite_destination) {
     ActorAnimation* actor_animation = actors.at(actor_index);
 
     if (actor_animation == nullptr) {

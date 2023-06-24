@@ -19,7 +19,7 @@ public:
     virtual void draw(std::uint8_t animation_index,
                       std::uint8_t *sprite_index,
                       std::uint8_t direction,
-                      const SDL2pp::Rect& sprite_destination) = 0;
+                      const SDL2pp::Point &sprite_destination) = 0;
 
     ActorAnimation(ActorAnimation&&) = delete;
     ActorAnimation& operator=(ActorAnimation&&) = delete;

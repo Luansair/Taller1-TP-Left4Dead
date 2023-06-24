@@ -38,8 +38,8 @@ std::uint8_t SpriteManager::determineFlipValue(std::uint8_t direction) const {
     return sprite_flip;
 }
 void SpriteManager::_draw(SDL2pp::Texture &texture, std::uint8_t sprite_index,
-                         std::uint8_t sprite_flip,
-                         const SDL2pp::Rect &sprite_destination) {
+                          std::uint8_t sprite_flip,
+                          const SDL2pp::Point &sprite_destination) {
     renderer.Copy(texture, sprites[sprite_index],
                   sprite_destination, 0.0,
                   SDL2pp::NullOpt, sprite_flip);
@@ -50,7 +50,7 @@ void SpriteManager::_draw(SDL2pp::Texture &texture, std::uint8_t sprite_index,
 
 void SpriteManager::draw(SDL2pp::Texture &texture, std::uint8_t *sprite_index,
                          std::uint8_t direction,
-                         const SDL2pp::Rect &sprite_destination) {
+                         const SDL2pp::Point &sprite_destination) {
     loop_type.fixIndex(sprite_index, sprites.size() - 1);
     std::uint8_t sprite_flip = determineFlipValue(direction);
     _draw(texture, *sprite_index, sprite_flip, sprite_destination);

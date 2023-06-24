@@ -10,10 +10,8 @@ class JumperAnimation : public ActorAnimation {
 public:
     explicit JumperAnimation(SDL2pp::Renderer& renderer);
 
-    void draw(std::uint8_t animation_index,
-              std::uint8_t *sprite_index,
-              std::uint8_t direction,
-              const SDL2pp::Point &sprite_destination) override;
+    void draw(std::uint8_t animation_index, std::uint8_t *sprite_index, std::uint8_t direction,
+              const SDL2pp::Point &sprite_destination, std::uint32_t frame_ticks) override;
 
     // Should not move because it can affect performance!
     JumperAnimation(JumperAnimation&&) = delete;

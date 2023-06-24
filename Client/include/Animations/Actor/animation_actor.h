@@ -16,10 +16,8 @@ protected:
 public:
     ActorAnimation() = default;
 
-    virtual void draw(std::uint8_t animation_index,
-                      std::uint8_t *sprite_index,
-                      std::uint8_t direction,
-                      const SDL2pp::Point &sprite_destination) = 0;
+    virtual void draw(std::uint8_t animation_index, std::uint8_t *sprite_index, std::uint8_t direction,
+                      const SDL2pp::Point &sprite_destination, std::uint32_t frame_ticks) = 0;
 
     ActorAnimation(ActorAnimation&&) = delete;
     ActorAnimation& operator=(ActorAnimation&&) = delete;

@@ -36,11 +36,9 @@ class AnimationManager {
 public:
     explicit AnimationManager(SDL2pp::Renderer& renderer);
 
-    void draw(std::uint8_t actor_index,
-              std::uint8_t animation_index,
-              std::uint8_t *sprite_index,
-              std::uint8_t direction,
-              const SDL2pp::Point &sprite_destination);
+    void
+    draw(std::uint8_t actor_index, std::uint8_t animation_index, std::uint8_t *sprite_index, std::uint8_t direction,
+         const SDL2pp::Point &sprite_destination, std::uint32_t frame_ticks);
 
     // Moving have a cost in performance due to array of arrays being moved.
     AnimationManager(AnimationManager&&) = delete;

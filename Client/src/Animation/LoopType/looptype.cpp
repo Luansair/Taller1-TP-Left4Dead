@@ -5,6 +5,6 @@
 
 bool LoopType::checkIndexOverflow(std::uint8_t sprite_index,
                                   std::size_t max_index) const {
-    return sprite_index > max_index;
+    return sprite_index >= max_index;
 }
 

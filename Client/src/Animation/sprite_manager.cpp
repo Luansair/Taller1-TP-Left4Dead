@@ -5,14 +5,12 @@
 #include "../../include/Animations/sprite_manager.h"
 #include "../../../Common/include/Information/information_code.h"
 
-SpriteManager::SpriteManager(const SDL2pp::Texture &texture,
-                             const LoopType &loop_type,
-                             SDL2pp::Renderer &renderer,
-                             int sprite_width,
-                             int sprite_height) :
+SpriteManager::SpriteManager(const SDL2pp::Texture &texture, const LoopType &loop_type, SDL2pp::Renderer &renderer,
+                             int sprite_width, int sprite_height, std::uint32_t ms_to_change) :
     sprites(),
     loop_type(loop_type),
-    renderer(renderer) {
+    renderer(renderer),
+    ms_to_change(ms_to_change) {
 
     int texture_width = texture.GetWidth();
 
@@ -48,10 +46,11 @@ void SpriteManager::_draw(SDL2pp::Texture &texture, std::uint8_t sprite_index,
 
 //----------------------PUBLIC METHODS--------------------------------------//
 
-void SpriteManager::draw(SDL2pp::Texture &texture, std::uint8_t *sprite_index,
-                         std::uint8_t direction,
-                         const SDL2pp::Point &sprite_destination) {
-    loop_type.fixIndex(sprite_index, sprites.size() - 1);
+void SpriteManager::draw(SDL2pp::Texture &texture, std::uint8_t *sprite_index, std::uint8_t direction,
+                         const SDL2pp::Point &sprite_destination, std::uint32_t frame_ticks) {
+    if (frame_ticks > ms_to_change) {
+        *sprite_index = loop_type.nextSprite(*sprite_index, sprites.size() - 1);
+    }
     std::uint8_t sprite_flip = determineFlipValue(direction);
     _draw(texture, *sprite_index, sprite_flip, sprite_destination);
 }

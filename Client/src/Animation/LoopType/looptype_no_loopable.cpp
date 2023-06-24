@@ -3,8 +3,9 @@
 //
 #include "../../../include/Animations/LoopType/looptype_no_loopable.h"
 
-void NoLoopable::fixIndex(std::uint8_t* sprite_index, std::size_t max_index) const {
-    if (checkIndexOverflow(*sprite_index, max_index))
-        *sprite_index = max_index;
+std::uint8_t NoLoopable::nextSprite(std::uint8_t sprite_index, std::size_t max_index) const {
+    if (checkIndexOverflow(sprite_index, max_index))
+        return max_index;
+    else return sprite_index + 1;
 }
 

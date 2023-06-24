@@ -27,9 +27,9 @@ AnimationManager::AnimationManager(SDL2pp::Renderer& renderer) :
 }
 
 void
-AnimationManager::draw(std::uint8_t actor_index, std::uint8_t animation_index,
-                       std::uint8_t *sprite_index, std::uint8_t direction,
-                       const SDL2pp::Point &sprite_destination) {
+AnimationManager::draw(std::uint8_t actor_index, std::uint8_t animation_index, std::uint8_t *sprite_index,
+                       std::uint8_t direction,
+                       const SDL2pp::Point &sprite_destination, std::uint32_t frame_ticks) {
     ActorAnimation* actor_animation = actors.at(actor_index);
 
     if (actor_animation == nullptr) {
@@ -38,6 +38,6 @@ AnimationManager::draw(std::uint8_t actor_index, std::uint8_t animation_index,
     }
 
     actor_animation->draw(animation_index, sprite_index, direction,
-                          sprite_destination);
+                          sprite_destination, frame_ticks);
 }
 

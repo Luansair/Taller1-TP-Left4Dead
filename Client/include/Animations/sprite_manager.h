@@ -15,6 +15,7 @@ class SpriteManager {
     std::vector<SDL2pp::Rect> sprites;
     const LoopType& loop_type;
     SDL2pp::Renderer& renderer;
+    std::uint32_t ms_to_change;
 
     [[nodiscard]] std::uint8_t determineFlipValue(std::uint8_t direction) const;
 
@@ -22,14 +23,11 @@ class SpriteManager {
                std::uint8_t sprite_index, std::uint8_t sprite_flip,
                const SDL2pp::Point &sprite_destination);
 public:
-    SpriteManager(const SDL2pp::Texture &texture,
-                  const LoopType &loop_type,
-                  SDL2pp::Renderer &renderer, int sprite_width,
-                  int sprite_height);
+    SpriteManager(const SDL2pp::Texture &texture, const LoopType &loop_type, SDL2pp::Renderer &renderer,
+                  int sprite_width, int sprite_height, std::uint32_t ms_to_change);
 
-    void draw(SDL2pp::Texture& texture, std::uint8_t *sprite_index,
-              std::uint8_t direction,
-              const SDL2pp::Point &sprite_destination);
+    void draw(SDL2pp::Texture &texture, std::uint8_t *sprite_index, std::uint8_t direction,
+              const SDL2pp::Point &sprite_destination, std::uint32_t frame_ticks);
 
     SpriteManager(SpriteManager&&) = default;
     SpriteManager& operator=(SpriteManager&&) = delete;

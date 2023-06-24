@@ -15,14 +15,12 @@ class ActionAnimation {
     SpriteManager sprite_manager;
 
 public:
-    ActionAnimation(SDL2pp::Renderer &renderer,
-                    const std::string &texture_filepath,
-                    const LoopType &loop_type, int sprite_width,
-                    int sprite_height);
+    ActionAnimation(SDL2pp::Renderer &renderer, const std::string &texture_filepath,
+                    const LoopType &loop_type, int sprite_width, int sprite_height,
+                    std::uint32_t ms_to_change_sprite);
 
-    void draw(std::uint8_t *sprite_index,
-              std::uint8_t direction,
-              const SDL2pp::Point &sprite_destination);
+    void draw(std::uint8_t *sprite_index, std::uint8_t direction, const SDL2pp::Point &sprite_destination,
+              std::uint32_t frame_ticks);
 
     ActionAnimation(ActionAnimation&&) = default;
     ActionAnimation& operator=(ActionAnimation&&) = delete;

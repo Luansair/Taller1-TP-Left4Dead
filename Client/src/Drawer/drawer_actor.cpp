@@ -37,11 +37,13 @@ void ActorDrawer::updateInfo(const ElementStateDTO &actor_state) {
 }
 
 void ActorDrawer::draw(std::uint32_t frame_ticks, std::int32_t window_x_pos, std::int32_t window_width) {
+    /*
     if (frame_ticks - previous_frame_ticks > 100) {
         sprite_index += 1;
         previous_frame_ticks = frame_ticks;
     }
-
+    */
+    std::uint8_t last_sprite = sprite_index;
     std::int32_t actor_x_pos = position_x;
     std::int32_t relative_x_pos_to_window = actor_x_pos - window_x_pos;
 
@@ -50,7 +52,10 @@ void ActorDrawer::draw(std::uint32_t frame_ticks, std::int32_t window_x_pos, std
     }
 
     animation_manager.draw(type, animation, &sprite_index, direction,
-                           {relative_x_pos_to_window, position_y});
+                           {relative_x_pos_to_window, position_y}, frame_ticks - previous_frame_ticks);
+
+    if (last_sprite != sprite_index)
+        previous_frame_ticks = frame_ticks;
 }
 
 

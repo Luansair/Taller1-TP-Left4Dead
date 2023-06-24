@@ -35,7 +35,7 @@ std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, ThrowableFactory& fa
         if (time.count() > throw_duration) {
             uint32_t code_counter;
             std::shared_ptr<Throwable> poison = factory.create(&code_counter, POISON, position.getXPos() + dir_x * 10,
-            position.getYPos() + 30, dir_x, dim_x, dim_y, zombie_id);
+            position.getYPos() + 50, dir_x, dim_x, dim_y, zombie_id);
             throwables.emplace(code_counter, std::move(poison)); 
             return;
         }

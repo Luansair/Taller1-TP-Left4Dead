@@ -51,7 +51,7 @@ grenade:
 
 poison:
   speed: 200
-  scope: 50
+  scope: 6
   duration: 1.7
   damage: 0.2
 
@@ -68,11 +68,11 @@ aerial:
   damage: 0.0
 
 clear_easy:
-  infected: 0
-  spear: 0
-  witch: 0
-  jumper: 0
-  venom: 1
+  infected: 1
+  spear: 1
+  witch: 1
+  jumper: 1
+  venom: 3
 
 clear_normal:
   infected: 2

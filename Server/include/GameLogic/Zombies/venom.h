@@ -12,7 +12,7 @@ class Venom : public Zombie {
 
 public:
 
-    double throw_cooldown = 10.0;
+    double throw_cooldown = 3.0;
     double throw_duration = 0.5;
     bool throwing = false;
     uint32_t counter = 500;

@@ -97,8 +97,8 @@ void Zombie::simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
     std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y, ThrowableFactory& factory) {
-    std::cout << "Zombie posx: " << position.getXPos() << "\n";
-    std::cout << "Zombie health: " << health << "\n";
+    // std::cout << "Zombie posx: " << position.getXPos() << "\n";
+    // std::cout << "Zombie health: " << health << "\n";
     if (dying) { simulateDie(real_time); last_step_time = real_time; return; }
     if (being_hurt) simulateRecvDamage(real_time, soldiers);
     if (attacking) simulateAttack();
@@ -109,8 +109,8 @@ void Zombie::simulate(std::chrono::_V2::system_clock::time_point real_time,
 void Zombie::simulateRecvDamage(
     std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers) {
-    if (damage_recv < health) {
-        health -= damage_recv; 
+    if (damage_recv < actual_health) {
+        actual_health -= damage_recv; 
         recvDamage(OFF, 0, attacker_id);
         return;
     }
@@ -302,6 +302,10 @@ int8_t Zombie::getDirX(void) {
 
 double Zombie::getHealth(void) {
     return health;
+}
+
+double Zombie::getActualHealth(void) {
+    return actual_health;
 }
 
 Position& Zombie::getPosition(void) {

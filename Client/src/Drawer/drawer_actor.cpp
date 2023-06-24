@@ -12,6 +12,10 @@ ActorDrawer::ActorDrawer(AnimationManager &animation_manager) :
         type(SOLDIER_IDF),
         animation(SOLDIER_1_IDLE),
         direction(DRAW_RIGHT),
+        position_x(0),
+        position_y(0),
+        health(0),
+        actual_health(0),
         sprite_destination(0,0),
         sprite_index(0),
         previous_frame_ticks(0) {
@@ -26,14 +30,13 @@ void ActorDrawer::updateInfo(const ElementStateDTO &actor_state) {
     if (this->animation != actor_state.action) {
         sprite_index = 0;
     }
-    // se congela la animación, si le mando directamente desde server sin traducir anda bien.
-    //setActorType(actor_state.type);
     this->type = actor_state.type;
     this->animation = actor_state.action;
-    //setActorAnimation(actor_state.action);
     setActorDirection(actor_state.direction);
     this->position_x = actor_state.position_x;
     this->position_y = actor_state.position_y;
+    this->health = actor_state.health;
+    this->actual_health = actor_state.actual_health;
 }
 
 void ActorDrawer::draw(std::uint32_t frame_ticks, std::int32_t window_x_pos, std::int32_t window_width) {

@@ -176,7 +176,7 @@ void Soldier::simulate_change_grenade(void) {
 
 void Soldier::be_revived(void) {
     start_dying(OFF);
-    health = 100;
+    actual_health = health;
 }
 
 void Soldier::increase_kill_counter(void) {
@@ -205,8 +205,8 @@ void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
 }
 
 void Soldier::simulateRecvdmg(std::chrono::_V2::system_clock::time_point real_time) {
-    if (damage_recv < health) {
-        health -= damage_recv;
+    if (damage_recv < actual_health) {
+        actual_health -= damage_recv;
         recvDamage(OFF, 0);
         return;
     }
@@ -340,6 +340,10 @@ int8_t Soldier::getDirX(void) {
 
 double Soldier::getHealth(void) {
     return health;
+}
+
+double Soldier::getActualHealth(void) {
+    return actual_health;
 }
 
 Position& Soldier::getPosition(void) {

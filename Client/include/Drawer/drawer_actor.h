@@ -17,6 +17,8 @@ class ActorDrawer {
     std::uint8_t direction;
     std::int32_t position_x;
     std::int32_t position_y;
+    std::uint16_t health;
+    std::uint16_t actual_health;
     SDL2pp::Point sprite_destination;
 
     std::uint8_t sprite_index;

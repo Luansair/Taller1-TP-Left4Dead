@@ -1,6 +1,8 @@
 #include "../../include/GameLogic/match.h"
 #include "yaml-cpp/yaml.h"
 
+#define NOTVALUE 0;
+
 Match::Match(double x_dimension, double y_dimension, uint32_t code) :
     soldiers(),
     zombies(),
@@ -147,7 +149,8 @@ std::vector<std::pair<uint16_t, ElementStateDTO >> Match::getElementStates() {
         int8_t actor_direction = throwable.second->getDirX();
         int position_x = throwable.second->getPosition().getXPos();
         int position_y = throwable.second->getPosition().getYPos();
-        ElementStateDTO dto {actor_type, actor_action, actor_direction, position_x, position_y};
+        int dummy = 100;
+        ElementStateDTO dto {actor_type, actor_action, actor_direction, position_x, position_y, dummy, dummy};
         elementStates.emplace_back(id, std::move(dto));
     }
     for (const auto & soldier : soldiers) {
@@ -157,7 +160,9 @@ std::vector<std::pair<uint16_t, ElementStateDTO >> Match::getElementStates() {
         int8_t actor_direction = soldier.second->getDirX();
         int position_x = soldier.second->getPosition().getXPos();
         int position_y = soldier.second->getPosition().getYPos();
-        ElementStateDTO dto {actor_type, actor_action, actor_direction, position_x, position_y};
+        int health = soldier.second->getHealth();
+        int actual_health = soldier.second->getActualHealth();
+        ElementStateDTO dto {actor_type, actor_action, actor_direction, position_x, position_y, health, actual_health};
         elementStates.emplace_back(id, std::move(dto));
     }
     for (const auto & zombie : zombies) {
@@ -167,7 +172,9 @@ std::vector<std::pair<uint16_t, ElementStateDTO >> Match::getElementStates() {
         int8_t actor_direction = zombie.second->getDirX();
         int position_x = zombie.second->getPosition().getXPos();
         int position_y = zombie.second->getPosition().getYPos();
-        ElementStateDTO dto {actor_type, actor_action, actor_direction, position_x, position_y};
+        int health = zombie.second->getHealth();
+        int actual_health = zombie.second->getActualHealth();
+        ElementStateDTO dto {actor_type, actor_action, actor_direction, position_x, position_y, health, actual_health};
         elementStates.emplace_back(id, std::move(dto));
     }
     return elementStates;

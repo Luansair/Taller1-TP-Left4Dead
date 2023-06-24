@@ -60,18 +60,24 @@ ElementStateDTO Protocol::recvActorState() {
     int8_t actor_direction;
     int bigendian_actor_position_x;
     int bigendian_actor_position_y;
+    int bigendian_actor_health;
+    int bigendian_actor_actual_health;
 
     RECV_DATA(actor_type);
     RECV_DATA(actor_action);
     RECV_DATA(actor_direction);
     RECV_DATA(bigendian_actor_position_x);
     RECV_DATA(bigendian_actor_position_y);
+    RECV_DATA(bigendian_actor_health);
+    RECV_DATA(bigendian_actor_actual_health);
 
     int actor_position_x = static_cast<int>(ntohl(bigendian_actor_position_x));
     int actor_position_y = static_cast<int>(ntohl(bigendian_actor_position_y));
+    int actor_health = static_cast<int>(ntohl(bigendian_actor_health));
+    int actor_actual_health = static_cast<int>(ntohl(bigendian_actor_actual_health));
 
     return {actor_type, actor_action,actor_direction,
-            actor_position_x,actor_position_y};
+            actor_position_x,actor_position_y, actor_health, actor_actual_health};
 
 }
 

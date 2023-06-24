@@ -36,6 +36,7 @@ public:
     double damage_recv = 0.0;
     double damage = 0.2;
     uint32_t attacker_id = 500; // num cualquiera
+    double actual_health = health;
 
     /* tiempos */
     std::chrono::_V2::system_clock::time_point last_step_time = std::chrono::system_clock::now();
@@ -100,6 +101,7 @@ public:
     int8_t getDir(void);
     int8_t getDirX(void);
     double getHealth(void);
+    double getActualHealth(void);
     double getWidth(void);
     double getHeight(void);
     uint32_t getId(void);

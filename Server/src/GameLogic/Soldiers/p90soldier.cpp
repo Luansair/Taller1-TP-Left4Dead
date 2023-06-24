@@ -22,6 +22,6 @@ uint8_t P90Soldier::getAction(void) {
     if (shooting) return SOLDIER_2_SHOOT_1;
     if (reloading) return SOLDIER_2_RECHARGE;
     if (moving) return SOLDIER_2_RUN;
-    if (throwing) return SOLDIER_2_GRENADE;
+    if (throwed) return SOLDIER_2_GRENADE;
     return SOLDIER_2_IDLE;
 }

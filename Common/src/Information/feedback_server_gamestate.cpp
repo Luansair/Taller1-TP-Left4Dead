@@ -40,6 +40,8 @@ std::vector<int8_t> GameStateFeedback::serialize() const {
         result.push_back(static_cast<int8_t>(dto.direction));
         serializeNumber<std::int32_t>(result, dto.position_x);
         serializeNumber<std::int32_t>(result, dto.position_y);
+        serializeNumber<std::int32_t>(result, dto.health);
+        serializeNumber<std::int32_t>(result, dto.actual_health);
     }
 
     return result;

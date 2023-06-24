@@ -35,6 +35,7 @@ public:
     double damage_recv = 0.0;
     uint16_t kill_counter = 0;
     uint8_t t_type = GRENADE;
+    double actual_health = health;
 
     /* tiempos */
     std::chrono::_V2::system_clock::time_point last_step_time = std::chrono::system_clock::now();
@@ -46,9 +47,8 @@ public:
     std::chrono::_V2::system_clock::time_point last_throw_time = std::chrono::system_clock::now();
     double revive_cooldown = 30.0;
     double reload_cooldown = 1.5;
-    double throw_cooldown = 10.0;
+    double throw_cooldown = 3.0;
     double throw_duration = 0.5;
-    uint32_t counter = 1000;
 
     /* estados */
     bool dying = false;
@@ -126,6 +126,7 @@ public:
     int8_t getDir();
     int8_t getDirX();
     double getHealth();
+    double getActualHealth();
     double getWidth();
     double getHeight();
     uint32_t getId();

@@ -1,6 +1,7 @@
 #include "../../../include/GameLogic/Zombies/venom.h"
 #include "../../../include/GameLogic/Throwables/poison.h"
 #include "../../../include/GameLogic/Throwables/throwable.h"
+#include "../../../include/GameLogic/Throwables/grenade_t.h"
 #include <random>
 #define DELAY 0.0
 
@@ -34,14 +35,16 @@ std::map<uint32_t, std::shared_ptr<Throwable>>& throwables) {
         if (time.count() > throw_duration + DELAY) { last_throw_time = real_time; start_throw(OFF); }
         if (time.count() > throw_duration) {
             std::shared_ptr<Throwable> poison(new Poison(counter++, getPosition().getXPos() + dir_x * 10,
-            getPosition().getYPos() + 15, 200, 30, 1.7, dir_x, dim_x, dim_y, zombie_id, 0.1));
-            throwables.emplace(400, std::move(poison)); 
+            getPosition().getYPos() + 30, 200, 40, 1.7, dir_x, dim_x, dim_y, zombie_id, 0.1));
+            throwables.emplace(counter++, std::move(poison)); 
             return;
-        };
+        }
     } else {
         std::chrono::duration<double> time = real_time - last_throw_time;
         if (time.count() > throw_cooldown) { 
-            if (time.count() > throw_cooldown) { start_throw(ON); throw_time = real_time; return;}
+            start_throw(ON); 
+            throw_time = real_time; 
+            return;
         }
     }
 }

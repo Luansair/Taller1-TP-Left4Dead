@@ -41,11 +41,11 @@ void Game::selectMode(uint8_t gameMode, uint8_t gameDifficulty, uint32_t game_co
     {
     case SURVIVAL:
 
-        match = std::shared_ptr<Match>(new Survival(10000.0, 850.0, gameDifficulty, game_code));
+        match = std::shared_ptr<Match>(new Survival(1000, 850.0, gameDifficulty, game_code));
         break;
     
     case CLEAR_THE_ZONE:
-        match = std::shared_ptr<Match>(new ClearTheZone(10000.0, 850.0, gameDifficulty, game_code));
+        match = std::shared_ptr<Match>(new ClearTheZone(1000, 850.0, gameDifficulty, game_code));
         break;
     }
 }

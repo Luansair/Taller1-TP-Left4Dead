@@ -7,6 +7,7 @@ class Grenade_t : public Throwable {
 
 public:
     double damage;
+    bool exploded = false;
 
     explicit Grenade_t(uint32_t throwable_id,
     double x, double y, double speed, double scope, double duration, 

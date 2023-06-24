@@ -14,14 +14,18 @@ void Grenade_t::simulateThrow(
     std::chrono::duration<double> time = real_time - last_step_time;
     if (active) {
         std::chrono::duration<double> active_time = real_time - activation_time;
+        if (active_time.count() >= duration * 0.25 && !exploded) {
+            simulateExplosion(zombies);
+        }
         if (active_time.count() >= duration) {
             activate(OFF);
-            simulateExplosion(zombies);
             return; 
         }
     }
     if (!active) {activation_time = real_time; activate(ON);}
     double x_coord;
+
+    if (exploded) {last_step_time = real_time; return;}
     if (dir == RIGHT) {
         x_coord = position.getXPos() + time.count() * speed;
         if (x_coord >= dim_x) { activate(OFF); return; }
@@ -46,9 +50,10 @@ void Grenade_t::simulateExplosion(std::map<uint32_t, std::shared_ptr<Zombie>>& z
     RadialHitbox explodezone(position.getXPos(), position.getYPos(), scope);
     for (auto i = zombies.begin(); i != zombies.end(); i++) {
         Position other_pos = i->second->getPosition();
-        if (explodezone.hits(other_pos) && (i->second->screaming)) {
+        if (explodezone.hits(other_pos)) {
             double distance = std::sqrt(std::pow(std::abs(position.getXPos() - other_pos.getXPos()), 2) + std::pow(std::abs(position.getYPos() - other_pos.getYPos()), 2));
             i->second->recvDamage(ON, damage / distance, thrower_id);
         }
     }
+    exploded = true;
 }

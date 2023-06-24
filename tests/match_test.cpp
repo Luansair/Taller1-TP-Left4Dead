@@ -17,9 +17,9 @@ bool operator==(const ElementStateDTO& lhs, const ElementStateDTO& rhs) {
 }
 
 TEST(match_test, Test00CreateMatch) {
-    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(0.0,0.0, DEASY, 1));
-    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(10.0,10.0, DEASY, 1));
-    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(100.0,100.0, DEASY, 1));
+    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(0.0,1000.0, DEASY, 1));
+    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(10.0,1000.0, DEASY, 1));
+    ASSERT_NO_FATAL_FAILURE(ClearTheZone match(100.0,1000.0, DEASY, 1));
     ASSERT_NO_FATAL_FAILURE(ClearTheZone match(1000.0,100000.0, DEASY, 1));
 }
 

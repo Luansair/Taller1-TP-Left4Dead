@@ -75,8 +75,11 @@ void Soldier::reload(uint8_t state) {
 void Soldier::throwGrenade(uint8_t state){
     switch(state) {
         case ON:
+            if (throwed) {
+                moving = false; return;
+            }
             throwing = true;
-            moving = shooting = reloading = reviving = being_hurt = false;
+            shooting = reloading = reviving = being_hurt = false;
             break;
         case OFF:
             throwing = false;
@@ -134,7 +137,7 @@ void Soldier::keep_reloading(uint8_t state) {
 void Soldier::idle(uint8_t state) {
     switch(state) {
         case ON:
-            reloading = shooting = moving = throwing = reviving = being_hurt = false;
+            reloading = shooting = moving = throwing = reviving = being_hurt = throwed = false;
             break;
         case OFF:
             break;
@@ -153,6 +156,8 @@ void Soldier::start_throw(uint8_t state) {
     }
 }
 
+// new Grenade_t(counter++, getPosition().getXPos() + dir_x * 10, getPosition().getYPos(), 600, 30, 1.5, dir_x, dim_x, dim_y, zombie_id, 0.1));
+
 void Soldier::be_revived(void) {
     start_dying(OFF);
     health = 100;
@@ -168,7 +173,6 @@ void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
     std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y) {
-    std::cout << "vida: " << health << "\n";
 
     std::chrono::duration<double> time = real_time - last_step_time;
 
@@ -267,20 +271,26 @@ void Soldier::simulateReload(std::chrono::_V2::system_clock::time_point real_tim
 
 void Soldier::simulateThrow(std::chrono::_V2::system_clock::time_point real_time, double dim_x, double dim_y,
                             std::map<uint32_t, std::shared_ptr<Throwable>>& throwables) {
-    if (throwing) {
+    if (throwed) {
         std::chrono::duration<double> time = real_time - throw_time;
-        if (time.count() > throw_duration) { last_throw_time = real_time; start_throw(OFF); }
-        if (time.count() > throw_duration) {
+        if (time.count() >= throw_duration) {
+            last_throw_time = real_time; 
+            start_throw(OFF);
+            throwed = false;
             std::shared_ptr<Throwable> grenade(new Grenade_t(counter++, getPosition().getXPos() + dir_x * 10,
-            getPosition().getYPos() + 15, 200, 30, 1.7, dir_x, dim_x, dim_y, soldier_id, 0.1));
-            throwables.emplace(400, std::move(grenade)); 
+            getPosition().getYPos(), 600, 100, 1.5, dir_x, dim_x, dim_y, soldier_id, 1000));
+            throwables.emplace(counter++, std::move(grenade)); 
             return;
-        };
+        }
     } else {
         std::chrono::duration<double> time = real_time - last_throw_time;
-        if (time.count() > throw_cooldown) { 
-            if (time.count() > throw_cooldown) { start_throw(ON); throw_time = real_time; return;}
+        if (time.count() >= throw_cooldown) { 
+            start_throw(ON);
+            throwed = true;
+            throw_time = real_time;
+            return;
         }
+        start_throw(OFF);
     }
 }
 
@@ -346,7 +356,7 @@ void Soldier::setRandomPosition(
 
     random_device rd;
     mt19937 mt(rd());
-    uniform_int_distribution<int32_t> distx(0, dim_x * 0.5);
+    uniform_int_distribution<int32_t> distx(0, dim_x);
     uniform_int_distribution<int32_t> disty(0, dim_y);
     int32_t x_pos;
     int32_t y_pos;

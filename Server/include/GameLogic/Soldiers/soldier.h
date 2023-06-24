@@ -46,7 +46,7 @@ public:
     double reload_cooldown = 1.5;
     double throw_cooldown = 10.0;
     double throw_duration = 0.5;
-    uint32_t counter = 800;
+    uint32_t counter = 1000;
 
     /* estados */
     bool dying = false;
@@ -57,6 +57,7 @@ public:
     bool reviving = false;
     bool being_hurt = false;
     bool alive = true;
+    bool throwed = false;
 
     explicit Soldier(
     uint32_t soldier_id,

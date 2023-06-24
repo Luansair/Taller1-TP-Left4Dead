@@ -4,6 +4,7 @@
 #include "../include/Command/command_pregame_creategame.h"
 #include "../include/Command/command_ingame_startshoot.h"
 #include "../include/Command/command_ingame_startmove.h"
+#include "../include/Command/command_ingame_startthrow.h"
 #include "../include/Command/command_ingame_startidle.h"
 #include "../include/Command/command_ingame_startrevive.h"
 #include "../include/Command/command_ingame_pick_soldier.h"
@@ -74,6 +75,14 @@ InGameCommand* Protocol::recvInGameCommand(std::uint8_t player_id) {
         socket.recvData(&action_state, 1);
         if (action_state == ON) {
             return new StartReviveCommand(player_id);
+        } else if (action_state == OFF) {
+            return new StartIdleCommand(player_id);
+        }  
+    } else if (action_id == ACTION_THROW) {
+        uint8_t action_state;
+        socket.recvData(&action_state, 1);
+        if (action_state == ON) {
+            return new StartThrowCommand(player_id);
         } else if (action_state == OFF) {
             return new StartIdleCommand(player_id);
         }  

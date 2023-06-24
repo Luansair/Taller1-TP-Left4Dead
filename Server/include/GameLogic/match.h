@@ -6,6 +6,7 @@
 #include "Zombies/zombie.h"
 #include "Zombies/zombiefactory.h"
 #include "Throwables/throwable.h"
+#include "Throwables/throwablesfactory.h"
 #include "Throwables/poison.h"
 #include "Throwables/grenade_t.h"
 #include "position.h"
@@ -42,7 +43,9 @@ public:
     uint8_t soldier_counter = 0;
     uint8_t zombie_counter = 0;
     std::chrono::_V2::system_clock::time_point create_time = std::chrono::system_clock::now();
+    uint32_t code_counter = 100;
     MatchConfigurator configurator;
+    ThrowableFactory t_factory;
 
     /* Constructor de Match, parámetros: dimensiones del mapa */
     explicit Match(double x_dimension, double y_dimension, uint32_t code);

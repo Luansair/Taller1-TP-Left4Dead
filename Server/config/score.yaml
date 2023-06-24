@@ -61,3 +61,9 @@
     - 1:
         seconds_alive: 59.436661503000003
         kills: 1
+4819327:
+  time: "Sat Jun 24 17:34:07 2023\n"
+  players:
+    - 1:
+        seconds_alive: 94.358766277000001
+        kills: 0

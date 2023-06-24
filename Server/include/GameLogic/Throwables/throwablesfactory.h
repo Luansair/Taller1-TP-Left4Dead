@@ -9,8 +9,10 @@ class Throwable;
 #include "yaml-cpp/yaml.h"
 
 class ThrowableFactory {
+    uint32_t& code_counter;
 public:
-    std::shared_ptr<Throwable> create(uint32_t throwable_id, 
+    explicit ThrowableFactory(uint32_t& code_counter);
+    std::shared_ptr<Throwable> create(uint32_t *throwable_id, 
     uint8_t throwable_type, double x, double y, int8_t dir, 
     double dim_x, double dim_y, uint32_t thrower_id);
     void load_values(const YAML::Node &node, double *speed, double *scope, double *duration, double *damage);

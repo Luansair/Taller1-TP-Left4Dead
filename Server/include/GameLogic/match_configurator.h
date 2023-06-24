@@ -16,23 +16,22 @@ class Soldier;
 
 class MatchConfigurator {
 public:
-    int amount_infected = 0;
-    int amount_venom = 0;
-    int amount_witch = 0;
-    int amount_jumper = 0;
-    int amount_spear = 0;
-    int begin = SOLDIERS_MAX + 1;
-    int total = 0;
+    uint32_t amount_infected = 0;
+    uint32_t amount_venom = 0;
+    uint32_t amount_witch = 0;
+    uint32_t amount_jumper = 0;
+    uint32_t amount_spear = 0;
+    uint32_t begin = SOLDIERS_MAX + 1;
     MatchConfigurator();
 
     void configurate(uint8_t mode, uint8_t difficulty,
     std::map<uint32_t, std::shared_ptr<Zombie>> &zombies,
     std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
-    double dim_x, double dim_y);
+    double dim_x, double dim_y, uint32_t *code_counter);
 
     void add_zombies(int amount, std::map<uint32_t, std::shared_ptr<Zombie>> &zombies,
     std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
-    double dim_x, double dim_y);
+    double dim_x, double dim_y, uint32_t *code_counter);
 
 };
 

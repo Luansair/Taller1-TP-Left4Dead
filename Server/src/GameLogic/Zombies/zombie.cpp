@@ -96,13 +96,13 @@ void Zombie::recvDamage(uint8_t state, double damage, uint32_t attacker) {
 void Zombie::simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
-    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y) {
+    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y, ThrowableFactory& factory) {
     std::cout << "Zombie posx: " << position.getXPos() << "\n";
     std::cout << "Zombie health: " << health << "\n";
     if (dying) { simulateDie(real_time); last_step_time = real_time; return; }
     if (being_hurt) simulateRecvDamage(real_time, soldiers);
     if (attacking) simulateAttack();
-    simulateMove(real_time, soldiers, zombies, throwables, dim_x, dim_y);
+    simulateMove(real_time, soldiers, zombies, throwables, dim_x, dim_y, factory);
     last_step_time = real_time;
 }
 
@@ -220,7 +220,7 @@ void Zombie::CalculateNextPos_by_witch(double *next_x, double *next_y,
 void Zombie::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
-    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y) {
+    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y, ThrowableFactory& factory) {
     std::chrono::duration<double> time = real_time - last_step_time;
 
     bool detected = false;

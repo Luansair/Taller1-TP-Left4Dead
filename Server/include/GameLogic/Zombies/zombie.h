@@ -16,6 +16,7 @@
 
 class Throwable;
 class Soldier;
+class ThrowableFactory;
 
 class Zombie {
 public:
@@ -74,11 +75,11 @@ public:
     virtual void simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
-    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y);
+    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y, ThrowableFactory& factory);
     virtual void simulateMove(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
-    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y);
+    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y, ThrowableFactory& factory);
     virtual void simulateAttack(void);
     virtual void simulateDie(std::chrono::_V2::system_clock::time_point real_time);
     virtual void simulateRecvDamage(std::chrono::_V2::system_clock::time_point real_time,

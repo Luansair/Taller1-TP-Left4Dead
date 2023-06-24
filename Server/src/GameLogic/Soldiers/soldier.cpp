@@ -188,7 +188,8 @@ void Soldier::increase_kill_counter(void) {
 void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
-    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y) {
+    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y,
+    ThrowableFactory& factory) {
 
     std::chrono::duration<double> time = real_time - last_step_time;
 
@@ -198,7 +199,7 @@ void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
     if (reloading) simulateReload(real_time);
     if (shooting) simulateShoot(real_time, time.count(), soldiers, zombies, dim_x);
     if (moving) simulateMove(time.count(), soldiers, zombies, dim_x, dim_y);
-    if (throwing) simulateThrow(real_time, dim_x, dim_y, throwables);
+    if (throwing) simulateThrow(real_time, dim_x, dim_y, throwables, std::ref(factory));
     if (reviving) simulateRevive(real_time, soldiers);
     last_step_time = real_time;
 }
@@ -287,17 +288,17 @@ void Soldier::simulateReload(std::chrono::_V2::system_clock::time_point real_tim
 }
 
 void Soldier::simulateThrow(std::chrono::_V2::system_clock::time_point real_time, double dim_x, double dim_y,
-                            std::map<uint32_t, std::shared_ptr<Throwable>>& throwables) {
+                            std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, ThrowableFactory& factory) {
     if (throwed) {
         std::chrono::duration<double> time = real_time - throw_time;
         if (time.count() >= throw_duration) {
-            ThrowableFactory factory;
             last_throw_time = real_time; 
             start_throw(OFF);
             throwed = false;
-            std::shared_ptr<Throwable> grenade = factory.create(counter++, t_type, position.getXPos() + dir_x * 10,
+            uint32_t id;
+            std::shared_ptr<Throwable> grenade = factory.create(&id, t_type, position.getXPos() + dir_x * 10,
             position.getYPos(), dir_x, dim_x, dim_y, soldier_id);
-            throwables.emplace(counter++, std::move(grenade)); 
+            throwables.emplace(id, std::move(grenade)); 
             return;
         }
     } else {

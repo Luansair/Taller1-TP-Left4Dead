@@ -28,15 +28,15 @@ void Venom::start_throw(uint8_t state) {
 }
 
 void Venom::simulateThrow(std::chrono::_V2::system_clock::time_point real_time, double dim_x, double dim_y,
-std::map<uint32_t, std::shared_ptr<Throwable>>& throwables) {
+std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, ThrowableFactory& factory) {
     if (throwing) {
         std::chrono::duration<double> time = real_time - throw_time;
         if (time.count() > throw_duration + DELAY) { last_throw_time = real_time; start_throw(OFF); }
         if (time.count() > throw_duration) {
-            ThrowableFactory factory;
-            std::shared_ptr<Throwable> poison = factory.create(counter++, POISON, position.getXPos() + dir_x * 10,
+            uint32_t code_counter;
+            std::shared_ptr<Throwable> poison = factory.create(&code_counter, POISON, position.getXPos() + dir_x * 10,
             position.getYPos() + 30, dir_x, dim_x, dim_y, zombie_id);
-            throwables.emplace(counter++, std::move(poison)); 
+            throwables.emplace(code_counter, std::move(poison)); 
             return;
         }
     } else {
@@ -52,7 +52,7 @@ std::map<uint32_t, std::shared_ptr<Throwable>>& throwables) {
 void Venom::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
-    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y) {
+    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y, ThrowableFactory& factory) {
     std::chrono::duration<double> time = real_time - last_step_time;
 
     bool detected = false;
@@ -78,7 +78,7 @@ void Venom::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
         return;
     }
 
-    simulateThrow(real_time, dim_x, dim_y, throwables);
+    simulateThrow(real_time, dim_x, dim_y, throwables, factory);
     if (throwing) return;
     
     detect_victim(&detected, &id, std::ref(soldiers), dim_x, dim_y);

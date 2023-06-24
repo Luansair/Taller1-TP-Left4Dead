@@ -7,7 +7,7 @@ Survival::Survival(double x_dimension, double y_dimension, uint8_t difficulty, u
 
 void Survival::simulateStep(std::chrono::_V2::system_clock::time_point real_time) {
     for (auto & zombie : zombies) {
-        zombie.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), std::ref(throwables), x_dim, y_dim);
+        zombie.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), std::ref(throwables), x_dim, y_dim, t_factory);
     }
     delete_dead_zombies();
 
@@ -17,7 +17,7 @@ void Survival::simulateStep(std::chrono::_V2::system_clock::time_point real_time
     delete_inactive_throwables();
 
     for (auto & soldier : soldiers) {
-        soldier.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), std::ref(throwables), x_dim, y_dim);
+        soldier.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), std::ref(throwables), x_dim, y_dim, t_factory);
     }
     delete_dead_soldiers();
 
@@ -32,9 +32,9 @@ void Survival::simulateStep(std::chrono::_V2::system_clock::time_point real_time
 void Survival::loseMatch(void) {}
 
 void Survival::configurate(uint8_t difficulty) {
-    configurator.configurate(SURVIVAL, difficulty, zombies, soldiers, x_dim, y_dim);
+    configurator.configurate(SURVIVAL, difficulty, zombies, soldiers, x_dim, y_dim, &code_counter);
 }
 
 void Survival::add_zombies(void) {
-    configurator.add_zombies(1, zombies, soldiers, x_dim, y_dim);
+    configurator.add_zombies(1, zombies, soldiers, x_dim, y_dim, &code_counter);
 }

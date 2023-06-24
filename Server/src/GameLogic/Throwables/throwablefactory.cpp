@@ -5,7 +5,11 @@
 #include "../../../include/GameLogic/Throwables/poison.h"
 #include "yaml-cpp/yaml.h"
 
-std::shared_ptr<Throwable> ThrowableFactory::create(uint32_t throwable_id, 
+
+ThrowableFactory::ThrowableFactory(uint32_t &code_counter) :
+    code_counter(std::ref(code_counter)) {
+}
+std::shared_ptr<Throwable> ThrowableFactory::create(uint32_t *throwable_id, 
     uint8_t throwable_type, double x, double y, int8_t dir, 
     double dim_x, double dim_y, uint32_t thrower_id) {
     using YAML::LoadFile;
@@ -13,25 +17,25 @@ std::shared_ptr<Throwable> ThrowableFactory::create(uint32_t throwable_id,
 
     Node node;
     double damage, scope, duration, speed;
+    *throwable_id = code_counter;
 
     switch(throwable_type) {
-
         case SMOKE: {
             node = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["smoke"];
             load_values(std::ref(node), &speed, &scope, &duration, &damage);
-            return std::shared_ptr<Throwable> (new Smoke(throwable_id, x,
+            return std::shared_ptr<Throwable> (new Smoke(code_counter++, x,
             y, speed, scope, duration, dir, dim_x, dim_y, thrower_id, damage));
         }
         case GRENADE: {
             node = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["grenade"];
             load_values(std::ref(node), &speed, &scope, &duration, &damage);
-            return std::shared_ptr<Throwable> (new Grenade_t(throwable_id, x,
+            return std::shared_ptr<Throwable> (new Grenade_t(code_counter++, x,
             y, speed, scope, duration, dir, dim_x, dim_y, thrower_id, damage));
         }
         case POISON: {
             node = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["poison"];
             load_values(std::ref(node), &speed, &scope, &duration, &damage);
-            return std::shared_ptr<Throwable> (new Poison(throwable_id, x,
+            return std::shared_ptr<Throwable> (new Poison(code_counter++, x,
             y, speed, scope, duration, dir, dim_x, dim_y, thrower_id, damage));
         }
         case AERIAL: {

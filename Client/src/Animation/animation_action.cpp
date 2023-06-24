@@ -8,16 +8,16 @@
 ActionAnimation::ActionAnimation(SDL2pp::Renderer &renderer,
                                  const std::string &texture_filepath,
                                  const LoopType &loop_type,
-                                 int width,
-                                 int height) :
+                                 int sprite_width,
+                                 int sprite_height) :
         texture(renderer,texture_filepath),
-        sprite_manager(texture, loop_type, renderer, width, height) {
+        sprite_manager(texture, loop_type, renderer, sprite_width, sprite_height) {
 }
 
 
 //----------------------PUBLIC METHODS--------------------------------------//
 void ActionAnimation::draw(std::uint8_t *sprite_index, std::uint8_t direction,
-                           const SDL2pp::Rect &sprite_destination) {
+                           const SDL2pp::Point &sprite_destination) {
     sprite_manager.draw(texture, sprite_index, direction, sprite_destination);
 }
 

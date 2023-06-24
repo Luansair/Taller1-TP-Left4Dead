@@ -20,7 +20,7 @@ class SpriteManager {
 
     void _draw(SDL2pp::Texture& texture,
                std::uint8_t sprite_index, std::uint8_t sprite_flip,
-               const SDL2pp::Rect& sprite_destination);
+               const SDL2pp::Point &sprite_destination);
 public:
     SpriteManager(const SDL2pp::Texture &texture,
                   const LoopType &loop_type,
@@ -29,7 +29,7 @@ public:
 
     void draw(SDL2pp::Texture& texture, std::uint8_t *sprite_index,
               std::uint8_t direction,
-              const SDL2pp::Rect& sprite_destination);
+              const SDL2pp::Point &sprite_destination);
 
     SpriteManager(SpriteManager&&) = default;
     SpriteManager& operator=(SpriteManager&&) = delete;

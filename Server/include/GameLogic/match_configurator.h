@@ -9,7 +9,7 @@
 #include "Zombies/zombiefactory.h"
 
 #include "../../../Common/include/Information/information_code.h"
-#define SOLDIERS_MAX 10
+
 
 class Zombie;
 class Soldier;

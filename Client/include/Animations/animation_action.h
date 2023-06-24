@@ -17,12 +17,12 @@ class ActionAnimation {
 public:
     ActionAnimation(SDL2pp::Renderer &renderer,
                     const std::string &texture_filepath,
-                    const LoopType &loop_type, int width,
-                    int height);
+                    const LoopType &loop_type, int sprite_width,
+                    int sprite_height);
 
     void draw(std::uint8_t *sprite_index,
-                      std::uint8_t direction,
-                      const SDL2pp::Rect& sprite_destination);
+              std::uint8_t direction,
+              const SDL2pp::Point &sprite_destination);
 
     ActionAnimation(ActionAnimation&&) = default;
     ActionAnimation& operator=(ActionAnimation&&) = delete;

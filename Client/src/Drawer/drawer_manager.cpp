@@ -8,10 +8,10 @@ DrawerManager::DrawerManager(SDL2pp::Renderer &renderer) :
     actor_drawers() {
 }
 
-void DrawerManager::draw(unsigned int frame_ticks) {
+void DrawerManager::draw(std::uint32_t frame_ticks, std::int32_t window_x_pos, std::int32_t window_width) {
     for (auto & pair_id_actor : actor_drawers) {
         ActorDrawer& actor_drawer = pair_id_actor.second;
-        actor_drawer.draw(frame_ticks);
+        actor_drawer.draw(frame_ticks, window_x_pos, window_width);
     }
 }
 

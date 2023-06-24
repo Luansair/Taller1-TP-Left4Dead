@@ -66,6 +66,9 @@ public:
     /* Ejecuta revive, parámetros: id del soldado que revive, parámetros revive */
     void revive(uint32_t soldier_id, uint8_t state);
 
+    /* Ejecuta change_grenade, parámetros: id del soldado que cambia la granada, parámetros on/off */
+    void change_grenade(uint32_t soldier_id, uint8_t state);
+
     // /* Ejecuta reload, parámetros: id del soldado que recarga, parámetros reload */
     // void reload(uint32_t soldier_id, uint8_t state);
 

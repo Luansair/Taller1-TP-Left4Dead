@@ -1,6 +1,7 @@
 #include "../../../include/GameLogic/Soldiers/soldier.h"
 #include "../../../include/GameLogic/Zombies/zombie.h"
-#include "../../../include/GameLogic/Throwables/grenade_t.h"
+#include "../../../include/GameLogic/Throwables/throwablesfactory.h"
+#include "../../../include/GameLogic/Throwables/throwable.h"
 #include <random>
 #include <tuple>
 
@@ -156,7 +157,22 @@ void Soldier::start_throw(uint8_t state) {
     }
 }
 
-// new Grenade_t(counter++, getPosition().getXPos() + dir_x * 10, getPosition().getYPos(), 600, 30, 1.5, dir_x, dim_x, dim_y, zombie_id, 0.1));
+void Soldier::change_grenade_type(uint8_t state) {
+    switch(state) {
+    case ON:
+        changing = true;
+        break;
+    case OFF:
+        changing = false;
+        break;
+    }
+}
+
+void Soldier::simulate_change_grenade(void) {
+    if (t_type == GRENADE) { t_type = SMOKE; change_grenade_type(OFF); return; }
+    if (t_type == SMOKE) { t_type = GRENADE; change_grenade_type(OFF); }
+}
+
 
 void Soldier::be_revived(void) {
     start_dying(OFF);
@@ -176,6 +192,7 @@ void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
 
     std::chrono::duration<double> time = real_time - last_step_time;
 
+    if (changing) simulate_change_grenade();
     if (dying) simulateDie(real_time);
     if (being_hurt) simulateRecvdmg(real_time);
     if (reloading) simulateReload(real_time);
@@ -274,11 +291,12 @@ void Soldier::simulateThrow(std::chrono::_V2::system_clock::time_point real_time
     if (throwed) {
         std::chrono::duration<double> time = real_time - throw_time;
         if (time.count() >= throw_duration) {
+            ThrowableFactory factory;
             last_throw_time = real_time; 
             start_throw(OFF);
             throwed = false;
-            std::shared_ptr<Throwable> grenade(new Grenade_t(counter++, getPosition().getXPos() + dir_x * 10,
-            getPosition().getYPos(), 600, 100, 1.5, dir_x, dim_x, dim_y, soldier_id, 1000));
+            std::shared_ptr<Throwable> grenade = factory.create(counter++, t_type, position.getXPos() + dir_x * 10,
+            position.getYPos(), dir_x, dim_x, dim_y, soldier_id);
             throwables.emplace(counter++, std::move(grenade)); 
             return;
         }

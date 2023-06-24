@@ -33,6 +33,7 @@ public:
     double revive_radius = 100.0;
     double damage_recv = 0.0;
     uint16_t kill_counter = 0;
+    uint8_t t_type = GRENADE;
 
     /* tiempos */
     std::chrono::_V2::system_clock::time_point last_step_time = std::chrono::system_clock::now();
@@ -58,6 +59,7 @@ public:
     bool being_hurt = false;
     bool alive = true;
     bool throwed = false;
+    bool changing = false;
 
     explicit Soldier(
     uint32_t soldier_id,
@@ -94,6 +96,7 @@ public:
     virtual void be_revived(void);
     virtual void keep_reloading(uint8_t state);
     void increase_kill_counter(void);
+    virtual void change_grenade_type(uint8_t state);
 
     /* SIMULADORES */
 
@@ -115,6 +118,7 @@ public:
     virtual void simulateRevive(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers);
     virtual void simulateRecvdmg(std::chrono::_V2::system_clock::time_point real_time);
+    virtual void simulate_change_grenade(void); 
 
     /* GETTERS */
 

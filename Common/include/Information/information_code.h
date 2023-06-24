@@ -10,6 +10,7 @@ enum InformationID : std::uint8_t {
     ACTION_RELOAD,
     ACTION_THROW,
     ACTION_REVIVE,
+    ACTION_CHANGE,
     REQUEST_CREATE_GAME,
     REQUEST_JOIN_GAME,
     REQUEST_PICK_IDF_SOLDIER,
@@ -47,6 +48,13 @@ enum ActorType : std::uint8_t {
     JUMPER,
     WITCH,
     VENOM
+};
+
+enum ThrowableType : std::uint8_t {
+    GRENADE,
+    SMOKE,
+    POISON,
+    AERIAL
 };
 
 enum BackgroundType : std::uint8_t {

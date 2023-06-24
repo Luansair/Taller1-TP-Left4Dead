@@ -72,6 +72,13 @@ void Match::throwGrenade(uint32_t soldier_id, uint8_t state) {
     }
 }
 
+void Match::change_grenade(uint32_t soldier_id, uint8_t state) {
+    if (soldiers.count(soldier_id)>0) {
+        std::shared_ptr<Soldier> &soldier = soldiers.at(soldier_id);
+        soldier->change_grenade_type(state);
+    }
+}
+
 void Match::idle(uint32_t soldier_id, uint8_t state) {
     if (soldiers.count(soldier_id)>0) {
         std::shared_ptr<Soldier> &soldier = soldiers.at(soldier_id);

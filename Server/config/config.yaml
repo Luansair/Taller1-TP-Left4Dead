@@ -43,6 +43,30 @@ zombie:
   height: 6
   speed: 150
 
+grenade:
+  speed: 600
+  scope: 100
+  duration: 1.5
+  damage: 1000
+
+poison:
+  speed: 200
+  scope: 50
+  duration: 1.7
+  damage: 0.2
+
+smoke:
+  speed: 600
+  scope: 100
+  duration: 1.5
+  damage: 0.0
+
+aerial:
+  speed: 600
+  scope: 100
+  duration: 1.5
+  damage: 0.0
+
 clear_easy:
   infected: 0
   spear: 0

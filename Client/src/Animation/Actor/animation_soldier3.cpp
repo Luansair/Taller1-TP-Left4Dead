@@ -24,7 +24,7 @@ SoldierThreeAnimation::SoldierThreeAnimation(SDL2pp::Renderer &renderer) :
             ActionAnimation(renderer, RESOURCES_PATH "/Soldier_3/Shot_2.png",
                             loopable, 128, 128, 100),
             ActionAnimation(renderer, RESOURCES_PATH "/Soldier_3/Smoke.png",
-                            loopable, 128, 128, 100),
+                            no_loopable, 128, 128, 100),
             ActionAnimation(renderer, RESOURCES_PATH "/Soldier_3/Walk.png",
                             loopable, 128, 128, 100)} {
 }

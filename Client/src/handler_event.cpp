@@ -5,6 +5,7 @@
 #include "../include/handler_event.h"
 #include "../../Common/include/Information/Actions/shoot_start.h"
 #include "../../Common/include/Information/Actions/throw_start.h"
+#include "../../Common/include/Information/Actions/change_start.h"
 #include "../../Common/include/Information/Actions/moving_right_start.h"
 #include "../../Common/include/Information/Actions/moving_left_start.h"
 #include "../../Common/include/Information/Actions/moving_down_start.h"
@@ -32,6 +33,7 @@ EventHandler::EventHandler(
     using std::make_shared;
     keydown.at(SDL_GetScancodeFromKey(SDLK_z)) = make_shared<StartShootAction>();
     keydown.at(SDL_GetScancodeFromKey(SDLK_c)) = make_shared<StartThrowAction>();
+    keydown.at(SDL_GetScancodeFromKey(SDLK_v)) = make_shared<StartChangeAction>();
     keydown.at(SDL_GetScancodeFromKey(SDLK_x)) = make_shared<StartReviveAction>();
     keydown.at(SDL_GetScancodeFromKey(SDLK_RIGHT)) = make_shared<StartMovingRightAction>();
     keydown.at(SDL_GetScancodeFromKey(SDLK_LEFT)) = make_shared<StartMovingLeftAction>();

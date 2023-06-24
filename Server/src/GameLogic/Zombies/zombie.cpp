@@ -1,6 +1,7 @@
 #include "../../../include/GameLogic/Zombies/zombie.h"
-#include "../../../include/GameLogic/Throwables/throwable.h"
 #include "../../../include/GameLogic/Soldiers/soldier.h"
+#include "../../../include/GameLogic/Throwables/throwablesfactory.h"
+#include "../../../include/GameLogic/Throwables/throwable.h"
 
 /* CONSTRUCTOR */
 

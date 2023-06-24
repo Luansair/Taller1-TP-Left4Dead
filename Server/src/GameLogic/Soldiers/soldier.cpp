@@ -153,7 +153,7 @@ void Soldier::increase_kill_counter(void) {
 void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
-    std::cout << "vida: " << health << "\n";
+    // std::cout << "vida: " << health << "\n";
 
     std::chrono::duration<double> time = real_time - last_step_time;
 

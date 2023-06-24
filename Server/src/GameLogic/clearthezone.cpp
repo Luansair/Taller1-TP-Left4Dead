@@ -16,7 +16,7 @@ void ClearTheZone::simulateStep(std::chrono::_V2::system_clock::time_point real_
     }
     delete_inactive_throwables();
     for (auto & soldier : soldiers) {
-        soldier.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
+        soldier.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), std::ref(throwables), x_dim, y_dim);
     }
     delete_dead_soldiers();
 

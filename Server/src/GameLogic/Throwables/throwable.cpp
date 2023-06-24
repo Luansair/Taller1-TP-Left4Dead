@@ -1,12 +1,15 @@
 #include "../../../include/GameLogic/Throwables/throwable.h"
 
-Throwable::Throwable(uint32_t throwable_id, double x, double y, double speed, double scope, double duration, int8_t dir, double dim_x, double dim_y) :
+Throwable::Throwable(uint32_t throwable_id,
+    double x, double y, double speed, double scope, double duration, 
+    int8_t dir, double dim_x, double dim_y, uint32_t thrower_id) :
     throwable_id(throwable_id),
     speed(speed),
     scope(scope),
     duration(duration),
     dir(dir),
-    position(x, y, scope, scope, dim_x, dim_y) {}
+    position(x, y, scope, scope, dim_x, dim_y),
+    thrower_id(thrower_id) {}
 
 void Throwable::activate(uint8_t state) {
     switch(state) {

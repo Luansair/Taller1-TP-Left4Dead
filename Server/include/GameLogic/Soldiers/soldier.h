@@ -3,7 +3,6 @@
 
 #include "../Weapons/weapon.h"
 #include "../Grenades/grenade.h"
-#include "../Zombies/zombie.h"
 #include "../position.h"
 #include "../hitbox.h"
 #include "../radialhitbox.h"
@@ -13,6 +12,9 @@
 #include <memory>
 #include <chrono>
 #include <iostream>
+
+class Zombie;
+class Throwable;
 
 class Soldier {
 
@@ -38,8 +40,13 @@ public:
     std::chrono::_V2::system_clock::time_point death_time = std::chrono::system_clock::now();
     std::chrono::_V2::system_clock::time_point reload_time = std::chrono::system_clock::now();
     std::chrono::_V2::system_clock::time_point being_hurt_time = std::chrono::system_clock::now();
+    std::chrono::_V2::system_clock::time_point throw_time = std::chrono::system_clock::now();
+    std::chrono::_V2::system_clock::time_point last_throw_time = std::chrono::system_clock::now();
     double revive_cooldown = 30.0;
     double reload_cooldown = 1.5;
+    double throw_cooldown = 10.0;
+    double throw_duration = 0.5;
+    uint32_t counter = 800;
 
     /* estados */
     bool dying = false;
@@ -81,6 +88,7 @@ public:
     virtual void idle(uint8_t state);
     virtual void recvDamage(uint8_t state, double damage);
     virtual void start_dying(uint8_t state);
+    virtual void start_throw(uint8_t state);
     virtual void revive(uint8_t state);
     virtual void be_revived(void);
     virtual void keep_reloading(uint8_t state);
@@ -90,7 +98,8 @@ public:
 
     virtual void simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
+    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y);
     virtual void simulateMove(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
@@ -99,7 +108,8 @@ public:
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
     double dim_x);
     virtual void simulateReload(std::chrono::_V2::system_clock::time_point real_time);
-    virtual void simulateThrow(std::chrono::_V2::system_clock::time_point real_time);
+    virtual void simulateThrow(std::chrono::_V2::system_clock::time_point real_time, double dim_x, double dim_y,
+    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables);
     virtual void simulateDie(std::chrono::_V2::system_clock::time_point real_time);
     virtual void simulateRevive(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers);

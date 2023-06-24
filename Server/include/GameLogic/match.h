@@ -7,6 +7,7 @@
 #include "Zombies/zombiefactory.h"
 #include "Throwables/throwable.h"
 #include "Throwables/poison.h"
+#include "Throwables/grenade_t.h"
 #include "position.h"
 #include "match_configurator.h"
 #include "../../../Common/include/Information/information_code.h"

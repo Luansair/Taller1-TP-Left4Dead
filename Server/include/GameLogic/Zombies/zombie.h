@@ -5,15 +5,17 @@
 #include "../hitbox.h"
 #include "../radialhitbox.h"
 #include "../../../../Common/include/Information/information_code.h"
-#include "../../../include/GameLogic/Soldiers/soldier.h"
 
 #include <utility>
 #include <cstdint>
 #include <map>
 #include <memory>
 #include <chrono>
+#include <cmath>
+#include <random>
 
 class Throwable;
+class Soldier;
 
 class Zombie {
 public:

@@ -1,4 +1,5 @@
 #include "../../../include/GameLogic/Zombies/witch.h"
+#include "../../../include/GameLogic/Soldiers/soldier.h"
 #include <random>
 
 /* CONSTRUCTOR */

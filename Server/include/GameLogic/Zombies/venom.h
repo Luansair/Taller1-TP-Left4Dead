@@ -2,7 +2,6 @@
 #define VENOM_H_
 
 #include "zombie.h"
-#include "../Throwables/poison.h"
 
 /* Con una apariencia totalmente humana, Venom lanza un líquido/gas corrosivo. Puede lanzarlo como un
 spray desde corta distancia (como se muestra en la figura) así como también puede lanzar bolas de este
@@ -14,7 +13,6 @@ class Venom : public Zombie {
 public:
 
     double throw_cooldown = 10.0;
-    double throw_distance = 500.0;
     double throw_duration = 0.5;
     bool throwing = false;
     uint32_t counter = 500;

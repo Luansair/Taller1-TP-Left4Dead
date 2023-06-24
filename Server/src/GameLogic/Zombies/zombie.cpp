@@ -1,6 +1,6 @@
 #include "../../../include/GameLogic/Zombies/zombie.h"
-#include <random>
-#include<cmath>
+#include "../../../include/GameLogic/Throwables/throwable.h"
+#include "../../../include/GameLogic/Soldiers/soldier.h"
 
 /* CONSTRUCTOR */
 

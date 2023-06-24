@@ -16,6 +16,7 @@ public:
     double speed, scope, duration;
     int8_t dir;
     Position position;
+    uint32_t thrower_id;
     bool active = false;
 
     std::chrono::_V2::system_clock::time_point last_step_time = std::chrono::system_clock::now();
@@ -23,13 +24,13 @@ public:
 
     explicit Throwable(uint32_t throwable_id,
     double x, double y, double speed, double scope, double duration, 
-    int8_t dir, double dim_x, double dim_y);
+    int8_t dir, double dim_x, double dim_y, uint32_t thrower_id);
     virtual ~Throwable() {}
 
     virtual void activate(uint8_t state);
-    virtual void simulateThrow(std::chrono::_V2::system_clock::time_point real_time, 
+    virtual void simulateThrow(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,  double dim_x, double dim_y);
     virtual uint8_t getThrowerType() = 0;
     virtual uint8_t getAction() = 0;
     int8_t getDirX();

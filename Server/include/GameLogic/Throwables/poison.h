@@ -10,7 +10,7 @@ public:
 
     explicit Poison(uint32_t throwable_id,
     double x, double y, double speed, double scope, double duration, 
-    int8_t dir, double dim_x, double dim_y, double damage);
+    int8_t dir, double dim_x, double dim_y, uint32_t thrower_id, double damage);
 
     virtual void simulateThrow(std::chrono::_V2::system_clock::time_point real_time, 
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,

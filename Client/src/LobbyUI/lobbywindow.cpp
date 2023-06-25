@@ -1,18 +1,21 @@
-//
-// Created by luan on 24/06/23.
-//
-
-// You may need to build the project (run Qt uic code generator) to get "ui_lobbywindow.h" resolved
-
 #include "lobbywindow.h"
-#include "ui_lobbywindow.h"
+//#include "../../../build/ui_lobbywindow.h"
+#include "./ui_lobbywindow.h"
 
-
-lobbywindow::lobbywindow(QWidget *parent) :
-        QWidget(parent), ui(new Ui::lobbywindow) {
+LobbyWindow::LobbyWindow(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::LobbyWindow)
+{
     ui->setupUi(this);
 }
 
-lobbywindow::~lobbywindow() {
+LobbyWindow::~LobbyWindow()
+{
     delete ui;
 }
+
+void LobbyWindow::on_pushButton_clicked()
+{
+
+}
+

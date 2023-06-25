@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
     try {
-        Client client(argv[1], argv[2]);
+        Client client(argc, argv);
         client.start();
     } catch (const exception& e) {
         cerr << red_color << "An Exception was caught: " << reset_color <<

@@ -1,28 +1,26 @@
-//
-// Created by luan on 24/06/23.
-//
-
-#ifndef TP_LOBBYWINDOW_H
-#define TP_LOBBYWINDOW_H
+#ifndef LOBBYWINDOW_H
+#define LOBBYWINDOW_H
 
 #include <QWidget>
 
+namespace Ui {
+class LobbyWindow;
+}
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class lobbywindow; }
-QT_END_NAMESPACE
-
-class lobbywindow : public QWidget {
+class LobbyWindow : public QWidget
+{
     Q_OBJECT
 
 public:
-    explicit lobbywindow(QWidget *parent = nullptr);
+    explicit LobbyWindow(QWidget *parent = nullptr);
+    ~LobbyWindow();
 
-    virtual ~lobbywindow() override;
+private slots:
+    void on_pushButton_clicked();
+
 
 private:
-    Ui::lobbywindow *ui;
+    Ui::LobbyWindow *ui;
 };
 
-
-#endif //TP_LOBBYWINDOW_H
+#endif // LOBBYWINDOW_H

@@ -20,7 +20,7 @@ class Client {
     ClientGame client_game;
 
 public:
-    Client(const char* hostname, const char* servname);
+    Client(int argc, char **argv);
 
     void start();
 

@@ -3,3 +3,4 @@
 cmake-build-debug/
 build/
 Server/config/score.yaml
+*.user

@@ -47,7 +47,7 @@ void Soldier::move(
     switch(state) {
         case ON:
             moving = true;
-            reloading = shooting = throwing = reviving = being_hurt = false;
+            reloading = shooting = throwing = reviving = being_hurt = throwed = false;
             axis = moveAxis;
             dir = moveDirection;
             if (moveAxis == X) dir_x = moveDirection;
@@ -63,7 +63,7 @@ void Soldier::shoot(uint8_t state) {
         case ON:
             if (reloading) return;
             shooting = true;
-            moving = reloading = throwing = reviving = being_hurt = false;
+            moving = reloading = throwing = reviving = being_hurt = throwed = false;
             break;
         case OFF:
             shooting = false;
@@ -75,7 +75,7 @@ void Soldier::reload(uint8_t state) {
     switch(state) {
         case ON:
             reloading = true;
-            moving = shooting = throwing = reviving = being_hurt = false;
+            moving = shooting = throwing = reviving = being_hurt =  throwed = false;
             break;
         case OFF:
             reloading = false;
@@ -101,7 +101,7 @@ void Soldier::throwGrenade(uint8_t state){
 void Soldier::recvDamage(uint8_t state, double damage) {
     switch(state) {
         case ON:
-            reloading = shooting = throwing = reviving = false;
+            reloading = shooting = throwing = reviving = throwed = false;
             being_hurt = true;
             damage_recv = damage;
             break;
@@ -114,7 +114,7 @@ void Soldier::recvDamage(uint8_t state, double damage) {
 void Soldier::start_dying(uint8_t state) {
     switch(state) {
         case ON:
-            shooting = moving = throwing = being_hurt = reloading = reviving = false;
+            shooting = moving = throwing = being_hurt = reloading = reviving =  throwed = false;
             dying = true;
             break;
         case OFF:
@@ -126,7 +126,7 @@ void Soldier::start_dying(uint8_t state) {
 void Soldier::revive(uint8_t state) {
     switch(state) {
         case ON:
-            shooting = moving = throwing = reloading = being_hurt = false;
+            shooting = moving = throwing = reloading = being_hurt = throwed = false;
             reviving = true;
             break;
         case OFF:
@@ -138,7 +138,7 @@ void Soldier::revive(uint8_t state) {
 void Soldier::keep_reloading(uint8_t state) {
     switch(state) {
         case ON:
-            shooting = moving = throwing = reviving = being_hurt = false;
+            shooting = moving = throwing = reviving = being_hurt = throwed = false;
             break;
         case OFF:
             break;

@@ -1,5 +1,5 @@
 grenade:
-  speed: 600
+  speed: 200
   scope: 100
   duration: 1.5
   damage: 1000
@@ -11,7 +11,7 @@ poison:
   damage: 0.2
 
 smoke:
-  speed: 300
+  speed: 10
   scope: 100
   duration: 1.5
   damage: 0.0

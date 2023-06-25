@@ -79,29 +79,6 @@ void Venom::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
 
     bool detected = false;
     uint32_t id;
-    detect_screaming_witch(&detected, &id, std::ref(zombies), dim_x, dim_y);
-
-    if (detected) {
-        double next_x, next_y;
-        int8_t direction;
-        CalculateNextPos_by_witch(&next_x, &next_y, &direction, id, zombies, time.count());
-
-        std::shared_ptr<Zombie> &witch = zombies.at(id);
-        RadialHitbox hit_zone(position.getXPos(), position.getYPos(), hit_scope);
-        if (hit_zone.hits(witch->getPosition())) {
-            move(OFF, direction);
-            return;
-        }
-        Position next_pos(next_x, next_y, width, height, dim_x, dim_y);
-        move(ON, direction);
-
-        // debería chequear si colisiona con otros soldados
-        position = next_pos;
-        return;
-    }
-
-    simulateThrow(real_time, dim_x, dim_y, throwables, factory);
-    if (throwing) return;
     
     detect_victim(&detected, &id, std::ref(soldiers), dim_x, dim_y);
     
@@ -120,6 +97,29 @@ void Venom::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
         Position next_pos(next_x, next_y, width, height, dim_x, dim_y);
         attack(OFF, nullptr);
         move(ON, direction);
+        position = next_pos;
+        simulateThrow(real_time, dim_x, dim_y, throwables, factory);
+        if (throwing) move(OFF, direction);
+        return;
+    }
+
+    detect_screaming_witch(&detected, &id, std::ref(zombies), dim_x, dim_y);
+
+    if (detected) {
+        double next_x, next_y;
+        int8_t direction;
+        CalculateNextPos_by_witch(&next_x, &next_y, &direction, id, zombies, time.count());
+
+        std::shared_ptr<Zombie> &witch = zombies.at(id);
+        RadialHitbox hit_zone(position.getXPos(), position.getYPos(), hit_scope);
+        if (hit_zone.hits(witch->getPosition())) {
+            move(OFF, direction);
+            return;
+        }
+        Position next_pos(next_x, next_y, width, height, dim_x, dim_y);
+        move(ON, direction);
+
+        // debería chequear si colisiona con otros soldados
         position = next_pos;
         return;
     }

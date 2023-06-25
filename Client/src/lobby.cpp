@@ -187,6 +187,6 @@ void ClientLobby::launch() {
         throw std::runtime_error("ClientLobby::launch(). QT application bad end.\n");
     }
 
-    joinGame();
-    pickSoldier();
+    //joinGame();
+    //pickSoldier();
 }

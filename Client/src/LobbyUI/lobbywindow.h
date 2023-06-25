@@ -23,8 +23,6 @@ public:
     ~LobbyWindow();
 
 private slots:
-    void on_pushButton_clicked();
-
 
     void on_pushButton_creategame_clicked();
 

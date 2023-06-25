@@ -281,6 +281,13 @@ void Zombie::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
         Position next_pos(next_x, next_y, width, height, dim_x, dim_y);
         attack(OFF, nullptr);
         move(ON, direction);
+        for (auto i = zombies.begin(); i != zombies.end(); i++) {
+            Position other_pos = i->second->getPosition();
+            if (i->second->getId() == zombie_id) continue;
+            if (next_pos.collides(other_pos)) {
+                return;
+            }
+        }
         position = next_pos;
         return;
     }
@@ -295,13 +302,19 @@ void Zombie::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
         std::shared_ptr<Zombie> &witch = zombies.at(id);
         RadialHitbox hit_zone(position.getXPos(), position.getYPos(), hit_scope);
         if (hit_zone.hits(witch->getPosition())) {
-            move(OFF, direction);
             return;
         }
         Position next_pos(next_x, next_y, width, height, dim_x, dim_y);
         move(ON, direction);
 
-        // debería chequear si colisiona con otros soldados
+        for (auto i = zombies.begin(); i != zombies.end(); i++) {
+            Position other_pos = i->second->getPosition();
+            if (i->second->getId() == zombie_id) continue;
+            if (next_pos.collides(other_pos)) {
+                move(OFF, direction);
+                return;
+            }
+        }
         position = next_pos;
         return;
     }

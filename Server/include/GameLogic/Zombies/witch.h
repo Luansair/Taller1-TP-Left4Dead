@@ -37,6 +37,8 @@ public:
     std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y, ThrowableFactory& factory) override;
     void simulateScream(std::chrono::_V2::system_clock::time_point real_time);
 
+    void simulateStunned(std::chrono::_V2::system_clock::time_point real_time) override;
+
     uint8_t getZombieType(void) override;
     uint8_t getAction(void) override;
 };

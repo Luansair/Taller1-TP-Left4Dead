@@ -81,6 +81,22 @@ void Witch::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
     attack(OFF, nullptr);
 }
 
+void Witch::simulateStunned(std::chrono::_V2::system_clock::time_point real_time) {
+
+    if (!stunned) {
+        stunned_time = real_time;
+        stunned = true;
+    } else {
+        std::chrono::duration<double> time = real_time - stunned_time;
+        if (time.count() > stunned_cooldown) {
+            be_stunned(OFF);
+            last_scream_time = real_time;
+            scream_time = real_time;
+            stunned = false;
+        }
+    }
+}
+
 uint8_t Witch::getZombieType(void) {
     return WITCH;
 }

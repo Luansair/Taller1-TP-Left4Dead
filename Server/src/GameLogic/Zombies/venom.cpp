@@ -128,6 +128,22 @@ void Venom::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
     attack(OFF, nullptr);
 }
 
+void Venom::simulateStunned(std::chrono::_V2::system_clock::time_point real_time) {
+
+    if (!stunned) {
+        stunned_time = real_time;
+        stunned = true;
+    } else {
+        std::chrono::duration<double> time = real_time - stunned_time;
+        if (time.count() > stunned_cooldown) {
+            be_stunned(OFF);
+            last_throw_time = real_time;
+            throw_time = real_time;
+            stunned = false;
+        }
+    }
+}
+
 uint8_t Venom::getZombieType(void) {
     return VENOM;
 }

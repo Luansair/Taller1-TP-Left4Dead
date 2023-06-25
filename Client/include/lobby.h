@@ -6,10 +6,14 @@
 #define TP_LOBBY_H
 
 #include <memory>
+#include <QApplication>
 #include "../../Common/include/Information/information.h"
 #include "../../libs/queue.h"
 
+
 class ClientLobby {
+    int argc;
+    char **argv;
     Queue<std::shared_ptr<Information>>& actions_to_send;
     Queue<std::shared_ptr<Information>>& feedback_received;
     bool soldier_picked;
@@ -20,8 +24,8 @@ class ClientLobby {
     uint8_t pickGameMode();
     uint8_t pickGameDifficulty();
 public:
-    ClientLobby(Queue<std::shared_ptr<Information>>& actions_to_send,
-                Queue<std::shared_ptr<Information>>& feedback_received);
+    ClientLobby(Queue<std::shared_ptr<Information>> &actions_to_send,
+                Queue<std::shared_ptr<Information>> &feedback_received, int argc, char **argv);
     void launch();
 
     ClientLobby(const ClientLobby&) = delete;

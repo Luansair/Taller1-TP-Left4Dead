@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.15)
 
 project(tp)
 
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
@@ -24,7 +28,7 @@ add_definitions(-DSERVER_CONFIG_PATH="${PROJECT_SOURCE_DIR}/Server/config")
 
 include_directories(${SDL2PP_INCLUDE_DIRS})
 
-find_package(Qt5 REQUIRED COMPONENTS Widgets)
+find_package(Qt5 COMPONENTS Widgets REQUIRED )
 
 file(GLOB_RECURSE CLIENT_SOURCES "${PROJECT_SOURCE_DIR}/Client/src/*.cpp")
 file(GLOB_RECURSE COMMON_SOURCES "${PROJECT_SOURCE_DIR}/Common/src/*.cpp")

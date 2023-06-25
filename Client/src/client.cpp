@@ -1,12 +1,12 @@
 #include "../include/client.h"
 
-Client::Client(const char *hostname, const char *servname) :
-    socket(hostname, servname) ,
+Client::Client(int argc, char **argv) :
+    socket(argv[1], argv[2]) ,
     actions_to_send(5000),
     feedback_received(10000),
     sender(actions_to_send, socket),
     receiver(feedback_received, socket),
-    lobby(actions_to_send, feedback_received),
+    lobby(actions_to_send, feedback_received, argc, argv),
     client_game(actions_to_send, feedback_received) {
 
 }

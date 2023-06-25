@@ -22,7 +22,7 @@ const auto zombie_speed =
 const auto zombie_health =
     zombie_config["health"].as<double>();
 
-Node p90_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["p90soldier"];
+Node p90_config = LoadFile(SERVER_CONFIG_PATH "/soldier.yaml")["p90soldier"];
 
 const auto p90_width =
     p90_config["width"].as<double>();
@@ -33,9 +33,9 @@ const auto p90_speed =
 const auto p90_health =
     p90_config["health"].as<double>();
 const auto p90_grenade =
-    p90_config["grenade_type"].as<std::uint8_t>();
+    p90_config["t_type"].as<std::uint8_t>();
 
-Node scout_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["scoutsoldier"];
+Node scout_config = LoadFile(SERVER_CONFIG_PATH "/soldier.yaml")["scoutsoldier"];
 
 const auto scout_width =
     scout_config["width"].as<double>();
@@ -46,9 +46,9 @@ const auto scout_speed =
 const auto scout_health =
     scout_config["health"].as<double>();
 const auto scout_grenade =
-    scout_config["grenade_type"].as<std::uint8_t>();
+    scout_config["t_type"].as<std::uint8_t>();
 
-Node idf_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["idfsoldier"];
+Node idf_config = LoadFile(SERVER_CONFIG_PATH "/soldier.yaml")["idfsoldier"];
 
 const auto idf_width =
     idf_config["width"].as<double>();
@@ -59,7 +59,7 @@ const auto idf_speed =
 const auto idf_health =
     idf_config["health"].as<double>();
 const auto idf_grenade =
-    idf_config["grenade_type"].as<std::uint8_t>();
+    idf_config["t_type"].as<std::uint8_t>();
 
 Node p90w_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["p90weapon"];
 

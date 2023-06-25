@@ -13,14 +13,26 @@ Soldier::Soldier(
     double height,
     double speed,
     double health,
-    std::unique_ptr<Weapon>&& weapon) :
+    std::unique_ptr<Weapon>&& weapon,
+    uint8_t t_type,
+    double revive_radius,
+    double revive_cooldown,
+    double reload_cooldown,
+    double throw_cooldown,
+    double throw_duration) :
     soldier_id(soldier_id),
     speed(speed),
     health(health),
     width(width),
     height(height),
     position(0,0,width,height,0,0),
-    weapon(std::move(weapon)) {
+    weapon(std::move(weapon)),
+    t_type(t_type),
+    revive_radius(revive_radius),
+    revive_cooldown(revive_cooldown),
+    reload_cooldown(reload_cooldown),
+    throw_cooldown(throw_cooldown),
+    throw_duration(throw_duration) {
 }
 
 /* COMANDOS */

@@ -1,24 +1,3 @@
-p90soldier:
-  health: 100
-  width: 2
-  height: 6
-  speed: 200
-  grenade_type: 1
-
-scoutsoldier:
-  health: 100
-  width: 2
-  height: 6
-  speed: 200
-  grenade_type: 2
-
-idfsoldier:
-  health: 100
-  width: 2
-  height: 6
-  speed: 200
-  grenade_type: 2
-
 p90weapon:
   damage: 1
   ammo: 300

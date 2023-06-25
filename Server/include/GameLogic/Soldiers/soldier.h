@@ -29,10 +29,10 @@ public:
     Position position;
     std::unique_ptr<Weapon> weapon;
     int8_t dir_x = RIGHT;
-    double revive_radius = 100.0;
+    uint8_t t_type;
+    double revive_radius, revive_cooldown, reload_cooldown, throw_cooldown, throw_duration;
     double damage_recv = 0.0;
     uint16_t kill_counter = 0;
-    uint8_t t_type = GRENADE;
     double actual_health = health;
 
     /* tiempos */
@@ -43,10 +43,6 @@ public:
     std::chrono::_V2::system_clock::time_point being_hurt_time = std::chrono::system_clock::now();
     std::chrono::_V2::system_clock::time_point throw_time = std::chrono::system_clock::now();
     std::chrono::_V2::system_clock::time_point last_throw_time = std::chrono::system_clock::now();
-    double revive_cooldown = 30.0;
-    double reload_cooldown = 1.5;
-    double throw_cooldown = 3.0;
-    double throw_duration = 0.3;
 
     /* estados */
     bool dying = false;
@@ -66,7 +62,13 @@ public:
     double height,
     double speed,
     double health,
-    std::unique_ptr<Weapon>&& weapon);
+    std::unique_ptr<Weapon>&& weapon,
+    uint8_t t_type,
+    double revive_radius,
+    double revive_cooldown,
+    double reload_cooldown,
+    double throw_cooldown,
+    double throw_duration);
 
     virtual ~Soldier() = default;
 

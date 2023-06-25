@@ -6,8 +6,14 @@ ScoutSoldier::ScoutSoldier(
     double height,
     double speed,
     double health,
-    std::unique_ptr<Weapon>&& weapon) :
-    Soldier(soldier_id, width, height, speed, health, std::move(weapon)) {
+    std::unique_ptr<Weapon>&& weapon,
+    double revive_radius,
+    uint8_t t_type,
+    double revive_cooldown,
+    double reload_cooldown,
+    double throw_cooldown,
+    double throw_duration) :
+    Soldier(soldier_id, width, height, speed, health, std::move(weapon), t_type, revive_radius, revive_cooldown, reload_cooldown, throw_cooldown, throw_duration) {
 }
 
 uint8_t ScoutSoldier::getSoldierType(void) {

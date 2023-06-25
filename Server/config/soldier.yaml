@@ -1,0 +1,35 @@
+p90soldier:
+  health: 100
+  width: 2
+  height: 6
+  speed: 200
+  revive_radius: 100
+  t_type: 1
+  revive_cooldown: 30
+  reload_cooldown: 1.5
+  throw_cooldown: 3.0
+  throw_duration: 0.3
+
+scoutsoldier:
+  health: 100
+  width: 2
+  height: 6
+  speed: 200
+  revive_radius: 100
+  t_type: 1
+  revive_cooldown: 30
+  reload_cooldown: 1.5
+  throw_cooldown: 3.0
+  throw_duration: 0.3
+
+idfsoldier:
+  health: 100
+  width: 2
+  height: 6
+  speed: 200
+  revive_radius: 100
+  t_type: 1
+  revive_cooldown: 30
+  reload_cooldown: 1.5
+  throw_cooldown: 3.0
+  throw_duration: 0.3

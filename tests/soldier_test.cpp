@@ -11,7 +11,7 @@
 
 using YAML::LoadFile;
 using YAML::Node;
-Node p90_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["p90soldier"];
+Node p90_config = LoadFile(SERVER_CONFIG_PATH "/soldier.yaml")["p90soldier"];
 
 const auto p90_width =
     p90_config["width"].as<double>();
@@ -22,7 +22,7 @@ const auto p90_speed =
 const auto p90_health =
     p90_config["health"].as<double>();
 const auto p90_grenade =
-    p90_config["grenade_type"].as<std::uint8_t>();
+    p90_config["t_type"].as<std::uint8_t>();
 
 TEST(soldier_test, Test00CreateSoldier) {
     SoldierFactory sfactory;

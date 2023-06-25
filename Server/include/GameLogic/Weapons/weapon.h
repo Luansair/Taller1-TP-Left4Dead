@@ -11,7 +11,7 @@
 #include <map>
 #include <memory>
 #include <chrono>
-#define BULLET_SPEED 2000000.0
+#define HALF 0.5
 
 class Soldier;
 class Zombie;

@@ -8,8 +8,14 @@ Jumper::Jumper(
     double width,
     double height,
     double speed,
-    double health) :
-    Zombie(zombie_id, width, height, speed, health) {
+    double health,
+    double sight,
+    double listening_range,
+    double hit_scope,
+    double damage,
+    double die_cooldown,
+    double stunned_cooldown) :
+    Zombie(zombie_id, width, height, speed, health, sight, listening_range, hit_scope, damage, die_cooldown, stunned_cooldown) {
 }
 
 // void Jumper::jump_attack(uint8_t state) {

@@ -24,7 +24,13 @@ public:
     double width,
     double height,
     double speed,
-    double health);
+    double health,
+    double sight,
+    double listening_range,
+    double hit_scope,
+    double damage,
+    double die_cooldown,
+    double stunned_cooldown);
 
     // void jump_attack(uint8_t state);
     // void keep_waiting_to_jump(uint8_t state);

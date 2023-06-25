@@ -11,7 +11,7 @@
 
 using YAML::LoadFile;
 using YAML::Node;
-Node zombie_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["zombie"];
+Node zombie_config = LoadFile(SERVER_CONFIG_PATH "/zombie.yaml")["infected"];
 
 const auto zombie_width =
     zombie_config["width"].as<double>();
@@ -61,7 +61,7 @@ const auto idf_health =
 const auto idf_grenade =
     idf_config["t_type"].as<std::uint8_t>();
 
-Node p90w_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["p90weapon"];
+Node p90w_config = LoadFile(SERVER_CONFIG_PATH "/weapon.yaml")["p90weapon"];
 
 const auto p90w_ammo =
     p90w_config["ammo"].as<std::uint16_t>();
@@ -72,7 +72,7 @@ const auto p90w_scope =
 const auto p90w_reduction =
     p90w_config["damage_reduction_coef"].as<double>();
 
-Node scoutw_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["scoutweapon"];
+Node scoutw_config = LoadFile(SERVER_CONFIG_PATH "/weapon.yaml")["scoutweapon"];
 
 const auto scoutw_ammo =
     scoutw_config["ammo"].as<std::uint16_t>();
@@ -83,7 +83,7 @@ const auto scoutw_scope =
 const auto scoutw_reduction =
     scoutw_config["damage_reduction_coef"].as<double>();   
 
-Node idfw_config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["idfweapon"];
+Node idfw_config = LoadFile(SERVER_CONFIG_PATH "/weapon.yaml")["idfweapon"];
 
 const auto idfw_ammo =
     idfw_config["ammo"].as<std::uint16_t>();

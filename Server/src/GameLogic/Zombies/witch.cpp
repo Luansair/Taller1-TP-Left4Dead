@@ -9,8 +9,18 @@ Witch::Witch(
     double width,
     double height,
     double speed,
-    double health) :
-    Zombie(zombie_id, width, height, speed, health) {
+    double health,
+    double sight,
+    double listening_range,
+    double hit_scope,
+    double damage,
+    double die_cooldown,
+    double stunned_cooldown,
+    double scream_duration,
+    double scream_cooldown) :
+    Zombie(zombie_id, width, height, speed, health, sight, listening_range, hit_scope, damage, die_cooldown, stunned_cooldown),
+    scream_duration(scream_duration),
+    scream_cooldown(scream_cooldown) {
 }
 
 void Witch::scream(uint8_t state) {

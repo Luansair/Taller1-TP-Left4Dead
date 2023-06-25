@@ -15,7 +15,13 @@ public:
     double width,
     double height,
     double speed,
-    double health);
+    double health,
+    double sight,
+    double listening_range,
+    double hit_scope,
+    double damage,
+    double die_cooldown,
+    double stunned_cooldown);
 
     uint8_t getZombieType(void) override;
     uint8_t getAction(void) override;

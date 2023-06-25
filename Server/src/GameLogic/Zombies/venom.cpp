@@ -11,8 +11,18 @@ Venom::Venom(
     double width,
     double height,
     double speed,
-    double health) :
-    Zombie(zombie_id, width, height, speed, health) {
+    double health,
+    double sight,
+    double listening_range,
+    double hit_scope,
+    double damage,
+    double die_cooldown,
+    double stunned_cooldown,
+    double throw_cooldown,
+    double throw_duration) :
+    Zombie(zombie_id, width, height, speed, health, sight, listening_range, hit_scope, damage, die_cooldown, stunned_cooldown),
+    throw_cooldown(throw_cooldown),
+    throw_duration(throw_duration) {
 }
 
 void Venom::start_throw(uint8_t state) {
@@ -24,6 +34,18 @@ void Venom::start_throw(uint8_t state) {
     case OFF:
         throwing = false;
         break;
+    }
+}
+
+void Venom::be_stunned(uint8_t state) {
+    switch(state) {
+        case ON:
+            is_stunned = true;
+            attacking = moving = being_hurt = screaming = throwing = false;
+            break;
+        case OFF:
+            is_stunned = false;
+            break;
     }
 }
 

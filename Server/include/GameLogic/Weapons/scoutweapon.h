@@ -11,14 +11,11 @@ Se recarga cada 20 balas. */
 class ScoutWeapon : public Weapon {
 private:
     uint32_t soldier_id;
-    uint16_t ammo;
-    uint16_t actual_ammo;
-    double damage;
-    double scope;
-    double damage_reduction_coef;
+    uint16_t ammo, actual_ammo;
+    double damage, scope, damage_reduction_coef, bullet_speed;
 
 public:
-    explicit ScoutWeapon(uint32_t soldier_id, uint16_t ammo, double damage, double scope, double reduction);
+    explicit ScoutWeapon(uint32_t soldier_id, uint16_t ammo, double damage, double scope, double reduction, double bullet_speed);
 
     bool shoot(
     Position& from,

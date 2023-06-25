@@ -30,11 +30,11 @@ public:
     Position position;
     std::shared_ptr<Soldier> att_vic;
     int8_t dir_x = LEFT;
-    double sight = 200.0;
-    double listening_range = 500.0;
-    double hit_scope = 30.0;
+    double sight;
+    double listening_range;
+    double hit_scope;
     double damage_recv = 0.0;
-    double damage = 0.2;
+    double damage;
     uint32_t attacker_id = 500; // num cualquiera
     double actual_health = health;
 
@@ -43,8 +43,8 @@ public:
     std::chrono::_V2::system_clock::time_point death_time = std::chrono::system_clock::now();
     std::chrono::_V2::system_clock::time_point being_hurt_time = std::chrono::system_clock::now();
     std::chrono::_V2::system_clock::time_point stunned_time = std::chrono::system_clock::now();
-    double die_cooldown = 10.0;
-    double stunned_cooldown = 5.0;
+    double die_cooldown;
+    double stunned_cooldown;
 
     /* estados */
     bool moving = false;
@@ -63,7 +63,13 @@ public:
     double width,
     double height,
     double speed,
-    double health);
+    double health,
+    double sight,
+    double listening_range,
+    double hit_scope,
+    double damage,
+    double die_cooldown,
+    double stunned_cooldown);
 
     /* COMANDOS */
 
@@ -100,7 +106,7 @@ public:
     virtual void CalculateNextPos_by_witch(double *next_x, double *next_y, 
     int8_t *direction, uint32_t witch_id, std::map<uint32_t, 
     std::shared_ptr<Zombie>>& zombies, double time);
-    void simulateStunned(std::chrono::_V2::system_clock::time_point real_time);
+    virtual void simulateStunned(std::chrono::_V2::system_clock::time_point real_time);
 
     /* GETTERS */
 

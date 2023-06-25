@@ -27,7 +27,7 @@ Soldier::Soldier(
     height(height),
     position(0,0,width,height,0,0),
     weapon(std::move(weapon)),
-    t_type(t_type),
+    t_type(GRENADE),
     revive_radius(revive_radius),
     revive_cooldown(revive_cooldown),
     reload_cooldown(reload_cooldown),

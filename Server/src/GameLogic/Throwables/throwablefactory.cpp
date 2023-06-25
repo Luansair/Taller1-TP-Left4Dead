@@ -21,25 +21,25 @@ std::shared_ptr<Throwable> ThrowableFactory::create(uint32_t *throwable_id,
 
     switch(throwable_type) {
         case SMOKE: {
-            node = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["smoke"];
+            node = LoadFile(SERVER_CONFIG_PATH "/throwable.yaml")["smoke"];
             load_values(std::ref(node), &speed, &scope, &duration, &damage);
             return std::shared_ptr<Throwable> (new Smoke(code_counter++, x,
             y, speed, scope, duration, dir, dim_x, dim_y, thrower_id, damage));
         }
         case GRENADE: {
-            node = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["grenade"];
+            node = LoadFile(SERVER_CONFIG_PATH "/throwable.yaml")["grenade"];
             load_values(std::ref(node), &speed, &scope, &duration, &damage);
             return std::shared_ptr<Throwable> (new Grenade_t(code_counter++, x,
             y, speed, scope, duration, dir, dim_x, dim_y, thrower_id, damage));
         }
         case POISON: {
-            node = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["poison"];
+            node = LoadFile(SERVER_CONFIG_PATH "/throwable.yaml")["poison"];
             load_values(std::ref(node), &speed, &scope, &duration, &damage);
             return std::shared_ptr<Throwable> (new Poison(code_counter++, x,
             y, speed, scope, duration, dir, dim_x, dim_y, thrower_id, damage));
         }
         case AERIAL: {
-            node = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["aerial"];
+            node = LoadFile(SERVER_CONFIG_PATH "/throwable.yaml")["aerial"];
             load_values(std::ref(node), &speed, &scope, &duration, &damage);
             //return std::shared_ptr<Throwable> (new Aerial());
         }

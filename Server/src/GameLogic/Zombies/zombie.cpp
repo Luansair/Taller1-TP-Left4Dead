@@ -10,14 +10,26 @@ Zombie::Zombie(
     double width,
     double height,
     double speed,
-    double health) :
+    double health,
+    double sight,
+    double listening_range,
+    double hit_scope,
+    double damage,
+    double die_cooldown,
+    double stunned_cooldown) :
     zombie_id(zombie_id),
     speed(speed),
     health(health),
     width(width),
     height(height),
     position(0,0,width,height,0,0),
-    att_vic(nullptr) {
+    att_vic(nullptr),
+    sight(sight),
+    listening_range(listening_range),
+    hit_scope(hit_scope),
+    damage(damage),
+    die_cooldown(die_cooldown),
+    stunned_cooldown(stunned_cooldown) {
 }
 
 /* COMANDOS */

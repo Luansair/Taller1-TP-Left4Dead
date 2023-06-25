@@ -14,10 +14,18 @@ public:
     double width,
     double height,
     double speed,
-    double health);
+    double health,
+    double sight,
+    double listening_range,
+    double hit_scope,
+    double damage,
+    double die_cooldown,
+    double stunned_cooldown,
+    double scream_duration,
+    double scream_cooldown);
 
-    double scream_duration = 5.0;
-    double scream_cooldown = 15.0;
+    double scream_duration;
+    double scream_cooldown;
     std::chrono::_V2::system_clock::time_point scream_time = std::chrono::system_clock::now();
     std::chrono::_V2::system_clock::time_point last_scream_time = std::chrono::system_clock::now();
 

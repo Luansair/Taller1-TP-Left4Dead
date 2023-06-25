@@ -63,3 +63,9 @@ int8_t Throwable::getDirX(void) {
 Position& Throwable::getPosition(void) {
     return std::ref(position);
 }
+
+void Throwable::setSpeed(double coef) {
+    if (coef <= 1) { speed = 50; return; }
+    std::cout << "coef: " << coef << "\n";
+    speed = 50 + coef * 100;
+}

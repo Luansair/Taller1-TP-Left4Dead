@@ -47,7 +47,7 @@ void Soldier::move(
     switch(state) {
         case ON:
             moving = true;
-            reloading = shooting = throwing = reviving = being_hurt = throwed = false;
+            reloading = shooting = throwing = reviving = being_hurt = pressed = false;
             axis = moveAxis;
             dir = moveDirection;
             if (moveAxis == X) dir_x = moveDirection;
@@ -63,7 +63,7 @@ void Soldier::shoot(uint8_t state) {
         case ON:
             if (reloading) return;
             shooting = true;
-            moving = reloading = throwing = reviving = being_hurt = throwed = false;
+            moving = reloading = throwing = reviving = being_hurt = pressed = false;
             break;
         case OFF:
             shooting = false;
@@ -75,7 +75,7 @@ void Soldier::reload(uint8_t state) {
     switch(state) {
         case ON:
             reloading = true;
-            moving = shooting = throwing = reviving = being_hurt =  throwed = false;
+            moving = shooting = throwing = reviving = being_hurt =  pressed = false;
             break;
         case OFF:
             reloading = false;
@@ -86,14 +86,15 @@ void Soldier::reload(uint8_t state) {
 void Soldier::throwGrenade(uint8_t state){
     switch(state) {
         case ON:
-            if (throwed) {
-                moving = false; return;
+            if (!pressed) {
+                throw_time = std::chrono::system_clock::now();
+                pressed = true;
             }
             throwing = true;
-            shooting = reloading = reviving = being_hurt = false;
+            moving = shooting = reloading = reviving = being_hurt = false;
             break;
         case OFF:
-            throwing = false;
+            pressed = false;
             break;
     }
 }
@@ -101,7 +102,7 @@ void Soldier::throwGrenade(uint8_t state){
 void Soldier::recvDamage(uint8_t state, double damage) {
     switch(state) {
         case ON:
-            reloading = shooting = throwing = reviving = throwed = false;
+            reloading = shooting = throwing = reviving = pressed = false;
             being_hurt = true;
             damage_recv = damage;
             break;
@@ -114,7 +115,7 @@ void Soldier::recvDamage(uint8_t state, double damage) {
 void Soldier::start_dying(uint8_t state) {
     switch(state) {
         case ON:
-            shooting = moving = throwing = being_hurt = reloading = reviving =  throwed = false;
+            shooting = moving = throwing = being_hurt = reloading = reviving =  pressed = false;
             dying = true;
             break;
         case OFF:
@@ -126,7 +127,7 @@ void Soldier::start_dying(uint8_t state) {
 void Soldier::revive(uint8_t state) {
     switch(state) {
         case ON:
-            shooting = moving = throwing = reloading = being_hurt = throwed = false;
+            shooting = moving = throwing = reloading = being_hurt = pressed = false;
             reviving = true;
             break;
         case OFF:
@@ -138,7 +139,7 @@ void Soldier::revive(uint8_t state) {
 void Soldier::keep_reloading(uint8_t state) {
     switch(state) {
         case ON:
-            shooting = moving = throwing = reviving = being_hurt = throwed = false;
+            shooting = moving = throwing = reviving = being_hurt = pressed = false;
             break;
         case OFF:
             break;
@@ -148,14 +149,14 @@ void Soldier::keep_reloading(uint8_t state) {
 void Soldier::idle(uint8_t state) {
     switch(state) {
         case ON:
-            reloading = shooting = moving = throwing = reviving = being_hurt = throwed = false;
+            reloading = shooting = moving = throwing = reviving = being_hurt = pressed = false;
             break;
         case OFF:
             break;
     }
 }
 
-void Soldier::start_throw(uint8_t state) {
+void Soldier::keep_throwing(uint8_t state) {
     switch(state) {
     case ON:
         throwing = true;
@@ -299,27 +300,25 @@ void Soldier::simulateReload(std::chrono::_V2::system_clock::time_point real_tim
 
 void Soldier::simulateThrow(std::chrono::_V2::system_clock::time_point real_time, double dim_x, double dim_y,
                             std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, ThrowableFactory& factory) {
-    if (throwed) {
-        std::chrono::duration<double> time = real_time - throw_time;
-        if (time.count() >= throw_duration) {
-            last_throw_time = real_time; 
-            start_throw(OFF);
-            throwed = false;
+
+    std::chrono::duration<double> duration = real_time - throw_time;
+    std::chrono::duration<double> time = real_time - last_throw_time;
+
+    if (!pressed || (duration.count() > throw_duration)) {
+        if (time.count() >= throw_cooldown) {
+            last_throw_time = real_time;
+            throwing = false;
+            throwGrenade(OFF);
+            keep_throwing(OFF);
             uint32_t id;
             std::shared_ptr<Throwable> grenade = factory.create(&id, t_type, position.getXPos() + dir_x * 10,
             position.getYPos(), dir_x, dim_x, dim_y, soldier_id);
-            throwables.emplace(id, std::move(grenade)); 
+            grenade->setSpeed(duration.count());
+            throwables.emplace(id, std::move(grenade));
             return;
         }
     } else {
-        std::chrono::duration<double> time = real_time - last_throw_time;
-        if (time.count() >= throw_cooldown) { 
-            start_throw(ON);
-            throwed = true;
-            throw_time = real_time;
-            return;
-        }
-        start_throw(OFF);
+        keep_throwing(ON);
     }
 }
 

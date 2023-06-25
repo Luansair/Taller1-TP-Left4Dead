@@ -6,6 +6,7 @@
 #include "../include/Command/command_ingame_startchange.h"
 #include "../include/Command/command_ingame_startmove.h"
 #include "../include/Command/command_ingame_startthrow.h"
+#include "../include/Command/command_ingame_stopthrow.h"
 #include "../include/Command/command_ingame_startidle.h"
 #include "../include/Command/command_ingame_startrevive.h"
 #include "../include/Command/command_ingame_pick_soldier.h"
@@ -85,7 +86,7 @@ InGameCommand* Protocol::recvInGameCommand(std::uint8_t player_id) {
         if (action_state == ON) {
             return new StartThrowCommand(player_id);
         } else if (action_state == OFF) {
-            return new StartIdleCommand(player_id);
+            return new StopThrowCommand(player_id);
         }
     } else if (action_id == ACTION_CHANGE) {
         uint8_t action_state;

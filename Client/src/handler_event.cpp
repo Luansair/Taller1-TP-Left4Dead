@@ -41,7 +41,7 @@ EventHandler::EventHandler(
     keydown.at(SDL_GetScancodeFromKey(SDLK_DOWN)) = make_shared<StartMovingUpAction>();
 
     keyup.at(SDL_GetScancodeFromKey(SDLK_z)) = make_shared<StopShootAction>();
-    // keyup.at(SDL_GetScancodeFromKey(SDLK_c)) = make_shared<StopThrowAction>();
+    keyup.at(SDL_GetScancodeFromKey(SDLK_c)) = make_shared<StopThrowAction>();
     keyup.at(SDL_GetScancodeFromKey(SDLK_x)) = make_shared<StopReviveAction>();
     keyup.at(SDL_GetScancodeFromKey(SDLK_RIGHT)) = make_shared<StopMovingRightAction>();
     keyup.at(SDL_GetScancodeFromKey(SDLK_LEFT)) = make_shared<StopMovingLeftAction>();

@@ -20,7 +20,7 @@ scoutsoldier:
   revive_cooldown: 30
   reload_cooldown: 1.5
   throw_cooldown: 3.0
-  throw_duration: 0.3
+  throw_duration: 2
 
 idfsoldier:
   health: 100
@@ -32,4 +32,4 @@ idfsoldier:
   revive_cooldown: 30
   reload_cooldown: 1.5
   throw_cooldown: 3.0
-  throw_duration: 0.3
+  throw_duration: 2

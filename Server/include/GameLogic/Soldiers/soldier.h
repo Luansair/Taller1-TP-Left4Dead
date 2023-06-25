@@ -53,8 +53,8 @@ public:
     bool reviving = false;
     bool being_hurt = false;
     bool alive = true;
-    bool throwed = false;
     bool changing = false;
+    bool pressed = false;
 
     explicit Soldier(
     uint32_t soldier_id,
@@ -91,7 +91,7 @@ public:
     virtual void idle(uint8_t state);
     virtual void recvDamage(uint8_t state, double damage);
     virtual void start_dying(uint8_t state);
-    virtual void start_throw(uint8_t state);
+    virtual void keep_throwing(uint8_t state);
     virtual void revive(uint8_t state);
     virtual void be_revived(void);
     virtual void keep_reloading(uint8_t state);

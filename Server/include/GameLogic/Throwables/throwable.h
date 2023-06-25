@@ -37,6 +37,8 @@ public:
     Position& getPosition();
     uint32_t getId();
     bool isInactive(void);
+
+    virtual void setSpeed(double coef);
 };
 
 #endif  // THROWABLE_H_

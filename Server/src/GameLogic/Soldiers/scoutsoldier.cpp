@@ -27,6 +27,6 @@ uint8_t ScoutSoldier::getAction(void) {
     if (shooting) return SOLDIER_3_SHOOT_1;
     if (reloading) return SOLDIER_3_RECHARGE;
     if (moving) return SOLDIER_3_RUN;
-    if (throwed) return SOLDIER_3_GRENADE;
+    if (pressed) return SOLDIER_3_GRENADE;
     return SOLDIER_3_IDLE;
 }

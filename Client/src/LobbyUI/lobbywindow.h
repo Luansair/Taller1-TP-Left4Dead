@@ -2,6 +2,10 @@
 #define LOBBYWINDOW_H
 
 #include <QWidget>
+#include <QPushButton>
+#include "../../../Common/include/Information/information.h"
+#include "../../../libs/queue.h"
+
 
 namespace Ui {
 class LobbyWindow;
@@ -12,7 +16,10 @@ class LobbyWindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit LobbyWindow(QWidget *parent = nullptr);
+    explicit LobbyWindow(
+            Queue<std::shared_ptr<Information>>& actions_to_send,
+            Queue<std::shared_ptr<Information>>& feedback_received,
+            QWidget *parent = nullptr);
     ~LobbyWindow();
 
 private slots:
@@ -20,6 +27,8 @@ private slots:
 
 
 private:
+    Queue<std::shared_ptr<Information>>& actions_to_send;
+    Queue<std::shared_ptr<Information>>& feedback_received;
     Ui::LobbyWindow *ui;
 };
 

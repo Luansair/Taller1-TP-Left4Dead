@@ -2,9 +2,13 @@
 //#include "../../../build/ui_lobbywindow.h"
 #include "./ui_lobbywindow.h"
 
-LobbyWindow::LobbyWindow(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::LobbyWindow)
+LobbyWindow::LobbyWindow(Queue<std::shared_ptr<Information>>& actions_to_send,
+                         Queue<std::shared_ptr<Information>>& feedback_received,
+                         QWidget *parent) :
+                         QWidget(parent),
+                         actions_to_send(actions_to_send),
+                         feedback_received(feedback_received),
+                         ui(new Ui::LobbyWindow)
 {
     ui->setupUi(this);
 }

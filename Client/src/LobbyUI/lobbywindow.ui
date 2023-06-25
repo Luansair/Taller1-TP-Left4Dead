@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QGroupBox" name="groupBox">
+  <widget class="QGroupBox" name="groupBox_joingame">
    <property name="geometry">
     <rect>
      <x>239</x>
@@ -23,21 +23,21 @@
     </rect>
    </property>
    <property name="title">
-    <string>GroupBox</string>
+    <string>JoinGame</string>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="label_gamecode">
       <property name="text">
        <string>Game Code</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="lineEdit"/>
+     <widget class="QLineEdit" name="lineEdit_gamecode"/>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="pushButton_joingame">
       <property name="text">
        <string>Join Game</string>
       </property>
@@ -45,18 +45,27 @@
     </item>
    </layout>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_2">
+  <widget class="QGroupBox" name="groupBox_creategame">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>360</y>
-     <width>113</width>
-     <height>25</height>
+     <x>240</x>
+     <y>220</y>
+     <width>166</width>
+     <height>100</height>
     </rect>
    </property>
-   <property name="text">
-    <string>HOla</string>
+   <property name="title">
+    <string>CreateGame</string>
    </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QPushButton" name="pushButton_creategame">
+      <property name="text">
+       <string>Create Game</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

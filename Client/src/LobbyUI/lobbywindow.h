@@ -26,6 +26,10 @@ private slots:
     void on_pushButton_clicked();
 
 
+    void on_pushButton_creategame_clicked();
+
+    void on_pushButton_joingame_clicked();
+
 private:
     Queue<std::shared_ptr<Information>>& actions_to_send;
     Queue<std::shared_ptr<Information>>& feedback_received;

@@ -1,6 +1,6 @@
 #include "lobbywindow.h"
 //#include "../../../build/ui_lobbywindow.h"
-#include "./ui_lobbywindow.h"
+#include "ui_lobbywindow.h"
 
 LobbyWindow::LobbyWindow(Queue<std::shared_ptr<Information>>& actions_to_send,
                          Queue<std::shared_ptr<Information>>& feedback_received,
@@ -19,6 +19,18 @@ LobbyWindow::~LobbyWindow()
 }
 
 void LobbyWindow::on_pushButton_clicked()
+{
+
+}
+
+
+void LobbyWindow::on_pushButton_creategame_clicked()
+{
+
+}
+
+
+void LobbyWindow::on_pushButton_joingame_clicked()
 {
 
 }

@@ -51,8 +51,7 @@ void Smoke::simulateExplosion(std::map<uint32_t, std::shared_ptr<Zombie>>& zombi
     for (auto i = zombies.begin(); i != zombies.end(); i++) {
         Position other_pos = i->second->getPosition();
         if (explodezone.hits(other_pos)) {
-            double distance = std::sqrt(std::pow(std::abs(position.getXPos() - other_pos.getXPos()), 2) + std::pow(std::abs(position.getYPos() - other_pos.getYPos()), 2));
-            i->second->recvDamage(ON, damage / distance, thrower_id);
+            i->second->be_stunned(ON);
         }
     }
     exploded = true;

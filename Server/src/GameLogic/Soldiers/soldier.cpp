@@ -13,16 +13,14 @@ Soldier::Soldier(
     double height,
     double speed,
     double health,
-    std::unique_ptr<Weapon>&& weapon,
-    std::unique_ptr<Grenade>&& grenade) :
+    std::unique_ptr<Weapon>&& weapon) :
     soldier_id(soldier_id),
     speed(speed),
     health(health),
     width(width),
     height(height),
     position(0,0,width,height,0,0),
-    weapon(std::move(weapon)),
-    grenade(std::move(grenade)) {
+    weapon(std::move(weapon)) {
 }
 
 /* COMANDOS */

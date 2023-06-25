@@ -66,6 +66,19 @@ void Zombie::die(uint8_t state) {
     }
 }
 
+
+void Zombie::be_stunned(uint8_t state) {
+    switch(state) {
+        case ON:
+            is_stunned = true;
+            attacking = moving = being_hurt = screaming = false;
+            break;
+        case OFF:
+            is_stunned = false;
+            break;
+    }
+}
+
 void Zombie::idle(uint8_t state) {
     switch(state) {
         case ON:
@@ -97,13 +110,26 @@ void Zombie::simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
     std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y, ThrowableFactory& factory) {
-    // std::cout << "Zombie posx: " << position.getXPos() << "\n";
-    // std::cout << "Zombie health: " << health << "\n";
+    if (is_stunned) simulateStunned(real_time);
     if (dying) { simulateDie(real_time); last_step_time = real_time; return; }
     if (being_hurt) simulateRecvDamage(real_time, soldiers);
     if (attacking) simulateAttack();
-    simulateMove(real_time, soldiers, zombies, throwables, dim_x, dim_y, factory);
+    if (!is_stunned) simulateMove(real_time, soldiers, zombies, throwables, dim_x, dim_y, factory);
     last_step_time = real_time;
+}
+
+void Zombie::simulateStunned(std::chrono::_V2::system_clock::time_point real_time) {
+
+    if (!stunned) {
+        stunned_time = real_time;
+        stunned = true;
+    } else {
+        std::chrono::duration<double> time = real_time - stunned_time;
+        if (time.count() > stunned_cooldown) {
+            be_stunned(OFF);
+            stunned = false;
+        }
+    }
 }
 
 void Zombie::simulateRecvDamage(

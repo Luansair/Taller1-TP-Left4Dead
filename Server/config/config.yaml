@@ -56,7 +56,7 @@ poison:
   damage: 0.2
 
 smoke:
-  speed: 600
+  speed: 300
   scope: 100
   duration: 1.5
   damage: 0.0

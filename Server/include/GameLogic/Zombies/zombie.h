@@ -42,7 +42,9 @@ public:
     std::chrono::_V2::system_clock::time_point last_step_time = std::chrono::system_clock::now();
     std::chrono::_V2::system_clock::time_point death_time = std::chrono::system_clock::now();
     std::chrono::_V2::system_clock::time_point being_hurt_time = std::chrono::system_clock::now();
+    std::chrono::_V2::system_clock::time_point stunned_time = std::chrono::system_clock::now();
     double die_cooldown = 10.0;
+    double stunned_cooldown = 5.0;
 
     /* estados */
     bool moving = false;
@@ -51,6 +53,8 @@ public:
     bool alive = true;
     bool being_hurt = false;
     bool screaming = false; // solo la witch debería.
+    bool is_stunned = false;
+    bool stunned = false;
 
     virtual ~Zombie() {}
 
@@ -70,6 +74,7 @@ public:
     virtual void idle(uint8_t state);
     virtual void recvDamage(uint8_t state, double damage, uint32_t attacker);
     virtual void die(uint8_t state);
+    virtual void be_stunned(uint8_t state);
 
     /* SIMULADORES */
 
@@ -95,6 +100,7 @@ public:
     virtual void CalculateNextPos_by_witch(double *next_x, double *next_y, 
     int8_t *direction, uint32_t witch_id, std::map<uint32_t, 
     std::shared_ptr<Zombie>>& zombies, double time);
+    void simulateStunned(std::chrono::_V2::system_clock::time_point real_time);
 
     /* GETTERS */
 

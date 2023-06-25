@@ -12,8 +12,7 @@ public:
     double height,
     double speed,
     double health,
-    std::unique_ptr<Weapon>&& weapon,
-    std::unique_ptr<Grenade>&& grenade);
+    std::unique_ptr<Weapon>&& weapon);
 
     virtual uint8_t getSoldierType(void) override;
     

@@ -6,7 +6,6 @@ std::shared_ptr<Soldier> SoldierFactory::create(uint32_t soldier_id, uint8_t sol
     using YAML::Node;
 
     WeaponFactory wpfactory;
-    GrenadeFactory gfactory;
     double width, height, speed, health;
     uint8_t grenade_type;
 
@@ -16,17 +15,17 @@ std::shared_ptr<Soldier> SoldierFactory::create(uint32_t soldier_id, uint8_t sol
         case SOLDIER_P90: {
             config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["p90soldier"];
             load_values(std::ref(config), &width, &height, &speed, &health, &grenade_type);
-            return std::shared_ptr<Soldier> (new P90Soldier(soldier_id, width, height, speed, health, wpfactory.create(soldier_id, SOLDIER_P90), gfactory.create(grenade_type)));
+            return std::shared_ptr<Soldier> (new P90Soldier(soldier_id, width, height, speed, health, wpfactory.create(soldier_id, SOLDIER_P90)));
         }
         case SOLDIER_SCOUT: {
             config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["scoutsoldier"];
             load_values(std::ref(config), &width, &height, &speed, &health, &grenade_type);
-            return std::shared_ptr<Soldier> (new ScoutSoldier(soldier_id, width, height, speed, health, wpfactory.create(soldier_id, SOLDIER_SCOUT), gfactory.create(grenade_type)));
+            return std::shared_ptr<Soldier> (new ScoutSoldier(soldier_id, width, height, speed, health, wpfactory.create(soldier_id, SOLDIER_SCOUT)));
         }
         case SOLDIER_IDF: {
             config = LoadFile(SERVER_CONFIG_PATH "/config.yaml")["idfsoldier"];
             load_values(std::ref(config), &width, &height, &speed, &health, &grenade_type);
-            return std::shared_ptr<Soldier> (new IdfSoldier(soldier_id, width, height, speed, health, wpfactory.create(soldier_id, SOLDIER_IDF), gfactory.create(grenade_type)));
+            return std::shared_ptr<Soldier> (new IdfSoldier(soldier_id, width, height, speed, health, wpfactory.create(soldier_id, SOLDIER_IDF)));
         }
     }
     return {nullptr};

@@ -2,7 +2,6 @@
 #define SOLDIER_H_
 
 #include "../Weapons/weapon.h"
-#include "../Grenades/grenade.h"
 #include "../position.h"
 #include "../hitbox.h"
 #include "../radialhitbox.h"
@@ -29,7 +28,6 @@ public:
     double height;
     Position position;
     std::unique_ptr<Weapon> weapon;
-    std::unique_ptr<Grenade> grenade;
     int8_t dir_x = RIGHT;
     double revive_radius = 100.0;
     double damage_recv = 0.0;
@@ -48,7 +46,7 @@ public:
     double revive_cooldown = 30.0;
     double reload_cooldown = 1.5;
     double throw_cooldown = 3.0;
-    double throw_duration = 0.5;
+    double throw_duration = 0.3;
 
     /* estados */
     bool dying = false;
@@ -68,8 +66,7 @@ public:
     double height,
     double speed,
     double health,
-    std::unique_ptr<Weapon>&& weapon,
-    std::unique_ptr<Grenade>&& grenade);
+    std::unique_ptr<Weapon>&& weapon);
 
     virtual ~Soldier() = default;
 

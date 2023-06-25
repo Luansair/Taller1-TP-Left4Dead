@@ -6,7 +6,6 @@
 #include "../Soldiers/p90soldier.h"
 #include "../Soldiers/idfsoldier.h"
 #include "../Weapons/weaponfactory.h"
-#include "../Grenades/grenadefactory.h"
 #include "../../../../Common/include/Information/information_code.h"
 
 class SoldierFactory {

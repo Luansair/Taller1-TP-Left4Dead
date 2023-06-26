@@ -11,6 +11,18 @@ DrawerManager::DrawerManager(SDL2pp::Renderer &renderer) :
 void DrawerManager::draw(std::uint32_t frame_ticks, std::int32_t window_x_pos, std::int32_t window_width) {
     for (auto & pair_id_actor : actor_drawers) {
         ActorDrawer& actor_drawer = pair_id_actor.second;
+        // if (pair_id_actor.first == 1) {
+        //     std::cout << "id: " << pair_id_actor.first << "\n";
+        //     std::cout << "x: " << pair_id_actor.second.position_x << "\n";
+        //     std::cout << "y: " << pair_id_actor.second.position_y << "\n";
+        //     std::cout << "type: " << unsigned(pair_id_actor.second.type) << "\n";
+        //     std::cout << "vida: " << pair_id_actor.second.health << "\n";
+        //     std::cout << "vida actual: " << pair_id_actor.second.actual_health << "\n";
+        //     std::cout << "ammo: " << pair_id_actor.second.ammo << "\n";
+        //     std::cout << "ammo actual: " << pair_id_actor.second.actual_ammo << "\n";
+        //     std::cout << "tiempo: " << unsigned(pair_id_actor.second.timeleft) << "\n";
+        //     std::cout << "-----------------------------------------" << "\n";
+        // }
         actor_drawer.draw(frame_ticks, window_x_pos, window_width);
     }
 }

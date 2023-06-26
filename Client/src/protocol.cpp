@@ -82,10 +82,10 @@ ElementStateDTO Protocol::recvActorState() {
 
     int actor_position_x = static_cast<int>(ntohl(bigendian_actor_position_x));
     int actor_position_y = static_cast<int>(ntohl(bigendian_actor_position_y));
-    uint16_t actor_health = static_cast<uint16_t>(ntohl(bigendian_actor_health));
-    uint16_t actor_actual_health = static_cast<uint16_t>(ntohl(bigendian_actor_actual_health));
-    uint16_t actor_ammo = static_cast<uint16_t>(ntohl(bigendian_actor_ammo));
-    uint16_t actor_actual_ammo = static_cast<uint16_t>(ntohl(bigendian_actor_actual_ammo));
+    uint16_t actor_health = static_cast<uint16_t>(ntohs(bigendian_actor_health));
+    uint16_t actor_actual_health = static_cast<uint16_t>(ntohs(bigendian_actor_actual_health));
+    uint16_t actor_ammo = static_cast<uint16_t>(ntohs(bigendian_actor_ammo));
+    uint16_t actor_actual_ammo = static_cast<uint16_t>(ntohs(bigendian_actor_actual_ammo));
     return {actor_type, actor_action,actor_direction,
             actor_position_x,actor_position_y, actor_health, actor_actual_health, actor_ammo, actor_actual_ammo, actor_time_left, actor_is_dead};
 

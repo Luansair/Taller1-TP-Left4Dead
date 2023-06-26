@@ -16,6 +16,9 @@ ActorDrawer::ActorDrawer(AnimationManager &animation_manager) :
         position_y(0),
         health(0),
         actual_health(0),
+        ammo(0),
+        actual_ammo(0),
+        timeleft(0),
         sprite_destination(0,0),
         sprite_index(0),
         previous_frame_ticks(0) {
@@ -37,6 +40,9 @@ void ActorDrawer::updateInfo(const ElementStateDTO &actor_state) {
     this->position_y = actor_state.position_y;
     this->health = actor_state.health;
     this->actual_health = actor_state.actual_health;
+    this->ammo = actor_state.ammo;
+    this->actual_ammo = actor_state.actual_ammo;
+    this->timeleft = actor_state.time_left;
 }
 
 void ActorDrawer::draw(std::uint32_t frame_ticks, std::int32_t window_x_pos, std::int32_t window_width) {

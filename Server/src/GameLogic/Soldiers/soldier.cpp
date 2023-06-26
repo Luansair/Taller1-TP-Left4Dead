@@ -201,9 +201,6 @@ void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
     std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y,
     ThrowableFactory& factory) {
-    std::cout << "x: " << position.getXPos() << "\n";
-    std::cout << "y: " << position.getYPos() << "\n";
-    std::cout << "radio: " << revive_radius << "\n";
 
     std::chrono::duration<double> time = real_time - last_step_time;
 
@@ -386,7 +383,9 @@ uint16_t Soldier::getActualAmmo(void) {
 
 double Soldier::getTimeLeft(void) {
     std::chrono::duration<double> time = last_step_time - throw_time;
-    return time.count();
+    double left = throw_cooldown - time.count();
+    if (left <= 0) return 0.0;
+    return left;
 }
 
 uint8_t Soldier::isDeadFeedback(void) {

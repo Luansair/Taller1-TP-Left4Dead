@@ -6,6 +6,8 @@
 #include "../../../Common/include/Information/information_code.h"
 
 constexpr std::int16_t TOLERANCE = 200;
+constexpr float ROAD_RATIO = 0.150;
+constexpr float SV_MAP_HEIGHT = 200;
 
 ActorDrawer::ActorDrawer(AnimationManager &animation_manager, SDL2pp::Renderer &renderer) :
         animation_manager(animation_manager),
@@ -28,7 +30,8 @@ ActorDrawer::ActorDrawer(AnimationManager &animation_manager, SDL2pp::Renderer &
 // enviar la animación específica, incluso si hay 3 tipos de ataques.
 // Por ende la informacion de vuelta no es la misma que la de ida.
 void
-ActorDrawer::updateInfo(const ElementStateDTO &actor_state, std::int32_t window_x_pos, std::int32_t window_width) {
+ActorDrawer::updateInfo(const ElementStateDTO &actor_state, std::int32_t window_x_pos, std::int32_t window_width,
+                        std::int32_t window_height) {
     if (this->animation != actor_state.action) {
         sprite_index = 0;
     }
@@ -39,11 +42,16 @@ ActorDrawer::updateInfo(const ElementStateDTO &actor_state, std::int32_t window_
     this->actual_ammo = actor_state.actual_ammo;
     this->timeleft = actor_state.time_left;
 
+    std::int32_t fixed_y_position =
+            window_height - static_cast<std::int32_t>(
+                    static_cast<float>(actor_state.position_y) *
+                    static_cast<float>(window_height) * ROAD_RATIO / SV_MAP_HEIGHT);
+
+    sprite_destination.SetY(fixed_y_position);
 
     std::int32_t actor_x_pos = actor_state.position_x;
     std::int32_t relative_x_pos_to_window = actor_x_pos - window_x_pos;
     sprite_destination.SetX(relative_x_pos_to_window);
-    sprite_destination.SetY(actor_state.position_y);
 
     if (relative_x_pos_to_window < -TOLERANCE || relative_x_pos_to_window > window_width + TOLERANCE) {
         drawable = false;

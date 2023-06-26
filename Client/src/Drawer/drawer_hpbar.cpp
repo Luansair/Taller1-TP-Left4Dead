@@ -16,7 +16,7 @@ void HealthBarDrawer::updateInfo(float hp_percent, const SDL2pp::Point &actor_sp
     auto actual_width = static_cast<std::int32_t>(static_cast<float>(empty_hp_bar.GetW()) * hp_percent);
     actual_hp_bar.SetW(actual_width);
     std::int32_t bars_pos_x = actor_sprite_dest.GetX() + 32 - 64;
-    std::int32_t bars_pos_y = actor_sprite_dest.GetY() + 43 - 64;
+    std::int32_t bars_pos_y = actor_sprite_dest.GetY() + 43 - 128;
 
     actual_hp_bar.SetX(bars_pos_x);
     empty_hp_bar.SetX(bars_pos_x);

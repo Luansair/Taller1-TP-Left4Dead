@@ -33,19 +33,20 @@ void DrawerManager::draw(std::uint32_t frame_ticks) {
 
 void
 DrawerManager::updateInfo(std::uint16_t actor_id, const ElementStateDTO &actor_state, std::int32_t window_x_pos,
-                          std::int32_t window_width) {
+                          std::int32_t window_width, std::int32_t window_height) {
     auto pair_id_actor_ptr = actor_drawers.find(actor_id);
     if (pair_id_actor_ptr == actor_drawers.end()) {
-        addActor(actor_id, actor_state);
+        addActor(actor_id, actor_state, window_x_pos, window_width, window_height);
     } else {
         ActorDrawer& found_actor = pair_id_actor_ptr->second;
-        found_actor.updateInfo(actor_state, window_x_pos, window_width);
+        found_actor.updateInfo(actor_state, window_x_pos, window_width, window_height);
     }
 }
 
 //-----------------------PRIVATE METHODS-------------------------------//
 void
-DrawerManager::addActor(std::uint16_t actor_id, const ElementStateDTO &actor_state) {
+DrawerManager::addActor(std::uint16_t actor_id, const ElementStateDTO &actor_state, std::int32_t window_x_pos,
+                        std::int32_t window_width, std::int32_t window_height) {
     auto res = actor_drawers.emplace(
             actor_id, ActorDrawer(animation_manager, renderer));
     if (!res.second) {
@@ -53,7 +54,7 @@ DrawerManager::addActor(std::uint16_t actor_id, const ElementStateDTO &actor_sta
                                  "insert new actor failed!.\n");
     }
     ActorDrawer& added_actor = res.first->second;
-    added_actor.updateInfo(actor_state, 0, 0);
+    added_actor.updateInfo(actor_state, window_x_pos, window_width, window_height);
 }
 
 

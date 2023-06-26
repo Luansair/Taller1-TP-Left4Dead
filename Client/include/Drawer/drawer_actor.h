@@ -32,7 +32,8 @@ public:
     // Necesito saber la cantidad de sprites para mandar un indice válido!
     // Primero hacer los calculos en update y guardar esa info.
     // Segundo hacer otro metodo draw que reciba una ref a HPBarDrawer
-    void updateInfo(const ElementStateDTO &actor_state, std::int32_t window_x_pos, std::int32_t window_width);
+    void updateInfo(const ElementStateDTO &actor_state, std::int32_t window_x_pos, std::int32_t window_width,
+                    std::int32_t window_height);
     void draw(std::uint32_t frame_ticks);
     void drawBar();
 private:

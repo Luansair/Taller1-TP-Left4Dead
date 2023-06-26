@@ -58,7 +58,7 @@ void SpriteManager::draw(SDL2pp::Texture &texture, std::uint8_t *sprite_index, s
     SDL2pp::Point corrected_destination =
             {
             sprite_destination.GetX() - sprite_width / 2,
-            sprite_destination.GetY() - sprite_height / 2
+            sprite_destination.GetY() - sprite_height
             };
     _draw(texture, *sprite_index, sprite_flip, corrected_destination);
 }

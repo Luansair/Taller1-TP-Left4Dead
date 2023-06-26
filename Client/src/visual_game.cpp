@@ -16,7 +16,7 @@ GameVisual::GameVisual(std::uint16_t window_width, std::uint16_t window_height) 
 
 void GameVisual::draw(unsigned int frameticks) {
     background_drawer.drawBehindLayers();
-    drawer_manager.draw(frameticks, window_x_position, window.GetWidth());
+    drawer_manager.draw(frameticks);
 }
 
 void GameVisual::updateInfo(const GameStateFeedback &feed) {
@@ -26,11 +26,12 @@ void GameVisual::updateInfo(const GameStateFeedback &feed) {
     for (auto & pair_id_state : feed.elements) {
         std::uint16_t actor_id = pair_id_state.first;
         const ElementStateDTO& actor_state = pair_id_state.second;
-        drawer_manager.updateInfo(actor_id, actor_state);
+        drawer_manager.updateInfo(actor_id, actor_state, window_x_position, window.GetWidth());
 
         if (actor_id < 100) {
             player_count++;
             players_pos_x_sum += actor_state.position_x;
+
         }
     }
     if (player_count > 0) {

@@ -57,17 +57,20 @@ void LobbyWindow::on_pushButton_joingame_clicked()
     bool succesful_conversion;
 
     std::uint32_t game_code = ui->lineEdit_gamecode->displayText().toUInt(&succesful_conversion);
-    actions_to_send.push(std::make_shared<JoinGameAction>(game_code));
+
     if (!succesful_conversion) {
-        throw std::runtime_error("LobbyWindow::on_pushButton_joingame_clicked(). QString to type Uint conversion failed.\n");
-    }
-    const auto& feed = feedback_received.pop();
-    const auto& join_feed = dynamic_cast<JoinGameFeedback&>(*feed);
-    if (join_feed.joined == NOT_JOINED) {
         ui->lineEdit_gamecode->setPalette(red_palette);
     } else {
-        ui->stackedWidget->setCurrentIndex(PAGE_PICKSOLDIER);
+        actions_to_send.push(std::make_shared<JoinGameAction>(game_code));
+        const auto& feed = feedback_received.pop();
+        const auto& join_feed = dynamic_cast<JoinGameFeedback&>(*feed);
+        if (join_feed.joined == NOT_JOINED) {
+            ui->lineEdit_gamecode->setPalette(red_palette);
+        } else {
+            ui->stackedWidget->setCurrentIndex(PAGE_PICKSOLDIER);
+        }
     }
+
 }
 
 

@@ -10,13 +10,16 @@
 #include "../../Common/include/Information/Requests/pick_soldier_scout.h"
 #include "../../Common/include/Information/Actions/game_join.h"
 #include "../../Common/include/Information/Actions/game_create.h"
+#include "LobbyUI/lobbywindow.h"
 
 ClientLobby::ClientLobby(Queue<std::shared_ptr<Information>> &actions_to_send,
-                         Queue<std::shared_ptr<Information>> &feedback_received) :
-             actions_to_send(actions_to_send),
-             feedback_received(feedback_received),
-             soldier_picked(false),
-             joined(false) {
+                         Queue<std::shared_ptr<Information>> &feedback_received, int argc, char **argv) :
+            argc(argc),
+            argv(argv),
+            actions_to_send(actions_to_send),
+            feedback_received(feedback_received),
+            soldier_picked(false),
+            joined(false) {
 }
 
 void ClientLobby::pickSoldier() {
@@ -176,6 +179,18 @@ void ClientLobby::joinGame() {
 }
 
 void ClientLobby::launch() {
-    joinGame();
-    pickSoldier();
+    QApplication visualization_app(argc, argv);
+
+    LobbyWindow visual_lobby(actions_to_send, feedback_received);
+
+    visual_lobby.show();
+
+    if (visualization_app.exec()) {
+        throw std::runtime_error("ClientLobby::launch(). QT application bad end.\n");
+    }
+
+
+    //joinGame();
+    //pickSoldier();
+
 }

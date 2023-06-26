@@ -67,12 +67,8 @@ void Receiver::run() {
     using std::endl;
     using std::uint32_t;
     try {
-
+    sender.start();
     joinGame();
-
-    if (joined) {
-        sender.start();
-    }
 
     readCommands();
 
@@ -100,10 +96,10 @@ bool Receiver::isDead() const {
 }
 
 Receiver::~Receiver() {
-    if (joined) {
-        if (!sender.isDead()) {
-            sender.stop();
-        }
-        sender.join();
+
+    if (!sender.isDead()) {
+        sender.stop();
     }
+    sender.join();
+
 }

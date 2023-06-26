@@ -43,3 +43,9 @@ serializar numeros de 2 y 4 bytes.
 Modularizar protocolo servidor.
 
 Protocolo servidor deberia devolver un puntero inteligente.
+
+
+-------------
+
+Para acceder a los elementos creados desde QCreator hay que ir a ui_lobbywindow.h.
+Se accede con ui->nombre_elemento

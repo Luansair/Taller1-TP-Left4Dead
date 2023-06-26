@@ -13,10 +13,6 @@
 constexpr unsigned int MAX_SIZE = 10000;
 constexpr std::uint8_t MAX_PLAYERS = 10;
 
-enum {
-    NOT_JOINED,
-    JOINED
-};
 
 //-----------------------PRIVATE----------------------------//
 std::uint32_t GameManager::generateGameCode() {

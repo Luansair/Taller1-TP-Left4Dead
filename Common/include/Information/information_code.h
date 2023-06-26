@@ -26,7 +26,10 @@ enum InformationID : std::uint8_t {
     FEEDBACK_JOIN_GAME,
     FEEDBACK_GAME_STATE
 };
-
+enum JoinFeed : std::uint8_t {
+    NOT_JOINED,
+    JOINED
+};
 enum GameMode : std::uint8_t {
     CLEAR_THE_ZONE,
     SURVIVAL

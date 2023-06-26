@@ -180,13 +180,17 @@ void ClientLobby::joinGame() {
 
 void ClientLobby::launch() {
     QApplication visualization_app(argc, argv);
-    LobbyWindow visual_lobby;
+
+    LobbyWindow visual_lobby(actions_to_send, feedback_received);
+
     visual_lobby.show();
 
     if (visualization_app.exec()) {
         throw std::runtime_error("ClientLobby::launch(). QT application bad end.\n");
     }
 
-    joinGame();
-    pickSoldier();
+
+    //joinGame();
+    //pickSoldier();
+
 }

@@ -76,6 +76,7 @@ bool ScoutWeapon::shoot(
 
     // resto balas/rafagas
     actual_ammo -= 1;
+    bullets_fired += 1;
     return true;
 }
 
@@ -90,4 +91,8 @@ uint16_t ScoutWeapon::getAmmo(void) {
 
 uint16_t ScoutWeapon::getActualAmmo(void) {
     return actual_ammo;
+}
+
+uint32_t ScoutWeapon::getBulletsFired() {
+    return bullets_fired;
 }

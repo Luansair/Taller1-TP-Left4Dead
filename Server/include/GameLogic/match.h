@@ -13,7 +13,9 @@
 #include "match_configurator.h"
 #include "../../../Common/include/Information/information_code.h"
 #include "../../../Common/include/Information/state_dto_element.h"
+#include "../../../Common/include/Information/score_dto.h"
 #include "../../../Common/include/Information/feedback_server_gamestate.h"
+#include "../../../Common/include/Information/feedback_server_score.h"
 
 #include <string>
 #include <cstdint>
@@ -46,6 +48,7 @@ public:
     uint32_t code_counter = 100; // nunca va a haber 100 soldados -> todo ok
     MatchConfigurator configurator;
     ThrowableFactory t_factory;
+    bool over = false;
 
     /* Constructor de Match, parámetros: dimensiones del mapa */
     explicit Match(double x_dimension, double y_dimension, uint32_t code);
@@ -96,8 +99,13 @@ public:
 
     GameStateFeedback getMatchState(void);
 
+    std::vector<std::pair<uint16_t, ScoreDTO >> getScores();
+    GameScoreFeedback getMatchScores(void);
+
     void setZombie(uint32_t zombie_id, uint8_t zombie_type);
     void setThrowable(std::shared_ptr<Throwable> &&throwable);
+
+    bool is_over(void);
 
     Match(const Match&) = delete;
     Match& operator=(const Match&) = delete;

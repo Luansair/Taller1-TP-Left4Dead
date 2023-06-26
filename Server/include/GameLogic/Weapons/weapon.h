@@ -20,6 +20,7 @@ class Weapon {
 protected:
     Weapon() = default;
 public:
+    uint32_t bullets_fired = 0;
     virtual ~Weapon() = default;
 
     virtual bool shoot(
@@ -34,6 +35,7 @@ public:
 
     virtual uint16_t getAmmo() = 0;
     virtual uint16_t getActualAmmo() = 0;
+    virtual uint32_t getBulletsFired() = 0;
 
     Weapon(const Weapon&) = delete;
     Weapon& operator=(const Weapon&) = delete;

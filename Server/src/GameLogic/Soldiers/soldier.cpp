@@ -381,6 +381,10 @@ uint16_t Soldier::getActualAmmo(void) {
     return weapon->getActualAmmo();
 }
 
+uint32_t Soldier::getBulletsFired() {
+    return weapon->getBulletsFired();
+}
+
 double Soldier::getTimeLeft(void) {
     std::chrono::duration<double> time = last_step_time - throw_time;
     double left = throw_cooldown - time.count();

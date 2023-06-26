@@ -51,3 +51,7 @@ std::vector<int8_t> GameStateFeedback::serialize() const {
     return result;
 }
 
+std::uint8_t GameStateFeedback::get_type(void) const {
+    return FEEDBACK_GAME_STATE;
+}
+

@@ -15,6 +15,8 @@ public:
 
     [[nodiscard]] std::vector<std::int8_t> serialize() const override;
 
+    [[nodiscard]] std::uint8_t get_type(void) const override;
+
     JoinGameFeedback(const JoinGameFeedback&) = delete;
     JoinGameFeedback& operator=(const JoinGameFeedback&) = delete;
 

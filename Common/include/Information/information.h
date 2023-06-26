@@ -50,6 +50,8 @@ public:
     [[nodiscard]] virtual std::vector<int8_t> serialize() const
     = 0;
 
+    virtual std::uint8_t get_type(void) const;
+
     Information(Information&&) = default;
     Information& operator=(Information&&) = delete;
 

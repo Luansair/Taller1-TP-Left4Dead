@@ -26,6 +26,7 @@ public:
 
     void draw(unsigned int frameticks);
     void updateInfo(const GameStateFeedback& feed);
+    void setGameOver(void);
 
     void clear();
     void present();

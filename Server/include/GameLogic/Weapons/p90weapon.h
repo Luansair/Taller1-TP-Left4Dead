@@ -28,6 +28,7 @@ public:
 
     uint16_t getAmmo(void) override;
     uint16_t getActualAmmo(void) override;
+    uint32_t getBulletsFired(void) override;
 };
 
 #endif  // P90WEAPON_H_

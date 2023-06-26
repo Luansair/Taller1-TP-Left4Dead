@@ -29,7 +29,9 @@ void Survival::simulateStep(std::chrono::_V2::system_clock::time_point real_time
     }
 }
 
-void Survival::loseMatch(void) {}
+void Survival::loseMatch(void) {
+    over = true;
+}
 
 void Survival::configurate(uint8_t difficulty) {
     configurator.configurate(SURVIVAL, difficulty, zombies, soldiers, x_dim, y_dim, &code_counter);

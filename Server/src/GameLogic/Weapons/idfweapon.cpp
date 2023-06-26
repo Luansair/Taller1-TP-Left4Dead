@@ -62,6 +62,7 @@ bool IdfWeapon::shoot(
     }
     // resto balas/rafagas
     actual_ammo -= 1;
+    bullets_fired += 1;
     return true;
 }
 
@@ -76,4 +77,8 @@ uint16_t IdfWeapon::getAmmo(void) {
 
 uint16_t IdfWeapon::getActualAmmo(void) {
     return actual_ammo;
+}
+
+uint32_t IdfWeapon::getBulletsFired() {
+    return bullets_fired;
 }

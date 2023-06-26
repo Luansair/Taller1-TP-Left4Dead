@@ -72,15 +72,33 @@ void Game::run() {
 
         if (commands_recv.try_pop(std::ref(command)))
             command->execute(match);
-        match->simulateStep(start);
-        std::vector<std::pair<short unsigned int, ElementStateDTO>>state =
-                match->getElementStates();
 
-        const std::shared_ptr<Information>& feedback_ptr =
-                std::make_shared<GameStateFeedback>(std::move(state));
-        for (
-                auto player_queue = player_queues.begin();
-                player_queue !=player_queues.end(); ) {
+        if (!match->is_over()) {
+            match->simulateStep(start);
+            std::vector<std::pair<short unsigned int, ElementStateDTO>>state = match->getElementStates();
+            const std::shared_ptr<Information>& feedback_ptr = std::make_shared<GameStateFeedback>(std::move(state));
+            for (auto player_queue = player_queues.begin(); player_queue !=player_queues.end(); ) {
+                try {
+                    if (!(*player_queue)) {
+                        player_queue = player_queues.erase(player_queue);
+                        continue;
+                    }
+                    if (!(*player_queue)->try_push(feedback_ptr)) {
+                        player_queue = player_queues.erase(player_queue);
+                        continue;
+                    }
+                } catch(const ClosedQueue& e) {
+                    std::cout << e.what() << std::endl;
+                    player_queues.erase(player_queue);
+                    continue;
+                }
+                player_queue++;
+            }
+        }
+        // si se terminó, mando el score
+        std::vector<std::pair<short unsigned int, ScoreDTO>>state = match->getScores();
+        const std::shared_ptr<Information>& feedback_ptr = std::make_shared<GameScoreFeedback>(std::move(state));
+        for (auto player_queue = player_queues.begin(); player_queue !=player_queues.end(); ) {
             try {
                 if (!(*player_queue)) {
                     player_queue = player_queues.erase(player_queue);
@@ -97,6 +115,7 @@ void Game::run() {
             }
             player_queue++;
         }
+        
     }
 }
 

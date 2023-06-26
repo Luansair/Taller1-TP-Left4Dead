@@ -198,6 +198,28 @@ GameStateFeedback Match::getMatchState(void) {
     return GameStateFeedback(std::move(getElementStates()));
 }
 
+std::vector<std::pair<uint16_t, ScoreDTO >> Match::getScores() {
+    std::vector<std::pair<uint16_t, ScoreDTO>> scores;
+    for (const auto & soldier : soldiers) {
+        int id = soldier.second->getId();
+        std::uint16_t seconds_alive = soldier.second->secondsAlive();
+        std::uint16_t kills = soldier.second->getKills();
+        std::uint32_t bullets_fired = soldier.second->getBulletsFired();
+        
+        ScoreDTO dto {seconds_alive, kills, bullets_fired};
+        scores.emplace_back(id, std::move(dto));
+    }
+    return scores;
+}
+
+GameScoreFeedback Match::getMatchScores(void) {
+    return GameScoreFeedback(std::move(getScores()));
+}
+
+bool Match::is_over(void) {
+    return over;
+}
+
 std::map<uint32_t, std::shared_ptr<Soldier>>& Match::getSoldiers(void) {
     return std::ref(soldiers);
 }

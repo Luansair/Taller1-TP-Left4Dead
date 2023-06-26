@@ -24,7 +24,9 @@ enum InformationID : std::uint8_t {
     REQUEST_INSANE,
     FEEDBACK_CREATE_GAME,
     FEEDBACK_JOIN_GAME,
-    FEEDBACK_GAME_STATE
+    FEEDBACK_GAME_STATE,
+    FEEDBACK_GAME_SCORE,
+    VOID
 };
 enum JoinFeed : std::uint8_t {
     NOT_JOINED,

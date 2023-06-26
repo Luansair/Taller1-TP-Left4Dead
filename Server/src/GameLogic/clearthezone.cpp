@@ -24,9 +24,13 @@ void ClearTheZone::simulateStep(std::chrono::_V2::system_clock::time_point real_
     if (soldiers.size() == 0) loseMatch();
 }
 
-void ClearTheZone::winMatch(void) {}
+void ClearTheZone::winMatch(void) {
+    over = true;
+}
 
-void ClearTheZone::loseMatch(void) {}
+void ClearTheZone::loseMatch(void) {
+    over = true;
+}
 
 void ClearTheZone::configurate(uint8_t difficulty) {
     MatchConfigurator configurator;

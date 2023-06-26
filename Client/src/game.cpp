@@ -33,8 +33,13 @@ void ClientGame::launch() {
         while(feedback_received.try_pop(information_ptr));
 
         if (information_ptr != nullptr) {
-            game_visual.updateInfo(dynamic_cast<GameStateFeedback&>
-                                   (*information_ptr));
+            if (information_ptr->get_type() == FEEDBACK_GAME_SCORE) {
+                game_visual.setGameOver();
+                // game_visual.cargar_info_de_scores
+            } else {
+                game_visual.updateInfo(dynamic_cast<GameStateFeedback&>
+                        (*information_ptr));
+            }
         }
         game_visual.draw(start_milliseconds);
 

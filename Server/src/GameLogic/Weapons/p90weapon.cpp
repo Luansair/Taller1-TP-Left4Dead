@@ -62,6 +62,7 @@ bool P90Weapon::shoot(
     }
     // resto balas/rafagas
     actual_ammo -= 1;
+    bullets_fired += 1;
     return true;
 }
 
@@ -75,5 +76,9 @@ uint16_t P90Weapon::getAmmo(void) {
 
 uint16_t P90Weapon::getActualAmmo(void) {
     return actual_ammo;
+}
+
+uint32_t P90Weapon::getBulletsFired() {
+    return bullets_fired;
 }
 

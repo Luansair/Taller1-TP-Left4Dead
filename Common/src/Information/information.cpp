@@ -16,3 +16,8 @@ Information::deserializeFourBytesNumber(const std::vector<int8_t>&
     }
     return ntohl(bigendian_game_code);
 }
+
+std::uint8_t Information::get_type(void) const {
+    // le pongo asi para no tener que hacer la funcion en todos los que heredan y no necesito
+    return VOID;
+}

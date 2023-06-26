@@ -140,6 +140,7 @@ public:
     uint16_t getActualAmmo(void);
     double getTimeLeft(void);
     uint8_t isDeadFeedback(void);
+    uint32_t getBulletsFired(void);
 
     /* SETTERS */
 

@@ -20,3 +20,7 @@ std::vector<std::int8_t> CreateGameFeedback::serialize() const {
     return result;
 }
 
+std::uint8_t CreateGameFeedback::get_type(void) const {
+    return FEEDBACK_CREATE_GAME;
+}
+

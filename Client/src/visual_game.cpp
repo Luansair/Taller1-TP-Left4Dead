@@ -39,6 +39,10 @@ void GameVisual::updateInfo(const GameStateFeedback &feed) {
     background_drawer.updateInfo(window_x_position, window.GetWidth(), window.GetHeight());
 }
 
+void GameVisual::setGameOver() {
+    drawer_manager.setGameOver();
+}
+
 void GameVisual::clear() {
     renderer.Clear();
 }

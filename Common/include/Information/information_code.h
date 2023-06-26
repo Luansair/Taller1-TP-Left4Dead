@@ -216,6 +216,17 @@ enum DrawDirection : std::uint8_t {
     DRAW_LEFT
 };
 
+enum MatchState : std::uint8_t {
+    WON,
+    LOST,
+    ACTIVE
+};
+
+enum ActorState : std::uint8_t {
+    ALIVE,
+    DEAD,
+};
+
 /*
  * Maybe it is better to have two movement actions: Walk and Run.
  * Light press send Walk and Normal press send Run.

@@ -25,6 +25,9 @@ public:
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies) override;
 
     void reload(void) override;
+
+    uint16_t getAmmo(void) override;
+    uint16_t getActualAmmo(void) override;
 };
 
 #endif  // P90WEAPON_H_

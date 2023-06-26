@@ -26,7 +26,8 @@ public:
 
     void reload(void) override;
 
-
+    uint16_t getAmmo(void) override;
+    uint16_t getActualAmmo(void) override;
 };
 
 #endif  // IDFWEAPON_H_

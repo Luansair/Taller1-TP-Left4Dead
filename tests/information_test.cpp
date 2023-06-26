@@ -104,7 +104,8 @@ TEST(information_test,
     vector<pair<uint16_t, ElementStateDTO>> actors;
     uint16_t actor_id = 0x1234;
     ElementStateDTO actor_state = {SOLDIER_IDF, SOLDIER_1_ATTACK, DRAW_RIGHT,
-                                   0x12345678, 0x11223344};
+                                   0x12345678, 0x11223344, 0x1122, 0x1122, 0x1111,
+                                   0x1111, 0x01, 0x01};
     actors.emplace_back(actor_id, std::move(actor_state));
     GameStateFeedback game_state = GameStateFeedback(std::move(actors));
 
@@ -126,6 +127,16 @@ TEST(information_test,
     EXPECT_EQ(serialized_game_state.at(13), 0x22);
     EXPECT_EQ(serialized_game_state.at(14), 0x33);
     EXPECT_EQ(serialized_game_state.at(15), 0x44);
+    EXPECT_EQ(serialized_game_state.at(16), 0x11);
+    EXPECT_EQ(serialized_game_state.at(17), 0x22);
+    EXPECT_EQ(serialized_game_state.at(18), 0x11);
+    EXPECT_EQ(serialized_game_state.at(19), 0x22);
+    EXPECT_EQ(serialized_game_state.at(20), 0x11);
+    EXPECT_EQ(serialized_game_state.at(21), 0x11);
+    EXPECT_EQ(serialized_game_state.at(22), 0x11);
+    EXPECT_EQ(serialized_game_state.at(23), 0x11);
+    EXPECT_EQ(serialized_game_state.at(24), 0x01);
+    EXPECT_EQ(serialized_game_state.at(25), 0x01);
 }
 
 int main(int argc, char** argv) {

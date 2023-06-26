@@ -25,6 +25,9 @@ public:
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies) override;
 
+    uint16_t getAmmo(void) override;
+    uint16_t getActualAmmo(void) override;
+
     void reload(void) override;
 
 };

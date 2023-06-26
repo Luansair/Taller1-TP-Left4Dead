@@ -31,12 +31,13 @@ public:
     virtual void simulateThrow(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,  double dim_x, double dim_y);
-    virtual uint8_t getThrowerType() = 0;
-    virtual uint8_t getAction() = 0;
-    int8_t getDirX();
-    Position& getPosition();
-    uint32_t getId();
+    virtual uint8_t getThrowerType(void) = 0;
+    virtual uint8_t getAction(void) = 0;
+    int8_t getDirX(void);
+    Position& getPosition(void);
+    uint32_t getId(void);
     bool isInactive(void);
+    uint8_t isInactivefeedback(void);
 };
 
 #endif  // THROWABLE_H_

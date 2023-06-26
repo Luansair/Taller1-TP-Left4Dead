@@ -2,6 +2,7 @@
 #include "../include/protocol.h"
 #include "../../Common/include/Information/information_code.h"
 #include "../../Common/include/Information/feedback_server_joingame.h"
+#include <iostream>
 
 #define RECV_DATA(var) socket.recvData(&var, sizeof(var))
 //------------------------PRIVATE METHODS-----------------------------------//
@@ -60,8 +61,12 @@ ElementStateDTO Protocol::recvActorState() {
     int8_t actor_direction;
     int bigendian_actor_position_x;
     int bigendian_actor_position_y;
-    int bigendian_actor_health;
-    int bigendian_actor_actual_health;
+    uint16_t bigendian_actor_health;
+    uint16_t bigendian_actor_actual_health;
+    uint16_t bigendian_actor_ammo;
+    uint16_t bigendian_actor_actual_ammo;
+    uint8_t actor_time_left;
+    uint8_t actor_is_dead;
 
     RECV_DATA(actor_type);
     RECV_DATA(actor_action);
@@ -70,14 +75,19 @@ ElementStateDTO Protocol::recvActorState() {
     RECV_DATA(bigendian_actor_position_y);
     RECV_DATA(bigendian_actor_health);
     RECV_DATA(bigendian_actor_actual_health);
+    RECV_DATA(bigendian_actor_ammo);
+    RECV_DATA(bigendian_actor_actual_ammo);
+    RECV_DATA(actor_time_left);
+    RECV_DATA(actor_is_dead);
 
     int actor_position_x = static_cast<int>(ntohl(bigendian_actor_position_x));
     int actor_position_y = static_cast<int>(ntohl(bigendian_actor_position_y));
-    int actor_health = static_cast<int>(ntohl(bigendian_actor_health));
-    int actor_actual_health = static_cast<int>(ntohl(bigendian_actor_actual_health));
-
+    uint16_t actor_health = static_cast<uint16_t>(ntohl(bigendian_actor_health));
+    uint16_t actor_actual_health = static_cast<uint16_t>(ntohl(bigendian_actor_actual_health));
+    uint16_t actor_ammo = static_cast<uint16_t>(ntohl(bigendian_actor_ammo));
+    uint16_t actor_actual_ammo = static_cast<uint16_t>(ntohl(bigendian_actor_actual_ammo));
     return {actor_type, actor_action,actor_direction,
-            actor_position_x,actor_position_y, actor_health, actor_actual_health};
+            actor_position_x,actor_position_y, actor_health, actor_actual_health, actor_ammo, actor_actual_ammo, actor_time_left, actor_is_dead};
 
 }
 

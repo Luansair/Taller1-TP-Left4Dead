@@ -1,8 +1,6 @@
 #include "../../include/GameLogic/match.h"
 #include "yaml-cpp/yaml.h"
 
-#define NOTVALUE 0;
-
 Match::Match(double x_dimension, double y_dimension, uint32_t code) :
     soldiers(),
     zombies(),
@@ -141,6 +139,9 @@ void Match::delete_inactive_throwables(void) {
 
 std::vector<std::pair<uint16_t, ElementStateDTO >> Match::getElementStates() {
     std::vector<std::pair<uint16_t, ElementStateDTO>> elementStates;
+    // valores para rellenar
+    uint16_t null_16 = 0;
+    uint8_t null_8 = 0;
 
     for (const auto & throwable : throwables) {
         int id = throwable.second->getId();
@@ -149,8 +150,10 @@ std::vector<std::pair<uint16_t, ElementStateDTO >> Match::getElementStates() {
         int8_t actor_direction = throwable.second->getDirX();
         int position_x = throwable.second->getPosition().getXPos();
         int position_y = throwable.second->getPosition().getYPos();
-        int dummy = 100;
-        ElementStateDTO dto {actor_type, actor_action, actor_direction, position_x, position_y, dummy, dummy};
+        uint8_t is_active = throwable.second->isInactivefeedback();
+        ElementStateDTO dto {actor_type, actor_action, 
+        actor_direction, position_x, position_y, 
+        null_16, null_16, null_16, null_16, null_8, is_active};
         elementStates.emplace_back(id, std::move(dto));
     }
     for (const auto & soldier : soldiers) {
@@ -160,9 +163,16 @@ std::vector<std::pair<uint16_t, ElementStateDTO >> Match::getElementStates() {
         int8_t actor_direction = soldier.second->getDirX();
         int position_x = soldier.second->getPosition().getXPos();
         int position_y = soldier.second->getPosition().getYPos();
-        int health = soldier.second->getHealth();
-        int actual_health = soldier.second->getActualHealth();
-        ElementStateDTO dto {actor_type, actor_action, actor_direction, position_x, position_y, health, actual_health};
+        uint16_t health = soldier.second->getHealth();
+        uint16_t actual_health = soldier.second->getActualHealth();
+        uint16_t ammo = soldier.second->getAmmo();
+        uint16_t actual_ammo = soldier.second->getActualAmmo();
+        uint8_t time_left = soldier.second->getTimeLeft();
+        uint8_t is_dead = soldier.second->isDeadFeedback();
+        
+        ElementStateDTO dto {actor_type, actor_action,
+        actor_direction, position_x, position_y,
+        health, actual_health, ammo, actual_ammo, time_left, is_dead};
         elementStates.emplace_back(id, std::move(dto));
     }
     for (const auto & zombie : zombies) {
@@ -172,9 +182,13 @@ std::vector<std::pair<uint16_t, ElementStateDTO >> Match::getElementStates() {
         int8_t actor_direction = zombie.second->getDirX();
         int position_x = zombie.second->getPosition().getXPos();
         int position_y = zombie.second->getPosition().getYPos();
-        int health = zombie.second->getHealth();
-        int actual_health = zombie.second->getActualHealth();
-        ElementStateDTO dto {actor_type, actor_action, actor_direction, position_x, position_y, health, actual_health};
+        uint16_t health = zombie.second->getHealth();
+        uint16_t actual_health = zombie.second->getActualHealth();;
+        uint8_t is_dead = zombie.second->isDeadFeedback();
+        
+        ElementStateDTO dto {actor_type, actor_action,
+        actor_direction, position_x, position_y,
+        health, actual_health, null_16, null_16, null_8, is_dead};
         elementStates.emplace_back(id, std::move(dto));
     }
     return elementStates;

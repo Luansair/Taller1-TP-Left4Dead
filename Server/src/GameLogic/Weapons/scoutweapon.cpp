@@ -83,3 +83,11 @@ bool ScoutWeapon::shoot(
 void ScoutWeapon::reload(void) {
     actual_ammo = ammo;
 }
+
+uint16_t ScoutWeapon::getAmmo(void) {
+    return ammo;
+}
+
+uint16_t ScoutWeapon::getActualAmmo(void) {
+    return actual_ammo;
+}

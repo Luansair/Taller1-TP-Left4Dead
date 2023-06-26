@@ -32,6 +32,9 @@ public:
 
     virtual void reload() = 0;
 
+    virtual uint16_t getAmmo() = 0;
+    virtual uint16_t getActualAmmo() = 0;
+
     Weapon(const Weapon&) = delete;
     Weapon& operator=(const Weapon&) = delete;
 };

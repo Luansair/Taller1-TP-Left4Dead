@@ -43,7 +43,7 @@ public:
     uint8_t soldier_counter = 0;
     uint8_t zombie_counter = 0;
     std::chrono::_V2::system_clock::time_point create_time = std::chrono::system_clock::now();
-    uint32_t code_counter = 100;
+    uint32_t code_counter = 100; // nunca va a haber 100 soldados -> todo ok
     MatchConfigurator configurator;
     ThrowableFactory t_factory;
 

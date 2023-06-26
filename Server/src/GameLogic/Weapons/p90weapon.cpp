@@ -69,3 +69,11 @@ void P90Weapon::reload(void) {
     actual_ammo = ammo;
 }
 
+uint16_t P90Weapon::getAmmo(void) {
+    return ammo;
+}
+
+uint16_t P90Weapon::getActualAmmo(void) {
+    return actual_ammo;
+}
+

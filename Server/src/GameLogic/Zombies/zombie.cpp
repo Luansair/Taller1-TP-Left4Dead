@@ -390,6 +390,11 @@ void Zombie::setPosition(Position&& new_pos) {
     position = new_pos;
 }
 
+uint8_t Zombie::isDeadFeedback(void) {
+    if (!alive) return DEAD;
+    return ALIVE;
+}
+
 void Zombie::setRandomPosition(
         const std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
         const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, double dim_x, double dim_y) {

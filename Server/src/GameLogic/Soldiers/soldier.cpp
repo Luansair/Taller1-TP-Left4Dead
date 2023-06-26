@@ -373,6 +373,24 @@ double Soldier::secondsAlive(void) {
     return time_alive.count();
 }
 
+uint16_t Soldier::getAmmo(void) {
+    return weapon->getAmmo();
+}
+    
+uint16_t Soldier::getActualAmmo(void) {
+    return weapon->getActualAmmo();
+}
+
+double Soldier::getTimeLeft(void) {
+    std::chrono::duration<double> time = last_step_time - throw_time;
+    return time.count();
+}
+
+uint8_t Soldier::isDeadFeedback(void) {
+    if (!alive) return DEAD;
+    return ALIVE;
+}
+
 /* SETTERS */
 
 void Soldier::setPosition(Position&& new_pos) {

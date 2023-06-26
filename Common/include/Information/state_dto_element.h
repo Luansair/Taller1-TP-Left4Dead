@@ -13,8 +13,13 @@ struct ElementStateDTO {
     const std::int8_t direction;
     const int position_x;
     const int position_y;
-    const int health;
-    const int actual_health;
+    const std::uint16_t health;
+    const std::uint16_t actual_health;
+    const std::uint16_t ammo;
+    const std::uint16_t actual_ammo;
+    const std::uint8_t time_left;
+    const std::uint8_t is_dead;
+
 
     ElementStateDTO(ElementStateDTO&&) = default;
     ElementStateDTO& operator=(ElementStateDTO&&) = delete;

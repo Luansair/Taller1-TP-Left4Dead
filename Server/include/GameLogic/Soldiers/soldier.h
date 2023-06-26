@@ -136,6 +136,10 @@ public:
     bool isDead(void);
     uint16_t getKills(void);
     double secondsAlive(void);
+    uint16_t getAmmo(void);
+    uint16_t getActualAmmo(void);
+    double getTimeLeft(void);
+    uint8_t isDeadFeedback(void);
 
     /* SETTERS */
 

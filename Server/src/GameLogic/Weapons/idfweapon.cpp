@@ -68,3 +68,12 @@ bool IdfWeapon::shoot(
 void IdfWeapon::reload(void) {
     actual_ammo = ammo;
 }
+
+
+uint16_t IdfWeapon::getAmmo(void) {
+    return ammo;
+}
+
+uint16_t IdfWeapon::getActualAmmo(void) {
+    return actual_ammo;
+}

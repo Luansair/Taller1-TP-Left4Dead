@@ -63,3 +63,8 @@ int8_t Throwable::getDirX(void) {
 Position& Throwable::getPosition(void) {
     return std::ref(position);
 }
+
+uint8_t Throwable::isInactivefeedback(void) {
+    if (!active) return DEAD;
+    return ALIVE;
+}

@@ -122,6 +122,7 @@ public:
     Position& getPosition(void);
     const Position& seePosition(void) const;
     bool isDead(void);
+    uint8_t isDeadFeedback(void);
 
     /* SETTERS */
 

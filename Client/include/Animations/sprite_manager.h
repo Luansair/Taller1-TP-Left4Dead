@@ -16,6 +16,8 @@ class SpriteManager {
     const LoopType& loop_type;
     SDL2pp::Renderer& renderer;
     std::uint32_t ms_to_change;
+    std::uint8_t sprite_width;
+    std::uint8_t sprite_height;
 
     [[nodiscard]] std::uint8_t determineFlipValue(std::uint8_t direction) const;
 

@@ -9,6 +9,7 @@
 #include "../../libs/queue.h"
 #include "config_game.h"
 #include "handler_event.h"
+#include "lobby.h"
 
 class ClientGame {
     GameConfig config;
@@ -22,7 +23,7 @@ public:
     ClientGame(
             Queue<std::shared_ptr<Information>>& actions_to_send,
             Queue<std::shared_ptr<Information>>& feedback_received);
-    void launch();
+    void launch(ClientLobby &lobby);
 };
 
 #endif //TP_GAME_H

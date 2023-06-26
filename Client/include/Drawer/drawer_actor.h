@@ -19,8 +19,6 @@ public:
     std::uint8_t type;
     std::uint8_t animation;
     std::uint8_t direction;
-    std::uint16_t health;
-    std::uint16_t actual_health;
     std::uint16_t ammo;
     std::uint16_t actual_ammo;
     std::uint8_t timeleft;

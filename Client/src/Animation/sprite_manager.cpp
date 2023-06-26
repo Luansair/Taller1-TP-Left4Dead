@@ -10,7 +10,9 @@ SpriteManager::SpriteManager(const SDL2pp::Texture &texture, const LoopType &loo
     sprites(),
     loop_type(loop_type),
     renderer(renderer),
-    ms_to_change(ms_to_change) {
+    ms_to_change(ms_to_change),
+    sprite_width(sprite_width),
+    sprite_height(sprite_height) {
 
     int texture_width = texture.GetWidth();
 
@@ -52,5 +54,11 @@ void SpriteManager::draw(SDL2pp::Texture &texture, std::uint8_t *sprite_index, s
         *sprite_index = loop_type.nextSprite(*sprite_index, sprites.size() - 1);
     }
     std::uint8_t sprite_flip = determineFlipValue(direction);
-    _draw(texture, *sprite_index, sprite_flip, sprite_destination);
+    // Put the position in the feet of the sprite.
+    SDL2pp::Point corrected_destination =
+            {
+            sprite_destination.GetX() - sprite_width / 2,
+            sprite_destination.GetY() - sprite_height / 2
+            };
+    _draw(texture, *sprite_index, sprite_flip, corrected_destination);
 }

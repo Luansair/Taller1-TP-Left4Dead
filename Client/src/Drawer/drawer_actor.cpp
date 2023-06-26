@@ -13,8 +13,6 @@ ActorDrawer::ActorDrawer(AnimationManager &animation_manager, SDL2pp::Renderer &
         type(SOLDIER_IDF),
         animation(SOLDIER_1_IDLE),
         direction(DRAW_RIGHT),
-        health(0),
-        actual_health(0),
         ammo(0),
         actual_ammo(0),
         timeleft(0),
@@ -37,8 +35,6 @@ ActorDrawer::updateInfo(const ElementStateDTO &actor_state, std::int32_t window_
     this->type = actor_state.type;
     this->animation = actor_state.action;
     setActorDirection(actor_state.direction);
-    this->health = actor_state.health;
-    this->actual_health = actor_state.actual_health;
     this->ammo = actor_state.ammo;
     this->actual_ammo = actor_state.actual_ammo;
     this->timeleft = actor_state.time_left;
@@ -59,12 +55,7 @@ ActorDrawer::updateInfo(const ElementStateDTO &actor_state, std::int32_t window_
 }
 
 void ActorDrawer::draw(std::uint32_t frame_ticks) {
-    /*
-    if (frame_ticks - previous_frame_ticks > 100) {
-        sprite_index += 1;
-        previous_frame_ticks = frame_ticks;
-    }
-    */
+
     std::uint8_t last_sprite = sprite_index;
 
     if (!drawable)

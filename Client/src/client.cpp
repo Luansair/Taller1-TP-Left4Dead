@@ -17,7 +17,7 @@ void Client::start() {
     receiver.start();
 
     lobby.launch();
-    client_game.launch();
+    client_game.launch(lobby);
 }
 
 Client::~Client() {

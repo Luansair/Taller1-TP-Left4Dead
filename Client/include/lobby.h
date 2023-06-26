@@ -19,14 +19,11 @@ class ClientLobby {
     bool soldier_picked;
     bool joined;
 
-    void joinGame();
-    void pickSoldier();
-    uint8_t pickGameMode();
-    uint8_t pickGameDifficulty();
 public:
     ClientLobby(Queue<std::shared_ptr<Information>> &actions_to_send,
                 Queue<std::shared_ptr<Information>> &feedback_received, int argc, char **argv);
     void launch();
+    void showFinalStats(const std::shared_ptr<Information> &info);
 
     ClientLobby(const ClientLobby&) = delete;
     ClientLobby& operator=(const ClientLobby&) = delete;

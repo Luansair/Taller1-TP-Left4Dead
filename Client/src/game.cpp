@@ -15,7 +15,7 @@ ClientGame::ClientGame(
         event_handler(actions_to_send, &quit) {
 }
 
-void ClientGame::launch() {
+void ClientGame::launch(ClientLobby &lobby) {
     using std::shared_ptr;
     using std::uint32_t;
 
@@ -24,7 +24,6 @@ void ClientGame::launch() {
     while (!quit)
     {
         uint32_t start_milliseconds = SDL_GetTicks();
-        
 
         event_handler.start();
 
@@ -48,4 +47,5 @@ void ClientGame::launch() {
             SDL_Delay(MS_PER_FRAME - end_milliseconds + start_milliseconds);
         }
     }
+    lobby.showFinalStats(information_ptr);
 }

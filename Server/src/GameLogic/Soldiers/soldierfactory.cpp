@@ -18,7 +18,7 @@ std::shared_ptr<Soldier> SoldierFactory::create(uint32_t soldier_id, uint8_t sol
             &revive_radius, &revive_cooldown, &reload_cooldown, &throw_cooldown, &throw_duration);
             return std::shared_ptr<Soldier> (new P90Soldier(soldier_id, width, height, speed, 
             health, wpfactory.create(soldier_id, SOLDIER_P90),
-            grenade_type, revive_radius, revive_cooldown, reload_cooldown, throw_cooldown, throw_duration));
+            revive_radius, grenade_type, revive_cooldown, reload_cooldown, throw_cooldown, throw_duration));
         }
         case SOLDIER_SCOUT: {
             config = LoadFile(SERVER_CONFIG_PATH "/soldier.yaml")["scoutsoldier"];
@@ -26,7 +26,7 @@ std::shared_ptr<Soldier> SoldierFactory::create(uint32_t soldier_id, uint8_t sol
             &revive_radius, &revive_cooldown, &reload_cooldown, &throw_cooldown, &throw_duration);
             return std::shared_ptr<Soldier> (new ScoutSoldier(soldier_id, width, height, speed, 
             health, wpfactory.create(soldier_id, SOLDIER_SCOUT),
-            grenade_type, revive_radius, revive_cooldown, reload_cooldown, throw_cooldown, throw_duration));
+            revive_radius, grenade_type, revive_cooldown, reload_cooldown, throw_cooldown, throw_duration));
         }
         case SOLDIER_IDF: {
             config = LoadFile(SERVER_CONFIG_PATH "/soldier.yaml")["idfsoldier"];
@@ -34,7 +34,7 @@ std::shared_ptr<Soldier> SoldierFactory::create(uint32_t soldier_id, uint8_t sol
             &revive_radius, &revive_cooldown, &reload_cooldown, &throw_cooldown, &throw_duration);
             return std::shared_ptr<Soldier> (new IdfSoldier(soldier_id, width, height, speed, 
             health, wpfactory.create(soldier_id, SOLDIER_IDF),
-            grenade_type, revive_radius, revive_cooldown, reload_cooldown, throw_cooldown, throw_duration));
+            revive_radius, grenade_type, revive_cooldown, reload_cooldown, throw_cooldown, throw_duration));
         }
     }
     return {nullptr};

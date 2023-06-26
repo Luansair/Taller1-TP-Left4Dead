@@ -1,5 +1,6 @@
 #include "../../include/GameLogic/radialhitbox.h"
 #include<cmath>
+#include <iostream>
 
 RadialHitbox::RadialHitbox(
     double x,

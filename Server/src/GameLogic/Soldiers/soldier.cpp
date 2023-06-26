@@ -27,7 +27,7 @@ Soldier::Soldier(
     height(height),
     position(0,0,width,height,0,0),
     weapon(std::move(weapon)),
-    t_type(GRENADE),
+    t_type(t_type),
     revive_radius(revive_radius),
     revive_cooldown(revive_cooldown),
     reload_cooldown(reload_cooldown),
@@ -101,7 +101,7 @@ void Soldier::throwGrenade(uint8_t state){
 void Soldier::recvDamage(uint8_t state, double damage) {
     switch(state) {
         case ON:
-            reloading = shooting = throwing = reviving = throwed = false;
+            reloading = throwing = reviving = throwed = false;
             being_hurt = true;
             damage_recv = damage;
             break;
@@ -187,6 +187,7 @@ void Soldier::simulate_change_grenade(void) {
 void Soldier::be_revived(void) {
     start_dying(OFF);
     actual_health = health;
+    idle(ON);
 }
 
 void Soldier::increase_kill_counter(void) {
@@ -200,9 +201,13 @@ void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
     std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y,
     ThrowableFactory& factory) {
+    std::cout << "x: " << position.getXPos() << "\n";
+    std::cout << "y: " << position.getYPos() << "\n";
+    std::cout << "radio: " << revive_radius << "\n";
 
     std::chrono::duration<double> time = real_time - last_step_time;
 
+    if (reviving) simulateRevive(real_time, std::ref(soldiers));
     if (changing) simulate_change_grenade();
     if (dying) simulateDie(real_time);
     if (being_hurt) simulateRecvdmg(real_time);
@@ -210,7 +215,6 @@ void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
     if (shooting) simulateShoot(real_time, time.count(), soldiers, zombies, dim_x);
     if (moving) simulateMove(time.count(), soldiers, zombies, dim_x, dim_y);
     if (throwing) simulateThrow(real_time, dim_x, dim_y, throwables, std::ref(factory));
-    if (reviving) simulateRevive(real_time, soldiers);
     last_step_time = real_time;
 }
 
@@ -227,12 +231,11 @@ void Soldier::simulateRecvdmg(std::chrono::_V2::system_clock::time_point real_ti
 
 void Soldier::simulateRevive(std::chrono::_V2::system_clock::time_point real_time,
 std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers) {
-
     // verifico las colisiones. 
     RadialHitbox revive_zone(position.getXPos(), position.getYPos(), revive_radius);
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
         Position other_pos = i->second->getPosition();
-        if (i->second->getId() == soldier_id) continue;
+        //if (i->second->getId() == soldier_id) continue;
         if (revive_zone.hits(other_pos)) {
             if (i->second->dying) {
                 i->second->be_revived();

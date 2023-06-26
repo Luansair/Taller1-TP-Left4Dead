@@ -226,14 +226,21 @@ void Zombie::CalculateNextPos_by_victim(double *next_x, double *next_y,
     double target_y = victim->getPosition().getYPos();
     double x = position.getXPos();
     double y = position.getYPos();
-    double norma = std::sqrt(std::pow(std::abs(target_x - x), 2) + std::pow(std::abs(target_y - y), 2));
-    *next_x = ((target_x - x) / norma) * time * speed + x;
-    *next_y = ((target_y - y) / norma) * time * speed + y;
     if (target_x - x < 0) {
+        target_x += victim->getWidth();
         *direction = LEFT;
     } else {
         *direction = RIGHT;
+        target_y += victim->getWidth();
     }
+    if (target_y - y < 0) {
+        target_y += victim->getHeight();
+    } else {
+        target_y += victim->getHeight();
+    }
+    double norma = std::sqrt(std::pow(std::abs(target_x - x), 2) + std::pow(std::abs(target_y - y), 2));
+    *next_x = ((target_x - x) / norma) * time * speed + x;
+    *next_y = ((target_y - y) / norma) * time * speed + y;
 }
 
 void Zombie::CalculateNextPos_by_witch(double *next_x, double *next_y, 
@@ -298,12 +305,6 @@ void Zombie::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
         double next_x, next_y;
         int8_t direction;
         CalculateNextPos_by_witch(&next_x, &next_y, &direction, id, zombies, time.count());
-
-        std::shared_ptr<Zombie> &witch = zombies.at(id);
-        RadialHitbox hit_zone(position.getXPos(), position.getYPos(), hit_scope);
-        if (hit_zone.hits(witch->getPosition())) {
-            return;
-        }
         Position next_pos(next_x, next_y, width, height, dim_x, dim_y);
         move(ON, direction);
 
@@ -406,7 +407,7 @@ void Zombie::setRandomPosition(
     random_device rd;
     mt19937 mt(rd());
     uniform_int_distribution<int32_t> distx(0, dim_x);
-    uniform_int_distribution<int32_t> disty(0, dim_x);
+    uniform_int_distribution<int32_t> disty(0, dim_y);
     int32_t x_pos;
     int32_t y_pos;
     bool collides;

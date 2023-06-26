@@ -2,10 +2,10 @@ infected:
   health: 100
   width: 2
   height: 6
-  speed: 150
+  speed: 120
   sight: 150
   listening_range: 400
-  hit_scope: 5
+  hit_scope: 10
   damage: 0.09
   die_cooldown: 10
   stunned_cooldown: 5
@@ -17,7 +17,7 @@ spear:
   speed: 150
   sight: 150
   listening_range: 400
-  hit_scope: 5
+  hit_scope: 10
   damage: 0.09
   die_cooldown: 10
   stunned_cooldown: 5
@@ -29,7 +29,7 @@ witch:
   speed: 150
   sight: 150
   listening_range: 400
-  hit_scope: 5
+  hit_scope: 10
   damage: 0.09
   die_cooldown: 10
   stunned_cooldown: 5
@@ -40,10 +40,10 @@ venom:
   health: 100
   width: 2
   height: 6
-  speed: 150
+  speed: 100
   sight: 150
   listening_range: 400
-  hit_scope: 5
+  hit_scope: 10
   damage: 0.09
   die_cooldown: 10
   stunned_cooldown: 5
@@ -54,10 +54,10 @@ jumper:
   health: 100
   width: 2
   height: 6
-  speed: 150
+  speed: 160
   sight: 150
   listening_range: 400
-  hit_scope: 5
+  hit_scope: 10
   damage: 0.09
   die_cooldown: 10
   stunned_cooldown: 5

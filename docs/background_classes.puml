@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class BackgroundManager {
+    drawLayer(back_type, layer_type, dest)
+}
+
+class BackgroundDrawer {
+    background_type
+
+    updateInfo(camera_pos, width, height)
+    drawBehindLayers()
+}
+
+class LayerDrawer {
+    position_of_layer_1
+    position_of_layer_2
+    position_of_layer_3
+    speed
+
+    void draw(back_type)
+    void updateInfo(camera_pos, width, height)
+}
+
+BackgroundDrawer "1" --o  "8" LayerDrawer
+BackgroundDrawer --> BackgroundManager : > owns
+LayerDrawer --* BackgroundManager : & use
+
+@enduml

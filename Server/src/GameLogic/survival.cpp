@@ -21,7 +21,7 @@ void Survival::simulateStep(std::chrono::_V2::system_clock::time_point real_time
     }
     delete_dead_soldiers();
 
-    if (soldiers.size() == 0) loseMatch();
+    if ((dead_soldiers_counter == soldier_counter) && finalizable) loseMatch();
     std::chrono::duration<double> time = real_time - actual_time;
     if (time.count() > 30) {
         actual_time = real_time;

@@ -10,6 +10,7 @@
 #include "Drawer/drawer.h"
 #include "../../Common/include/Information/information.h"
 #include "../../Common/include/Information/feedback_server_gamestate.h"
+#include "../../Common/include/Information/feedback_server_score.h"
 #include "Drawer/drawer_manager.h"
 #include "Drawer/drawer_background.h"
 
@@ -26,6 +27,7 @@ public:
 
     void draw(unsigned int frameticks);
     void updateInfo(const GameStateFeedback& feed);
+    void loadScoreInfo(const GameScoreFeedback& feed);
     void setGameOver(void);
 
     void clear();

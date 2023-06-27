@@ -20,6 +20,6 @@ line,+whitespace/parens,+whitespace/semicolon]
     hooks:
       - id: cppcheck
         args: ["--enable=all", "--language=c++", "--std=c++17", "--error-exitcode=1", "--force"]
-        exclude: 'Client/include/Drawer/draw_info_dto.h|Common/include/Information/state_dto_element.h'
+        exclude: 'Client/include/Drawer/draw_info_dto.h|Common/include/Information/state_dto_element.h|Common/include/Information/score_dto.h'
 
 exclude: '^libs/'

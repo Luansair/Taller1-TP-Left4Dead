@@ -20,8 +20,8 @@ void ClearTheZone::simulateStep(std::chrono::_V2::system_clock::time_point real_
     }
     delete_dead_soldiers();
 
-    if (zombies.size() == 0) winMatch();
-    if (soldiers.size() == 0) loseMatch();
+    if (zombies.size() == 0 && finalizable) winMatch();
+    if ((dead_soldiers_counter == soldier_counter) && finalizable) loseMatch();
 }
 
 void ClearTheZone::winMatch(void) {

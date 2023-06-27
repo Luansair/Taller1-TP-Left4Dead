@@ -23,6 +23,7 @@ void Match::join(uint32_t soldier_id, uint8_t soldier_type) {
     soldier->setRandomPosition(std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
     soldiers.emplace(soldier_id, std::move(soldier));
     soldier_counter += 1;
+    finalizable = true;
 }
 
 void Match::setZombie(uint32_t zombie_id, uint8_t zombie_type) {
@@ -88,12 +89,14 @@ void Match::idle(uint32_t soldier_id, uint8_t state) {
 }
 
 void Match::delete_dead_soldiers(void) {
-    for (auto soldier = soldiers.begin(); soldier != soldiers.end(); ) {
+    for (auto soldier = soldiers.begin(); soldier != soldiers.end(); soldier++) {
         if (soldier->second->isDead()) {
-            updateScore(soldier->first, std::ref(soldier->second));
-            soldier = soldiers.erase(soldier);
-        } else {
-            ++soldier;
+            //soldier = soldiers.erase(soldier);
+            if (!soldier->second->counted) {
+                dead_soldiers_counter += 1;
+                soldier->second->counted = true;
+                updateScore(soldier->first, std::ref(soldier->second));
+            }
         }
     }
 }
@@ -112,6 +115,7 @@ void Match::updateScore(uint32_t id, std::shared_ptr<Soldier>& soldier) {
     player[id_string] = YAML::Null; 
     player[id_string]["seconds_alive"] = soldier->secondsAlive();
     player[id_string]["kills"] = soldier->getKills();
+    player[id_string]["bullets_fired"] = soldier->getBulletsFired();
     score[code]["players"].push_back(player);
     std::ofstream fout(SERVER_CONFIG_PATH "/score.yaml"); 
     fout << score; 
@@ -204,7 +208,7 @@ std::vector<std::pair<uint16_t, ScoreDTO >> Match::getScores() {
         int id = soldier.second->getId();
         std::uint16_t seconds_alive = soldier.second->secondsAlive();
         std::uint16_t kills = soldier.second->getKills();
-        std::uint32_t bullets_fired = soldier.second->getBulletsFired();
+        int bullets_fired = soldier.second->getBulletsFired();
         
         ScoreDTO dto {seconds_alive, kills, bullets_fired};
         scores.emplace_back(id, std::move(dto));

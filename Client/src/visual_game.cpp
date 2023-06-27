@@ -3,6 +3,7 @@
 //
 
 #include "../include/visual_game.h"
+#include <iostream>
 
 GameVisual::GameVisual(std::uint16_t window_width, std::uint16_t window_height) :
     sdl(SDL_INIT_VIDEO),
@@ -37,6 +38,14 @@ void GameVisual::updateInfo(const GameStateFeedback &feed) {
         window_x_position = (players_pos_x_sum / player_count) - window.GetWidth() / 2;
     }
     background_drawer.updateInfo(window_x_position, window.GetWidth(), window.GetHeight());
+}
+
+void GameVisual::loadScoreInfo(const GameScoreFeedback& feed) {
+    for (auto & pair_id_score : feed.score) {
+        std::uint16_t player_id = pair_id_score.first;
+        const ScoreDTO& score = pair_id_score.second;
+        drawer_manager.loadScore(player_id, score);
+    }
 }
 
 void GameVisual::setGameOver() {

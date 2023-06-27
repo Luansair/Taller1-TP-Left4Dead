@@ -49,6 +49,8 @@ public:
     MatchConfigurator configurator;
     ThrowableFactory t_factory;
     bool over = false;
+    bool finalizable = false;
+    uint8_t dead_soldiers_counter = 0;
 
     /* Constructor de Match, parámetros: dimensiones del mapa */
     explicit Match(double x_dimension, double y_dimension, uint32_t code);
@@ -60,6 +62,8 @@ public:
     void delete_dead_soldiers(void);
     void delete_dead_zombies(void);
     void delete_inactive_throwables(void);
+
+    bool verify_over(void);
 
     void updateScore(uint32_t id, std::shared_ptr<Soldier>& soldier);
 

@@ -91,6 +91,51 @@ ElementStateDTO Protocol::recvActorState() {
 
 }
 
+std::shared_ptr<Information> Protocol::builtGameScoreFeedback() {
+    using std::uint8_t;
+    using std::uint16_t;
+    using std::uint32_t;
+    using std::size_t;
+    using std::vector;
+    using std::pair;
+    using std::make_shared;
+
+    uint16_t bigendian_scores_amount = 0;
+    RECV_DATA(bigendian_scores_amount);
+    uint16_t scores_amount = ntohs(bigendian_scores_amount);
+
+    vector<pair<uint16_t, ScoreDTO>> scores;
+    scores.reserve(scores_amount * sizeof(pair<uint16_t, ScoreDTO>));
+
+    for (size_t counter = 0; counter < scores_amount; counter++) {
+        uint16_t bigendian_player_id;
+        RECV_DATA(bigendian_player_id);
+        uint16_t player_id = ntohs(bigendian_player_id);
+
+        ScoreDTO&& player_score = recvScore();
+
+        scores.emplace_back(player_id, std::move(player_score));
+    }
+    return make_shared<GameScoreFeedback>(std::move(scores));
+}
+
+ScoreDTO Protocol::recvScore() {
+
+    uint16_t bigendian_seconds_alive;
+    uint16_t bigendian_kills;
+    uint32_t bigendian_bullets_fired;
+
+    RECV_DATA(bigendian_seconds_alive);
+    RECV_DATA(bigendian_kills);
+    RECV_DATA(bigendian_bullets_fired);
+
+    uint16_t seconds_alive = static_cast<uint16_t>(ntohs(bigendian_seconds_alive));
+    uint16_t kills = static_cast<uint16_t>(ntohs(bigendian_kills));
+    int bullets_fired = static_cast<int>(ntohl(bigendian_bullets_fired));
+    return {seconds_alive, kills, bullets_fired};
+
+}
+
 //------------------------PUBLIC METHODS------------------------------------//
 Protocol::Protocol(GameSocket& socket) : socket(socket) {
 }
@@ -110,6 +155,8 @@ void Protocol::sendAction(const Information &action) {
         return builtJoinGameFeedback();
     } else if (feedback_type == InformationID::FEEDBACK_GAME_STATE) {
         return builtGameStateFeedback();
+    } else if (feedback_type == InformationID::FEEDBACK_GAME_SCORE) {
+        return builtGameScoreFeedback();
     }
     return nullptr;
 }

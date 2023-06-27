@@ -32,9 +32,9 @@ std::vector<int8_t> GameScoreFeedback::serialize() const {
         uint16_t player_id = element.first;
 
         serializeNumber<uint16_t>(result, player_id);
-        serializeNumber<uint16_t>(result, dto.kills);
         serializeNumber<uint16_t>(result, dto.seconds_alive);
-        serializeNumber<uint16_t>(result, dto.bullets_fired);
+        serializeNumber<uint16_t>(result, dto.kills);
+        serializeNumber<uint32_t>(result, dto.bullets_fired);
     }
 
     return result;

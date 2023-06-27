@@ -4,6 +4,7 @@
 #include "GameLogic/Soldiers/soldierfactory.h"
 #include "GameLogic/Soldiers/soldier.h"
 #include "../Common/include/Information/state_dto_element.h"
+#include "../Common/include/Information/score_dto.h"
 #include "../Common/include/Information/information_code.h"
 #include <tuple>
 #include <chrono>

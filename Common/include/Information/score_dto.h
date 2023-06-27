@@ -6,14 +6,7 @@
 struct ScoreDTO {
     const std::uint16_t seconds_alive;
     const std::uint16_t kills;
-    const std::uint32_t bullets_fired;
-
-
-    ScoreDTO(ScoreDTO&&) = default;
-    ScoreDTO& operator=(ScoreDTO&&) = delete;
-
-    ScoreDTO(const ScoreDTO&) = delete;
-    ScoreDTO& operator=(const ScoreDTO&) = delete;
+    const int bullets_fired;
 };
 
 #endif // TP_SCORE_DTO_H

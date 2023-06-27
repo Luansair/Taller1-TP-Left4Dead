@@ -34,6 +34,7 @@ public:
     double damage_recv = 0.0;
     uint16_t kill_counter = 0;
     double actual_health = health;
+    bool counted = false;
 
     /* tiempos */
     std::chrono::_V2::system_clock::time_point last_step_time = std::chrono::system_clock::now();

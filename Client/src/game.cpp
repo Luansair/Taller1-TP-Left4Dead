@@ -2,6 +2,7 @@
 // Created by luan on 17/06/23.
 //
 #include "../include/game.h"
+#include <iostream>
 
 constexpr uint32_t MS_PER_FRAME = 16;
 
@@ -35,7 +36,8 @@ void ClientGame::launch() {
         if (information_ptr != nullptr) {
             if (information_ptr->get_type() == FEEDBACK_GAME_SCORE) {
                 game_visual.setGameOver();
-                // game_visual.cargar_info_de_scores
+                game_visual.loadScoreInfo(dynamic_cast<GameScoreFeedback&>
+                        (*information_ptr));
             } else {
                 game_visual.updateInfo(dynamic_cast<GameStateFeedback&>
                         (*information_ptr));

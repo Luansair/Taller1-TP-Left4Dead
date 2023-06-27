@@ -6,14 +6,17 @@
 #include "../../Common/include/Information/information.h"
 #include "../../Common/include/Information/feedback_server_creategame.h"
 #include "../../Common/include/Information/feedback_server_gamestate.h"
+#include "../../Common/include/Information/feedback_server_score.h"
 
 class Protocol {
     GameSocket& socket;
 
     ElementStateDTO recvActorState();
+    ScoreDTO recvScore();
     [[nodiscard]] std::shared_ptr<Information> builtCreateGameFeedback();
     [[nodiscard]] std::shared_ptr<Information> builtJoinGameFeedback();
     [[nodiscard]] std::shared_ptr<Information> builtGameStateFeedback();
+    [[nodiscard]] std::shared_ptr<Information> builtGameScoreFeedback();
 
 public:
     explicit Protocol(GameSocket& socket);

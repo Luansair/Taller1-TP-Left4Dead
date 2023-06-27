@@ -16,8 +16,8 @@
   <widget class="QGroupBox" name="groupBox_score">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>160</y>
+     <x>500</x>
+     <y>230</y>
      <width>288</width>
      <height>237</height>
     </rect>
@@ -110,8 +110,8 @@
   <widget class="QTextEdit" name="textEdit">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>70</y>
+     <x>510</x>
+     <y>150</y>
      <width>271</width>
      <height>70</height>
     </rect>

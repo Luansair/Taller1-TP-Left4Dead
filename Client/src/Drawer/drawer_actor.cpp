@@ -41,7 +41,6 @@ ActorDrawer::updateInfo(const ElementStateDTO &actor_state, std::int32_t window_
     this->ammo = actor_state.ammo;
     this->actual_ammo = actor_state.actual_ammo;
     this->timeleft = actor_state.time_left;
-    std::cout << "actual_ammo: " << this->actual_ammo << "\n";
 
     std::int32_t fixed_y_position =
             window_height - static_cast<std::int32_t>(

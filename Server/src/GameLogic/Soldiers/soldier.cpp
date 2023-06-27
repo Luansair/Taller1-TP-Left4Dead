@@ -298,7 +298,7 @@ void Soldier::simulateShoot(std::chrono::_V2::system_clock::time_point real_time
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x) {
     if (!(weapon->shoot(
-        getPosition(), dir, dim_x, time, 
+        getPosition(), dir_x, dim_x, time, 
         std::ref(soldiers), std::ref(zombies)))) {
             reload(ON);
     }

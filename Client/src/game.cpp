@@ -22,7 +22,7 @@ void ClientGame::launch(ClientLobby &lobby) {
     using std::uint32_t;
 
     std::shared_ptr<Information> information_ptr = nullptr;
-    //game_music.startMusic();
+    game_music.startMusic();
     while (!quit)
     {
         uint32_t start_milliseconds = SDL_GetTicks();

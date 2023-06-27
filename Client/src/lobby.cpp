@@ -37,7 +37,7 @@ void ClientLobby::launch() {
 
 }
 
-void ClientLobby::showFinalStats(const std::shared_ptr<Information> &info) {
+void ClientLobby::showFinalStats(const GameScoreFeedback &info) {
     QApplication visualization_app(argc, argv);
 
     GameResultWindow game_result(info);

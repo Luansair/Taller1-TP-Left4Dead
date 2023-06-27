@@ -9,6 +9,7 @@
 #include <QApplication>
 #include "../../Common/include/Information/information.h"
 #include "../../libs/queue.h"
+#include "../../Common/include/Information/feedback_server_score.h"
 
 
 class ClientLobby {
@@ -23,7 +24,7 @@ public:
     ClientLobby(Queue<std::shared_ptr<Information>> &actions_to_send,
                 Queue<std::shared_ptr<Information>> &feedback_received, int argc, char **argv);
     void launch();
-    void showFinalStats(const std::shared_ptr<Information> &info);
+    void showFinalStats(const GameScoreFeedback &info);
 
     ClientLobby(const ClientLobby&) = delete;
     ClientLobby& operator=(const ClientLobby&) = delete;

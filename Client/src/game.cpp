@@ -34,9 +34,9 @@ void ClientGame::launch(ClientLobby &lobby) {
 
         if (information_ptr != nullptr) {
             if (information_ptr->get_type() == FEEDBACK_GAME_SCORE) {
-                game_visual.setGameOver();
-                game_visual.loadScoreInfo(dynamic_cast<GameScoreFeedback&>
-                        (*information_ptr));
+                const auto& score_feed = dynamic_cast<GameScoreFeedback&>(*information_ptr);
+                lobby.showFinalStats(score_feed);
+                quit = true;
             } else {
                 game_visual.updateInfo(dynamic_cast<GameStateFeedback&>
                         (*information_ptr));
@@ -54,5 +54,5 @@ void ClientGame::launch(ClientLobby &lobby) {
             SDL_Delay(MS_PER_FRAME - end_milliseconds + start_milliseconds);
         }
     }
-    lobby.showFinalStats(information_ptr);
+
 }

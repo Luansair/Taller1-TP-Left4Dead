@@ -41,18 +41,6 @@ void GameVisual::updateInfo(const GameStateFeedback &feed) {
     background_drawer.updateInfo(window_x_position, window.GetWidth(), window.GetHeight());
 }
 
-void GameVisual::loadScoreInfo(const GameScoreFeedback& feed) {
-    for (auto & pair_id_score : feed.score) {
-        std::uint16_t player_id = pair_id_score.first;
-        const ScoreDTO& score = pair_id_score.second;
-        drawer_manager.loadScore(player_id, score);
-    }
-}
-
-void GameVisual::setGameOver() {
-    drawer_manager.setGameOver();
-}
-
 void GameVisual::clear() {
     renderer.Clear();
 }

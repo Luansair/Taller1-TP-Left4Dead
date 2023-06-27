@@ -48,15 +48,6 @@ DrawerManager::updateInfo(std::uint16_t actor_id, const ElementStateDTO &actor_s
     }
 }
 
-void
-DrawerManager::loadScore(std::uint16_t player_id, const ScoreDTO &score) {
-    //aca cargar la info
-    std::cout << "player_id: " << player_id << "\n";
-    std::cout << "seconds_alive: " << score.seconds_alive << "\n";
-    std::cout << "kills: " << score.kills << "\n";
-    std::cout << "bullets_fired: " << score.bullets_fired << "\n";
-    std::cout << "------------------------------------------------\n";
-}
 
 //-----------------------PRIVATE METHODS-------------------------------//
 std::_Rb_tree_iterator<std::pair<const uint16_t, ActorDrawer>>
@@ -73,6 +64,3 @@ DrawerManager::addActor(std::uint16_t actor_id, const ElementStateDTO &actor_sta
     return res.first;
 }
 
-void DrawerManager::setGameOver(void) {
-    game_over = true;
-}

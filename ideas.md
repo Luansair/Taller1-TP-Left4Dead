@@ -49,3 +49,8 @@ Protocolo servidor deberia devolver un puntero inteligente.
 
 Para acceder a los elementos creados desde QCreator hay que ir a ui_lobbywindow.h.
 Se accede con ui->nombre_elemento
+
+---------
+
+manual de usuario imagenes e instrucciones
+manual tecnico, mostrar 5 o 6 diagramas

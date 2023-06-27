@@ -15,6 +15,7 @@ INCLUDEPATH += .
 
 # Input
 HEADERS += libs/queue.h \
+           Client/src/LobbyUI/gameresultwindow.h \
            libs/thread.h \
            Client/include/client.h \
            Client/include/config_game.h \
@@ -264,8 +265,10 @@ HEADERS += libs/queue.h \
            cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/custom/gtest-port.h \
            cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/custom/gtest-printers.h \
            cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/custom/gtest.h
-FORMS += Client/src/LobbyUI/lobbywindow.ui
+FORMS += Client/src/LobbyUI/lobbywindow.ui \
+    Client/src/LobbyUI/gameresultwindow.ui
 SOURCES += tests/command_test.cpp \
+           Client/src/LobbyUI/gameresultwindow.cpp \
            tests/gamemanager_test.cpp \
            tests/information_test.cpp \
            tests/match_test.cpp \

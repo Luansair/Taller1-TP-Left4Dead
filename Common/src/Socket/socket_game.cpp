@@ -149,6 +149,7 @@ void GameSocket::sendData(const void *data, std::size_t amount) {
 }
 
 void GameSocket::recvData(void *data, std::size_t amount) {
+    // copiar elementos del vector a data con memcpy.
     size_t bytesRecv = 0;
     while (bytesRecv < amount) {
         bytesRecv += recvSome((std::int8_t*)data + bytesRecv,

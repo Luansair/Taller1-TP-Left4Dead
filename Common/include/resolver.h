@@ -22,6 +22,8 @@ public:
     bool hasNext();
 
     struct addrinfo* nextAddr();
+
+    ~Resolver();
 };
 
 #endif  // RESOLVER_H_

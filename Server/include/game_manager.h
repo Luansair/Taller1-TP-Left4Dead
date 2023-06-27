@@ -1,8 +1,34 @@
-//
-// Created by luan on 18/05/23.
-//
+#ifndef GAME_MANAGER_H_
+#define GAME_MANAGER_H_
 
-#ifndef TALLER1_TP_LEFT4DEAD_GAME_MANAGER_H
-#define TALLER1_TP_LEFT4DEAD_GAME_MANAGER_H
+#include <vector>
+#include <map>
+#include "game.h"
+#include "GameLogic/match.h"
+#include "../../Common/include/Information/information.h"
+#include "Command/command_ingame.h"
 
-#endif //TALLER1_TP_LEFT4DEAD_GAME_MANAGER_H
+class GameManager {
+    std::map<std::uint32_t,Game*> games;
+    std::mutex mtx;
+
+    [[nodiscard]] std::uint32_t generateGameCode();
+
+    void cleanEmptyGames();
+    void cleanAllGames();
+public:
+    explicit GameManager();
+
+    std::uint32_t createGame(Queue<std::shared_ptr<InGameCommand>> *&game_queue,
+                             const std::shared_ptr<Queue<std::shared_ptr<Information>>> &player_queue,
+                             std::uint8_t* player_id, uint8_t gameMode, uint8_t gameDifficulty);
+
+    bool joinGame(Queue<std::shared_ptr<InGameCommand>> *&game_queue,
+                  const std::shared_ptr<Queue<std::shared_ptr<Information>>> &player_queue,
+                  std::uint8_t* player_id,
+                  std::uint32_t game_code);
+
+    ~GameManager();
+};
+
+#endif  // GAME_MANAGER_H_

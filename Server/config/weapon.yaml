@@ -1,0 +1,20 @@
+p90weapon:
+  damage: 1
+  ammo: 300
+  scope: 30
+  damage_reduction_coef: 0.8
+  bullet_speed: 2000000.0
+
+scoutweapon:
+  damage: 1
+  ammo: 200
+  scope: 30
+  damage_reduction_coef: 0.8
+  bullet_speed: 2000000.0
+
+idfweapon:
+  damage: 1
+  ammo: 500
+  scope: 30
+  damage_reduction_coef: 0.8
+  bullet_speed: 2000000.0

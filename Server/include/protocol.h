@@ -1,8 +1,21 @@
-//
-// Created by luan on 18/05/23.
-//
+#ifndef PROTOCOL_H
+#define PROTOCOL_H
 
-#ifndef TALLER1_TP_LEFT4DEAD_PROTOCOL_H
-#define TALLER1_TP_LEFT4DEAD_PROTOCOL_H
+#include "../../Common/include/Socket/socket_game.h"
+#include "../../Common/include/Information/information.h"
+#include "Command/command_pregame.h"
 
-#endif //TALLER1_TP_LEFT4DEAD_PROTOCOL_H
+class Protocol {
+    GameSocket& socket;
+
+public:
+    explicit Protocol(GameSocket& socket);
+
+    [[nodiscard]] PreGameCommand* recvPreGameCommand();
+
+    [[nodiscard]] InGameCommand* recvInGameCommand(std::uint8_t player_id);
+
+    void sendFeedback(const Information& feed);
+};
+
+#endif  // PROTOCOL_H

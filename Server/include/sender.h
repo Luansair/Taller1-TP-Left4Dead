@@ -1,8 +1,38 @@
-//
-// Created by luan on 18/05/23.
-//
+// Copyright [2023] pgallino
 
-#ifndef TALLER1_TP_LEFT4DEAD_SENDER_H
-#define TALLER1_TP_LEFT4DEAD_SENDER_H
+#ifndef SENDER_H_
+#define SENDER_H_
 
-#endif //TALLER1_TP_LEFT4DEAD_SENDER_H
+#include <atomic>
+#include <vector>
+#include "../../libs/thread.h"
+#include "../../libs/queue.h"
+#include "protocol.h"
+#include "../../Common/include/Information/information.h"
+
+class Sender: public Thread {
+private:
+    Protocol protocol;
+    Queue<std::shared_ptr<Information>>& game_state_queue;
+
+    std::atomic<bool> is_running;
+    std::atomic<bool> keep_talking;
+
+protected:
+    void run() override;
+
+public:
+    Sender(GameSocket& peer, Queue<std::shared_ptr<Information>>& game_state_queue);
+
+    bool isDead() const;
+
+    void stop();
+
+    Sender(const Sender&) = delete;
+    Sender& operator=(const Sender&) = delete;
+
+    Sender(Sender&&) = delete;
+    Sender& operator=(Sender&&) = delete;
+};
+
+#endif // SENDER_H_

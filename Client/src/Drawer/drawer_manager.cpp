@@ -36,15 +36,19 @@ DrawerManager::updateInfo(std::uint16_t actor_id, const ElementStateDTO &actor_s
                           std::int32_t window_width, std::int32_t window_height) {
     auto pair_id_actor_ptr = actor_drawers.find(actor_id);
     if (pair_id_actor_ptr == actor_drawers.end()) {
-        addActor(actor_id, actor_state, window_x_pos, window_width, window_height);
+        pair_id_actor_ptr = addActor(actor_id, actor_state, window_x_pos, window_width, window_height);
     } else {
         ActorDrawer& found_actor = pair_id_actor_ptr->second;
         found_actor.updateInfo(actor_state, window_x_pos, window_width, window_height);
+
+    }
+    if (actor_state.is_dead && actor_state.time_left <= 0) {
+        actor_drawers.erase(pair_id_actor_ptr);
     }
 }
 
 //-----------------------PRIVATE METHODS-------------------------------//
-void
+std::_Rb_tree_iterator<std::pair<const uint16_t, ActorDrawer>>
 DrawerManager::addActor(std::uint16_t actor_id, const ElementStateDTO &actor_state, std::int32_t window_x_pos,
                         std::int32_t window_width, std::int32_t window_height) {
     auto res = actor_drawers.emplace(
@@ -55,6 +59,7 @@ DrawerManager::addActor(std::uint16_t actor_id, const ElementStateDTO &actor_sta
     }
     ActorDrawer& added_actor = res.first->second;
     added_actor.updateInfo(actor_state, window_x_pos, window_width, window_height);
+    return res.first;
 }
 
 

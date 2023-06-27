@@ -12,10 +12,9 @@
 // La ventaja de tener SoldierOneDrawer con un action específico Drawer es
 // cada action drawer puede guardar un estado distinto!
 class ActorDrawer {
-
-public:
     AnimationManager& animation_manager;
     HealthBarDrawer hp_drawer;
+
     std::uint8_t type;
     std::uint8_t animation;
     std::uint8_t direction;
@@ -27,8 +26,9 @@ public:
 
     std::uint8_t sprite_index;
     unsigned int previous_frame_ticks;
-    explicit ActorDrawer(AnimationManager &animation_manager, SDL2pp::Renderer &renderer);
+public:
 
+    explicit ActorDrawer(AnimationManager &animation_manager, SDL2pp::Renderer &renderer);
     // Necesito saber la cantidad de sprites para mandar un indice válido!
     // Primero hacer los calculos en update y guardar esa info.
     // Segundo hacer otro metodo draw que reciba una ref a HPBarDrawer

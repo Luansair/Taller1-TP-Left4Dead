@@ -20,9 +20,6 @@ public:
     double throw_cooldown,
     double throw_duration);
 
-    void simulateThrow(std::chrono::_V2::system_clock::time_point real_time, double dim_x, double dim_y,
-    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, ThrowableFactory& factory) override;
-
     virtual uint8_t getSoldierType(void) override;
     
     virtual uint8_t getAction(void) override;

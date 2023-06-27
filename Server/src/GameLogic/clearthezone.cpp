@@ -6,6 +6,7 @@ ClearTheZone::ClearTheZone(double x_dimension, double y_dimension, uint8_t diffi
 }
 
 void ClearTheZone::simulateStep(std::chrono::_V2::system_clock::time_point real_time) {
+    double mass_center = calculate_mass_center();
     for (auto & zombie : zombies) {
         zombie.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), std::ref(throwables), x_dim, y_dim, t_factory);
     }
@@ -16,7 +17,7 @@ void ClearTheZone::simulateStep(std::chrono::_V2::system_clock::time_point real_
     }
     // delete_inactive_throwables();
     for (auto & soldier : soldiers) {
-        soldier.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), std::ref(throwables), x_dim, y_dim, t_factory);
+        soldier.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), std::ref(throwables), x_dim, y_dim, t_factory, mass_center);
     }
     delete_dead_soldiers();
 
@@ -34,5 +35,5 @@ void ClearTheZone::loseMatch(void) {
 
 void ClearTheZone::configurate(uint8_t difficulty) {
     MatchConfigurator configurator;
-    configurator.configurate(CLEAR_THE_ZONE, difficulty, zombies, soldiers, x_dim, y_dim, &code_counter, &zombie_counter);
+    configurator.configurate(CLEAR_THE_ZONE, difficulty, zombies, soldiers, calculate_mass_center(), y_dim, &code_counter, &zombie_counter);
 }

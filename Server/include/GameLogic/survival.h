@@ -17,7 +17,7 @@ public:
     void configurate(uint8_t difficulty);
 
     void simulateStep(std::chrono::_V2::system_clock::time_point real_time) override;
-    void add_zombies(void);
+    void add_zombies(double mass_center);
     void loseMatch(void);
     std::chrono::_V2::system_clock::time_point actual_time = create_time;
 };

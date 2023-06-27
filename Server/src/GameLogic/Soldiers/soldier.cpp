@@ -208,7 +208,7 @@ void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
     std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y,
-    ThrowableFactory& factory) {
+    ThrowableFactory& factory, double mass_center) {
 
     std::chrono::duration<double> time = real_time - last_step_time;
 
@@ -218,7 +218,7 @@ void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
     if (being_hurt) simulateRecvdmg(real_time);
     if (reloading) simulateReload(real_time);
     if (shooting) simulateShoot(real_time, time.count(), soldiers, zombies, dim_x);
-    if (moving) simulateMove(time.count(), soldiers, zombies, dim_x, dim_y);
+    if (moving) simulateMove(time.count(), soldiers, zombies, dim_x, dim_y, mass_center);
     if (throwing) simulateThrow(real_time, dim_x, dim_y, throwables, std::ref(factory));
     last_step_time = real_time;
 }
@@ -267,9 +267,10 @@ void Soldier::simulateDie(std::chrono::_V2::system_clock::time_point real_time, 
 void Soldier::simulateMove(
     double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y, double mass_center) {
     // calculo proxima coordenada.
     std::tuple<double, double> next_coords = position.calculateNextPos(axis, dir, speed, time);
+    if (abs(std::get<0>(next_coords)-mass_center) >= 600) return;
     Position next_pos(std::get<0>(next_coords), std::get<1>(next_coords), position.getWidth(), position.getHeight(), dim_x, dim_y);
 
     // verifico las colisiones.
@@ -430,10 +431,11 @@ void Soldier::setRandomPosition(
     using std::mt19937;
     using std::uniform_int_distribution;
     using std::uint32_t;
+    std::cout << dim_x << "-> centro de masa soldier \n";
 
     random_device rd;
     mt19937 mt(rd());
-    uniform_int_distribution<int32_t> distx(0, dim_x);
+    uniform_int_distribution<int32_t> distx(dim_x- 500.0, dim_x + 500.0);
     uniform_int_distribution<int32_t> disty(0, dim_y);
     int32_t x_pos;
     int32_t y_pos;
@@ -441,6 +443,7 @@ void Soldier::setRandomPosition(
     do {
         collides = false;
         x_pos = distx(mt);
+        std::cout << x_pos << "-> pos_random \n";
         y_pos = disty(mt);
         Position _position(x_pos, y_pos, getWidth(), getHeight(), dim_x, dim_y);
         for (const auto & soldier : soldiers) {

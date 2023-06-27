@@ -424,11 +424,12 @@ void Zombie::setRandomPosition(
     using std::mt19937;
     using std::uniform_int_distribution;
     using std::uint32_t;
+    //std::cout << dim_x << "-> centro de masa zombie \n";
 
     random_device rd;
     mt19937 mt(rd());
     //uniform_int_distribution<int32_t> distx(dim_x * 0.45, dim_x * 0.45 + SPAWNRANGE);
-    uniform_int_distribution<int32_t> distx(0, dim_x);
+    uniform_int_distribution<int32_t> distx(dim_x - 1000, dim_x + 1000);
     uniform_int_distribution<int32_t> disty(0, dim_y);
     int32_t x_pos;
     int32_t y_pos;

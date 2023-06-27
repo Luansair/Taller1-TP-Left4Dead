@@ -105,10 +105,10 @@ public:
     virtual void simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
-    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y, ThrowableFactory& factory);
+    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y, ThrowableFactory& factory, double mass_center);
     virtual void simulateMove(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y, double mass_center);
     virtual void simulateShoot(std::chrono::_V2::system_clock::time_point real_time, double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,

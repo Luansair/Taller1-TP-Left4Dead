@@ -59,6 +59,7 @@ public:
     /* Elimina Soldier del Match, parámetros: id del soldado */
     void delete_soldier(uint32_t soldier_id);
     void delete_zombie(uint32_t zombie_id);
+    void kill_soldier(uint32_t soldier_id);
 
     void delete_dead_soldiers(void);
     void delete_dead_zombies(void);
@@ -111,6 +112,8 @@ public:
     void setThrowable(std::shared_ptr<Throwable> &&throwable);
 
     bool is_over(void);
+
+    double calculate_mass_center();
 
     Match(const Match&) = delete;
     Match& operator=(const Match&) = delete;

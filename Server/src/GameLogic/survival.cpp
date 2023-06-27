@@ -6,6 +6,7 @@ Survival::Survival(double x_dimension, double y_dimension, uint8_t difficulty, u
 }
 
 void Survival::simulateStep(std::chrono::_V2::system_clock::time_point real_time) {
+    double mass_center = calculate_mass_center();
     for (auto & zombie : zombies) {
         zombie.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), std::ref(throwables), x_dim, y_dim, t_factory);
     }
@@ -17,7 +18,7 @@ void Survival::simulateStep(std::chrono::_V2::system_clock::time_point real_time
     // delete_inactive_throwables();
 
     for (auto & soldier : soldiers) {
-        soldier.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), std::ref(throwables), x_dim, y_dim, t_factory);
+        soldier.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), std::ref(throwables), x_dim, y_dim, t_factory, mass_center);
     }
     delete_dead_soldiers();
 
@@ -25,7 +26,7 @@ void Survival::simulateStep(std::chrono::_V2::system_clock::time_point real_time
     std::chrono::duration<double> time = real_time - actual_time;
     if (time.count() > 30) {
         actual_time = real_time;
-        add_zombies();
+        add_zombies(mass_center);
     }
 }
 
@@ -34,9 +35,9 @@ void Survival::loseMatch(void) {
 }
 
 void Survival::configurate(uint8_t difficulty) {
-    configurator.configurate(SURVIVAL, difficulty, zombies, soldiers, x_dim, y_dim, &code_counter, &zombie_counter);
+    configurator.configurate(SURVIVAL, difficulty, zombies, soldiers, calculate_mass_center(), y_dim, &code_counter, &zombie_counter);
 }
 
-void Survival::add_zombies(void) {
-    configurator.add_zombies(1, zombies, soldiers, x_dim, y_dim, &code_counter, &zombie_counter);
+void Survival::add_zombies(double mass_center) {
+    configurator.add_zombies(1, zombies, soldiers, mass_center, y_dim, &code_counter, &zombie_counter);
 }

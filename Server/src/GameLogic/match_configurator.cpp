@@ -113,6 +113,7 @@ void MatchConfigurator::add_zombies(int amount,
         std::shared_ptr<Zombie> zombie = factory.create(i, ZOMBIE);
         zombie->setRandomPosition(std::ref(soldiers), std::ref(zombies), dim_x, dim_y);
         zombies.emplace(i, std::move(zombie));
+        *zombie_counter += 1;
     }
     begin = end;
     end += amount;
@@ -120,6 +121,7 @@ void MatchConfigurator::add_zombies(int amount,
         std::shared_ptr<Zombie> zombie = factory.create(i, SPEAR);
         zombie->setRandomPosition(std::ref(soldiers), std::ref(zombies), dim_x, dim_y);
         zombies.emplace(i, std::move(zombie));
+        *zombie_counter += 1;
     }
     begin = end;
     end += amount;
@@ -127,6 +129,7 @@ void MatchConfigurator::add_zombies(int amount,
         std::shared_ptr<Zombie> zombie = factory.create(i, JUMPER);
         zombie->setRandomPosition(std::ref(soldiers), std::ref(zombies), dim_x, dim_y);
         zombies.emplace(i, std::move(zombie));
+        *zombie_counter += 1;
     }
     begin = end;
     end += amount;
@@ -134,6 +137,7 @@ void MatchConfigurator::add_zombies(int amount,
         std::shared_ptr<Zombie> zombie = factory.create(i, VENOM);
         zombie->setRandomPosition(std::ref(soldiers), std::ref(zombies), dim_x, dim_y);
         zombies.emplace(i, std::move(zombie));
+        *zombie_counter += 1;
     }
     begin = end;
     end += amount;
@@ -141,7 +145,7 @@ void MatchConfigurator::add_zombies(int amount,
         std::shared_ptr<Zombie> zombie = factory.create(i, WITCH);
         zombie->setRandomPosition(std::ref(soldiers), std::ref(zombies), dim_x, dim_y);
         zombies.emplace(i, std::move(zombie));
+        *zombie_counter += 1;
     }
     *code_counter = end;
-    *zombie_counter += amount * 5;
 }

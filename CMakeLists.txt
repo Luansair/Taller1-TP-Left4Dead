@@ -15,6 +15,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 set(SDL2PP_WITH_IMAGE YES)
 set(SDL2PP_WITH_TTF YES)
+set(SDL2PP_WITH_MIXER YES)
 
 add_subdirectory(libs/libSDL2pp-0.18.1)
 

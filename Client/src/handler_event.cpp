@@ -23,8 +23,9 @@
 
 EventHandler::EventHandler(
         Queue<std::shared_ptr<Information>> &actions_to_send,
-        bool *quit) :
+        bool *quit, GameMusic& game_music) :
         actions_to_send(actions_to_send),
+        game_music(game_music),
         quit(quit),
         event() ,
         keydown({nullptr}),
@@ -70,6 +71,9 @@ void EventHandler::processEvent() const {
         if (event.key.keysym.sym == SDLK_ESCAPE) {
             *quit = true;
             return;
+        } else if (event.key.keysym.sym == SDLK_m) {
+            game_music.changeMusicStatus();
+            return;
         }
 
         const shared_ptr<Information>& action_to_send =
@@ -87,7 +91,6 @@ void EventHandler::processEvent() const {
         if (action_to_send != nullptr) {
             actions_to_send.push(action_to_send);
         }
-
     }
 }
 

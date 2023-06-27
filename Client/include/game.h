@@ -10,10 +10,12 @@
 #include "config_game.h"
 #include "handler_event.h"
 #include "lobby.h"
+#include "music_game.h"
 
 class ClientGame {
     GameConfig config;
     GameVisual game_visual;
+    GameMusic game_music;
     Queue<std::shared_ptr<Information>>& feedback_received;
 
     bool quit;

@@ -11,9 +11,10 @@ ClientGame::ClientGame(
         Queue<std::shared_ptr<Information>>& feedback_received) :
         config(),
         game_visual(config.window_width, config.window_height),
+        game_music(),
         feedback_received(feedback_received),
         quit(false),
-        event_handler(actions_to_send, &quit) {
+        event_handler(actions_to_send, &quit, game_music) {
 }
 
 void ClientGame::launch(ClientLobby &lobby) {
@@ -21,7 +22,7 @@ void ClientGame::launch(ClientLobby &lobby) {
     using std::uint32_t;
 
     std::shared_ptr<Information> information_ptr = nullptr;
-
+    game_music.startMusic();
     while (!quit)
     {
         uint32_t start_milliseconds = SDL_GetTicks();
@@ -54,5 +55,4 @@ void ClientGame::launch(ClientLobby &lobby) {
             SDL_Delay(MS_PER_FRAME - end_milliseconds + start_milliseconds);
         }
     }
-
 }

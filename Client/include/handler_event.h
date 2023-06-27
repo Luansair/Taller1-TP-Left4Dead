@@ -9,11 +9,13 @@
 #include <SDL2/SDL.h>
 #include "../../Common/include/Information/information.h"
 #include "../../libs/queue.h"
+#include "music_game.h"
 
 constexpr int MAX_INPUT_ID = SDL_NUM_SCANCODES;
 
 class EventHandler {
     Queue<std::shared_ptr<Information>>& actions_to_send;
+    GameMusic& game_music;
 
     bool* quit;
     SDL_Event event;
@@ -33,7 +35,7 @@ class EventHandler {
     // void processKeyUp() const;
 public:
     EventHandler(Queue<std::shared_ptr<Information>>& actions_to_send,
-                 bool* quit);
+                 bool* quit, GameMusic& game_music);
 
     void start();
 };

@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Game -> GameVisual : draw(frame_ticks)
+GameVisual -> BackgroundDrawer : drawBehindLayers
+loop for each back_layer
+    BackgroundDrawer -> LayerDrawer : draw(back_type)
+    loop for 1 : 3
+    LayerDrawer -> BackgroundManager : drawLayer(back_t, layer_t, dest)
+    end
+end
+@enduml

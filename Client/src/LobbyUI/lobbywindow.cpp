@@ -38,6 +38,11 @@ LobbyWindow::LobbyWindow(Queue<std::shared_ptr<Information>>& actions_to_send,
     red_palette.setColor(QPalette::Base, Qt::red);
     green_palette.setColor(QPalette::Base, Qt::green);
     white_palette.setColor(QPalette::Base, Qt::white);
+    QPixmap bkgnd(RESOURCES_PATH "/Lobby/lobbyimage.jpeg");
+    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Window, bkgnd);
+    this->setPalette(palette);
 
 }
 
@@ -60,6 +65,7 @@ void LobbyWindow::on_pushButton_joingame_clicked()
 
     if (!succesful_conversion) {
         ui->lineEdit_gamecode->setPalette(red_palette);
+        
     } else {
         actions_to_send.push(std::make_shared<JoinGameAction>(game_code));
         const auto& feed = feedback_received.pop();

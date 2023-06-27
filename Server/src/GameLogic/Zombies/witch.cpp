@@ -51,14 +51,15 @@ void Witch::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y, ThrowableFactory& factory) {
     std::chrono::duration<double> time = real_time - last_step_time;
 
-    simulateScream(real_time);
-    if (screaming) return;
     bool detected = false;
     uint32_t id;
     
     detect_victim(&detected, &id, std::ref(soldiers), dim_x, dim_y);
     
     if (detected) {
+
+        simulateScream(real_time);
+        if (screaming) return;
         double next_x, next_y;
         int8_t direction;
         CalculateNextPos_by_victim(&next_x, &next_y, &direction, id, soldiers, time.count());

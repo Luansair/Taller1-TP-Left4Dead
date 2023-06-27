@@ -5,6 +5,7 @@
 #include <random>
 #include <tuple>
 #define SPAWNRANGE 1000
+#define LIVES 2
 
 /* CONSTRUCTOR */
 
@@ -120,6 +121,7 @@ void Soldier::start_dying(uint8_t state) {
             break;
         case OFF:
             dying = false;
+            times_revived += 1;
             break;
     }
 }
@@ -186,9 +188,13 @@ void Soldier::simulate_change_grenade(void) {
 
 
 void Soldier::be_revived(void) {
-    start_dying(OFF);
-    actual_health = health;
-    idle(ON);
+    if (times_revived <= LIVES) {
+        start_dying(OFF);
+        actual_health = health * HALF;
+        idle(ON);
+        return;
+    }
+    alive = false;
 }
 
 void Soldier::increase_kill_counter(void) {
@@ -205,7 +211,7 @@ void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
 
     std::chrono::duration<double> time = real_time - last_step_time;
 
-    if (dying) simulateDie(real_time);
+    if (dying) simulateDie(real_time, std::ref(soldiers));
     if (changing) simulate_change_grenade();
     if (reviving) simulateRevive(real_time, std::ref(soldiers));
     if (being_hurt) simulateRecvdmg(real_time);
@@ -242,11 +248,19 @@ std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers) {
     }
 }
 
-void Soldier::simulateDie(std::chrono::_V2::system_clock::time_point real_time) {
+void Soldier::simulateDie(std::chrono::_V2::system_clock::time_point real_time, std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers) {
     std::chrono::duration<double> time_dying = real_time - death_time;
     // si tiempo para revivirlo terminó, se muere.
     idle(ON);
     if (time_dying.count() > revive_cooldown) alive = false;
+    bool everyone_is_dead =  true;
+    for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
+        if (i->second->getId() == soldier_id) continue;
+        if ((!i->second->isDead() && (!i->second->isDying()))) {
+            everyone_is_dead = false;
+        }
+    }
+    if (everyone_is_dead) alive = false;
 }
 
 void Soldier::simulateMove(

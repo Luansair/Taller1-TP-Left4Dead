@@ -35,6 +35,7 @@ public:
     uint16_t kill_counter = 0;
     double actual_health = health;
     bool counted = false;
+    uint8_t times_revived = 0;
 
     /* tiempos */
     std::chrono::_V2::system_clock::time_point last_step_time = std::chrono::system_clock::now();
@@ -115,7 +116,7 @@ public:
     virtual void simulateReload(std::chrono::_V2::system_clock::time_point real_time);
     virtual void simulateThrow(std::chrono::_V2::system_clock::time_point real_time, double dim_x, double dim_y,
     std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, ThrowableFactory& factory);
-    virtual void simulateDie(std::chrono::_V2::system_clock::time_point real_time);
+    virtual void simulateDie(std::chrono::_V2::system_clock::time_point real_time, std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers);
     virtual void simulateRevive(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers);
     virtual void simulateRecvdmg(std::chrono::_V2::system_clock::time_point real_time);

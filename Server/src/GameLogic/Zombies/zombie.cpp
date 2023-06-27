@@ -2,6 +2,7 @@
 #include "../../../include/GameLogic/Soldiers/soldier.h"
 #include "../../../include/GameLogic/Throwables/throwablesfactory.h"
 #include "../../../include/GameLogic/Throwables/throwable.h"
+#define SPAWNRANGE 1000
 
 /* CONSTRUCTOR */
 
@@ -122,8 +123,8 @@ void Zombie::simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
     std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y, ThrowableFactory& factory) {
-    if (is_stunned) simulateStunned(real_time);
     if (dying) { simulateDie(real_time); last_step_time = real_time; return; }
+    if (is_stunned) simulateStunned(real_time);
     if (being_hurt) simulateRecvDamage(real_time, soldiers);
     if (attacking) simulateAttack();
     if (!is_stunned) simulateMove(real_time, soldiers, zombies, throwables, dim_x, dim_y, factory);
@@ -178,7 +179,7 @@ void Zombie::detect_victim(
     double new_distance;
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
         Position other_pos = i->second->getPosition();
-        if (sight_zone.hits(other_pos) && !(i->second->dying)) {
+        if (sight_zone.hits(other_pos) && !(i->second->isDying()) && !(i->second->isDead())) {
             new_distance = std::sqrt(std::pow(std::abs(position.getXPos() - other_pos.getXPos()), 2) + std::pow(std::abs(position.getYPos() - other_pos.getYPos()), 2));
             if (distance > new_distance) {
                 distance = new_distance;
@@ -252,14 +253,21 @@ void Zombie::CalculateNextPos_by_witch(double *next_x, double *next_y,
     double target_y = witch->getPosition().getYPos();
     double x = position.getXPos();
     double y = position.getYPos();
-    double norma = std::sqrt(std::pow(std::abs(target_x - x), 2) + std::pow(std::abs(target_y - y), 2));
-    *next_x = ((target_x - x) / norma) * time * speed + x;
-    *next_y = ((target_y - y) / norma) * time * speed + y;
     if (target_x - x < 0) {
+        target_x += witch->getWidth();
         *direction = LEFT;
     } else {
         *direction = RIGHT;
+        target_y += witch->getWidth();
     }
+    if (target_y - y < 0) {
+        target_y += witch->getHeight();
+    } else {
+        target_y += witch->getHeight();
+    }
+    double norma = std::sqrt(std::pow(std::abs(target_x - x), 2) + std::pow(std::abs(target_y - y), 2));
+    *next_x = ((target_x - x) / norma) * time * speed + x;
+    *next_y = ((target_y - y) / norma) * time * speed + y;
 }
 
 void Zombie::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
@@ -291,6 +299,7 @@ void Zombie::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
         for (auto i = zombies.begin(); i != zombies.end(); i++) {
             Position other_pos = i->second->getPosition();
             if (i->second->getId() == zombie_id) continue;
+            if (i->second->isDying() || i->second->isDead()) continue;
             if (next_pos.collides(other_pos)) {
                 return;
             }
@@ -305,6 +314,14 @@ void Zombie::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
         double next_x, next_y;
         int8_t direction;
         CalculateNextPos_by_witch(&next_x, &next_y, &direction, id, zombies, time.count());
+
+        std::shared_ptr<Zombie> &witch = zombies.at(id);
+        RadialHitbox hit_zone(position.getXPos(), position.getYPos(), hit_scope);
+        if (hit_zone.hits(witch->getPosition())) {
+            move(OFF, direction);
+            idle(ON);
+            return;
+        }
         Position next_pos(next_x, next_y, width, height, dim_x, dim_y);
         move(ON, direction);
 
@@ -332,6 +349,10 @@ void Zombie::simulateAttack(void) {
 
 bool Zombie::isDead(void) {
     return (!alive);
+}
+
+bool Zombie::isDying(void) {
+    return (dying);
 }
 
 double Zombie::getWidth(void) {
@@ -406,6 +427,7 @@ void Zombie::setRandomPosition(
 
     random_device rd;
     mt19937 mt(rd());
+    //uniform_int_distribution<int32_t> distx(dim_x * 0.45, dim_x * 0.45 + SPAWNRANGE);
     uniform_int_distribution<int32_t> distx(0, dim_x);
     uniform_int_distribution<int32_t> disty(0, dim_y);
     int32_t x_pos;

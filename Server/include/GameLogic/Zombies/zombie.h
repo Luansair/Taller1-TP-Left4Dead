@@ -55,6 +55,7 @@ public:
     bool screaming = false; // solo la witch debería.
     bool is_stunned = false;
     bool stunned = false;
+    bool counted = false;
 
     virtual ~Zombie() {}
 
@@ -123,6 +124,7 @@ public:
     const Position& seePosition(void) const;
     bool isDead(void);
     uint8_t isDeadFeedback(void);
+    bool isDying(void);
 
     /* SETTERS */
 

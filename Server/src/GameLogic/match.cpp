@@ -122,13 +122,15 @@ void Match::updateScore(uint32_t id, std::shared_ptr<Soldier>& soldier) {
 }
 
 void Match::delete_dead_zombies(void) {
-    for (auto zombie = zombies.begin(); zombie != zombies.end(); ) {
+    for (auto zombie = zombies.begin(); zombie != zombies.end(); zombie++) {
         if (zombie->second->isDead()) {
-            zombie = zombies.erase(zombie);
-        } else {
-            ++zombie;
+            //zombies = zombiess.erase(zombies);
+            if (!zombie->second->counted) {
+                dead_zombies_counter += 1;
+                zombie->second->counted = true;
+            }
         }
-    }   
+    }
 }
 
 void Match::delete_inactive_throwables(void) {

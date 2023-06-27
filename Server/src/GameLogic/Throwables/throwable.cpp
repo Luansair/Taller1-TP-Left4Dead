@@ -34,7 +34,7 @@ void Throwable::simulateThrow(
             return; 
         }
     }
-    if (!active) {activation_time = real_time; activate(ON);}
+    if (!active && !used) {activation_time = real_time; activate(ON); used = true; }
     double x_coord;
     if (dir == RIGHT) {
         x_coord = position.getXPos() + time.count() * speed;

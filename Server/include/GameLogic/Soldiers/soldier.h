@@ -142,6 +142,7 @@ public:
     double getTimeLeft(void);
     uint8_t isDeadFeedback(void);
     uint32_t getBulletsFired(void);
+    bool isDying(void);
 
     /* SETTERS */
 

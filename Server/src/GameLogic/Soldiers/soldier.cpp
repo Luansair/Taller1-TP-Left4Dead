@@ -4,6 +4,7 @@
 #include "../../../include/GameLogic/Throwables/throwable.h"
 #include <random>
 #include <tuple>
+#define SPAWNRANGE 1000
 
 /* CONSTRUCTOR */
 
@@ -204,9 +205,9 @@ void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
 
     std::chrono::duration<double> time = real_time - last_step_time;
 
-    if (reviving) simulateRevive(real_time, std::ref(soldiers));
-    if (changing) simulate_change_grenade();
     if (dying) simulateDie(real_time);
+    if (changing) simulate_change_grenade();
+    if (reviving) simulateRevive(real_time, std::ref(soldiers));
     if (being_hurt) simulateRecvdmg(real_time);
     if (reloading) simulateReload(real_time);
     if (shooting) simulateShoot(real_time, time.count(), soldiers, zombies, dim_x);
@@ -232,7 +233,7 @@ std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers) {
     RadialHitbox revive_zone(position.getXPos(), position.getYPos(), revive_radius);
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
         Position other_pos = i->second->getPosition();
-        //if (i->second->getId() == soldier_id) continue;
+        if (i->second->getId() == soldier_id) continue;
         if (revive_zone.hits(other_pos)) {
             if (i->second->dying) {
                 i->second->be_revived();
@@ -260,6 +261,7 @@ void Soldier::simulateMove(
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
         Position other_pos = i->second->getPosition();
         if (i->second->getId() == soldier_id) continue;
+        if (i->second->isDying() || i->second->isDead()) continue;
         if (next_pos.collides(other_pos)) {
             return;
         }
@@ -267,6 +269,7 @@ void Soldier::simulateMove(
     // lo mismo con los zombies
     for (auto i = zombies.begin(); i != zombies.end(); i++) {
         Position other_pos = i->second->getPosition();
+        if (i->second->isDying() || i->second->isDead()) continue;
         if (next_pos.collides(other_pos)) {
             return;
         }
@@ -327,6 +330,10 @@ void Soldier::simulateThrow(std::chrono::_V2::system_clock::time_point real_time
 
 bool Soldier::isDead(void) {
     return (!alive);
+}
+
+bool Soldier::isDying(void) {
+    return dying;
 }
 
 double Soldier::getWidth(void) {

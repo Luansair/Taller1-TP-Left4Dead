@@ -22,7 +22,7 @@ void Grenade_t::simulateThrow(
             return; 
         }
     }
-    if (!active) {activation_time = real_time; activate(ON);}
+    if (!active && !used) {activation_time = real_time; activate(ON); used = true; }
     double x_coord;
 
     if (exploded) {last_step_time = real_time; return;}

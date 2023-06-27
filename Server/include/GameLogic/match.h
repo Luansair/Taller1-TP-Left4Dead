@@ -43,7 +43,7 @@ public:
     double y_dim;
     uint32_t code;
     uint8_t soldier_counter = 0;
-    uint8_t zombie_counter = 0;
+    uint16_t zombie_counter = 0;
     std::chrono::_V2::system_clock::time_point create_time = std::chrono::system_clock::now();
     uint32_t code_counter = 100; // nunca va a haber 100 soldados -> todo ok
     MatchConfigurator configurator;
@@ -51,6 +51,7 @@ public:
     bool over = false;
     bool finalizable = false;
     uint8_t dead_soldiers_counter = 0;
+    uint16_t dead_zombies_counter = 0;
 
     /* Constructor de Match, parámetros: dimensiones del mapa */
     explicit Match(double x_dimension, double y_dimension, uint32_t code);

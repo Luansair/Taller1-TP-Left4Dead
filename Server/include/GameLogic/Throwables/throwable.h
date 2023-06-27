@@ -18,6 +18,7 @@ public:
     Position position;
     uint32_t thrower_id;
     bool active = false;
+    bool used = false;
 
     std::chrono::_V2::system_clock::time_point last_step_time = std::chrono::system_clock::now();
     std::chrono::_V2::system_clock::time_point activation_time = std::chrono::system_clock::now();

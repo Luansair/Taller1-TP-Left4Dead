@@ -9,7 +9,7 @@ MatchConfigurator::MatchConfigurator(void) {
 void MatchConfigurator::configurate(uint8_t mode, uint8_t difficulty,
     std::map<uint32_t, std::shared_ptr<Zombie>> &zombies,
     std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
-    double dim_x, double dim_y, uint32_t *code_counter) {
+    double dim_x, double dim_y, uint32_t *code_counter, uint16_t *zombie_counter) {
 
     using YAML::LoadFile;
     using YAML::Node;
@@ -64,6 +64,7 @@ void MatchConfigurator::configurate(uint8_t mode, uint8_t difficulty,
         std::shared_ptr<Zombie> zombie = factory.create(i, ZOMBIE);
         zombie->setRandomPosition(std::ref(soldiers), std::ref(zombies), dim_x, dim_y);
         zombies.emplace(i, std::move(zombie));
+        *zombie_counter += 1;
     }
     begin = end;
     end += amount_spear;
@@ -71,6 +72,7 @@ void MatchConfigurator::configurate(uint8_t mode, uint8_t difficulty,
         std::shared_ptr<Zombie> zombie = factory.create(i, SPEAR);
         zombie->setRandomPosition(std::ref(soldiers), std::ref(zombies), dim_x, dim_y);
         zombies.emplace(i, std::move(zombie));
+        *zombie_counter += 1;
     }
     begin = end;
     end += amount_jumper;
@@ -78,6 +80,7 @@ void MatchConfigurator::configurate(uint8_t mode, uint8_t difficulty,
         std::shared_ptr<Zombie> zombie = factory.create(i, JUMPER);
         zombie->setRandomPosition(std::ref(soldiers), std::ref(zombies), dim_x, dim_y);
         zombies.emplace(i, std::move(zombie));
+        *zombie_counter += 1;
     }
     begin = end;
     end += amount_venom;
@@ -85,6 +88,7 @@ void MatchConfigurator::configurate(uint8_t mode, uint8_t difficulty,
         std::shared_ptr<Zombie> zombie = factory.create(i, VENOM);
         zombie->setRandomPosition(std::ref(soldiers), std::ref(zombies), dim_x, dim_y);
         zombies.emplace(i, std::move(zombie));
+        *zombie_counter += 1;
     }
     begin = end;
     end += amount_witch;
@@ -92,6 +96,7 @@ void MatchConfigurator::configurate(uint8_t mode, uint8_t difficulty,
         std::shared_ptr<Zombie> zombie = factory.create(i, WITCH);
         zombie->setRandomPosition(std::ref(soldiers), std::ref(zombies), dim_x, dim_y);
         zombies.emplace(i, std::move(zombie));
+        *zombie_counter += 1;
     }
     *code_counter = end;
 }
@@ -99,7 +104,7 @@ void MatchConfigurator::configurate(uint8_t mode, uint8_t difficulty,
 void MatchConfigurator::add_zombies(int amount,
     std::map<uint32_t, std::shared_ptr<Zombie>> &zombies,
     std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
-    double dim_x, double dim_y, uint32_t *code_counter) {
+    double dim_x, double dim_y, uint32_t *code_counter, uint16_t *zombie_counter) {
 
     ZombieFactory factory;
     begin = *code_counter;
@@ -138,4 +143,5 @@ void MatchConfigurator::add_zombies(int amount,
         zombies.emplace(i, std::move(zombie));
     }
     *code_counter = end;
+    *zombie_counter += amount * 5;
 }

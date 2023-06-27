@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Game -> VisualGame : updateInfo(game_state)
+loop for actor_id in game_state
+    VisualGame -> DrawerManager : updateInfo(id, state, window_info)
+    DrawerManager -> ActorDrawer : updateInfo(state, window_info)
+    ActorDrawer -> HpBarDrawer : updateInfo(%hp, dest)
+end
+@enduml

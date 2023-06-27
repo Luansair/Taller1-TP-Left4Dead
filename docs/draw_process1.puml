@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+GameVisual -> DrawerManager: draw(frame_ticks)
+loop for each actor_drawer
+    DrawerManager -> ActorDrawer: draw(frame_ticks)
+    alt if drawable
+        ActorDrawer -> AnimationManager: draw(type, action, etc)
+    end end
+end
+
+@enduml

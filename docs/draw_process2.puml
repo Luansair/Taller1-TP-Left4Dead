@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+AnimationManager -> AnimationActor : draw(action, sprite, etc)
+AnimationActor -> AnimationAction : draw(sprite, etc)
+AnimationAction -> SpriteManager : draw(sprite, etc)
+SpriteManager -> Renderer : copy(src, dest, etc)
+@enduml

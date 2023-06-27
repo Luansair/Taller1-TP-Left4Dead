@@ -142,7 +142,7 @@ Luego, para generar todos los archivos se ejecutan los comandos:
 
 ```shell
 cmake ..
-cmake --build .
+make -j4
 ```
 
 Este último paso debe repetirse si se desea que los cambios realizados en el 

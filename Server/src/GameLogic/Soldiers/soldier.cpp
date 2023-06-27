@@ -76,6 +76,7 @@ void Soldier::shoot(uint8_t state) {
 void Soldier::reload(uint8_t state) {
     switch(state) {
         case ON:
+            if (!reloading) reload_time = std::chrono::system_clock::now();
             reloading = true;
             moving = shooting = throwing = reviving = being_hurt =  throwed = false;
             break;
@@ -299,8 +300,6 @@ void Soldier::simulateShoot(std::chrono::_V2::system_clock::time_point real_time
     if (!(weapon->shoot(
         getPosition(), dir, dim_x, time, 
         std::ref(soldiers), std::ref(zombies)))) {
-            
-            reload_time = real_time;
             reload(ON);
     }
 }

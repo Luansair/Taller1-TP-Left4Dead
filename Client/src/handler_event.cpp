@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include "../include/handler_event.h"
 #include "../../Common/include/Information/Actions/shoot_start.h"
+#include "../../Common/include/Information/Actions/reload_start.h"
 #include "../../Common/include/Information/Actions/throw_start.h"
 #include "../../Common/include/Information/Actions/change_start.h"
 #include "../../Common/include/Information/Actions/moving_right_start.h"
@@ -11,6 +12,7 @@
 #include "../../Common/include/Information/Actions/moving_down_start.h"
 #include "../../Common/include/Information/Actions/moving_up_start.h"
 #include "../../Common/include/Information/Actions/shoot_stop.h"
+#include "../../Common/include/Information/Actions/reload_stop.h"
 #include "../../Common/include/Information/Actions/throw_stop.h"
 #include "../../Common/include/Information/Actions/moving_right_stop.h"
 #include "../../Common/include/Information/Actions/moving_left_stop.h"
@@ -32,18 +34,20 @@ EventHandler::EventHandler(
         keyup({nullptr}) {
 
     using std::make_shared;
-    keydown.at(SDL_GetScancodeFromKey(SDLK_z)) = make_shared<StartShootAction>();
-    keydown.at(SDL_GetScancodeFromKey(SDLK_c)) = make_shared<StartThrowAction>();
-    keydown.at(SDL_GetScancodeFromKey(SDLK_v)) = make_shared<StartChangeAction>();
-    keydown.at(SDL_GetScancodeFromKey(SDLK_x)) = make_shared<StartReviveAction>();
+    keydown.at(SDL_GetScancodeFromKey(SDLK_SPACE)) = make_shared<StartShootAction>();
+    keydown.at(SDL_GetScancodeFromKey(SDLK_x)) = make_shared<StartThrowAction>();
+    keydown.at(SDL_GetScancodeFromKey(SDLK_c)) = make_shared<StartChangeAction>();
+    keydown.at(SDL_GetScancodeFromKey(SDLK_v)) = make_shared<StartReviveAction>();
+    keydown.at(SDL_GetScancodeFromKey(SDLK_z)) = make_shared<StartReloadAction>();
     keydown.at(SDL_GetScancodeFromKey(SDLK_RIGHT)) = make_shared<StartMovingRightAction>();
     keydown.at(SDL_GetScancodeFromKey(SDLK_LEFT)) = make_shared<StartMovingLeftAction>();
     keydown.at(SDL_GetScancodeFromKey(SDLK_UP)) = make_shared<StartMovingUpAction>();
     keydown.at(SDL_GetScancodeFromKey(SDLK_DOWN)) = make_shared<StartMovingDownAction>();
 
-    keyup.at(SDL_GetScancodeFromKey(SDLK_z)) = make_shared<StopShootAction>();
+    keyup.at(SDL_GetScancodeFromKey(SDLK_SPACE)) = make_shared<StopShootAction>();
     // keyup.at(SDL_GetScancodeFromKey(SDLK_c)) = make_shared<StopThrowAction>();
-    keyup.at(SDL_GetScancodeFromKey(SDLK_x)) = make_shared<StopReviveAction>();
+    keyup.at(SDL_GetScancodeFromKey(SDLK_v)) = make_shared<StopReviveAction>();
+    keyup.at(SDL_GetScancodeFromKey(SDLK_z)) = make_shared<StopReloadAction>();
     keyup.at(SDL_GetScancodeFromKey(SDLK_RIGHT)) = make_shared<StopMovingRightAction>();
     keyup.at(SDL_GetScancodeFromKey(SDLK_LEFT)) = make_shared<StopMovingLeftAction>();
     keyup.at(SDL_GetScancodeFromKey(SDLK_UP)) = make_shared<StopMovingUpAction>();

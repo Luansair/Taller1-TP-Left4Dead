@@ -62,7 +62,7 @@ void Witch::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
         if (screaming) return;
         double next_x, next_y;
         int8_t direction;
-        CalculateNextPos_by_victim(&next_x, &next_y, &direction, id, soldiers, time.count());
+        if (!CalculateNextPos_by_victim(&next_x, &next_y, &direction, id, soldiers, time.count())) return;
 
         std::shared_ptr<Soldier> &victim = soldiers.at(id);
         RadialHitbox hit_zone(position.getXPos(), position.getYPos(), hit_scope);

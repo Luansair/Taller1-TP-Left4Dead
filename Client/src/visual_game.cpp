@@ -29,7 +29,7 @@ void GameVisual::updateInfo(const GameStateFeedback &feed) {
         const ElementStateDTO& actor_state = pair_id_state.second;
         drawer_manager.updateInfo(actor_id, actor_state, window_x_position, window.GetWidth(), window.GetHeight());
 
-        if (actor_id < 100) {
+        if (actor_id < 100 && actor_state.is_dead != 1) {
             player_count++;
             players_pos_x_sum += actor_state.position_x;
 

@@ -101,10 +101,10 @@ public:
     std::shared_ptr<Soldier>>& soldiers, double dim_x, double dim_y);
     virtual void detect_screaming_witch(bool *detected, uint32_t *witch_id, std::map<uint32_t, 
     std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
-    virtual void CalculateNextPos_by_victim(double *next_x, double *next_y, 
+    virtual bool CalculateNextPos_by_victim(double *next_x, double *next_y, 
     int8_t *direction, uint32_t victim_id, std::map<uint32_t, 
     std::shared_ptr<Soldier>>& soldiers, double time);
-    virtual void CalculateNextPos_by_witch(double *next_x, double *next_y, 
+    virtual bool CalculateNextPos_by_witch(double *next_x, double *next_y, 
     int8_t *direction, uint32_t witch_id, std::map<uint32_t, 
     std::shared_ptr<Zombie>>& zombies, double time);
     virtual void simulateStunned(std::chrono::_V2::system_clock::time_point real_time);

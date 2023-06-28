@@ -43,8 +43,7 @@ TEST(match_test, Test02InsertSomeSoldiers) {
     ASSERT_NO_THROW(soldiers.at(1));
     ASSERT_NO_THROW(soldiers.at(2));
     ASSERT_NO_THROW(soldiers.at(3));
-    std::vector<std::pair<uint16_t, ElementStateDTO>> dtos = match
-            .getElementStates();
+    std::vector<std::pair<uint16_t, ElementStateDTO>> dtos = match.getElementStates();
     int x = soldiers.at(1)->getPosition().getXPos();
     int y = soldiers.at(1)->getPosition().getYPos();
     ElementStateDTO test1 {SOLDIER_IDF, SOLDIER_1_IDLE, RIGHT, x, y};

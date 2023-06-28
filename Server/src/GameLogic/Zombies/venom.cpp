@@ -85,7 +85,7 @@ void Venom::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
     if (detected) {
         double next_x, next_y;
         int8_t direction;
-        CalculateNextPos_by_victim(&next_x, &next_y, &direction, id, soldiers, time.count());
+        if (!CalculateNextPos_by_victim(&next_x, &next_y, &direction, id, soldiers, time.count())) return;
 
         std::shared_ptr<Soldier> &victim = soldiers.at(id);
         RadialHitbox hit_zone(position.getXPos(), position.getYPos(), hit_scope);
@@ -108,7 +108,7 @@ void Venom::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
     if (detected) {
         double next_x, next_y;
         int8_t direction;
-        CalculateNextPos_by_witch(&next_x, &next_y, &direction, id, zombies, time.count());
+        if(!CalculateNextPos_by_witch(&next_x, &next_y, &direction, id, zombies, time.count())) return;
 
         std::shared_ptr<Zombie> &witch = zombies.at(id);
         RadialHitbox hit_zone(position.getXPos(), position.getYPos(), hit_scope);

@@ -16,8 +16,10 @@ void Client::start() {
     sender.start();
     receiver.start();
 
-    lobby.launch();
-    client_game.launch(lobby);
+    bool joined = false;
+    lobby.launch(&joined);
+    if (joined)
+        client_game.launch(lobby);
 }
 
 Client::~Client() {

@@ -16,10 +16,9 @@ class LobbyWindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit LobbyWindow(
-            Queue<std::shared_ptr<Information>>& actions_to_send,
-            Queue<std::shared_ptr<Information>>& feedback_received,
-            QWidget *parent = nullptr);
+    explicit LobbyWindow(Queue<std::shared_ptr<Information>> &actions_to_send,
+                         Queue<std::shared_ptr<Information>> &feedback_received, bool *joined,
+                         QWidget *parent = nullptr);
     ~LobbyWindow();
 
 private slots:
@@ -56,6 +55,7 @@ private:
     std::uint8_t game_type;
     std::uint8_t game_difficulty;
     std::uint8_t soldier_type;
+    bool* joined;
     QPalette red_palette;
     QPalette green_palette;
     QPalette white_palette;

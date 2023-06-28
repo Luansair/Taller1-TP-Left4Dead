@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Client {
+
+}
+
+class Queue {
+    push()
+    pop()
+}
+
+class ClientGame {
+    launch()
+}
+
+class ClientLobby {
+    launch()
+    showFinalStats(info)
+}
+
+Client "1" -- "2" Queue : > owns
+Client - ClientGame : > owns
+ClientLobby - Client : < owns
+ClientLobby ..> Queue : uses
+ClientGame ..> Queue : uses
+
+@enduml

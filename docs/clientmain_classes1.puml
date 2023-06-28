@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Client {
+    start()
+}
+
+class Sender {
+    keep_sending
+    is_running
+    run()
+    stop()
+    isDead()
+}
+
+class Receiver {
+    keep_receiving
+    is_running
+    run()
+    stop()
+    isDead()
+}
+
+class Thread {
+    start()
+    join()
+    run()
+}
+
+class Queue {
+    push()
+    pop()
+}
+
+Thread <|- Sender
+Receiver -|> Thread
+Client -- Sender : > starts
+Client -- Receiver : > starts
+Client "1" -- "2" Queue : > owns
+Queue <.. Sender : uses
+Queue <.. Receiver : uses
+
+@enduml

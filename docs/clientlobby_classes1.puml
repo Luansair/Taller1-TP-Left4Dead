@@ -1,0 +1,52 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class ClientLobby {
+    launch()
+    showFinalStats(info)
+}
+
+class QWidget {
+
+}
+
+class Queue {
+    push()
+    pop()
+}
+
+class UI {
+
+}
+
+class QElements {
+
+}
+
+class LobbyWindow {
+    game_type
+    game_diff
+    soldier_type
+    ui_interaction_methods()
+
+}
+
+class GameResultWindow {
+    score_feed
+    player_index
+    ui_interaction_methods()
+}
+
+ClientLobby .> LobbyWindow
+GameResultWindow <. ClientLobby
+
+LobbyWindow --|> QWidget
+GameResultWindow -|> QWidget
+
+Queue "2" <.. "1" LobbyWindow
+
+UI <-- GameResultWindow
+UI <-- LobbyWindow
+
+QElements "*" o-- "1" UI
+@enduml

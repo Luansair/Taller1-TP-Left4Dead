@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class DrawerManager {
+    draw(frame_ticks)
+    updateInfo(id, state, etc)
+}
+
+class AnimationManager {
+    draw(info..)
+}
+
+class ActorDrawer {
+    type
+    animation
+    ...
+    drawable
+    sprite_index
+
+    draw(frame_ticks)
+    updateInfo(state)
+}
+
+class HpBarDrawer {
+    hpbar
+    emptybar
+    color
+    ...
+    updateInfo(%hp, actor_dest)
+    draw()
+}
+
+skinparam nodesep 50
+AnimationManager -- DrawerManager : < owns
+DrawerManager "1" - "8" ActorDrawer : has >
+ActorDrawer ..> AnimationManager : > uses
+ActorDrawer - HpBarDrawer : > has
+@enduml

@@ -25,10 +25,10 @@ class SpriteManager {
 }
 
 
-
-AnimationManager "1" --> "8" AnimationActor
-AnimationActor "1" --> "11" AnimationAction
-AnimationAction --> Texture
-SpriteManager *-- AnimationAction
+skinparam nodesep 50
+AnimationManager "1" - "8" AnimationActor
+AnimationActor "1" -- "11" AnimationAction
+AnimationAction -> Texture
+SpriteManager --* AnimationAction
 
 @enduml

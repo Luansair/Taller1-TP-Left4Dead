@@ -13,7 +13,7 @@ class Information {
 
 protected:
     Information() = default;
-
+    // que serialize sea privado y como publico se tenga serialize 16 y 32
     template <typename T>
     void serializeNumber(std::vector<int8_t>& result, T number) const {
         using std::uint32_t;

@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class AnimationManager {
+    draw(actor, anim, sprite, etc)
+}
+
+class AnimationActor {
+    draw(anim, sprite, etc)
+}
+
+class AnimationAction {
+    draw(sprite, etc)
+}
+
+class Texture {
+}
+
+class SpriteManager {
+    ms_to_change
+    sprite_width
+    sprite_height
+
+    draw(sprite_i, dest, etc)
+}
+
+
+
+AnimationManager "1" --> "8" AnimationActor
+AnimationActor "1" --> "11" AnimationAction
+AnimationAction --> Texture
+SpriteManager *-- AnimationAction
+
+@enduml

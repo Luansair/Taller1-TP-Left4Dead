@@ -17,7 +17,7 @@ void Survival::simulateStep(std::chrono::_V2::system_clock::time_point real_time
     // delete_inactive_throwables();
 
     for (auto & soldier : soldiers) {
-        soldier.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), std::ref(throwables), x_dim, y_dim, t_factory);
+        soldier.second->simulate(real_time, std::ref(soldiers), std::ref(zombies), std::ref(throwables), x_dim, y_dim, t_factory, calculate_mass_center());
     }
     delete_dead_soldiers();
 
@@ -34,9 +34,9 @@ void Survival::loseMatch(void) {
 }
 
 void Survival::configurate(uint8_t difficulty) {
-    configurator.configurate(SURVIVAL, difficulty, zombies, soldiers, x_dim, y_dim, &code_counter, &zombie_counter);
+    configurator.configurate(SURVIVAL, difficulty, zombies, soldiers, x_dim, y_dim, &code_counter, &zombie_counter, calculate_mass_center());
 }
 
 void Survival::add_zombies(void) {
-    configurator.add_zombies(1, zombies, soldiers, x_dim, y_dim, &code_counter, &zombie_counter);
+    configurator.add_zombies(1, zombies, soldiers, x_dim, y_dim, &code_counter, &zombie_counter, calculate_mass_center());
 }

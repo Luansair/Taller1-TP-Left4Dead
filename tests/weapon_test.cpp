@@ -119,7 +119,7 @@ TEST(weapon_test, Test01ShootP90) {
     zombies.emplace(2, std::move(zombie));
     soldier->shoot(ON);
     // double time = 1000;
-    soldier->simulate(std::chrono::system_clock::now(), std::ref(soldiers), std::ref(zombies), std::ref(throwables), 100,100, std::ref(tfactory));
+    soldier->simulate(std::chrono::system_clock::now(), std::ref(soldiers), std::ref(zombies), std::ref(throwables), 100,100, std::ref(tfactory), 50);
     std::shared_ptr<Zombie> &victim = zombies.at(2);
     victim->simulate(std::chrono::system_clock::now(), soldiers, zombies, throwables, 100, 100, std::ref(tfactory));
     ASSERT_NEAR(victim->getActualHealth(), zombie_health - p90w_damage * (1.0 - ((100.0 - 85.0) / 100.0)), 0.5);
@@ -147,7 +147,7 @@ TEST(weapon_test, Test02ShootP90ToTwoZombiesInTheSameRow) {
     zombies.emplace(3, std::move(zombie2));
     soldier->shoot(ON);
     // double time = 20;
-    soldier->simulate(std::chrono::system_clock::now(), std::ref(soldiers), std::ref(zombies), std::ref(throwables), 100, 100, std::ref(tfactory));
+    soldier->simulate(std::chrono::system_clock::now(), std::ref(soldiers), std::ref(zombies), std::ref(throwables), 100, 100, std::ref(tfactory), 50);
     std::shared_ptr<Zombie> &victim2 = zombies.at(2);
     std::shared_ptr<Zombie> &victim3 = zombies.at(3);
     victim2->simulate(std::chrono::system_clock::now(), soldiers, zombies, throwables, 100, 100, std::ref(tfactory));
@@ -174,7 +174,7 @@ TEST(weapon_test, Test03ShootP90AndMiss) {
     zombies.emplace(2, std::move(zombie));
     soldier->shoot(ON);
     // double time = 10;
-    soldier->simulate(std::chrono::system_clock::now(), std::ref(soldiers), std::ref(zombies), std::ref(throwables), 100, 100, std::ref(tfactory));
+    soldier->simulate(std::chrono::system_clock::now(), std::ref(soldiers), std::ref(zombies), std::ref(throwables), 100, 100, std::ref(tfactory), 50);
     std::shared_ptr<Zombie> &victim = zombies.at(2);
     victim->simulate(std::chrono::system_clock::now(), soldiers, zombies, throwables, 100, 100, std::ref(tfactory));
     ASSERT_NEAR(victim->getActualHealth(), zombie_health, 0.5);
@@ -198,7 +198,7 @@ TEST(weapon_test, Test04ShootScout) {
     zombies.emplace(2, std::move(zombie));
     soldier->shoot(ON);
     // double time = 10;
-    soldier->simulate(std::chrono::system_clock::now(), std::ref(soldiers), std::ref(zombies), std::ref(throwables), 100, 100, std::ref(tfactory));
+    soldier->simulate(std::chrono::system_clock::now(), std::ref(soldiers), std::ref(zombies), std::ref(throwables), 100, 100, std::ref(tfactory), 50);
     std::shared_ptr<Zombie> &victim = zombies.at(2);
     victim->simulate(std::chrono::system_clock::now(), soldiers, zombies, throwables, 100, 100, std::ref(tfactory));
     ASSERT_NEAR(victim->getActualHealth(), zombie_health - scoutw_damage, 0.5);
@@ -226,7 +226,7 @@ TEST(weapon_test, Test05ShootScoutToTwoSoldiersInTheSameRowRight) {
     zombies.emplace(3, std::move(zombie2));
     soldier->shoot(ON);
     // double time = 30;
-    soldier->simulate(std::chrono::system_clock::now(), std::ref(soldiers), std::ref(zombies), std::ref(throwables), 100, 100, std::ref(tfactory));
+    soldier->simulate(std::chrono::system_clock::now(), std::ref(soldiers), std::ref(zombies), std::ref(throwables), 100, 100, std::ref(tfactory), 50);
     std::shared_ptr<Zombie> &victim2 = zombies.at(2);
     std::shared_ptr<Zombie> &victim3 = zombies.at(3);
     victim2->simulate(std::chrono::system_clock::now(), soldiers, zombies, throwables, 100, 100, std::ref(tfactory));
@@ -257,7 +257,7 @@ TEST(weapon_test, Test06ShootScoutToTwoSoldiersInTheSameRowLeft) {
     zombies.emplace(3, std::move(zombie2));
     double time = 30;
     soldier->move(ON, X, LEFT, NORMAL);
-    soldier->simulateMove(30 / scout_speed, std::ref(soldiers), std::ref(zombies), 100, 100);
+    soldier->simulateMove(30 / scout_speed, std::ref(soldiers), std::ref(zombies), 100, 100, 50);
     soldier->shoot(ON);
     soldier->simulateShoot(std::chrono::system_clock::now(), time ,std::ref(soldiers), std::ref(zombies), 100);
     std::shared_ptr<Zombie> &victim2 = zombies.at(2);

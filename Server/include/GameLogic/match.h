@@ -112,6 +112,8 @@ public:
 
     bool is_over(void);
 
+    double calculate_mass_center();
+
     Match(const Match&) = delete;
     Match& operator=(const Match&) = delete;
 };

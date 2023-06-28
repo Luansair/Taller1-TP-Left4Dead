@@ -429,7 +429,7 @@ uint8_t Zombie::isDeadFeedback(void) {
 
 void Zombie::setRandomPosition(
         const std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
-        const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, double dim_x, double dim_y) {
+        const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, double dim_x, double dim_y, double mass_center) {
     using std::random_device;
     using std::mt19937;
     using std::uniform_int_distribution;
@@ -438,7 +438,7 @@ void Zombie::setRandomPosition(
     random_device rd;
     mt19937 mt(rd());
     //uniform_int_distribution<int32_t> distx(dim_x * 0.45, dim_x * 0.45 + SPAWNRANGE);
-    uniform_int_distribution<int32_t> distx(dim_x * 0.5 - 2000, dim_x * 0.5 + 2000);
+    uniform_int_distribution<int32_t> distx(mass_center - 2000, mass_center + 2000);
     uniform_int_distribution<int32_t> disty(0, dim_y);
     int32_t x_pos;
     int32_t y_pos;

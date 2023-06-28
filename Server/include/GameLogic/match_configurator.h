@@ -27,11 +27,11 @@ public:
     void configurate(uint8_t mode, uint8_t difficulty,
     std::map<uint32_t, std::shared_ptr<Zombie>> &zombies,
     std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
-    double dim_x, double dim_y, uint32_t *code_counter, uint16_t *zombie_counter);
+    double dim_x, double dim_y, uint32_t *code_counter, uint16_t *zombie_counter, double mass_center);
 
     void add_zombies(int amount, std::map<uint32_t, std::shared_ptr<Zombie>> &zombies,
     std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
-    double dim_x, double dim_y, uint32_t *code_counter, uint16_t *zombie_counter);
+    double dim_x, double dim_y, uint32_t *code_counter, uint16_t *zombie_counter, double mass_center);
 
 };
 

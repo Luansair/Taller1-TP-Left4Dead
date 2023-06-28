@@ -4,8 +4,8 @@
 #include "../../../include/GameLogic/Throwables/throwable.h"
 #include <random>
 #include <tuple>
-#define SPAWNRANGE 1000
 #define LIVES 2
+#define TEAM_RANGE 500
 
 /* CONSTRUCTOR */
 
@@ -208,7 +208,7 @@ void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
     std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y,
-    ThrowableFactory& factory) {
+    ThrowableFactory& factory, double mass_center) {
 
     std::chrono::duration<double> time = real_time - last_step_time;
 
@@ -218,7 +218,7 @@ void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
     if (being_hurt) simulateRecvdmg(real_time);
     if (reloading) simulateReload(real_time);
     if (shooting) simulateShoot(real_time, time.count(), soldiers, zombies, dim_x);
-    if (moving) simulateMove(time.count(), soldiers, zombies, dim_x, dim_y);
+    if (moving) simulateMove(time.count(), soldiers, zombies, dim_x, dim_y, mass_center);
     if (throwing) simulateThrow(real_time, dim_x, dim_y, throwables, std::ref(factory));
     last_step_time = real_time;
 }
@@ -267,9 +267,16 @@ void Soldier::simulateDie(std::chrono::_V2::system_clock::time_point real_time, 
 void Soldier::simulateMove(
     double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y, double mass_center) {
     // calculo proxima coordenada.
     std::tuple<double, double> next_coords = position.calculateNextPos(axis, dir, speed, time);
+
+    // me fijo si me separo mucho del grupo
+    bool out_of_team_range = false;
+    if (std::abs(std::get<0>(next_coords) - mass_center) >= TEAM_RANGE) out_of_team_range = true;
+    if (std::abs(std::get<0>(next_coords) - mass_center) <= std::abs(position.getXPos() - mass_center)) out_of_team_range = false;
+    if (out_of_team_range) return;
+
     Position next_pos(std::get<0>(next_coords), std::get<1>(next_coords), position.getWidth(), position.getHeight(), dim_x, dim_y);
 
     // verifico las colisiones.
@@ -425,7 +432,7 @@ void Soldier::setPosition(Position&& new_pos) {
 
 void Soldier::setRandomPosition(
         const std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
-        const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, double dim_x, double dim_y) {
+        const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, double mass_center, double dim_x, double dim_y) {
     using std::random_device;
     using std::mt19937;
     using std::uniform_int_distribution;
@@ -433,7 +440,7 @@ void Soldier::setRandomPosition(
 
     random_device rd;
     mt19937 mt(rd());
-    uniform_int_distribution<int32_t> distx(dim_x * 0.5 - 100, dim_x * 0.5 + 100);
+    uniform_int_distribution<int32_t> distx(mass_center - 100, mass_center + 100);
     uniform_int_distribution<int32_t> disty(0, dim_y);
     int32_t x_pos;
     int32_t y_pos;

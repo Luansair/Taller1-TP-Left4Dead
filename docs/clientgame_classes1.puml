@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Game {
+config
+quit
+launch()
+}
+
+class Queue {
+pop
+push
+}
+
+class EventHandler {
+quit
+event
+}
+
+interface Information {
+state
+serialize()
+}
+
+class GameVisual {
+draw(frame_ticks)
+updateInfo(game_state)
+clear()
+present()
+}
+
+Game -> GameVisual
+EventHandler <- Game
+Game ..> Queue : use
+EventHandler ..> Queue : use
+Information "*" <-- "1" EventHandler
+Information <.. GameVisual : use
+@enduml

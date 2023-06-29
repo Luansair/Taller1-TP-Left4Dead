@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class GameVisual {
+draw(frame_ticks)
+updateInfo(game_state)
+clear()
+present()
+}
+
+class Renderer {
+    copy()
+    fillRect()
+}
+
+class SDL {
+
+}
+
+class Window {
+
+}
+
+class DrawerManager {
+    actor_drawers
+    updateInfo(id, actor_state)
+    draw()
+}
+
+class BackgroundDrawer {
+    layers
+    type
+    drawBehindLayers()
+    updateInfo(type, width, height)
+}
+
+GameVisual --> SDL
+Renderer <-- GameVisual
+GameVisual -> DrawerManager
+BackgroundDrawer <- GameVisual
+GameVisual --> Window
+
+@enduml

@@ -96,6 +96,8 @@ public:
     /* Ejecuta idle, parámetros: id del soldado idle */
     void idle(uint32_t soldier_id, uint8_t state);
 
+    void killActor(uint32_t soldier_id, uint8_t state);
+
     std::map<uint32_t, std::shared_ptr<Soldier>>& getSoldiers(void);
 
     virtual void simulateStep(std::chrono::_V2::system_clock::time_point real_time) = 0;

@@ -88,6 +88,13 @@ void Match::idle(uint32_t soldier_id, uint8_t state) {
     }
 }
 
+void Match::killActor(uint32_t soldier_id, uint8_t state) {
+        if (soldiers.count(soldier_id)>0) {
+        std::shared_ptr<Soldier> &soldier = soldiers.at(soldier_id);
+        soldier->alive = false;
+    }
+}
+
 void Match::delete_dead_soldiers(void) {
     for (auto soldier = soldiers.begin(); soldier != soldiers.end(); soldier++) {
         if (soldier->second->isDead()) {

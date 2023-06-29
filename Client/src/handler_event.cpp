@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include "../include/handler_event.h"
 #include "../../Common/include/Information/Actions/shoot_start.h"
+#include "../../Common/include/Information/Actions/exit_start.h"
 #include "../../Common/include/Information/Actions/reload_start.h"
 #include "../../Common/include/Information/Actions/throw_start.h"
 #include "../../Common/include/Information/Actions/change_start.h"
@@ -14,6 +15,7 @@
 #include "../../Common/include/Information/Actions/shoot_stop.h"
 #include "../../Common/include/Information/Actions/reload_stop.h"
 #include "../../Common/include/Information/Actions/throw_stop.h"
+#include "../../Common/include/Information/Actions/exit_stop.h"
 #include "../../Common/include/Information/Actions/moving_right_stop.h"
 #include "../../Common/include/Information/Actions/moving_left_stop.h"
 #include "../../Common/include/Information/Actions/moving_down_stop.h"
@@ -69,10 +71,14 @@ void EventHandler::processEvent() const {
     using std::shared_ptr;
 
     if (event.type == SDL_QUIT) {
+        shared_ptr<Information> exit(new StartExitAction());
+        actions_to_send.push(exit);
         *quit = true;
     } else if (event.type == SDL_KEYDOWN) {
 
         if (event.key.keysym.sym == SDLK_ESCAPE) {
+            shared_ptr<Information> exit(new StartExitAction());
+            actions_to_send.push(exit);
             *quit = true;
             return;
         } else if (event.key.keysym.sym == SDLK_m) {

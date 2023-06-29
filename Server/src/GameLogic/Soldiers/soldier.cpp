@@ -283,7 +283,7 @@ void Soldier::simulateMove(
     for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
         Position other_pos = i->second->getPosition();
         if (i->second->getId() == soldier_id) continue;
-        if (i->second->isDying() || i->second->isDead()) continue;
+        if (i->second->isDead()) continue;
         if (next_pos.collides(other_pos)) {
             return;
         }

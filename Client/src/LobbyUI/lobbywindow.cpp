@@ -99,12 +99,14 @@ void LobbyWindow::on_lineEdit_gamecode_textChanged(const QString &arg1)
 void LobbyWindow::on_pushButton_idfsoldier_clicked() {
     soldier_type = REQUEST_PICK_IDF_SOLDIER;
     actions_to_send.push(std::make_shared<PickIdfSoldierRequest>());
+    *joined = true;
     this->close();
 }
 
 void LobbyWindow::on_pushButton_scoutsoldier_clicked() {
     soldier_type = REQUEST_PICK_SCOUT_SOLDIER;
     actions_to_send.push(std::make_shared<PickScoutSoldierRequest>());
+    *joined = true;
     this->close();
 }
 

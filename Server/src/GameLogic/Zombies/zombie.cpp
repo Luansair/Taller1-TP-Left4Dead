@@ -123,6 +123,7 @@ void Zombie::simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
     std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y, ThrowableFactory& factory) {
+    std::cout << "vida: " << actual_health << "\n";
     if (dying) { simulateDie(real_time); last_step_time = real_time; return; }
     if (is_stunned) simulateStunned(real_time);
     if (being_hurt) simulateRecvDamage(real_time, soldiers);
@@ -438,7 +439,7 @@ void Zombie::setRandomPosition(
     random_device rd;
     mt19937 mt(rd());
     //uniform_int_distribution<int32_t> distx(dim_x * 0.45, dim_x * 0.45 + SPAWNRANGE);
-    uniform_int_distribution<int32_t> distx(mass_center - 2000, mass_center + 2000);
+    uniform_int_distribution<int32_t> distx(mass_center - 100, mass_center + 100);
     uniform_int_distribution<int32_t> disty(0, dim_y);
     int32_t x_pos;
     int32_t y_pos;

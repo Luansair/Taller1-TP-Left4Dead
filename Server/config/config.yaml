@@ -1,9 +1,9 @@
 clear_easy:
   infected: 1
-  spear: 1
-  witch: 1
-  jumper: 1
-  venom: 1
+  spear: 0
+  witch: 0
+  jumper: 0
+  venom: 0
 
 clear_normal:
   infected: 2

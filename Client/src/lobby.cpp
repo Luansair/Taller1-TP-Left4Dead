@@ -23,10 +23,10 @@ ClientLobby::ClientLobby(Queue<std::shared_ptr<Information>> &actions_to_send,
             joined(false) {
 }
 
-void ClientLobby::launch() {
+void ClientLobby::launch(bool *joined) {
     QApplication visualization_app(argc, argv);
 
-    LobbyWindow visual_lobby(actions_to_send, feedback_received);
+    LobbyWindow visual_lobby(actions_to_send, feedback_received, nullptr);
 
     visual_lobby.show();
 

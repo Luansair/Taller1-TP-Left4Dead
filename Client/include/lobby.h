@@ -23,7 +23,7 @@ class ClientLobby {
 public:
     ClientLobby(Queue<std::shared_ptr<Information>> &actions_to_send,
                 Queue<std::shared_ptr<Information>> &feedback_received, int argc, char **argv);
-    void launch();
+    void launch(bool *joined);
     void showFinalStats(const GameScoreFeedback &info);
 
     ClientLobby(const ClientLobby&) = delete;

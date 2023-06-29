@@ -21,12 +21,12 @@ enum Page : std::uint8_t {
     PAGE_PICKGAMEDIFF
 };
 
-LobbyWindow::LobbyWindow(Queue<std::shared_ptr<Information>>& actions_to_send,
-                         Queue<std::shared_ptr<Information>>& feedback_received,
-                         QWidget *parent) :
+LobbyWindow::LobbyWindow(Queue<std::shared_ptr<Information>> &actions_to_send,
+                         Queue<std::shared_ptr<Information>> &feedback_received, bool *joined, QWidget *parent) :
                          QWidget(parent),
                          actions_to_send(actions_to_send),
                          feedback_received(feedback_received),
+                         joined(joined),
                          red_palette(),
                          green_palette(),
                          white_palette(),
@@ -84,6 +84,7 @@ void LobbyWindow::on_pushButton_p90soldier_clicked()
 {
     soldier_type = REQUEST_PICK_P90_SOLDIER;
     actions_to_send.push(std::make_shared<PickP90SoldierRequest>());
+    *joined = true;
     this->close();
 }
 

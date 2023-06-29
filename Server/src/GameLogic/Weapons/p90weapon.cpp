@@ -57,8 +57,6 @@ bool P90Weapon::shoot(
         }
     }
     if (collision) {
-        std::cout << "distancia " << distance << "\n";
-        std::cout << "max " << max_distance << "\n";
         double actual_damage = damage * (1.0 - ((max_distance - distance) / max_distance));
         (zombies.at(victim_id))->recvDamage(ON, actual_damage, soldier_id);
     }

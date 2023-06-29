@@ -8,7 +8,7 @@ poison:
   speed: 200
   scope: 6
   duration: 1.7
-  damage: 0.2
+  damage: 0.5
 
 smoke:
   speed: 350

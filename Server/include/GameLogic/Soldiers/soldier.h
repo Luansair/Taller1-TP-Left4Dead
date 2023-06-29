@@ -35,6 +35,7 @@ public:
     uint16_t kill_counter = 0;
     double actual_health = health;
     bool counted = false;
+    uint8_t times_revived = 0;
 
     /* tiempos */
     std::chrono::_V2::system_clock::time_point last_step_time = std::chrono::system_clock::now();
@@ -104,10 +105,10 @@ public:
     virtual void simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
-    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y, ThrowableFactory& factory);
+    std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y, ThrowableFactory& factory, double mass_center);
     virtual void simulateMove(double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y);
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y, double mass_center);
     virtual void simulateShoot(std::chrono::_V2::system_clock::time_point real_time, double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies,
@@ -115,7 +116,7 @@ public:
     virtual void simulateReload(std::chrono::_V2::system_clock::time_point real_time);
     virtual void simulateThrow(std::chrono::_V2::system_clock::time_point real_time, double dim_x, double dim_y,
     std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, ThrowableFactory& factory);
-    virtual void simulateDie(std::chrono::_V2::system_clock::time_point real_time);
+    virtual void simulateDie(std::chrono::_V2::system_clock::time_point real_time, std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers);
     virtual void simulateRevive(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers);
     virtual void simulateRecvdmg(std::chrono::_V2::system_clock::time_point real_time);
@@ -149,7 +150,7 @@ public:
     void setPosition(Position&& new_pos);
     void setRandomPosition(
             const std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
-            const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, double dim_x, double dim_y);
+            const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, double mass_center, double dim_x, double dim_y);
 };
 
 #endif  // SOLDIER_H_

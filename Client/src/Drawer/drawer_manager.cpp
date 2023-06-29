@@ -43,7 +43,7 @@ DrawerManager::updateInfo(std::uint16_t actor_id, const ElementStateDTO &actor_s
         found_actor.updateInfo(actor_state, window_x_pos, window_width, window_height);
 
     }
-    if (actor_state.is_dead && actor_state.time_left <= 0) {
+    if (actor_state.is_dead == 1) {
         actor_drawers.erase(pair_id_actor_ptr);
     }
 }

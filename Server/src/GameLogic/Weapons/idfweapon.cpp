@@ -33,7 +33,8 @@ bool IdfWeapon::shoot(
         hitbox.setValues(x_coord, from.getXPos(), from.getYPos() - scope * HALF, from.getYPos() + scope * HALF);
     }
 
-    double distance = dim_x; // distancia maxima
+    double max_distance = bullet_speed * time;
+    double distance = max_distance; // distancia maxima
     double new_distance;
     uint32_t victim_id;
     bool collision = false;
@@ -43,9 +44,9 @@ bool IdfWeapon::shoot(
         Position victim_pos = i->second->getPosition();
         if (hitbox.shoot_hits(victim_pos) && !(i->second->dying)) {
             if (dir == RIGHT) {
-                new_distance = victim_pos.getXPos() - hitbox.getXMin();
+                new_distance = std::abs(from.getXPos() - victim_pos.getXPos());
             } else if (dir == LEFT) {
-                new_distance = hitbox.getXMin() - victim_pos.getXPos();
+                new_distance = std::abs(from.getXPos() - victim_pos.getXPos());
             }
             if (distance > new_distance) {
                 distance = new_distance;
@@ -57,7 +58,7 @@ bool IdfWeapon::shoot(
     }
 
     if (collision) {
-        double actual_damage = damage * ((dim_x - distance) / dim_x);
+        double actual_damage = damage * ((max_distance - distance) / (max_distance));
         (zombies.at(victim_id))->recvDamage(ON, actual_damage, soldier_id);
     }
     // resto balas/rafagas

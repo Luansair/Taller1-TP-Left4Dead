@@ -1,5 +1,5 @@
 p90soldier:
-  health: 100
+  health: 150
   width: 2
   height: 6
   speed: 200
@@ -14,7 +14,7 @@ scoutsoldier:
   health: 100
   width: 2
   height: 6
-  speed: 200
+  speed: 190
   revive_radius: 100
   t_type: 1
   revive_cooldown: 30
@@ -23,10 +23,10 @@ scoutsoldier:
   throw_duration: 0.3
 
 idfsoldier:
-  health: 100
+  health: 200
   width: 2
   height: 6
-  speed: 200
+  speed: 180
   revive_radius: 100
   t_type: 1
   revive_cooldown: 30

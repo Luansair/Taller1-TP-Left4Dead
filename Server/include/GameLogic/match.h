@@ -74,14 +74,14 @@ public:
     /* Ejecuta shoot, parámetros: id del soldado que dispara, parámetros shoot */
     void shoot(uint32_t soldier_id, uint8_t state);
 
+    /* Ejecuta reload, parámetros: id del soldado que recarga, parámetros relaod */
+    void reload(uint32_t soldier_id, uint8_t state);
+
     /* Ejecuta revive, parámetros: id del soldado que revive, parámetros revive */
     void revive(uint32_t soldier_id, uint8_t state);
 
     /* Ejecuta change_grenade, parámetros: id del soldado que cambia la granada, parámetros on/off */
     void change_grenade(uint32_t soldier_id, uint8_t state);
-
-    // /* Ejecuta reload, parámetros: id del soldado que recarga, parámetros reload */
-    // void reload(uint32_t soldier_id, uint8_t state);
 
     /* Ejecuta move, parámetros: id del soldado que se mueve, parámetros move */
     void move(uint32_t soldier_id, 
@@ -95,6 +95,8 @@ public:
 
     /* Ejecuta idle, parámetros: id del soldado idle */
     void idle(uint32_t soldier_id, uint8_t state);
+
+    void killActor(uint32_t soldier_id, uint8_t state);
 
     std::map<uint32_t, std::shared_ptr<Soldier>>& getSoldiers(void);
 
@@ -111,6 +113,8 @@ public:
     void setThrowable(std::shared_ptr<Throwable> &&throwable);
 
     bool is_over(void);
+
+    double calculate_mass_center();
 
     Match(const Match&) = delete;
     Match& operator=(const Match&) = delete;

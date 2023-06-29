@@ -20,7 +20,7 @@ void Match::delete_soldier(uint32_t soldier_id) {
 void Match::join(uint32_t soldier_id, uint8_t soldier_type) {
     SoldierFactory factory;
     std::shared_ptr<Soldier> soldier = factory.create(soldier_id, soldier_type);
-    soldier->setRandomPosition(std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
+    soldier->setRandomPosition(std::ref(soldiers), std::ref(zombies), calculate_mass_center(), x_dim, y_dim);
     soldiers.emplace(soldier_id, std::move(soldier));
     soldier_counter += 1;
     finalizable = true;
@@ -29,7 +29,7 @@ void Match::join(uint32_t soldier_id, uint8_t soldier_type) {
 void Match::setZombie(uint32_t zombie_id, uint8_t zombie_type) {
     ZombieFactory factory;
     std::shared_ptr<Zombie> zombie = factory.create(zombie_id, zombie_type);
-    zombie->setRandomPosition(std::ref(soldiers), std::ref(zombies), x_dim, y_dim);
+    zombie->setRandomPosition(std::ref(soldiers), std::ref(zombies), x_dim, y_dim, calculate_mass_center());
     zombies.emplace(zombie_id, std::move(zombie));
     zombie_counter += 1;
 }
@@ -48,12 +48,12 @@ void Match::revive(uint32_t soldier_id, uint8_t state) {
     }
 }
 
-// void Match::reload(uint32_t soldier_id, uint8_t state) {
-//     if (soldiers.count(soldier_id)>0) {
-//         std::shared_ptr<Soldier> &soldier = soldiers.at(soldier_id);
-//         soldier->reload(state);
-//     }
-// }
+void Match::reload(uint32_t soldier_id, uint8_t state) {
+    if (soldiers.count(soldier_id)>0) {
+        std::shared_ptr<Soldier> &soldier = soldiers.at(soldier_id);
+        soldier->reload(state);
+    }
+}
 
 void Match::move(uint32_t soldier_id, 
     uint8_t state,
@@ -85,6 +85,13 @@ void Match::idle(uint32_t soldier_id, uint8_t state) {
     if (soldiers.count(soldier_id)>0) {
         std::shared_ptr<Soldier> &soldier = soldiers.at(soldier_id);
         soldier->idle(state);
+    }
+}
+
+void Match::killActor(uint32_t soldier_id, uint8_t state) {
+        if (soldiers.count(soldier_id)>0) {
+        std::shared_ptr<Soldier> &soldier = soldiers.at(soldier_id);
+        soldier->alive = false;
     }
 }
 
@@ -228,4 +235,21 @@ bool Match::is_over(void) {
 
 std::map<uint32_t, std::shared_ptr<Soldier>>& Match::getSoldiers(void) {
     return std::ref(soldiers);
+}
+
+double Match::calculate_mass_center(void) {
+    double sum = 0;
+    double count = 0;
+    for (const auto & soldier : soldiers) {
+        if (soldier.second->isDead()) continue;
+        sum += soldier.second->getPosition().getXPos();
+        count += 1;
+    }
+    double center;
+    if (count != 0) {
+        center = sum / count;
+    } else {
+        center = x_dim * 0.5;
+    }
+    return center;
 }

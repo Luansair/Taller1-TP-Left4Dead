@@ -57,7 +57,7 @@ std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, ThrowableFactory& fa
         if (time.count() > throw_duration) {
             uint32_t code_counter;
             std::shared_ptr<Throwable> poison = factory.create(&code_counter, POISON, position.getXPos() + dir_x * 10,
-            position.getYPos() + 50, dir_x, dim_x, dim_y, zombie_id);
+            position.getYPos(), dir_x, dim_x, dim_y, zombie_id);
             throwables.emplace(code_counter, std::move(poison)); 
             return;
         }
@@ -85,7 +85,7 @@ void Venom::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
     if (detected) {
         double next_x, next_y;
         int8_t direction;
-        CalculateNextPos_by_victim(&next_x, &next_y, &direction, id, soldiers, time.count());
+        if (!CalculateNextPos_by_victim(&next_x, &next_y, &direction, id, soldiers, time.count())) return;
 
         std::shared_ptr<Soldier> &victim = soldiers.at(id);
         RadialHitbox hit_zone(position.getXPos(), position.getYPos(), hit_scope);
@@ -108,7 +108,7 @@ void Venom::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
     if (detected) {
         double next_x, next_y;
         int8_t direction;
-        CalculateNextPos_by_witch(&next_x, &next_y, &direction, id, zombies, time.count());
+        if(!CalculateNextPos_by_witch(&next_x, &next_y, &direction, id, zombies, time.count())) return;
 
         std::shared_ptr<Zombie> &witch = zombies.at(id);
         RadialHitbox hit_zone(position.getXPos(), position.getYPos(), hit_scope);
@@ -123,7 +123,7 @@ void Venom::simulateMove(std::chrono::_V2::system_clock::time_point real_time,
         position = next_pos;
         return;
     }
-
+    if (throwing) simulateThrow(real_time, dim_x, dim_y, throwables, factory);
     move(OFF, dir_x);
     attack(OFF, nullptr);
 }

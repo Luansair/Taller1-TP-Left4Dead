@@ -4,7 +4,8 @@
 #include "../../../include/GameLogic/Throwables/throwable.h"
 #include <random>
 #include <tuple>
-#define SPAWNRANGE 1000
+#define LIVES 2
+#define TEAM_RANGE 500
 
 /* CONSTRUCTOR */
 
@@ -75,6 +76,7 @@ void Soldier::shoot(uint8_t state) {
 void Soldier::reload(uint8_t state) {
     switch(state) {
         case ON:
+            if (!reloading) reload_time = std::chrono::system_clock::now();
             reloading = true;
             moving = shooting = throwing = reviving = being_hurt =  throwed = false;
             break;
@@ -120,6 +122,7 @@ void Soldier::start_dying(uint8_t state) {
             break;
         case OFF:
             dying = false;
+            times_revived += 1;
             break;
     }
 }
@@ -186,9 +189,13 @@ void Soldier::simulate_change_grenade(void) {
 
 
 void Soldier::be_revived(void) {
-    start_dying(OFF);
-    actual_health = health;
-    idle(ON);
+    if (times_revived <= LIVES) {
+        start_dying(OFF);
+        actual_health = health * HALF;
+        idle(ON);
+        return;
+    }
+    alive = false;
 }
 
 void Soldier::increase_kill_counter(void) {
@@ -201,17 +208,17 @@ void Soldier::simulate(std::chrono::_V2::system_clock::time_point real_time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, 
     std::map<uint32_t, std::shared_ptr<Throwable>>& throwables, double dim_x, double dim_y,
-    ThrowableFactory& factory) {
+    ThrowableFactory& factory, double mass_center) {
 
     std::chrono::duration<double> time = real_time - last_step_time;
 
-    if (dying) simulateDie(real_time);
+    if (dying) simulateDie(real_time, std::ref(soldiers));
     if (changing) simulate_change_grenade();
     if (reviving) simulateRevive(real_time, std::ref(soldiers));
     if (being_hurt) simulateRecvdmg(real_time);
     if (reloading) simulateReload(real_time);
     if (shooting) simulateShoot(real_time, time.count(), soldiers, zombies, dim_x);
-    if (moving) simulateMove(time.count(), soldiers, zombies, dim_x, dim_y);
+    if (moving) simulateMove(time.count(), soldiers, zombies, dim_x, dim_y, mass_center);
     if (throwing) simulateThrow(real_time, dim_x, dim_y, throwables, std::ref(factory));
     last_step_time = real_time;
 }
@@ -242,19 +249,34 @@ std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers) {
     }
 }
 
-void Soldier::simulateDie(std::chrono::_V2::system_clock::time_point real_time) {
+void Soldier::simulateDie(std::chrono::_V2::system_clock::time_point real_time, std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers) {
     std::chrono::duration<double> time_dying = real_time - death_time;
     // si tiempo para revivirlo terminó, se muere.
     idle(ON);
     if (time_dying.count() > revive_cooldown) alive = false;
+    bool everyone_is_dead =  true;
+    for (auto i = soldiers.begin(); i != soldiers.end(); i++) {
+        if (i->second->getId() == soldier_id) continue;
+        if ((!i->second->isDead() && (!i->second->isDying()))) {
+            everyone_is_dead = false;
+        }
+    }
+    if (everyone_is_dead) alive = false;
 }
 
 void Soldier::simulateMove(
     double time,
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
-    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y) {
+    std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x, double dim_y, double mass_center) {
     // calculo proxima coordenada.
     std::tuple<double, double> next_coords = position.calculateNextPos(axis, dir, speed, time);
+
+    // me fijo si me separo mucho del grupo
+    bool out_of_team_range = false;
+    if (std::abs(std::get<0>(next_coords) - mass_center) >= TEAM_RANGE) out_of_team_range = true;
+    if (std::abs(std::get<0>(next_coords) - mass_center) <= std::abs(position.getXPos() - mass_center)) out_of_team_range = false;
+    if (out_of_team_range) return;
+
     Position next_pos(std::get<0>(next_coords), std::get<1>(next_coords), position.getWidth(), position.getHeight(), dim_x, dim_y);
 
     // verifico las colisiones.
@@ -283,10 +305,8 @@ void Soldier::simulateShoot(std::chrono::_V2::system_clock::time_point real_time
     std::map<uint32_t, std::shared_ptr<Soldier>>& soldiers,
     std::map<uint32_t, std::shared_ptr<Zombie>>& zombies, double dim_x) {
     if (!(weapon->shoot(
-        getPosition(), dir, dim_x, time, 
+        getPosition(), dir_x, dim_x, time, 
         std::ref(soldiers), std::ref(zombies)))) {
-            
-            reload_time = real_time;
             reload(ON);
     }
 }
@@ -412,7 +432,7 @@ void Soldier::setPosition(Position&& new_pos) {
 
 void Soldier::setRandomPosition(
         const std::map<uint32_t, std::shared_ptr<Soldier>> &soldiers,
-        const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, double dim_x, double dim_y) {
+        const std::map<uint32_t, std::shared_ptr<Zombie>> &zombies, double mass_center, double dim_x, double dim_y) {
     using std::random_device;
     using std::mt19937;
     using std::uniform_int_distribution;
@@ -420,7 +440,7 @@ void Soldier::setRandomPosition(
 
     random_device rd;
     mt19937 mt(rd());
-    uniform_int_distribution<int32_t> distx(0, dim_x);
+    uniform_int_distribution<int32_t> distx(mass_center - 100, mass_center + 100);
     uniform_int_distribution<int32_t> disty(0, dim_y);
     int32_t x_pos;
     int32_t y_pos;

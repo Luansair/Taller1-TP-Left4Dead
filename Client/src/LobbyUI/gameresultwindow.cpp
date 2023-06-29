@@ -13,6 +13,11 @@ GameResultWindow::GameResultWindow(const GameScoreFeedback &score_feed, QWidget 
         this->close();
     }
     ui->setupUi(this);
+    QPixmap bkgnd(RESOURCES_PATH "/Lobby/lobbyimage.jpeg");
+    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Window, bkgnd);
+    this->setPalette(palette);
     setStats();
 }
 

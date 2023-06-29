@@ -1,9 +1,9 @@
 clear_easy:
-  infected: 0
-  spear: 0
-  witch: 0
-  jumper: 0
-  venom: 5
+  infected: 1
+  spear: 1
+  witch: 1
+  jumper: 1
+  venom: 1
 
 clear_normal:
   infected: 2
@@ -17,14 +17,14 @@ clear_hard:
   spear: 1
   witch: 2
   jumper: 3
-  venom: 1
+  venom: 2
 
 clear_insane:
-  infected: 4
-  spear: 4
-  witch: 4
-  jumper: 4
-  venom: 4
+  infected: 5
+  spear: 5
+  witch: 5
+  jumper: 5
+  venom: 5
 
 survival_easy:
   infected: 1
@@ -48,9 +48,9 @@ survival_hard:
   venom: 1
 
 survival_insane:
-  infected: 4
+  infected: 5
   spear: 4
   witch: 4
-  jumper: 4
-  venom: 4
+  jumper: 5
+  venom: 5
 

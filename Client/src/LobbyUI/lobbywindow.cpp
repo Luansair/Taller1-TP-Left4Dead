@@ -21,12 +21,12 @@ enum Page : std::uint8_t {
     PAGE_PICKGAMEDIFF
 };
 
-LobbyWindow::LobbyWindow(Queue<std::shared_ptr<Information>>& actions_to_send,
-                         Queue<std::shared_ptr<Information>>& feedback_received,
-                         QWidget *parent) :
+LobbyWindow::LobbyWindow(Queue<std::shared_ptr<Information>> &actions_to_send,
+                         Queue<std::shared_ptr<Information>> &feedback_received, bool *joined, QWidget *parent) :
                          QWidget(parent),
                          actions_to_send(actions_to_send),
                          feedback_received(feedback_received),
+                         joined(joined),
                          red_palette(),
                          green_palette(),
                          white_palette(),
@@ -38,6 +38,11 @@ LobbyWindow::LobbyWindow(Queue<std::shared_ptr<Information>>& actions_to_send,
     red_palette.setColor(QPalette::Base, Qt::red);
     green_palette.setColor(QPalette::Base, Qt::green);
     white_palette.setColor(QPalette::Base, Qt::white);
+    QPixmap bkgnd(RESOURCES_PATH "/Lobby/lobbyimage.jpeg");
+    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Window, bkgnd);
+    this->setPalette(palette);
 
 }
 
@@ -60,6 +65,7 @@ void LobbyWindow::on_pushButton_joingame_clicked()
 
     if (!succesful_conversion) {
         ui->lineEdit_gamecode->setPalette(red_palette);
+        
     } else {
         actions_to_send.push(std::make_shared<JoinGameAction>(game_code));
         const auto& feed = feedback_received.pop();
@@ -78,6 +84,7 @@ void LobbyWindow::on_pushButton_p90soldier_clicked()
 {
     soldier_type = REQUEST_PICK_P90_SOLDIER;
     actions_to_send.push(std::make_shared<PickP90SoldierRequest>());
+    *joined = true;
     this->close();
 }
 
@@ -92,12 +99,14 @@ void LobbyWindow::on_lineEdit_gamecode_textChanged(const QString &arg1)
 void LobbyWindow::on_pushButton_idfsoldier_clicked() {
     soldier_type = REQUEST_PICK_IDF_SOLDIER;
     actions_to_send.push(std::make_shared<PickIdfSoldierRequest>());
+    *joined = true;
     this->close();
 }
 
 void LobbyWindow::on_pushButton_scoutsoldier_clicked() {
     soldier_type = REQUEST_PICK_SCOUT_SOLDIER;
     actions_to_send.push(std::make_shared<PickScoutSoldierRequest>());
+    *joined = true;
     this->close();
 }
 

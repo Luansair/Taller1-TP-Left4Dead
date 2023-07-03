@@ -65,6 +65,7 @@ GameQueue <.. Receiver : push_commands
 Sender -|> Thread
 Receiver -|> Thread
 Accepter -|> Thread
+Game -|> Thread
 Server -- Accepter : > starts
 Accepter "1" -- "0..*" Receiver : > starts
 Receiver "1" -- "1" Sender : > starts

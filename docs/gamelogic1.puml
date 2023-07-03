@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Game {
+    is_running
+    run()
+    stop()
+    isDead()
+    join_player()
+}
+
+class Match {
+    setStep(player_id)
+    simulateStep()
+}
+
+class Soldier {
+    command()
+    simulate()
+}
+
+class Zombie {
+    command()
+    simulate()
+}
+
+class Throwable {
+    command()
+    simulate()
+}
+
+class Command {
+    player_id
+    execute()
+}
+
+Command <.. Game : execute
+Match <.. Game : get_state
+Match  <.. Command : setStep
+Game  "1" -- "1" Match : > owns
+Match "1" -- "1..*" Soldier : > owns
+Match "1" -- "1..*" Zombie : > owns
+Match "1" -- "1..*" Throwable : > owns
+
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Throwable {
+    id
+    simulateThrow()
+}
+
+class Poison {
+    simulateThrow()
+}
+
+class Grenade {
+    simulateThrow()
+}
+
+class Smoke {
+    simulateThrow()
+}
+
+Poison -|> Throwable
+Grenade -|> Throwable
+Smoke -|> Throwable
+
+
+@enduml

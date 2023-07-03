@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Soldier {
+    id
+    shoot()
+    move()
+    revive()
+    reload()
+    throw()
+    simulate()
+}
+
+class Weapon {
+    shoot()
+}
+
+Weapon <.. Soldier : shoot
+P90Soldier -|> Soldier
+ScoutSoldier -|> Soldier
+Idfsoldier -|> Soldier
+P90Weapon -|> Weapon
+ScoutWeapon -|> Weapon
+IdfWeapon -|> Weapon
+
+
+@enduml

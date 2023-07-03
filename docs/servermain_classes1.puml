@@ -1,0 +1,76 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Server {
+    start()
+}
+
+class Accepter {
+    run()
+    stop()
+    isDead()
+    reapDead()
+    killAll()
+}
+
+class Sender {
+    keep_sending
+    is_running
+    run()
+    stop()
+    isDead()
+}
+
+class Receiver {
+    keep_receiving
+    is_running
+    run()
+    stop()
+    isDead()
+}
+
+class GameManager {
+    run()
+    stop()
+    isDead()
+}
+
+class Game {
+    is_running
+    run()
+    stop()
+    isDead()
+}
+
+class Thread {
+    start()
+    join()
+    run()
+}
+
+class GameQueue {
+    push()
+    pop()
+}
+
+class FeedbackQueue {
+    push()
+    pop()
+}
+
+GameQueue  <.. Game : pop_commands
+FeedbackQueue  <.. Game : push_feedback
+FeedbackQueue <.. Sender : pop_feedback
+GameQueue <.. Receiver : push_commands
+Sender -|> Thread
+Receiver -|> Thread
+Accepter -|> Thread
+Server -- Accepter : > starts
+Accepter "1" -- "0..*" Receiver : > starts
+Receiver "1" -- "1" Sender : > starts
+Accepter "1" -- "1" GameManager : > owns
+Game "1" -- "1" GameQueue : > owns
+GameManager "1" -- "0..*" Game : > starts
+
+
+@enduml

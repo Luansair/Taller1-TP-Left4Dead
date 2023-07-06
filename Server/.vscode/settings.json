@@ -96,6 +96,7 @@
     "set": "cpp",
     "optional": "cpp",
     "variant": "cpp",
-    "valarray": "cpp"
+    "valarray": "cpp",
+    "fstream": "cpp"
   }
 }

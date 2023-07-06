@@ -111,6 +111,7 @@ void Match::delete_dead_soldiers(void) {
 void Match::updateScore(uint32_t id, std::shared_ptr<Soldier>& soldier) {
     using YAML::LoadFile;
     using YAML::Node;
+    std::unique_lock<std::mutex> lck(mtx);
     Node score = LoadFile(SERVER_CONFIG_PATH "/score.yaml");
     const std::string id_string = std::to_string(id);
     const std::time_t rp = std::chrono::system_clock::to_time_t(create_time);

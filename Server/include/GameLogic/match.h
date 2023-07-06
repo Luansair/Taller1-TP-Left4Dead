@@ -29,6 +29,7 @@
 #include <chrono>
 #include <ctime>
 #include <fstream>
+#include <mutex>
 
 /* Class Match para representar una partida del juego.
 Tiene un map de soldier_id y punteros a esos Soldier.
@@ -52,6 +53,7 @@ public:
     bool finalizable = false;
     uint8_t dead_soldiers_counter = 0;
     uint16_t dead_zombies_counter = 0;
+    std::mutex mtx; // para la carga de scores en el archivo
 
     /* Constructor de Match, parámetros: dimensiones del mapa */
     explicit Match(double x_dimension, double y_dimension, uint32_t code);

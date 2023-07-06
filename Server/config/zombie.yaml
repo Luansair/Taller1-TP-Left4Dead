@@ -54,7 +54,7 @@ jumper:
   health: 100
   width: 2
   height: 6
-  speed: 160
+  speed: 120
   sight: 150
   listening_range: 400
   hit_scope: 10

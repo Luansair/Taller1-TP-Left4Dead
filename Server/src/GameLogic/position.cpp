@@ -25,6 +25,9 @@ bool Position::collides(const Position &other) const {
     std::tuple<double, double, bool> area_x = getXArea();
     std::tuple<double, double, bool> area_y = getYArea();
 
+    double y_min_other, y_max_other, y_min, y_max;
+    double x_min_other, x_max_other, x_min, x_max;
+
     bool hits_x = false;
     bool hits_y = false;
 
@@ -34,36 +37,34 @@ bool Position::collides(const Position &other) const {
 
     // solo area_x es complemento, Tengo que ver si other está fuera.
     } else if (std::get<2>(area_other_x) && !std::get<2>(area_x)) {
-        double x_min_other = std::get<0>(area_other_x);
-        double x_max_other = std::get<1>(area_other_x);
-        double x_min = std::get<0>(area_x);
-        double x_max = std::get<1>(area_x);
+        x_min_other = std::get<0>(area_other_x);
+        x_max_other = std::get<1>(area_other_x);
+        x_min = std::get<0>(area_x);
+        x_max = std::get<1>(area_x);
         hits_x = !(((x_min <= x_max_other) && (x_max_other <= x_max)) || ((x_min <= x_min_other) && (x_min_other <= x_max)));
 
     // solo area_other_x es complemento, Tengo que ver si area está fuera
     } else if (!std::get<2>(area_other_x) && std::get<2>(area_x)) {
-        double x_min_other = std::get<0>(area_other_x);
-        double x_max_other = std::get<1>(area_other_x);
-        double x_min = std::get<0>(area_x);
-        double x_max = std::get<1>(area_x);
+        x_min_other = std::get<0>(area_other_x);
+        x_max_other = std::get<1>(area_other_x);
+        x_min = std::get<0>(area_x);
+        x_max = std::get<1>(area_x);
         hits_x = (((x_min_other <= x_max) && (x_max <= x_max_other)) || ((x_min_other <= x_min) && (x_min <= x_max_other)));
 
     // ninguno es complemento, Tengo que comparar normal
     } else if (std::get<2>(area_other_x) && std::get<2>(area_x)) {
-        double x_min_other = std::get<0>(area_other_x);
-        double x_max_other = std::get<1>(area_other_x);
-        double x_min = std::get<0>(area_x);
-        double x_max = std::get<1>(area_x);
+        x_min_other = std::get<0>(area_other_x);
+        x_max_other = std::get<1>(area_other_x);
+        x_min = std::get<0>(area_x);
+        x_max = std::get<1>(area_x);
         hits_x = (((x_min <= x_max_other) && (x_max_other <= x_max)) || ((x_min <= x_min_other) && (x_min_other <= x_max)));
     }
     // comparo Y. Tengo que comparar normal
-    if (std::get<2>(area_other_y) && std::get<2>(area_y)) {
-        double y_min_other = std::get<0>(area_other_y);
-        double y_max_other = std::get<1>(area_other_y);
-        double y_min = std::get<0>(area_y);
-        double y_max = std::get<1>(area_y);
-        hits_y = (((y_min <= y_max_other) && (y_max_other <= y_max)) || ((y_min <= y_min_other) && (y_min_other <= y_max)));
-    }
+    y_min_other = std::get<0>(area_other_y);
+    y_max_other = std::get<1>(area_other_y);
+    y_min = std::get<0>(area_y);
+    y_max = std::get<1>(area_y);
+    hits_y = (((y_min <= y_max_other) && (y_max_other <= y_max)) || ((y_min <= y_min_other) && (y_min_other <= y_max)));
     return (hits_x && hits_y);
 }
 

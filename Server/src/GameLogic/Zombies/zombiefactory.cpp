@@ -68,4 +68,5 @@ void ZombieFactory::load_values(const YAML::Node &node, double *width, double *h
     *hit_scope = node["hit_scope"].as<double>();
     *die_cooldown = node["die_cooldown"].as<double>();
     *stunned_cooldown = node["stunned_cooldown"].as<double>();
+    *height = node["height"].as<double>();
 }

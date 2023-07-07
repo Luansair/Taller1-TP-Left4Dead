@@ -105,6 +105,7 @@ uint8_t Witch::getZombieType(void) {
 uint8_t Witch::getAction(void) {
     if (dying) return WITCH_DEAD;
     if (being_hurt) return WITCH_HURT;
+    if (moving && stunned) return WITCH_WALK;
     if (moving) return WITCH_RUN;
     if (attacking) return WITCH_ATTACK_1;
     if (screaming) return WITCH_SCREAM;

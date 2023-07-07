@@ -151,6 +151,7 @@ uint8_t Venom::getZombieType(void) {
 uint8_t Venom::getAction(void) {
     if (dying) return VENOM_DEAD;
     if (being_hurt) return VENOM_HURT;
+    if (moving && stunned) return VENOM_WALK;
     if (moving) return VENOM_RUN;
     if (attacking) return VENOM_ATTACK_2;
     if (throwing) return VENOM_ATTACK_1;

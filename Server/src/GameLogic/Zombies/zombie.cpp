@@ -84,10 +84,11 @@ void Zombie::be_stunned(uint8_t state) {
     switch(state) {
         case ON:
             is_stunned = true;
-            attacking = moving = being_hurt = screaming = false;
+            actual_speed = speed * 0.5;
             break;
         case OFF:
             is_stunned = false;
+            actual_speed = speed;
             break;
     }
 }
@@ -127,7 +128,7 @@ void Zombie::simulate(std::chrono::_V2::system_clock::time_point real_time,
     if (is_stunned) simulateStunned(real_time);
     if (being_hurt) simulateRecvDamage(real_time, soldiers);
     if (attacking) simulateAttack();
-    if (!is_stunned) simulateMove(real_time, soldiers, zombies, throwables, dim_x, dim_y, factory);
+    simulateMove(real_time, soldiers, zombies, throwables, dim_x, dim_y, factory);
     last_step_time = real_time;
 }
 
@@ -244,8 +245,8 @@ bool Zombie::CalculateNextPos_by_victim(double *next_x, double *next_y,
         target_y += victim->getHeight();
     }
     double norma = std::sqrt(std::pow(std::abs(target_x - x), 2) + std::pow(std::abs(target_y - y), 2));
-    *next_x = ((target_x - x) / norma) * time * speed + x;
-    *next_y = ((target_y - y) / norma) * time * speed + y;
+    *next_x = ((target_x - x) / norma) * time * actual_speed + x;
+    *next_y = ((target_y - y) / norma) * time * actual_speed + y;
     return true;
 }
 
@@ -275,8 +276,8 @@ bool Zombie::CalculateNextPos_by_witch(double *next_x, double *next_y,
         target_y += witch->getHeight();
     }
     double norma = std::sqrt(std::pow(std::abs(target_x - x), 2) + std::pow(std::abs(target_y - y), 2));
-    *next_x = ((target_x - x) / norma) * time * speed + x;
-    *next_y = ((target_y - y) / norma) * time * speed + y;
+    *next_x = ((target_x - x) / norma) * time * actual_speed + x;
+    *next_y = ((target_y - y) / norma) * time * actual_speed + y;
     return true;
 }
 

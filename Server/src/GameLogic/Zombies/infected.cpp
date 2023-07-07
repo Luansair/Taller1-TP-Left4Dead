@@ -25,6 +25,7 @@ uint8_t Infected::getZombieType(void) {
 uint8_t Infected::getAction(void) {
     if (dying) return ZOMBIE_DEAD;
     if (being_hurt) return ZOMBIE_HURT;
+    if (moving && stunned) return ZOMBIE_WALK;
     if (moving) return ZOMBIE_RUN;
     if (attacking) return ZOMBIE_ATTACK_1;
     return ZOMBIE_IDLE;

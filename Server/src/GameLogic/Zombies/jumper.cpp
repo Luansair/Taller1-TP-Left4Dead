@@ -119,6 +119,7 @@ uint8_t Jumper::getZombieType(void) {
 uint8_t Jumper::getAction(void) {
     if (dying) return JUMPER_DEAD;
     if (being_hurt) return JUMPER_HURT;
+    if (moving && stunned) return JUMPER_WALK;
     if (moving) return JUMPER_RUN;
     if (attacking) return JUMPER_ATTACK_1;
     // if (jump_attacking) return JUMPER_JUMP;
